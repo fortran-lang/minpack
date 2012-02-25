@@ -1,4 +1,4 @@
-module testmod
+module testmod_der1
 implicit none
 private
 public fcn, dp
@@ -43,8 +43,8 @@ end module
 
 
 program example_lmder1
-use minpack, only: enorm, dpmpar, lmder1
-use testmod, only: dp, fcn
+use minpack, only: enorm, dpmpar, lmder1, chkder
+use testmod_der1, only: dp, fcn
 implicit none
 
 integer :: info
@@ -54,6 +54,8 @@ real(dp), allocatable :: wa(:)
 
 ! The following starting values provide a rough fit.
 x = [1._dp, 1._dp, 1._dp]
+
+call check_deriv()
 
 ! Set tol to the square root of the machine precision. Unless high precision
 ! solutions are required, this is the recommended setting.
@@ -67,4 +69,20 @@ print 1000, enorm(size(fvec), fvec), info, x
             5x, 'EXIT PARAMETER', 16x, i10              // &
             5x, 'FINAL APPROXIMATE SOLUTION'            // &
             5x, 3d15.7)
+
+contains
+
+subroutine check_deriv()
+real(dp) :: xp(size(x)), fvecp(size(fvec)), err(size(fvec))
+call chkder(size(fvec), size(x), x, fvec, fjac, size(fjac, 1), xp, fvecp, &
+    1, err)
+call fcn(size(fvec), size(x), x, fvec, fjac, size(fjac, 1), 1)
+call fcn(size(fvec), size(x), x, fvec, fjac, size(fjac, 1), 2)
+call fcn(size(fvec), size(x), xp, fvecp, fjac, size(fjac, 1), 1)
+call chkder(size(fvec), size(x), x, fvec, fjac, size(fjac, 1), xp, fvecp, &
+    2, err)
+print *, "Derivatives check (1.0 is correct, 0.0 is incorrect):"
+print *, err
+end subroutine
+
 end program
