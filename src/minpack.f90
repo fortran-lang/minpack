@@ -42,6 +42,11 @@ interface
     end interface
     end subroutine
 
+    subroutine chkder(m,n,x,fvec,fjac,ldfjac,xp,fvecp,mode,err)
+    integer m,n,ldfjac,mode
+    double precision x(n),fvec(m),fjac(ldfjac,n),xp(n),fvecp(m),err(m)
+    end subroutine
+
 end interface
 
 contains
