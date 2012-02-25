@@ -43,7 +43,7 @@ end module
 
 
 program example_lmder1
-use minpack, only: enorm, dpmpar, lmder1, chkder
+use minpack, only: enorm, lmder1, chkder
 use testmod_der1, only: dp, fcn
 implicit none
 
@@ -59,7 +59,7 @@ call check_deriv()
 
 ! Set tol to the square root of the machine precision. Unless high precision
 ! solutions are required, this is the recommended setting.
-tol = sqrt(dpmpar(1))
+tol = sqrt(epsilon(1._dp))
 
 allocate(wa(5*size(x) + size(fvec)))
 call lmder1(fcn, size(fvec), size(x), x, fvec, fjac, size(fjac, 1), tol, &

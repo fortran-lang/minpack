@@ -32,7 +32,7 @@ end module
 
 
 program example_lmdif1
-use minpack, only: enorm, dpmpar, lmdif1
+use minpack, only: enorm, lmdif1
 use testmod_dif1, only: dp, fcn
 implicit none
 
@@ -46,7 +46,7 @@ x = [1._dp, 1._dp, 1._dp]
 
 ! Set tol to the square root of the machine precision. Unless high precision
 ! solutions are required, this is the recommended setting.
-tol = sqrt(dpmpar(1))
+tol = sqrt(epsilon(1._dp))
 
 m = size(fvec)
 n = size(x)
