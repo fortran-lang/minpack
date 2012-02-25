@@ -1,4 +1,4 @@
-module testmod_dif
+module testmod_dif1
 implicit none
 private
 public fcn, dp
@@ -33,7 +33,7 @@ end module
 
 program example_lmdif1
 use minpack, only: enorm, dpmpar, lmdif1
-use testmod_dif, only: dp, fcn
+use testmod_dif1, only: dp, fcn
 implicit none
 
 integer :: info, m, n
