@@ -1,0 +1,284 @@
+C     **********
+C
+C     THIS PROGRAM CHECKS THE CONSTANTS OF MACHINE PRECISION AND
+C     SMALLEST AND LARGEST MACHINE REPRESENTABLE NUMBERS SPECIFIED IN
+C     FUNCTION DPMPAR, AGAINST THE CORRESPONDING HARDWARE-DETERMINED
+C     MACHINE CONSTANTS OBTAINED BY DMCHAR, A SUBROUTINE DUE TO
+C     W. J. CODY.
+C
+C     DATA STATEMENTS IN DPMPAR CORRESPONDING TO THE MACHINE USED MUST
+C     BE ACTIVATED BY REMOVING C IN COLUMN 1.
+C
+C     THE PRINTED OUTPUT CONSISTS OF THE MACHINE CONSTANTS OBTAINED BY
+C     DMCHAR AND COMPARISONS OF THE DPMPAR CONSTANTS WITH THEIR
+C     DMCHAR COUNTERPARTS. DESCRIPTIONS OF THE MACHINE CONSTANTS ARE
+C     GIVEN IN THE PROLOGUE COMMENTS OF DMCHAR.
+C
+C     SUBPROGRAMS CALLED
+C
+C       MINPACK-SUPPLIED ... DMCHAR,DPMPAR
+C
+C     ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
+C     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
+C
+C     **********
+      INTEGER IBETA,IEXP,IRND,IT,MACHEP,MAXEXP,MINEXP,NEGEP,NGRD,
+     *        NWRITE
+      DOUBLE PRECISION DWARF,EPS,EPSMCH,EPSNEG,GIANT,XMAX,XMIN
+      DOUBLE PRECISION RERR(3)
+      DOUBLE PRECISION DPMPAR
+C
+C     LOGICAL OUTPUT UNIT IS ASSUMED TO BE NUMBER 6.
+C
+      DATA NWRITE /6/
+C
+C     DETERMINE THE MACHINE CONSTANTS DYNAMICALLY FROM DMCHAR.
+C
+      CALL DMCHAR(IBETA,IT,IRND,NGRD,MACHEP,NEGEP,IEXP,MINEXP,MAXEXP,
+     *            EPS,EPSNEG,XMIN,XMAX)
+C
+C     COMPARE THE DPMPAR CONSTANTS WITH THEIR DMCHAR COUNTERPARTS AND
+C     STORE THE RELATIVE DIFFERENCES IN RERR.
+C
+      EPSMCH = DPMPAR(1)
+      DWARF = DPMPAR(2)
+      GIANT = DPMPAR(3)
+      RERR(1) = (EPSMCH - EPS)/EPSMCH
+      RERR(2) = (DWARF - XMIN)/DWARF
+      RERR(3) = (XMAX - GIANT)/GIANT
+C
+C     WRITE THE DMCHAR CONSTANTS.
+C
+      WRITE (NWRITE,10)
+     *      IBETA,IT,IRND,NGRD,MACHEP,NEGEP,IEXP,MINEXP,MAXEXP,EPS,
+     *      EPSNEG,XMIN,XMAX
+C
+C     WRITE THE DPMPAR CONSTANTS AND THE RELATIVE DIFFERENCES.
+C
+      WRITE (NWRITE,20) EPSMCH,RERR(1),DWARF,RERR(2),GIANT,RERR(3)
+      STOP
+   10 FORMAT (17H1DMCHAR CONSTANTS /// 8H IBETA =, I6 // 8H IT    =,
+     *        I6 // 8H IRND  =, I6 // 8H NGRD  =, I6 // 9H MACHEP =,
+     *        I6 // 8H NEGEP =, I6 // 7H IEXP =, I6 // 9H MINEXP =,
+     *        I6 // 9H MAXEXP =, I6 // 6H EPS =, D15.7 // 9H EPSNEG =,
+     *        D15.7 // 7H XMIN =, D15.7 // 7H XMAX =, D15.7)
+   20 FORMAT ( /// 42H DPMPAR CONSTANTS AND RELATIVE DIFFERENCES ///
+     *         9H EPSMCH =, D15.7 / 10H RERR(1) =, D15.7 //
+     *         8H DWARF =, D15.7 / 10H RERR(2) =, D15.7 // 8H GIANT =,
+     *         D15.7 / 10H RERR(3) =, D15.7)
+C
+C     LAST CARD OF DRIVER.
+C
+      END
+      SUBROUTINE DMCHAR(IBETA,IT,IRND,NGRD,MACHEP,NEGEP,IEXP,MINEXP,
+     1                   MAXEXP,EPS,EPSNEG,XMIN,XMAX)
+C
+      INTEGER I,IBETA,IEXP,IRND,IT,IZ,J,K,MACHEP,MAXEXP,MINEXP,
+     1        MX,NEGEP,NGRD
+      DOUBLE PRECISION A,B,BETA,BETAIN,BETAM1,EPS,EPSNEG,ONE,XMAX,
+     1                 XMIN,Y,Z,ZERO
+C
+C     THIS SUBROUTINE IS INTENDED TO DETERMINE THE CHARACTERISTICS
+C     OF THE FLOATING-POINT ARITHMETIC SYSTEM THAT ARE SPECIFIED
+C     BELOW.  THE FIRST THREE ARE DETERMINED ACCORDING TO AN
+C     ALGORITHM DUE TO M. MALCOLM, CACM 15 (1972), PP. 949-951,
+C     INCORPORATING SOME, BUT NOT ALL, OF THE IMPROVEMENTS
+C     SUGGESTED BY M. GENTLEMAN AND S. MAROVICH, CACM 17 (1974),
+C     PP. 276-277.
+C
+C
+C       IBETA   - THE RADIX OF THE FLOATING-POINT REPRESENTATION
+C       IT      - THE NUMBER OF BASE IBETA DIGITS IN THE FLOATING-POINT
+C                 SIGNIFICAND
+C       IRND    - 0 IF FLOATING-POINT ADDITION CHOPS,
+C                 1 IF FLOATING-POINT ADDITION ROUNDS
+C       NGRD    - THE NUMBER OF GUARD DIGITS FOR MULTIPLICATION.  IT IS
+C                 0 IF  IRND=1, OR IF  IRND=0  AND ONLY  IT  BASE  IBET
+C                   DIGITS PARTICIPATE IN THE POST NORMALIZATION SHIFT
+C                   OF THE FLOATING-POINT SIGNIFICAND IN MULTIPLICATION
+C                 1 IF  IRND=0  AND MORE THAN  IT  BASE  IBETA  DIGITS
+C                   PARTICIPATE IN THE POST NORMALIZATION SHIFT OF THE
+C                   FLOATING-POINT SIGNIFICAND IN MULTIPLICATION
+C       MACHEP  - THE LARGEST NEGATIVE INTEGER SUCH THAT
+C                 1.0+FLOAT(IBETA)**MACHEP .NE. 1.0, EXCEPT THAT
+C                 MACHEP IS BOUNDED BELOW BY  -(IT+3)
+C       NEGEPS  - THE LARGEST NEGATIVE INTEGER SUCH THAT
+C                 1.0-FLOAT(IBETA)**NEGEPS .NE. 1.0, EXCEPT THAT
+C                 NEGEPS IS BOUNDED BELOW BY  -(IT+3)
+C       IEXP    - THE NUMBER OF BITS (DECIMAL PLACES IF IBETA = 10)
+C                 RESERVED FOR THE REPRESENTATION OF THE EXPONENT
+C                 (INCLUDING THE BIAS OR SIGN) OF A FLOATING-POINT
+C                 NUMBER
+C       MINEXP  - THE LARGEST IN MAGNITUDE NEGATIVE INTEGER SUCH THAT
+C                 FLOAT(IBETA)**MINEXP IS A POSITIVE FLOATING-POINT
+C                 NUMBER
+C       MAXEXP  - THE LARGEST POSITIVE INTEGER EXPONENT FOR A FINITE
+C                 FLOATING-POINT NUMBER
+C       EPS     - THE SMALLEST POSITIVE FLOATING-POINT NUMBER SUCH
+C                 THAT  1.0+EPS .NE. 1.0. IN PARTICULAR, IF EITHER
+C                 IBETA = 2  OR  IRND = 0, EPS = FLOAT(IBETA)**MACHEP.
+C                 OTHERWISE,  EPS = (FLOAT(IBETA)**MACHEP)/2
+C       EPSNEG  - A SMALL POSITIVE FLOATING-POINT NUMBER SUCH THAT
+C                 1.0-EPSNEG .NE. 1.0. IN PARTICULAR, IF IBETA = 2
+C                 OR  IRND = 0, EPSNEG = FLOAT(IBETA)**NEGEPS.
+C                 OTHERWISE,  EPSNEG = (IBETA**NEGEPS)/2.  BECAUSE
+C                 NEGEPS IS BOUNDED BELOW BY -(IT+3), EPSNEG MAY NOT
+C                 BE THE SMALLEST NUMBER WHICH CAN ALTER 1.0 BY
+C                 SUBTRACTION.
+C       XMIN    - THE SMALLEST NON-VANISHING FLOATING-POINT POWER OF TH
+C                 RADIX.  IN PARTICULAR,  XMIN = FLOAT(IBETA)**MINEXP
+C       XMAX    - THE LARGEST FINITE FLOATING-POINT NUMBER.  IN
+C                 PARTICULAR   XMAX = (1.0-EPSNEG)*FLOAT(IBETA)**MAXEXP
+C                 NOTE - ON SOME MACHINES  XMAX  WILL BE ONLY THE
+C                 SECOND, OR PERHAPS THIRD, LARGEST NUMBER, BEING
+C                 TOO SMALL BY 1 OR 2 UNITS IN THE LAST DIGIT OF
+C                 THE SIGNIFICAND.
+C
+C     LATEST REVISION - OCTOBER 22, 1979
+C
+C     AUTHOR - W. J. CODY
+C              ARGONNE NATIONAL LABORATORY
+C
+C-----------------------------------------------------------------
+      ONE = DBLE(FLOAT(1))
+      ZERO = 0.0D0
+C-----------------------------------------------------------------
+C     DETERMINE IBETA,BETA ALA MALCOLM
+C-----------------------------------------------------------------
+      A = ONE
+   10 A = A + A
+         IF (((A+ONE)-A)-ONE .EQ. ZERO) GO TO 10
+      B = ONE
+   20 B = B + B
+         IF ((A+B)-A .EQ. ZERO) GO TO 20
+      IBETA = INT(SNGL((A + B) - A))
+      BETA = DBLE(FLOAT(IBETA))
+C-----------------------------------------------------------------
+C     DETERMINE IT, IRND
+C-----------------------------------------------------------------
+      IT = 0
+      B = ONE
+  100 IT = IT + 1
+         B = B * BETA
+         IF (((B+ONE)-B)-ONE .EQ. ZERO) GO TO 100
+      IRND = 0
+      BETAM1 = BETA - ONE
+      IF ((A+BETAM1)-A .NE. ZERO) IRND = 1
+C-----------------------------------------------------------------
+C     DETERMINE NEGEP, EPSNEG
+C-----------------------------------------------------------------
+      NEGEP = IT + 3
+      BETAIN = ONE / BETA
+      A = ONE
+C
+      DO 200 I = 1, NEGEP
+         A = A * BETAIN
+  200 CONTINUE
+C
+      B = A
+  210 IF ((ONE-A)-ONE .NE. ZERO) GO TO 220
+         A = A * BETA
+         NEGEP = NEGEP - 1
+      GO TO 210
+  220 NEGEP = -NEGEP
+      EPSNEG = A
+      IF ((IBETA .EQ. 2) .OR. (IRND .EQ. 0)) GO TO 300
+      A = (A*(ONE+A)) / (ONE+ONE)
+      IF ((ONE-A)-ONE .NE. ZERO) EPSNEG = A
+C-----------------------------------------------------------------
+C     DETERMINE MACHEP, EPS
+C-----------------------------------------------------------------
+  300 MACHEP = -IT - 3
+      A = B
+  310 IF((ONE+A)-ONE .NE. ZERO) GO TO 320
+         A = A * BETA
+         MACHEP = MACHEP + 1
+      GO TO 310
+  320 EPS = A
+      IF ((IBETA .EQ. 2) .OR. (IRND .EQ. 0)) GO TO 350
+      A = (A*(ONE+A)) / (ONE+ONE)
+      IF ((ONE+A)-ONE .NE. ZERO) EPS = A
+C-----------------------------------------------------------------
+C     DETERMINE NGRD
+C-----------------------------------------------------------------
+  350 NGRD = 0
+      IF ((IRND .EQ. 0) .AND. ((ONE+EPS)*ONE-ONE) .NE. ZERO) NGRD = 1
+C-----------------------------------------------------------------
+C     DETERMINE IEXP, MINEXP, XMIN
+C
+C     LOOP TO DETERMINE LARGEST I AND K = 2**I SUCH THAT
+C         (1/BETA) ** (2**(I))
+C     DOES NOT UNDERFLOW
+C     EXIT FROM LOOP IS SIGNALED BY AN UNDERFLOW.
+C-----------------------------------------------------------------
+      I = 0
+      K = 1
+      Z = BETAIN
+  400 Y = Z
+         Z = Y * Y
+C-----------------------------------------------------------------
+C        CHECK FOR UNDERFLOW HERE
+C-----------------------------------------------------------------
+         A = Z * ONE
+         IF ((A+A .EQ. ZERO) .OR. (DABS(Z) .GE. Y)) GO TO 410
+         I = I + 1
+         K = K + K
+      GO TO 400
+  410 IF (IBETA .EQ. 10) GO TO 420
+      IEXP = I + 1
+      MX = K + K
+      GO TO 450
+C-----------------------------------------------------------------
+C     FOR DECIMAL MACHINES ONLY
+C-----------------------------------------------------------------
+  420 IEXP = 2
+      IZ = IBETA
+  430 IF (K .LT. IZ) GO TO 440
+         IZ = IZ * IBETA
+         IEXP = IEXP + 1
+      GO TO 430
+  440 MX = IZ + IZ - 1
+C-----------------------------------------------------------------
+C     LOOP TO DETERMINE MINEXP, XMIN
+C     EXIT FROM LOOP IS SIGNALED BY AN UNDERFLOW.
+C-----------------------------------------------------------------
+  450 XMIN = Y
+         Y = Y * BETAIN
+C-----------------------------------------------------------------
+C        CHECK FOR UNDERFLOW HERE
+C-----------------------------------------------------------------
+         A = Y * ONE
+         IF (((A+A) .EQ. ZERO) .OR. (DABS(Y) .GE. XMIN)) GO TO 460
+         K = K + 1
+      GO TO 450
+  460 MINEXP = -K
+C-----------------------------------------------------------------
+C     DETERMINE MAXEXP, XMAX
+C-----------------------------------------------------------------
+      IF ((MX .GT. K+K-3) .OR. (IBETA .EQ. 10)) GO TO 500
+      MX = MX + MX
+      IEXP = IEXP + 1
+  500 MAXEXP = MX + MINEXP
+C-----------------------------------------------------------------
+C     ADJUST FOR MACHINES WITH IMPLICIT LEADING
+C     BIT IN BINARY SIGNIFICAND AND MACHINES WITH
+C     RADIX POINT AT EXTREME RIGHT OF SIGNIFICAND
+C-----------------------------------------------------------------
+      I = MAXEXP + MINEXP
+      IF ((IBETA .EQ. 2) .AND. (I .EQ. 0)) MAXEXP = MAXEXP - 1
+      IF (I .GT. 20) MAXEXP = MAXEXP - 1
+      IF (A .NE. Y) MAXEXP = MAXEXP - 2
+      XMAX = ONE - EPSNEG
+      IF (XMAX*ONE .NE. XMAX) XMAX = ONE - BETA * EPSNEG
+      XMAX = XMAX / (BETA * BETA * BETA * XMIN)
+      I = MAXEXP + MINEXP + 3
+      IF (I .LE. 0) GO TO 520
+C
+      DO 510 J = 1, I
+          IF (IBETA .EQ. 2) XMAX = XMAX + XMAX
+          IF (IBETA .NE. 2) XMAX = XMAX * BETA
+  510 CONTINUE
+C
+  520 RETURN
+C     ---------- LAST CARD OF DMCHAR ----------
+      END
