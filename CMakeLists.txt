@@ -26,7 +26,7 @@ if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
 endif ()
 
 
-#add_subdirectory(examples)
+add_subdirectory(examples)
 add_subdirectory(src)
 
 message("\n")
