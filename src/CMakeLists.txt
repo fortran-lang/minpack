@@ -5,6 +5,8 @@ set(SRC
     dogleg.f  fdjac2.f  hybrd.f   lmder.f    lmstr1.f  qrfac.f   ssqfcn.f
     dpmpar.f  grdfcn.f  hybrj1.f  lmdif1.f   lmstr.f   qrsolv.f  ssqjac.f
     enorm.f   hesfcn.f  hybrj.f   lmdif.f    objfcn.f  r1mpyq.f  vecfcn.f
+
+    minpack.f90
 )
 
 add_definitions(-std=legacy -Wno-implicit-interface)
