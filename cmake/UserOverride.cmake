@@ -7,7 +7,7 @@
 # variables.
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
     # gfortran
-    set(common "-std=f2003 -Wall -Wextra -Wimplicit-interface -Werror -fPIC -fmax-errors=1")
+    set(common "-std=f2008 -Wall -Wextra -Wimplicit-interface -Werror -fPIC -fmax-errors=1")
     set(CMAKE_Fortran_FLAGS_RELEASE_INIT "${common} -O3 -march=native -ffast-math -funroll-loops")
     set(CMAKE_Fortran_FLAGS_DEBUG_INIT   "${common} -g -fbounds-check -fcheck-array-temporaries -fbacktrace")
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
