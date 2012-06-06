@@ -19,7 +19,7 @@ systems of equations with a banded Jacobian matrix, for least squares
 problems with a large amount of data, and for checking the consistency
 of the Jacobian matrix with the functions.
 
-Jorge More', Burt Garbow, and Ken Hillstrom at Argonne National Laboratory.
+Jorge Moré, Burt Garbow, and Ken Hillstrom at Argonne National Laboratory.
 
 Documentation
 -------------
@@ -44,9 +44,13 @@ default values for the rest (`easy-to-use driver`). Finally:
 
 * ``chkder``: checks the consistency of the Jacobian matrix with the functions
 
-Detailed documentation for all these routines together with an example is given
-in the file ``ex/file06`` (for double precision). Ready to use examples of
-usage are in the ``examples`` directory.
+More general documentation is given in
+the 1980 Argonne technical report written by the authors of Minpack,
+`Chapters 1-3 <http://www.mcs.anl.gov/~more/ANL8074a.pdf>`_.
+The `Chapter 4 <http://www.mcs.anl.gov/~more/ANL8074b.pdf>`_ (also available in
+the file ``ex/file06``) contains detailed documentation for all these routines
+together with an example of usage.  Ready to use examples of usage are in the
+``examples`` directory.
 
 Other files in the ``ex`` directory are original examples of usage of various
 routines (single and double precision), but are not compiled by default.
