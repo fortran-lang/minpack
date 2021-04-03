@@ -1,0 +1,33 @@
+name = "minpack"
+description = "Minpack includes software for solving nonlinear equations and nonlinear least squares problems."
+homepage = "http://www.netlib.org/minpack/"
+version = "1.0.0"
+license = "http://www.netlib.org/minpack/disclaimer"
+author = "Jorge Moré, Burt Garbow, and Ken Hillstrom"
+maintainer = "@fortran-lang"
+copyright = "Minpack Copyright Notice (1999) University of Chicago. All rights reserved"
+categories = ["numerical"]
+keywords = ["least squares", "linear equations", "nonlinear equations"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[install]
+library = false
+
+[[ example ]]
+name = "example_lmder1"
+source-dir = "examples"
+main = "example_lmder1.f90"
+
+[[ example ]]
+name = "example_lmdif1"
+source-dir = "examples"
+main = "example_lmdif1.f90"
+
+[[ example ]]
+name = "example_primes"
+source-dir = "examples"
+main = "example_primes.f90"
