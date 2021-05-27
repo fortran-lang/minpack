@@ -1,0 +1,38 @@
+name: fpm
+
+on: [push, pull_request]
+
+jobs:
+  gfortran:
+    runs-on: ubuntu-latest
+
+    env:
+      FC: gfortran
+      GCC_V: 10
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+
+    - name: Install gfortran
+      run: |
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
+        --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
+        --slave /usr/bin/gcov gcov /usr/bin/gcov-${GCC_V}
+
+    - name: Install fpm
+      uses: fortran-lang/setup-fpm@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build minpack
+      run: |
+        gfortran --version
+        fpm build
+
+    - name: Run examples
+      run: |
+        gfortran --version
+        fpm run --example example_lmder1
+        fpm run --example example_lmdif1
+        fpm run --example example_primes
