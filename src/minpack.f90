@@ -12,6 +12,21 @@ interface
     double precision x(n)
     end function
 
+    !> The purpose of `hybrd1` is to find a zero of a system of
+    !>  n nonlinear functions in n variables by a modification
+    !>  of the powell hybrid method.
+    subroutine hybrd1(fcn,n,x,fvec,tol,info,wa,lwa)
+        integer n,info,lwa
+        double precision tol
+        double precision x(n),fvec(n),wa(lwa)
+        interface
+            subroutine fcn(n,x,fvec,iflag)
+                integer n,iflag
+                double precision x(n),fvec(n)
+            end subroutine fcn
+        end interface
+    end subroutine hybrd1
+
     subroutine lmder1(fcn,m,n,x,fvec,fjac,ldfjac,tol,info,ipvt,wa,lwa)
     integer m,n,ldfjac,info,lwa
     integer ipvt(n)

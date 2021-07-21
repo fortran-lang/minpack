@@ -18,6 +18,11 @@ auto-examples = false
 library = false
 
 [[ example ]]
+name = "example_hybrd1"
+source-dir = "examples"
+main = "example_hybrd1.f90"
+
+[[ example ]]
 name = "example_lmder1"
 source-dir = "examples"
 main = "example_lmder1.f90"
