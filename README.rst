@@ -21,20 +21,25 @@ of the Jacobian matrix with the functions.
 
 Jorge Moré, Burt Garbow, and Ken Hillstrom at Argonne National Laboratory.
 
-Build with [fortran-lang/fpm](https://github.com/fortran-lang/fpm)
--------------
-Fortran Package Manager (fpm) is a great package manager and build system for Fortran.  
-You can build using provided `fpm.toml`:
-```bash
-fpm build
-fpm run --example <example_name see `fpm.toml`>
-```
+Build with `fortran-lang/fpm <https://github.com/fortran-lang/fpm>`_
+--------------------------------------------------------------------
 
-To use `minpack` within your fpm project, add the following to your `fpm.toml` file:
-```toml
-[dependencies]
-minpack = { git="https://github.com/certik/minpack.git" }
-```
+Fortran Package Manager (fpm) is a great package manager and build system for Fortran.
+
+You can build using provided ``fpm.toml``:
+
+.. code-block:: bash
+
+    fpm build 
+    fpm run --example <example_name, see ``fpm.toml``>
+
+
+To use ``minpack`` within your fpm project, add the following to your ``fpm.toml`` file:
+
+.. code-block:: toml 
+
+    [dependencies]
+    minpack = { git="https://github.com/certik/minpack.git" }
 
 Documentation
 -------------
