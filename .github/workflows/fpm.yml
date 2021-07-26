@@ -58,4 +58,5 @@ jobs:
         fpm run --example example_lmder1
         fpm run --example example_lmdif1
         fpm run --example example_primes
+        fpm run --example example_hybrd
         fpm run --example example_hybrd1
