@@ -12,6 +12,26 @@ interface
     double precision x(n)
     end function
 
+    !> The purpose of `hybrd` is to find a zero of a system of N non-
+    !>  linear functions in N variables by a modification of the Powell
+    !>  hybrid method.  The user must provide a subroutine which calcu-
+    !>  lates the functions.  The Jacobian is then calculated by a for-
+    !>  ward-difference approximation.
+    subroutine hybrd(fcn,n,x,fvec,xtol,maxfev,ml,mu,epsfcn,diag, &
+                         mode,factor,nprint,info,nfev,fjac,ldfjac, &
+                         r,lr,qtf,wa1,wa2,wa3,wa4)
+        integer n,maxfev,ml,mu,mode,nprint,info,nfev,ldfjac,lr
+        double precision xtol,epsfcn,factor
+        double precision x(n),fvec(n),diag(n),fjac(ldfjac,n),r(lr),qtf(n), &
+                         wa1(n),wa2(n),wa3(n),wa4(n)
+        interface
+            subroutine fcn(n,x,fvec,iflag)
+                integer n,iflag
+                double precision x(n),fvec(n)
+            end subroutine fcn
+        end interface
+    end subroutine hybrd
+
     !> The purpose of `hybrd1` is to find a zero of a system of
     !>  n nonlinear functions in n variables by a modification
     !>  of the powell hybrid method.

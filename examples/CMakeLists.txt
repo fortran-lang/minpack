@@ -1,5 +1,8 @@
 include_directories(${PROJECT_BINARY_DIR}/src)
 
+add_executable(example_hybrd example_hybrd.f90)
+target_link_libraries(example_hybrd minpack)
+
 add_executable(example_hybrd1 example_hybrd1.f90)
 target_link_libraries(example_hybrd1 minpack)
 
