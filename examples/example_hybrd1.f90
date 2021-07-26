@@ -2,17 +2,17 @@
 !>  which solve the system of tridiagonal equations.
 !>
 !>  (3-2*x(1))*x(1)           -2*x(2)                   = -1
-!>  -x(i-1) + (3-2*x(i))*x(i)         -2*x(i+1) = -1, i=2-8
-!>  -x(8) + (3-2*x(9))*x(9) = -1
+!>          -x(i-1) + (3-2*x(i))*x(i)         -2*x(i+1) = -1, i=2-8
+!>                              -x(8) + (3-2*x(9))*x(9) = -1
 program example_hybrd1
 
-    use minpack, only: hybrd1
+    use minpack, only: hybrd1, dpmpar, enorm
     implicit none
     integer j, n, info, lwa, nwrite
     double precision tol, fnorm
     double precision x(9), fvec(9), wa(180)
-    double precision enorm, dpmpar
 
+    !> Logical output unit is assumed to be number 6.
     data nwrite/6/
 
     n = 9
@@ -23,6 +23,10 @@ program example_hybrd1
     end do
 
     lwa = 180
+
+    !> Set tol to the square root of the machine precision.
+    !>  unless high precision solutions are required,
+    !>  this is the recommended setting.
     tol = dsqrt(dpmpar(1))
 
     call hybrd1(fcn, n, x, fvec, tol, info, wa, lwa)
@@ -35,7 +39,7 @@ program example_hybrd1
            (5x, 3d15.7))
 
     !> Results obtained with different compilers or machines
-    !> may be slightly different.
+    !>  may be slightly different.
     !>
     !>> FINAL L2 NORM OF THE RESIDUALS  0.1192636D-07
     !>>
@@ -49,7 +53,7 @@ program example_hybrd1
 
 contains
 
-    !> subroutine fcn for hybrd1 example.
+    !> Subroutine fcn for hybrd1 example.
     subroutine fcn(n, x, fvec, iflag)
 
         implicit none
