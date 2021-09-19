@@ -1,10 +1,10 @@
 !*==CHKDER.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE CHKDER(M,N,X,Fvec,Fjac,Ldfjac,Xp,Fvecp,Mode,Err)
-      IMPLICIT NONE
+      subroutine chkder(m,n,x,Fvec,Fjac,Ldfjac,Xp,Fvecp,Mode,Err)
+      implicit none
 !*--CHKDER4
-      INTEGER M , N , Ldfjac , Mode
-      DOUBLE PRECISION X(N) , Fvec(M) , Fjac(Ldfjac,N) , Xp(N) ,        &
-                     & Fvecp(M) , Err(M)
+      integer m , n , Ldfjac , Mode
+      double precision x(n) , Fvec(m) , Fjac(Ldfjac,n) , Xp(n) ,        &
+                     & Fvecp(m) , Err(m)
 !     **********
 !
 !     subroutine chkder
@@ -86,67 +86,67 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , j
-      DOUBLE PRECISION eps , epsf , epslog , epsmch , factor , one ,    &
+      integer i , j
+      double precision eps , epsf , epslog , epsmch , factor , one ,    &
                      & temp , zero
-      DOUBLE PRECISION DPMPAR
-      DATA factor , one , zero/1.0D2 , 1.0D0 , 0.0D0/
+      double precision dpmpar
+      data factor , one , zero/1.0d2 , 1.0d0 , 0.0d0/
 !
 !     epsmch is the machine precision.
 !
-      epsmch = DPMPAR(1)
+      epsmch = dpmpar(1)
 !
-      eps = DSQRT(epsmch)
+      eps = dsqrt(epsmch)
 !
-      IF ( Mode==2 ) THEN
+      if ( Mode==2 ) then
 !
 !        mode = 2.
 !
          epsf = factor*epsmch
-         epslog = DLOG10(eps)
-         DO i = 1 , M
+         epslog = dlog10(eps)
+         do i = 1 , m
             Err(i) = zero
-         ENDDO
-         DO j = 1 , N
-            temp = DABS(X(j))
-            IF ( temp==zero ) temp = one
-            DO i = 1 , M
+         enddo
+         do j = 1 , n
+            temp = dabs(x(j))
+            if ( temp==zero ) temp = one
+            do i = 1 , m
                Err(i) = Err(i) + temp*Fjac(i,j)
-            ENDDO
-         ENDDO
-         DO i = 1 , M
+            enddo
+         enddo
+         do i = 1 , m
             temp = one
-            IF ( Fvec(i)/=zero .AND. Fvecp(i)/=zero .AND.               &
-               & DABS(Fvecp(i)-Fvec(i))>=epsf*DABS(Fvec(i)) )           &
-               & temp = eps*DABS((Fvecp(i)-Fvec(i))/eps-Err(i))         &
-               & /(DABS(Fvec(i))+DABS(Fvecp(i)))
+            if ( Fvec(i)/=zero .and. Fvecp(i)/=zero .and.               &
+               & dabs(Fvecp(i)-Fvec(i))>=epsf*dabs(Fvec(i)) )           &
+               & temp = eps*dabs((Fvecp(i)-Fvec(i))/eps-Err(i))         &
+               & /(dabs(Fvec(i))+dabs(Fvecp(i)))
             Err(i) = one
-            IF ( temp>epsmch .AND. temp<eps ) Err(i)                    &
-               & = (DLOG10(temp)-epslog)/epslog
-            IF ( temp>=eps ) Err(i) = zero
-         ENDDO
-      ELSE
+            if ( temp>epsmch .and. temp<eps ) Err(i)                    &
+               & = (dlog10(temp)-epslog)/epslog
+            if ( temp>=eps ) Err(i) = zero
+         enddo
+      else
 !
 !        mode = 1.
 !
-         DO j = 1 , N
-            temp = eps*DABS(X(j))
-            IF ( temp==zero ) temp = eps
-            Xp(j) = X(j) + temp
-         ENDDO
-      ENDIF
+         do j = 1 , n
+            temp = eps*dabs(x(j))
+            if ( temp==zero ) temp = eps
+            Xp(j) = x(j) + temp
+         enddo
+      endif
 !
 !
 !     last card of subroutine chkder.
 !
-      END
+      end
 !*==DOGLEG.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE DOGLEG(N,R,Lr,Diag,Qtb,Delta,X,Wa1,Wa2)
-      IMPLICIT NONE
+      subroutine dogleg(n,r,Lr,Diag,Qtb,Delta,x,Wa1,Wa2)
+      implicit none
 !*--DOGLEG146
-      INTEGER N , Lr
-      DOUBLE PRECISION Delta
-      DOUBLE PRECISION R(Lr) , Diag(N) , Qtb(N) , X(N) , Wa1(N) , Wa2(N)
+      integer n , Lr
+      double precision Delta
+      double precision r(Lr) , Diag(n) , Qtb(n) , x(n) , Wa1(n) , Wa2(n)
 !     **********
 !
 !     subroutine dogleg
@@ -204,128 +204,128 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , j , jj , jp1 , k , l
-      DOUBLE PRECISION alpha , bnorm , epsmch , gnorm , one , qnorm ,   &
+      integer i , j , jj , jp1 , k , l
+      double precision alpha , bnorm , epsmch , gnorm , one , qnorm ,   &
                      & sgnorm , sum , temp , zero
-      DOUBLE PRECISION DPMPAR , ENORM
-      DATA one , zero/1.0D0 , 0.0D0/
+      double precision dpmpar , enorm
+      data one , zero/1.0d0 , 0.0d0/
 !
 !     epsmch is the machine precision.
 !
-      epsmch = DPMPAR(1)
+      epsmch = dpmpar(1)
 !
 !     first, calculate the gauss-newton direction.
 !
-      jj = (N*(N+1))/2 + 1
-      DO k = 1 , N
-         j = N - k + 1
+      jj = (n*(n+1))/2 + 1
+      do k = 1 , n
+         j = n - k + 1
          jp1 = j + 1
          jj = jj - k
          l = jj + 1
          sum = zero
-         IF ( N>=jp1 ) THEN
-            DO i = jp1 , N
-               sum = sum + R(l)*X(i)
+         if ( n>=jp1 ) then
+            do i = jp1 , n
+               sum = sum + r(l)*x(i)
                l = l + 1
-            ENDDO
-         ENDIF
-         temp = R(jj)
-         IF ( temp==zero ) THEN
+            enddo
+         endif
+         temp = r(jj)
+         if ( temp==zero ) then
             l = j
-            DO i = 1 , j
-               temp = DMAX1(temp,DABS(R(l)))
-               l = l + N - i
-            ENDDO
+            do i = 1 , j
+               temp = dmax1(temp,dabs(r(l)))
+               l = l + n - i
+            enddo
             temp = epsmch*temp
-            IF ( temp==zero ) temp = epsmch
-         ENDIF
-         X(j) = (Qtb(j)-sum)/temp
-      ENDDO
+            if ( temp==zero ) temp = epsmch
+         endif
+         x(j) = (Qtb(j)-sum)/temp
+      enddo
 !
 !     test whether the gauss-newton direction is acceptable.
 !
-      DO j = 1 , N
+      do j = 1 , n
          Wa1(j) = zero
-         Wa2(j) = Diag(j)*X(j)
-      ENDDO
-      qnorm = ENORM(N,Wa2)
-      IF ( qnorm>Delta ) THEN
+         Wa2(j) = Diag(j)*x(j)
+      enddo
+      qnorm = enorm(n,Wa2)
+      if ( qnorm>Delta ) then
 !
 !     the gauss-newton direction is not acceptable.
 !     next, calculate the scaled gradient direction.
 !
          l = 1
-         DO j = 1 , N
+         do j = 1 , n
             temp = Qtb(j)
-            DO i = j , N
-               Wa1(i) = Wa1(i) + R(l)*temp
+            do i = j , n
+               Wa1(i) = Wa1(i) + r(l)*temp
                l = l + 1
-            ENDDO
+            enddo
             Wa1(j) = Wa1(j)/Diag(j)
-         ENDDO
+         enddo
 !
 !     calculate the norm of the scaled gradient and test for
 !     the special case in which the scaled gradient is zero.
 !
-         gnorm = ENORM(N,Wa1)
+         gnorm = enorm(n,Wa1)
          sgnorm = zero
          alpha = Delta/qnorm
-         IF ( gnorm/=zero ) THEN
+         if ( gnorm/=zero ) then
 !
 !     calculate the point along the scaled gradient
 !     at which the quadratic is minimized.
 !
-            DO j = 1 , N
+            do j = 1 , n
                Wa1(j) = (Wa1(j)/gnorm)/Diag(j)
-            ENDDO
+            enddo
             l = 1
-            DO j = 1 , N
+            do j = 1 , n
                sum = zero
-               DO i = j , N
-                  sum = sum + R(l)*Wa1(i)
+               do i = j , n
+                  sum = sum + r(l)*Wa1(i)
                   l = l + 1
-               ENDDO
+               enddo
                Wa2(j) = sum
-            ENDDO
-            temp = ENORM(N,Wa2)
+            enddo
+            temp = enorm(n,Wa2)
             sgnorm = (gnorm/temp)/temp
 !
 !     test whether the scaled gradient direction is acceptable.
 !
             alpha = zero
-            IF ( sgnorm<Delta ) THEN
+            if ( sgnorm<Delta ) then
 !
 !     the scaled gradient direction is not acceptable.
 !     finally, calculate the point along the dogleg
 !     at which the quadratic is minimized.
 !
-               bnorm = ENORM(N,Qtb)
+               bnorm = enorm(n,Qtb)
                temp = (bnorm/gnorm)*(bnorm/qnorm)*(sgnorm/Delta)
                temp = temp - (Delta/qnorm)*(sgnorm/Delta)               &
-                    & **2 + DSQRT((temp-(Delta/qnorm))                  &
+                    & **2 + dsqrt((temp-(Delta/qnorm))                  &
                     & **2+(one-(Delta/qnorm)**2)*(one-(sgnorm/Delta)**2)&
                     & )
                alpha = ((Delta/qnorm)*(one-(sgnorm/Delta)**2))/temp
-            ENDIF
-         ENDIF
+            endif
+         endif
 !
 !     form appropriate convex combination of the gauss-newton
 !     direction and the scaled gradient direction.
 !
-         temp = (one-alpha)*DMIN1(sgnorm,Delta)
-         DO j = 1 , N
-            X(j) = temp*Wa1(j) + alpha*X(j)
-         ENDDO
-      ENDIF
+         temp = (one-alpha)*dmin1(sgnorm,Delta)
+         do j = 1 , n
+            x(j) = temp*Wa1(j) + alpha*x(j)
+         enddo
+      endif
 !
 !     last card of subroutine dogleg.
 !
-      END
+      end
 !*==DPMPAR.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      DOUBLE PRECISION FUNCTION DPMPAR(I)
-      IMPLICIT NONE
+      double precision function dpmpar(i)
+      implicit none
 !*--DPMPAR327
-      INTEGER I
+      integer i
 !     **********
 !
 !     Function dpmpar
@@ -357,13 +357,13 @@
 !     Burton S. Garbow, Kenneth E. Hillstrom, Jorge J. More'
 !
 !     **********
-      INTEGER mcheps(4)
-      INTEGER minmag(4)
-      INTEGER maxmag(4)
-      DOUBLE PRECISION dmach(3)
-      EQUIVALENCE (dmach(1),mcheps(1))
-      EQUIVALENCE (dmach(2),minmag(1))
-      EQUIVALENCE (dmach(3),maxmag(1))
+      integer mcheps(4)
+      integer minmag(4)
+      integer maxmag(4)
+      double precision dmach(3)
+      equivalence (dmach(1),mcheps(1))
+      equivalence (dmach(2),minmag(1))
+      equivalence (dmach(3),maxmag(1))
 !
 !     Machine constants for the IBM 360/370 series,
 !     the Amdahl 470/V6, the ICL 2900, the Itel AS/6,
@@ -491,21 +491,21 @@
 !
 !     Machine constants for IEEE machines.
 !
-      DATA dmach(1)/2.22044604926D-16/
-      DATA dmach(2)/2.22507385852D-308/
-      DATA dmach(3)/1.79769313485D+308/
+      data dmach(1)/2.22044604926d-16/
+      data dmach(2)/2.22507385852d-308/
+      data dmach(3)/1.79769313485d+308/
 !
-      DPMPAR = dmach(I)
+      dpmpar = dmach(i)
 !
 !     Last card of function dpmpar.
 !
-      END
+      end
 !*==ENORM.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      DOUBLE PRECISION FUNCTION ENORM(N,X)
-      IMPLICIT NONE
+      double precision function enorm(n,x)
+      implicit none
 !*--ENORM506
-      INTEGER N
-      DOUBLE PRECISION X(N)
+      integer n
+      double precision x(n)
 !     **********
 !
 !     function enorm
@@ -543,68 +543,68 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i
-      DOUBLE PRECISION agiant , floatn , one , rdwarf , rgiant , s1 ,   &
+      integer i
+      double precision agiant , floatn , one , rdwarf , rgiant , s1 ,   &
                      & s2 , s3 , xabs , x1max , x3max , zero
-      DATA one , zero , rdwarf , rgiant/1.0D0 , 0.0D0 , 3.834D-20 ,     &
-         & 1.304D19/
+      data one , zero , rdwarf , rgiant/1.0d0 , 0.0d0 , 3.834d-20 ,     &
+         & 1.304d19/
       s1 = zero
       s2 = zero
       s3 = zero
       x1max = zero
       x3max = zero
-      floatn = N
+      floatn = n
       agiant = rgiant/floatn
-      DO i = 1 , N
-         xabs = DABS(X(i))
-         IF ( xabs>rdwarf .AND. xabs<agiant ) THEN
+      do i = 1 , n
+         xabs = dabs(x(i))
+         if ( xabs>rdwarf .and. xabs<agiant ) then
 !
 !           sum for intermediate components.
 !
             s2 = s2 + xabs**2
-         ELSEIF ( xabs<=rdwarf ) THEN
+         elseif ( xabs<=rdwarf ) then
 !
 !              sum for small components.
 !
-            IF ( xabs<=x3max ) THEN
-               IF ( xabs/=zero ) s3 = s3 + (xabs/x3max)**2
-            ELSE
+            if ( xabs<=x3max ) then
+               if ( xabs/=zero ) s3 = s3 + (xabs/x3max)**2
+            else
                s3 = one + s3*(x3max/xabs)**2
                x3max = xabs
-            ENDIF
+            endif
 !
 !              sum for large components.
 !
-         ELSEIF ( xabs<=x1max ) THEN
+         elseif ( xabs<=x1max ) then
             s1 = s1 + (xabs/x1max)**2
-         ELSE
+         else
             s1 = one + s1*(x1max/xabs)**2
             x1max = xabs
-         ENDIF
-      ENDDO
+         endif
+      enddo
 !
 !     calculation of norm.
 !
-      IF ( s1/=zero ) THEN
-         ENORM = x1max*DSQRT(s1+(s2/x1max)/x1max)
-      ELSEIF ( s2==zero ) THEN
-         ENORM = x3max*DSQRT(s3)
-      ELSE
-         IF ( s2>=x3max ) ENORM = DSQRT(s2*(one+(x3max/s2)*(x3max*s3)))
-         IF ( s2<x3max ) ENORM = DSQRT(x3max*((s2/x3max)+(x3max*s3)))
-      ENDIF
+      if ( s1/=zero ) then
+         enorm = x1max*dsqrt(s1+(s2/x1max)/x1max)
+      elseif ( s2==zero ) then
+         enorm = x3max*dsqrt(s3)
+      else
+         if ( s2>=x3max ) enorm = dsqrt(s2*(one+(x3max/s2)*(x3max*s3)))
+         if ( s2<x3max ) enorm = dsqrt(x3max*((s2/x3max)+(x3max*s3)))
+      endif
 !
 !     last card of function enorm.
 !
-      END
+      end
 !*==FDJAC1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE FDJAC1(FCN,N,X,Fvec,Fjac,Ldfjac,Iflag,Ml,Mu,Epsfcn,Wa1,&
+      subroutine fdjac1(fcn,n,x,Fvec,Fjac,Ldfjac,Iflag,Ml,Mu,Epsfcn,Wa1,&
                       & Wa2)
-      IMPLICIT NONE
+      implicit none
 !*--FDJAC1604
-      INTEGER N , Ldfjac , Iflag , Ml , Mu
-      DOUBLE PRECISION Epsfcn
-      DOUBLE PRECISION X(N) , Fvec(N) , Fjac(Ldfjac,N) , Wa1(N) , Wa2(N)
+      integer n , Ldfjac , Iflag , Ml , Mu
+      double precision Epsfcn
+      double precision x(n) , Fvec(n) , Fjac(Ldfjac,n) , Wa1(n) , Wa2(n)
 !     **********
 !
 !     subroutine fdjac1
@@ -690,70 +690,70 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , j , k , msum
-      DOUBLE PRECISION eps , epsmch , h , temp , zero
-      DOUBLE PRECISION DPMPAR
-      DATA zero/0.0D0/
+      integer i , j , k , msum
+      double precision eps , epsmch , h , temp , zero
+      double precision dpmpar
+      data zero/0.0d0/
 !
 !     epsmch is the machine precision.
 !
-      epsmch = DPMPAR(1)
+      epsmch = dpmpar(1)
 !
-      eps = DSQRT(DMAX1(Epsfcn,epsmch))
+      eps = dsqrt(dmax1(Epsfcn,epsmch))
       msum = Ml + Mu + 1
-      IF ( msum<N ) THEN
+      if ( msum<n ) then
 !
 !        computation of banded approximate jacobian.
 !
-         DO k = 1 , msum
-            DO j = k , N , msum
-               Wa2(j) = X(j)
-               h = eps*DABS(Wa2(j))
-               IF ( h==zero ) h = eps
-               X(j) = Wa2(j) + h
-            ENDDO
-            CALL FCN(N,X,Wa1,Iflag)
-            IF ( Iflag<0 ) GOTO 99999
-            DO j = k , N , msum
-               X(j) = Wa2(j)
-               h = eps*DABS(Wa2(j))
-               IF ( h==zero ) h = eps
-               DO i = 1 , N
+         do k = 1 , msum
+            do j = k , n , msum
+               Wa2(j) = x(j)
+               h = eps*dabs(Wa2(j))
+               if ( h==zero ) h = eps
+               x(j) = Wa2(j) + h
+            enddo
+            call fcn(n,x,Wa1,Iflag)
+            if ( Iflag<0 ) goto 99999
+            do j = k , n , msum
+               x(j) = Wa2(j)
+               h = eps*dabs(Wa2(j))
+               if ( h==zero ) h = eps
+               do i = 1 , n
                   Fjac(i,j) = zero
-                  IF ( i>=j-Mu .AND. i<=j+Ml ) Fjac(i,j)                &
+                  if ( i>=j-Mu .and. i<=j+Ml ) Fjac(i,j)                &
                      & = (Wa1(i)-Fvec(i))/h
-               ENDDO
-            ENDDO
-         ENDDO
-      ELSE
+               enddo
+            enddo
+         enddo
+      else
 !
 !        computation of dense approximate jacobian.
 !
-         DO j = 1 , N
-            temp = X(j)
-            h = eps*DABS(temp)
-            IF ( h==zero ) h = eps
-            X(j) = temp + h
-            CALL FCN(N,X,Wa1,Iflag)
-            IF ( Iflag<0 ) GOTO 99999
-            X(j) = temp
-            DO i = 1 , N
+         do j = 1 , n
+            temp = x(j)
+            h = eps*dabs(temp)
+            if ( h==zero ) h = eps
+            x(j) = temp + h
+            call fcn(n,x,Wa1,Iflag)
+            if ( Iflag<0 ) goto 99999
+            x(j) = temp
+            do i = 1 , n
                Fjac(i,j) = (Wa1(i)-Fvec(i))/h
-            ENDDO
-         ENDDO
-      ENDIF
+            enddo
+         enddo
+      endif
 !
 !     last card of subroutine fdjac1.
 !
-99999 END
+99999 end
 !*==FDJAC2.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
  
-      SUBROUTINE FDJAC2(FCN,M,N,X,Fvec,Fjac,Ldfjac,Iflag,Epsfcn,Wa)
-      IMPLICIT NONE
+      subroutine fdjac2(fcn,m,n,x,Fvec,Fjac,Ldfjac,Iflag,Epsfcn,Wa)
+      implicit none
 !*--FDJAC2753
-      INTEGER M , N , Ldfjac , Iflag
-      DOUBLE PRECISION Epsfcn
-      DOUBLE PRECISION X(N) , Fvec(M) , Fjac(Ldfjac,N) , Wa(M)
+      integer m , n , Ldfjac , Iflag
+      double precision Epsfcn
+      double precision x(n) , Fvec(m) , Fjac(Ldfjac,n) , Wa(m)
 !     **********
 !
 !     subroutine fdjac2
@@ -829,45 +829,45 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , j
-      DOUBLE PRECISION eps , epsmch , h , temp , zero
-      DOUBLE PRECISION DPMPAR
-      DATA zero/0.0D0/
+      integer i , j
+      double precision eps , epsmch , h , temp , zero
+      double precision dpmpar
+      data zero/0.0d0/
 !
 !     epsmch is the machine precision.
 !
-      epsmch = DPMPAR(1)
+      epsmch = dpmpar(1)
 !
-      eps = DSQRT(DMAX1(Epsfcn,epsmch))
-      DO j = 1 , N
-         temp = X(j)
-         h = eps*DABS(temp)
-         IF ( h==zero ) h = eps
-         X(j) = temp + h
-         CALL FCN(M,N,X,Wa,Iflag)
-         IF ( Iflag<0 ) GOTO 99999
-         X(j) = temp
-         DO i = 1 , M
+      eps = dsqrt(dmax1(Epsfcn,epsmch))
+      do j = 1 , n
+         temp = x(j)
+         h = eps*dabs(temp)
+         if ( h==zero ) h = eps
+         x(j) = temp + h
+         call fcn(m,n,x,Wa,Iflag)
+         if ( Iflag<0 ) goto 99999
+         x(j) = temp
+         do i = 1 , m
             Fjac(i,j) = (Wa(i)-Fvec(i))/h
-         ENDDO
-      ENDDO
+         enddo
+      enddo
 !
 !     last card of subroutine fdjac2.
 !
-99999 END
+99999 end
 !*==HYBRD.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE HYBRD(FCN,N,X,Fvec,Xtol,Maxfev,Ml,Mu,Epsfcn,Diag,Mode, &
-                     & Factor,Nprint,Info,Nfev,Fjac,Ldfjac,R,Lr,Qtf,Wa1,&
+      subroutine hybrd(fcn,n,x,Fvec,Xtol,Maxfev,Ml,Mu,Epsfcn,Diag,Mode, &
+                     & Factor,Nprint,Info,Nfev,Fjac,Ldfjac,r,Lr,Qtf,Wa1,&
                      & Wa2,Wa3,Wa4)
-      IMPLICIT NONE
+      implicit none
 !*--HYBRD863
-      INTEGER N , Maxfev , Ml , Mu , Mode , Nprint , Info , Nfev ,      &
+      integer n , Maxfev , Ml , Mu , Mode , Nprint , Info , Nfev ,      &
             & Ldfjac , Lr
-      DOUBLE PRECISION Xtol , Epsfcn , Factor
-      DOUBLE PRECISION X(N) , Fvec(N) , Diag(N) , Fjac(Ldfjac,N) ,      &
-                     & R(Lr) , Qtf(N) , Wa1(N) , Wa2(N) , Wa3(N) ,      &
-                     & Wa4(N)
-      EXTERNAL FCN
+      double precision Xtol , Epsfcn , Factor
+      double precision x(n) , Fvec(n) , Diag(n) , Fjac(Ldfjac,n) ,      &
+                     & r(Lr) , Qtf(n) , Wa1(n) , Wa2(n) , Wa3(n) ,      &
+                     & Wa4(n)
+      external fcn
 !     **********
 !
 !     subroutine hybrd
@@ -1024,20 +1024,20 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , iflag , iter , j , jm1 , l , msum , ncfail , ncsuc ,  &
+      integer i , iflag , iter , j , jm1 , l , msum , ncfail , ncsuc ,  &
             & nslow1 , nslow2
-      INTEGER iwa(1)
-      LOGICAL jeval , sing
-      DOUBLE PRECISION actred , delta , epsmch , fnorm , fnorm1 , one , &
+      integer iwa(1)
+      logical jeval , sing
+      double precision actred , delta , epsmch , fnorm , fnorm1 , one , &
                      & pnorm , prered , p1 , p5 , p001 , p0001 , ratio ,&
                      & sum , temp , xnorm , zero
-      DOUBLE PRECISION DPMPAR , ENORM
-      DATA one , p1 , p5 , p001 , p0001 , zero/1.0D0 , 1.0D-1 , 5.0D-1 ,&
-         & 1.0D-3 , 1.0D-4 , 0.0D0/
+      double precision dpmpar , enorm
+      data one , p1 , p5 , p001 , p0001 , zero/1.0d0 , 1.0d-1 , 5.0d-1 ,&
+         & 1.0d-3 , 1.0d-4 , 0.0d0/
 !
 !     epsmch is the machine precision.
 !
-      epsmch = DPMPAR(1)
+      epsmch = dpmpar(1)
 !
       Info = 0
       iflag = 0
@@ -1045,27 +1045,27 @@
 !
 !     check the input parameters for errors.
 !
-      IF ( N<=0 .OR. Xtol<zero .OR. Maxfev<=0 .OR. Ml<0 .OR. Mu<0 .OR.  &
-         & Factor<=zero .OR. Ldfjac<N .OR. Lr<(N*(N+1))/2 ) GOTO 300
-      IF ( Mode==2 ) THEN
-         DO j = 1 , N
-            IF ( Diag(j)<=zero ) GOTO 300
-         ENDDO
-      ENDIF
+      if ( n<=0 .or. Xtol<zero .or. Maxfev<=0 .or. Ml<0 .or. Mu<0 .or.  &
+         & Factor<=zero .or. Ldfjac<n .or. Lr<(n*(n+1))/2 ) goto 300
+      if ( Mode==2 ) then
+         do j = 1 , n
+            if ( Diag(j)<=zero ) goto 300
+         enddo
+      endif
 !
 !     evaluate the function at the starting point
 !     and calculate its norm.
 !
       iflag = 1
-      CALL FCN(N,X,Fvec,iflag)
+      call fcn(n,x,Fvec,iflag)
       Nfev = 1
-      IF ( iflag<0 ) GOTO 300
-      fnorm = ENORM(N,Fvec)
+      if ( iflag<0 ) goto 300
+      fnorm = enorm(n,Fvec)
 !
 !     determine the number of calls to fcn needed to compute
 !     the jacobian matrix.
 !
-      msum = MIN0(Ml+Mu+1,N)
+      msum = min0(Ml+Mu+1,n)
 !
 !     initialize iteration counter and monitors.
 !
@@ -1077,253 +1077,253 @@
 !
 !     beginning of the outer loop.
 !
- 100  jeval = .TRUE.
+ 100  jeval = .true.
 !
 !        calculate the jacobian matrix.
 !
       iflag = 2
-      CALL FDJAC1(FCN,N,X,Fvec,Fjac,Ldfjac,iflag,Ml,Mu,Epsfcn,Wa1,Wa2)
+      call fdjac1(fcn,n,x,Fvec,Fjac,Ldfjac,iflag,Ml,Mu,Epsfcn,Wa1,Wa2)
       Nfev = Nfev + msum
-      IF ( iflag<0 ) GOTO 300
+      if ( iflag<0 ) goto 300
 !
 !        compute the qr factorization of the jacobian.
 !
-      CALL QRFAC(N,N,Fjac,Ldfjac,.FALSE.,iwa,1,Wa1,Wa2,Wa3)
+      call qrfac(n,n,Fjac,Ldfjac,.false.,iwa,1,Wa1,Wa2,Wa3)
 !
 !        on the first iteration and if mode is 1, scale according
 !        to the norms of the columns of the initial jacobian.
 !
-      IF ( iter==1 ) THEN
-         IF ( Mode/=2 ) THEN
-            DO j = 1 , N
+      if ( iter==1 ) then
+         if ( Mode/=2 ) then
+            do j = 1 , n
                Diag(j) = Wa2(j)
-               IF ( Wa2(j)==zero ) Diag(j) = one
-            ENDDO
-         ENDIF
+               if ( Wa2(j)==zero ) Diag(j) = one
+            enddo
+         endif
 !
 !        on the first iteration, calculate the norm of the scaled x
 !        and initialize the step bound delta.
 !
-         DO j = 1 , N
-            Wa3(j) = Diag(j)*X(j)
-         ENDDO
-         xnorm = ENORM(N,Wa3)
+         do j = 1 , n
+            Wa3(j) = Diag(j)*x(j)
+         enddo
+         xnorm = enorm(n,Wa3)
          delta = Factor*xnorm
-         IF ( delta==zero ) delta = Factor
-      ENDIF
+         if ( delta==zero ) delta = Factor
+      endif
 !
 !        form (q transpose)*fvec and store in qtf.
 !
-      DO i = 1 , N
+      do i = 1 , n
          Qtf(i) = Fvec(i)
-      ENDDO
-      DO j = 1 , N
-         IF ( Fjac(j,j)/=zero ) THEN
+      enddo
+      do j = 1 , n
+         if ( Fjac(j,j)/=zero ) then
             sum = zero
-            DO i = j , N
+            do i = j , n
                sum = sum + Fjac(i,j)*Qtf(i)
-            ENDDO
+            enddo
             temp = -sum/Fjac(j,j)
-            DO i = j , N
+            do i = j , n
                Qtf(i) = Qtf(i) + Fjac(i,j)*temp
-            ENDDO
-         ENDIF
-      ENDDO
+            enddo
+         endif
+      enddo
 !
 !        copy the triangular factor of the qr factorization into r.
 !
-      sing = .FALSE.
-      DO j = 1 , N
+      sing = .false.
+      do j = 1 , n
          l = j
          jm1 = j - 1
-         IF ( jm1>=1 ) THEN
-            DO i = 1 , jm1
-               R(l) = Fjac(i,j)
-               l = l + N - i
-            ENDDO
-         ENDIF
-         R(l) = Wa1(j)
-         IF ( Wa1(j)==zero ) sing = .TRUE.
-      ENDDO
+         if ( jm1>=1 ) then
+            do i = 1 , jm1
+               r(l) = Fjac(i,j)
+               l = l + n - i
+            enddo
+         endif
+         r(l) = Wa1(j)
+         if ( Wa1(j)==zero ) sing = .true.
+      enddo
 !
 !        accumulate the orthogonal factor in fjac.
 !
-      CALL QFORM(N,N,Fjac,Ldfjac,Wa1)
+      call qform(n,n,Fjac,Ldfjac,Wa1)
 !
 !        rescale if necessary.
 !
-      IF ( Mode/=2 ) THEN
-         DO j = 1 , N
-            Diag(j) = DMAX1(Diag(j),Wa2(j))
-         ENDDO
-      ENDIF
+      if ( Mode/=2 ) then
+         do j = 1 , n
+            Diag(j) = dmax1(Diag(j),Wa2(j))
+         enddo
+      endif
 !
 !        beginning of the inner loop.
 !
 !
 !           if requested, call fcn to enable printing of iterates.
 !
- 200  IF ( Nprint>0 ) THEN
+ 200  if ( Nprint>0 ) then
          iflag = 0
-         IF ( MOD(iter-1,Nprint)==0 ) CALL FCN(N,X,Fvec,iflag)
-         IF ( iflag<0 ) GOTO 300
-      ENDIF
+         if ( mod(iter-1,Nprint)==0 ) call fcn(n,x,Fvec,iflag)
+         if ( iflag<0 ) goto 300
+      endif
 !
 !           determine the direction p.
 !
-      CALL DOGLEG(N,R,Lr,Diag,Qtf,delta,Wa1,Wa2,Wa3)
+      call dogleg(n,r,Lr,Diag,Qtf,delta,Wa1,Wa2,Wa3)
 !
 !           store the direction p and x + p. calculate the norm of p.
 !
-      DO j = 1 , N
+      do j = 1 , n
          Wa1(j) = -Wa1(j)
-         Wa2(j) = X(j) + Wa1(j)
+         Wa2(j) = x(j) + Wa1(j)
          Wa3(j) = Diag(j)*Wa1(j)
-      ENDDO
-      pnorm = ENORM(N,Wa3)
+      enddo
+      pnorm = enorm(n,Wa3)
 !
 !           on the first iteration, adjust the initial step bound.
 !
-      IF ( iter==1 ) delta = DMIN1(delta,pnorm)
+      if ( iter==1 ) delta = dmin1(delta,pnorm)
 !
 !           evaluate the function at x + p and calculate its norm.
 !
       iflag = 1
-      CALL FCN(N,Wa2,Wa4,iflag)
+      call fcn(n,Wa2,Wa4,iflag)
       Nfev = Nfev + 1
-      IF ( iflag>=0 ) THEN
-         fnorm1 = ENORM(N,Wa4)
+      if ( iflag>=0 ) then
+         fnorm1 = enorm(n,Wa4)
 !
 !           compute the scaled actual reduction.
 !
          actred = -one
-         IF ( fnorm1<fnorm ) actred = one - (fnorm1/fnorm)**2
+         if ( fnorm1<fnorm ) actred = one - (fnorm1/fnorm)**2
 !
 !           compute the scaled predicted reduction.
 !
          l = 1
-         DO i = 1 , N
+         do i = 1 , n
             sum = zero
-            DO j = i , N
-               sum = sum + R(l)*Wa1(j)
+            do j = i , n
+               sum = sum + r(l)*Wa1(j)
                l = l + 1
-            ENDDO
+            enddo
             Wa3(i) = Qtf(i) + sum
-         ENDDO
-         temp = ENORM(N,Wa3)
+         enddo
+         temp = enorm(n,Wa3)
          prered = zero
-         IF ( temp<fnorm ) prered = one - (temp/fnorm)**2
+         if ( temp<fnorm ) prered = one - (temp/fnorm)**2
 !
 !           compute the ratio of the actual to the predicted
 !           reduction.
 !
          ratio = zero
-         IF ( prered>zero ) ratio = actred/prered
+         if ( prered>zero ) ratio = actred/prered
 !
 !           update the step bound.
 !
-         IF ( ratio>=p1 ) THEN
+         if ( ratio>=p1 ) then
             ncfail = 0
             ncsuc = ncsuc + 1
-            IF ( ratio>=p5 .OR. ncsuc>1 ) delta = DMAX1(delta,pnorm/p5)
-            IF ( DABS(ratio-one)<=p1 ) delta = pnorm/p5
-         ELSE
+            if ( ratio>=p5 .or. ncsuc>1 ) delta = dmax1(delta,pnorm/p5)
+            if ( dabs(ratio-one)<=p1 ) delta = pnorm/p5
+         else
             ncsuc = 0
             ncfail = ncfail + 1
             delta = p5*delta
-         ENDIF
+         endif
 !
 !           test for successful iteration.
 !
-         IF ( ratio>=p0001 ) THEN
+         if ( ratio>=p0001 ) then
 !
 !           successful iteration. update x, fvec, and their norms.
 !
-            DO j = 1 , N
-               X(j) = Wa2(j)
-               Wa2(j) = Diag(j)*X(j)
+            do j = 1 , n
+               x(j) = Wa2(j)
+               Wa2(j) = Diag(j)*x(j)
                Fvec(j) = Wa4(j)
-            ENDDO
-            xnorm = ENORM(N,Wa2)
+            enddo
+            xnorm = enorm(n,Wa2)
             fnorm = fnorm1
             iter = iter + 1
-         ENDIF
+         endif
 !
 !           determine the progress of the iteration.
 !
          nslow1 = nslow1 + 1
-         IF ( actred>=p001 ) nslow1 = 0
-         IF ( jeval ) nslow2 = nslow2 + 1
-         IF ( actred>=p1 ) nslow2 = 0
+         if ( actred>=p001 ) nslow1 = 0
+         if ( jeval ) nslow2 = nslow2 + 1
+         if ( actred>=p1 ) nslow2 = 0
 !
 !           test for convergence.
 !
-         IF ( delta<=Xtol*xnorm .OR. fnorm==zero ) Info = 1
-         IF ( Info==0 ) THEN
+         if ( delta<=Xtol*xnorm .or. fnorm==zero ) Info = 1
+         if ( Info==0 ) then
 !
 !           tests for termination and stringent tolerances.
 !
-            IF ( Nfev>=Maxfev ) Info = 2
-            IF ( p1*DMAX1(p1*delta,pnorm)<=epsmch*xnorm ) Info = 3
-            IF ( nslow2==5 ) Info = 4
-            IF ( nslow1==10 ) Info = 5
-            IF ( Info==0 ) THEN
+            if ( Nfev>=Maxfev ) Info = 2
+            if ( p1*dmax1(p1*delta,pnorm)<=epsmch*xnorm ) Info = 3
+            if ( nslow2==5 ) Info = 4
+            if ( nslow1==10 ) Info = 5
+            if ( Info==0 ) then
 !
 !           criterion for recalculating jacobian approximation
 !           by forward differences.
 !
-               IF ( ncfail==2 ) GOTO 100
+               if ( ncfail==2 ) goto 100
 !
 !           calculate the rank one modification to the jacobian
 !           and update qtf if necessary.
 !
-               DO j = 1 , N
+               do j = 1 , n
                   sum = zero
-                  DO i = 1 , N
+                  do i = 1 , n
                      sum = sum + Fjac(i,j)*Wa4(i)
-                  ENDDO
+                  enddo
                   Wa2(j) = (sum-Wa3(j))/pnorm
                   Wa1(j) = Diag(j)*((Diag(j)*Wa1(j))/pnorm)
-                  IF ( ratio>=p0001 ) Qtf(j) = sum
-               ENDDO
+                  if ( ratio>=p0001 ) Qtf(j) = sum
+               enddo
 !
 !           compute the qr factorization of the updated jacobian.
 !
-               CALL R1UPDT(N,N,R,Lr,Wa1,Wa2,Wa3,sing)
-               CALL R1MPYQ(N,N,Fjac,Ldfjac,Wa2,Wa3)
-               CALL R1MPYQ(1,N,Qtf,1,Wa2,Wa3)
+               call r1updt(n,n,r,Lr,Wa1,Wa2,Wa3,sing)
+               call r1mpyq(n,n,Fjac,Ldfjac,Wa2,Wa3)
+               call r1mpyq(1,n,Qtf,1,Wa2,Wa3)
 !
 !           end of the inner loop.
 !
-               jeval = .FALSE.
+               jeval = .false.
 !
 !        end of the outer loop.
 !
-               GOTO 200
-            ENDIF
-         ENDIF
-      ENDIF
+               goto 200
+            endif
+         endif
+      endif
 !
 !     termination, either normal or user imposed.
 !
- 300  IF ( iflag<0 ) Info = iflag
+ 300  if ( iflag<0 ) Info = iflag
       iflag = 0
-      IF ( Nprint>0 ) CALL FCN(N,X,Fvec,iflag)
+      if ( Nprint>0 ) call fcn(n,x,Fvec,iflag)
 !
 !     last card of subroutine hybrd.
 !
-      END
+      end
 !*==HYBRD1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE HYBRD1(FCN,N,X,Fvec,Tol,Info,Wa,Lwa)
-      IMPLICIT NONE
+      subroutine hybrd1(fcn,n,x,Fvec,Tol,Info,Wa,Lwa)
+      implicit none
 !*--HYBRD11319
 !*** Start of declarations inserted by SPAG
-      REAL FCN
+      real fcn
 !*** End of declarations inserted by SPAG
-      INTEGER N , Info , Lwa
-      DOUBLE PRECISION Tol
-      DOUBLE PRECISION X(N) , Fvec(N) , Wa(Lwa)
-      EXTERNAL FCN
+      integer n , Info , Lwa
+      double precision Tol
+      double precision x(n) , Fvec(n) , Wa(Lwa)
+      external fcn
 !     **********
 !
 !     subroutine hybrd1
@@ -1408,50 +1408,50 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER index , j , lr , maxfev , ml , mode , mu , nfev , nprint
-      DOUBLE PRECISION epsfcn , factor , one , xtol , zero
-      DATA factor , one , zero/1.0D2 , 1.0D0 , 0.0D0/
+      integer index , j , lr , maxfev , ml , mode , mu , nfev , nprint
+      double precision epsfcn , factor , one , xtol , zero
+      data factor , one , zero/1.0d2 , 1.0d0 , 0.0d0/
       Info = 0
 !
 !     check the input parameters for errors.
 !
-      IF ( N>0 .AND. Tol>=zero .AND. Lwa>=(N*(3*N+13))/2 ) THEN
+      if ( n>0 .and. Tol>=zero .and. Lwa>=(n*(3*n+13))/2 ) then
 !
 !     call hybrd.
 !
-         maxfev = 200*(N+1)
+         maxfev = 200*(n+1)
          xtol = Tol
-         ml = N - 1
-         mu = N - 1
+         ml = n - 1
+         mu = n - 1
          epsfcn = zero
          mode = 2
-         DO j = 1 , N
+         do j = 1 , n
             Wa(j) = one
-         ENDDO
+         enddo
          nprint = 0
-         lr = (N*(N+1))/2
-         index = 6*N + lr
-         CALL HYBRD(FCN,N,X,Fvec,xtol,maxfev,ml,mu,epsfcn,Wa(1),mode,   &
-                  & factor,nprint,Info,nfev,Wa(index+1),N,Wa(6*N+1),lr, &
-                  & Wa(N+1),Wa(2*N+1),Wa(3*N+1),Wa(4*N+1),Wa(5*N+1))
-         IF ( Info==5 ) Info = 4
-      ENDIF
+         lr = (n*(n+1))/2
+         index = 6*n + lr
+         call hybrd(fcn,n,x,Fvec,xtol,maxfev,ml,mu,epsfcn,Wa(1),mode,   &
+                  & factor,nprint,Info,nfev,Wa(index+1),n,Wa(6*n+1),lr, &
+                  & Wa(n+1),Wa(2*n+1),Wa(3*n+1),Wa(4*n+1),Wa(5*n+1))
+         if ( Info==5 ) Info = 4
+      endif
 !
 !     last card of subroutine hybrd1.
 !
-      END
+      end
 !*==HYBRJ.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE HYBRJ(FCN,N,X,Fvec,Fjac,Ldfjac,Xtol,Maxfev,Diag,Mode,  &
-                     & Factor,Nprint,Info,Nfev,Njev,R,Lr,Qtf,Wa1,Wa2,   &
+      subroutine hybrj(fcn,n,x,Fvec,Fjac,Ldfjac,Xtol,Maxfev,Diag,Mode,  &
+                     & Factor,Nprint,Info,Nfev,Njev,r,Lr,Qtf,Wa1,Wa2,   &
                      & Wa3,Wa4)
-      IMPLICIT NONE
+      implicit none
 !*--HYBRJ1448
-      INTEGER N , Ldfjac , Maxfev , Mode , Nprint , Info , Nfev , Njev ,&
+      integer n , Ldfjac , Maxfev , Mode , Nprint , Info , Nfev , Njev ,&
             & Lr
-      DOUBLE PRECISION Xtol , Factor
-      DOUBLE PRECISION X(N) , Fvec(N) , Fjac(Ldfjac,N) , Diag(N) ,      &
-                     & R(Lr) , Qtf(N) , Wa1(N) , Wa2(N) , Wa3(N) ,      &
-                     & Wa4(N)
+      double precision Xtol , Factor
+      double precision x(n) , Fvec(n) , Fjac(Ldfjac,n) , Diag(n) ,      &
+                     & r(Lr) , Qtf(n) , Wa1(n) , Wa2(n) , Wa3(n) ,      &
+                     & Wa4(n)
 !     **********
 !
 !     subroutine hybrj
@@ -1595,20 +1595,20 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , iflag , iter , j , jm1 , l , ncfail , ncsuc , nslow1 ,&
+      integer i , iflag , iter , j , jm1 , l , ncfail , ncsuc , nslow1 ,&
             & nslow2
-      INTEGER iwa(1)
-      LOGICAL jeval , sing
-      DOUBLE PRECISION actred , delta , epsmch , fnorm , fnorm1 , one , &
+      integer iwa(1)
+      logical jeval , sing
+      double precision actred , delta , epsmch , fnorm , fnorm1 , one , &
                      & pnorm , prered , p1 , p5 , p001 , p0001 , ratio ,&
                      & sum , temp , xnorm , zero
-      DOUBLE PRECISION DPMPAR , ENORM
-      DATA one , p1 , p5 , p001 , p0001 , zero/1.0D0 , 1.0D-1 , 5.0D-1 ,&
-         & 1.0D-3 , 1.0D-4 , 0.0D0/
+      double precision dpmpar , enorm
+      data one , p1 , p5 , p001 , p0001 , zero/1.0d0 , 1.0d-1 , 5.0d-1 ,&
+         & 1.0d-3 , 1.0d-4 , 0.0d0/
 !
 !     epsmch is the machine precision.
 !
-      epsmch = DPMPAR(1)
+      epsmch = dpmpar(1)
 !
       Info = 0
       iflag = 0
@@ -1617,22 +1617,22 @@
 !
 !     check the input parameters for errors.
 !
-      IF ( N<=0 .OR. Ldfjac<N .OR. Xtol<zero .OR. Maxfev<=0 .OR.        &
-         & Factor<=zero .OR. Lr<(N*(N+1))/2 ) GOTO 300
-      IF ( Mode==2 ) THEN
-         DO j = 1 , N
-            IF ( Diag(j)<=zero ) GOTO 300
-         ENDDO
-      ENDIF
+      if ( n<=0 .or. Ldfjac<n .or. Xtol<zero .or. Maxfev<=0 .or.        &
+         & Factor<=zero .or. Lr<(n*(n+1))/2 ) goto 300
+      if ( Mode==2 ) then
+         do j = 1 , n
+            if ( Diag(j)<=zero ) goto 300
+         enddo
+      endif
 !
 !     evaluate the function at the starting point
 !     and calculate its norm.
 !
       iflag = 1
-      CALL FCN(N,X,Fvec,Fjac,Ldfjac,iflag)
+      call fcn(n,x,Fvec,Fjac,Ldfjac,iflag)
       Nfev = 1
-      IF ( iflag<0 ) GOTO 300
-      fnorm = ENORM(N,Fvec)
+      if ( iflag<0 ) goto 300
+      fnorm = enorm(n,Fvec)
 !
 !     initialize iteration counter and monitors.
 !
@@ -1644,253 +1644,253 @@
 !
 !     beginning of the outer loop.
 !
- 100  jeval = .TRUE.
+ 100  jeval = .true.
 !
 !        calculate the jacobian matrix.
 !
       iflag = 2
-      CALL FCN(N,X,Fvec,Fjac,Ldfjac,iflag)
+      call fcn(n,x,Fvec,Fjac,Ldfjac,iflag)
       Njev = Njev + 1
-      IF ( iflag<0 ) GOTO 300
+      if ( iflag<0 ) goto 300
 !
 !        compute the qr factorization of the jacobian.
 !
-      CALL QRFAC(N,N,Fjac,Ldfjac,.FALSE.,iwa,1,Wa1,Wa2,Wa3)
+      call qrfac(n,n,Fjac,Ldfjac,.false.,iwa,1,Wa1,Wa2,Wa3)
 !
 !        on the first iteration and if mode is 1, scale according
 !        to the norms of the columns of the initial jacobian.
 !
-      IF ( iter==1 ) THEN
-         IF ( Mode/=2 ) THEN
-            DO j = 1 , N
+      if ( iter==1 ) then
+         if ( Mode/=2 ) then
+            do j = 1 , n
                Diag(j) = Wa2(j)
-               IF ( Wa2(j)==zero ) Diag(j) = one
-            ENDDO
-         ENDIF
+               if ( Wa2(j)==zero ) Diag(j) = one
+            enddo
+         endif
 !
 !        on the first iteration, calculate the norm of the scaled x
 !        and initialize the step bound delta.
 !
-         DO j = 1 , N
-            Wa3(j) = Diag(j)*X(j)
-         ENDDO
-         xnorm = ENORM(N,Wa3)
+         do j = 1 , n
+            Wa3(j) = Diag(j)*x(j)
+         enddo
+         xnorm = enorm(n,Wa3)
          delta = Factor*xnorm
-         IF ( delta==zero ) delta = Factor
-      ENDIF
+         if ( delta==zero ) delta = Factor
+      endif
 !
 !        form (q transpose)*fvec and store in qtf.
 !
-      DO i = 1 , N
+      do i = 1 , n
          Qtf(i) = Fvec(i)
-      ENDDO
-      DO j = 1 , N
-         IF ( Fjac(j,j)/=zero ) THEN
+      enddo
+      do j = 1 , n
+         if ( Fjac(j,j)/=zero ) then
             sum = zero
-            DO i = j , N
+            do i = j , n
                sum = sum + Fjac(i,j)*Qtf(i)
-            ENDDO
+            enddo
             temp = -sum/Fjac(j,j)
-            DO i = j , N
+            do i = j , n
                Qtf(i) = Qtf(i) + Fjac(i,j)*temp
-            ENDDO
-         ENDIF
-      ENDDO
+            enddo
+         endif
+      enddo
 !
 !        copy the triangular factor of the qr factorization into r.
 !
-      sing = .FALSE.
-      DO j = 1 , N
+      sing = .false.
+      do j = 1 , n
          l = j
          jm1 = j - 1
-         IF ( jm1>=1 ) THEN
-            DO i = 1 , jm1
-               R(l) = Fjac(i,j)
-               l = l + N - i
-            ENDDO
-         ENDIF
-         R(l) = Wa1(j)
-         IF ( Wa1(j)==zero ) sing = .TRUE.
-      ENDDO
+         if ( jm1>=1 ) then
+            do i = 1 , jm1
+               r(l) = Fjac(i,j)
+               l = l + n - i
+            enddo
+         endif
+         r(l) = Wa1(j)
+         if ( Wa1(j)==zero ) sing = .true.
+      enddo
 !
 !        accumulate the orthogonal factor in fjac.
 !
-      CALL QFORM(N,N,Fjac,Ldfjac,Wa1)
+      call qform(n,n,Fjac,Ldfjac,Wa1)
 !
 !        rescale if necessary.
 !
-      IF ( Mode/=2 ) THEN
-         DO j = 1 , N
-            Diag(j) = DMAX1(Diag(j),Wa2(j))
-         ENDDO
-      ENDIF
+      if ( Mode/=2 ) then
+         do j = 1 , n
+            Diag(j) = dmax1(Diag(j),Wa2(j))
+         enddo
+      endif
 !
 !        beginning of the inner loop.
 !
 !
 !           if requested, call fcn to enable printing of iterates.
 !
- 200  IF ( Nprint>0 ) THEN
+ 200  if ( Nprint>0 ) then
          iflag = 0
-         IF ( MOD(iter-1,Nprint)==0 )                                   &
-            & CALL FCN(N,X,Fvec,Fjac,Ldfjac,iflag)
-         IF ( iflag<0 ) GOTO 300
-      ENDIF
+         if ( mod(iter-1,Nprint)==0 )                                   &
+            & call fcn(n,x,Fvec,Fjac,Ldfjac,iflag)
+         if ( iflag<0 ) goto 300
+      endif
 !
 !           determine the direction p.
 !
-      CALL DOGLEG(N,R,Lr,Diag,Qtf,delta,Wa1,Wa2,Wa3)
+      call dogleg(n,r,Lr,Diag,Qtf,delta,Wa1,Wa2,Wa3)
 !
 !           store the direction p and x + p. calculate the norm of p.
 !
-      DO j = 1 , N
+      do j = 1 , n
          Wa1(j) = -Wa1(j)
-         Wa2(j) = X(j) + Wa1(j)
+         Wa2(j) = x(j) + Wa1(j)
          Wa3(j) = Diag(j)*Wa1(j)
-      ENDDO
-      pnorm = ENORM(N,Wa3)
+      enddo
+      pnorm = enorm(n,Wa3)
 !
 !           on the first iteration, adjust the initial step bound.
 !
-      IF ( iter==1 ) delta = DMIN1(delta,pnorm)
+      if ( iter==1 ) delta = dmin1(delta,pnorm)
 !
 !           evaluate the function at x + p and calculate its norm.
 !
       iflag = 1
-      CALL FCN(N,Wa2,Wa4,Fjac,Ldfjac,iflag)
+      call fcn(n,Wa2,Wa4,Fjac,Ldfjac,iflag)
       Nfev = Nfev + 1
-      IF ( iflag>=0 ) THEN
-         fnorm1 = ENORM(N,Wa4)
+      if ( iflag>=0 ) then
+         fnorm1 = enorm(n,Wa4)
 !
 !           compute the scaled actual reduction.
 !
          actred = -one
-         IF ( fnorm1<fnorm ) actred = one - (fnorm1/fnorm)**2
+         if ( fnorm1<fnorm ) actred = one - (fnorm1/fnorm)**2
 !
 !           compute the scaled predicted reduction.
 !
          l = 1
-         DO i = 1 , N
+         do i = 1 , n
             sum = zero
-            DO j = i , N
-               sum = sum + R(l)*Wa1(j)
+            do j = i , n
+               sum = sum + r(l)*Wa1(j)
                l = l + 1
-            ENDDO
+            enddo
             Wa3(i) = Qtf(i) + sum
-         ENDDO
-         temp = ENORM(N,Wa3)
+         enddo
+         temp = enorm(n,Wa3)
          prered = zero
-         IF ( temp<fnorm ) prered = one - (temp/fnorm)**2
+         if ( temp<fnorm ) prered = one - (temp/fnorm)**2
 !
 !           compute the ratio of the actual to the predicted
 !           reduction.
 !
          ratio = zero
-         IF ( prered>zero ) ratio = actred/prered
+         if ( prered>zero ) ratio = actred/prered
 !
 !           update the step bound.
 !
-         IF ( ratio>=p1 ) THEN
+         if ( ratio>=p1 ) then
             ncfail = 0
             ncsuc = ncsuc + 1
-            IF ( ratio>=p5 .OR. ncsuc>1 ) delta = DMAX1(delta,pnorm/p5)
-            IF ( DABS(ratio-one)<=p1 ) delta = pnorm/p5
-         ELSE
+            if ( ratio>=p5 .or. ncsuc>1 ) delta = dmax1(delta,pnorm/p5)
+            if ( dabs(ratio-one)<=p1 ) delta = pnorm/p5
+         else
             ncsuc = 0
             ncfail = ncfail + 1
             delta = p5*delta
-         ENDIF
+         endif
 !
 !           test for successful iteration.
 !
-         IF ( ratio>=p0001 ) THEN
+         if ( ratio>=p0001 ) then
 !
 !           successful iteration. update x, fvec, and their norms.
 !
-            DO j = 1 , N
-               X(j) = Wa2(j)
-               Wa2(j) = Diag(j)*X(j)
+            do j = 1 , n
+               x(j) = Wa2(j)
+               Wa2(j) = Diag(j)*x(j)
                Fvec(j) = Wa4(j)
-            ENDDO
-            xnorm = ENORM(N,Wa2)
+            enddo
+            xnorm = enorm(n,Wa2)
             fnorm = fnorm1
             iter = iter + 1
-         ENDIF
+         endif
 !
 !           determine the progress of the iteration.
 !
          nslow1 = nslow1 + 1
-         IF ( actred>=p001 ) nslow1 = 0
-         IF ( jeval ) nslow2 = nslow2 + 1
-         IF ( actred>=p1 ) nslow2 = 0
+         if ( actred>=p001 ) nslow1 = 0
+         if ( jeval ) nslow2 = nslow2 + 1
+         if ( actred>=p1 ) nslow2 = 0
 !
 !           test for convergence.
 !
-         IF ( delta<=Xtol*xnorm .OR. fnorm==zero ) Info = 1
-         IF ( Info==0 ) THEN
+         if ( delta<=Xtol*xnorm .or. fnorm==zero ) Info = 1
+         if ( Info==0 ) then
 !
 !           tests for termination and stringent tolerances.
 !
-            IF ( Nfev>=Maxfev ) Info = 2
-            IF ( p1*DMAX1(p1*delta,pnorm)<=epsmch*xnorm ) Info = 3
-            IF ( nslow2==5 ) Info = 4
-            IF ( nslow1==10 ) Info = 5
-            IF ( Info==0 ) THEN
+            if ( Nfev>=Maxfev ) Info = 2
+            if ( p1*dmax1(p1*delta,pnorm)<=epsmch*xnorm ) Info = 3
+            if ( nslow2==5 ) Info = 4
+            if ( nslow1==10 ) Info = 5
+            if ( Info==0 ) then
 !
 !           criterion for recalculating jacobian.
 !
-               IF ( ncfail==2 ) GOTO 100
+               if ( ncfail==2 ) goto 100
 !
 !           calculate the rank one modification to the jacobian
 !           and update qtf if necessary.
 !
-               DO j = 1 , N
+               do j = 1 , n
                   sum = zero
-                  DO i = 1 , N
+                  do i = 1 , n
                      sum = sum + Fjac(i,j)*Wa4(i)
-                  ENDDO
+                  enddo
                   Wa2(j) = (sum-Wa3(j))/pnorm
                   Wa1(j) = Diag(j)*((Diag(j)*Wa1(j))/pnorm)
-                  IF ( ratio>=p0001 ) Qtf(j) = sum
-               ENDDO
+                  if ( ratio>=p0001 ) Qtf(j) = sum
+               enddo
 !
 !           compute the qr factorization of the updated jacobian.
 !
-               CALL R1UPDT(N,N,R,Lr,Wa1,Wa2,Wa3,sing)
-               CALL R1MPYQ(N,N,Fjac,Ldfjac,Wa2,Wa3)
-               CALL R1MPYQ(1,N,Qtf,1,Wa2,Wa3)
+               call r1updt(n,n,r,Lr,Wa1,Wa2,Wa3,sing)
+               call r1mpyq(n,n,Fjac,Ldfjac,Wa2,Wa3)
+               call r1mpyq(1,n,Qtf,1,Wa2,Wa3)
 !
 !           end of the inner loop.
 !
-               jeval = .FALSE.
+               jeval = .false.
 !
 !        end of the outer loop.
 !
-               GOTO 200
-            ENDIF
-         ENDIF
-      ENDIF
+               goto 200
+            endif
+         endif
+      endif
 !
 !     termination, either normal or user imposed.
 !
- 300  IF ( iflag<0 ) Info = iflag
+ 300  if ( iflag<0 ) Info = iflag
       iflag = 0
-      IF ( Nprint>0 ) CALL FCN(N,X,Fvec,Fjac,Ldfjac,iflag)
+      if ( Nprint>0 ) call fcn(n,x,Fvec,Fjac,Ldfjac,iflag)
 !
 !     last card of subroutine hybrj.
 !
-      END
+      end
 !*==HYBRJ1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE HYBRJ1(FCN,N,X,Fvec,Fjac,Ldfjac,Tol,Info,Wa,Lwa)
-      IMPLICIT NONE
+      subroutine hybrj1(fcn,n,x,Fvec,Fjac,Ldfjac,Tol,Info,Wa,Lwa)
+      implicit none
 !*--HYBRJ11886
 !*** Start of declarations inserted by SPAG
-      REAL FCN
+      real fcn
 !*** End of declarations inserted by SPAG
-      INTEGER N , Ldfjac , Info , Lwa
-      DOUBLE PRECISION Tol
-      DOUBLE PRECISION X(N) , Fvec(N) , Fjac(Ldfjac,N) , Wa(Lwa)
-      EXTERNAL FCN
+      integer n , Ldfjac , Info , Lwa
+      double precision Tol
+      double precision x(n) , Fvec(n) , Fjac(Ldfjac,n) , Wa(Lwa)
+      external fcn
 !     **********
 !
 !     subroutine hybrj1
@@ -1983,47 +1983,47 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER j , lr , maxfev , mode , nfev , njev , nprint
-      DOUBLE PRECISION factor , one , xtol , zero
-      DATA factor , one , zero/1.0D2 , 1.0D0 , 0.0D0/
+      integer j , lr , maxfev , mode , nfev , njev , nprint
+      double precision factor , one , xtol , zero
+      data factor , one , zero/1.0d2 , 1.0d0 , 0.0d0/
       Info = 0
 !
 !     check the input parameters for errors.
 !
-      IF ( N>0 .AND. Ldfjac>=N .AND. Tol>=zero .AND. Lwa>=(N*(N+13))/2 )&
-         & THEN
+      if ( n>0 .and. Ldfjac>=n .and. Tol>=zero .and. Lwa>=(n*(n+13))/2 )&
+         & then
 !
 !     call hybrj.
 !
-         maxfev = 100*(N+1)
+         maxfev = 100*(n+1)
          xtol = Tol
          mode = 2
-         DO j = 1 , N
+         do j = 1 , n
             Wa(j) = one
-         ENDDO
+         enddo
          nprint = 0
-         lr = (N*(N+1))/2
-         CALL HYBRJ(FCN,N,X,Fvec,Fjac,Ldfjac,xtol,maxfev,Wa(1),mode,    &
-                  & factor,nprint,Info,nfev,njev,Wa(6*N+1),lr,Wa(N+1),  &
-                  & Wa(2*N+1),Wa(3*N+1),Wa(4*N+1),Wa(5*N+1))
-         IF ( Info==5 ) Info = 4
-      ENDIF
+         lr = (n*(n+1))/2
+         call hybrj(fcn,n,x,Fvec,Fjac,Ldfjac,xtol,maxfev,Wa(1),mode,    &
+                  & factor,nprint,Info,nfev,njev,Wa(6*n+1),lr,Wa(n+1),  &
+                  & Wa(2*n+1),Wa(3*n+1),Wa(4*n+1),Wa(5*n+1))
+         if ( Info==5 ) Info = 4
+      endif
 !
 !     last card of subroutine hybrj1.
 !
-      END
+      end
 !*==LMDER.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE LMDER(FCN,M,N,X,Fvec,Fjac,Ldfjac,Ftol,Xtol,Gtol,Maxfev,&
+      subroutine lmder(fcn,m,n,x,Fvec,Fjac,Ldfjac,Ftol,Xtol,Gtol,Maxfev,&
                      & Diag,Mode,Factor,Nprint,Info,Nfev,Njev,Ipvt,Qtf, &
                      & Wa1,Wa2,Wa3,Wa4)
-      IMPLICIT NONE
+      implicit none
 !*--LMDER2020
-      INTEGER M , N , Ldfjac , Maxfev , Mode , Nprint , Info , Nfev ,   &
+      integer m , n , Ldfjac , Maxfev , Mode , Nprint , Info , Nfev ,   &
             & Njev
-      INTEGER Ipvt(N)
-      DOUBLE PRECISION Ftol , Xtol , Gtol , Factor
-      DOUBLE PRECISION X(N) , Fvec(M) , Fjac(Ldfjac,N) , Diag(N) ,      &
-                     & Qtf(N) , Wa1(N) , Wa2(N) , Wa3(N) , Wa4(M)
+      integer Ipvt(n)
+      double precision Ftol , Xtol , Gtol , Factor
+      double precision x(n) , Fvec(m) , Fjac(Ldfjac,n) , Diag(n) ,      &
+                     & Qtf(n) , Wa1(n) , Wa2(n) , Wa3(n) , Wa4(m)
 !     **********
 !
 !     subroutine lmder
@@ -2201,18 +2201,18 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , iflag , iter , j , l
-      DOUBLE PRECISION actred , delta , dirder , epsmch , fnorm ,       &
+      integer i , iflag , iter , j , l
+      double precision actred , delta , dirder , epsmch , fnorm ,       &
                      & fnorm1 , gnorm , one , par , pnorm , prered ,    &
                      & p1 , p5 , p25 , p75 , p0001 , ratio , sum ,      &
                      & temp , temp1 , temp2 , xnorm , zero
-      DOUBLE PRECISION DPMPAR , ENORM
-      DATA one , p1 , p5 , p25 , p75 , p0001 , zero/1.0D0 , 1.0D-1 ,    &
-         & 5.0D-1 , 2.5D-1 , 7.5D-1 , 1.0D-4 , 0.0D0/
+      double precision dpmpar , enorm
+      data one , p1 , p5 , p25 , p75 , p0001 , zero/1.0d0 , 1.0d-1 ,    &
+         & 5.0d-1 , 2.5d-1 , 7.5d-1 , 1.0d-4 , 0.0d0/
 !
 !     epsmch is the machine precision.
 !
-      epsmch = DPMPAR(1)
+      epsmch = dpmpar(1)
 !
       Info = 0
       iflag = 0
@@ -2221,23 +2221,23 @@
 !
 !     check the input parameters for errors.
 !
-      IF ( N>0 .AND. M>=N .AND. Ldfjac>=M .AND. Ftol>=zero .AND.        &
-         & Xtol>=zero .AND. Gtol>=zero .AND. Maxfev>0 .AND.             &
-         & Factor>zero ) THEN
-         IF ( Mode==2 ) THEN
-            DO j = 1 , N
-               IF ( Diag(j)<=zero ) GOTO 100
-            ENDDO
-         ENDIF
+      if ( n>0 .and. m>=n .and. Ldfjac>=m .and. Ftol>=zero .and.        &
+         & Xtol>=zero .and. Gtol>=zero .and. Maxfev>0 .and.             &
+         & Factor>zero ) then
+         if ( Mode==2 ) then
+            do j = 1 , n
+               if ( Diag(j)<=zero ) goto 100
+            enddo
+         endif
 !
 !     evaluate the function at the starting point
 !     and calculate its norm.
 !
          iflag = 1
-         CALL FCN(M,N,X,Fvec,Fjac,Ldfjac,iflag)
+         call fcn(m,n,x,Fvec,Fjac,Ldfjac,iflag)
          Nfev = 1
-         IF ( iflag>=0 ) THEN
-            fnorm = ENORM(M,Fvec)
+         if ( iflag>=0 ) then
+            fnorm = enorm(m,Fvec)
 !
 !     initialize levenberg-marquardt parameter and iteration counter.
 !
@@ -2250,143 +2250,143 @@
 !        calculate the jacobian matrix.
 !
  20         iflag = 2
-            CALL FCN(M,N,X,Fvec,Fjac,Ldfjac,iflag)
+            call fcn(m,n,x,Fvec,Fjac,Ldfjac,iflag)
             Njev = Njev + 1
-            IF ( iflag>=0 ) THEN
+            if ( iflag>=0 ) then
 !
 !        if requested, call fcn to enable printing of iterates.
 !
-               IF ( Nprint>0 ) THEN
+               if ( Nprint>0 ) then
                   iflag = 0
-                  IF ( MOD(iter-1,Nprint)==0 )                          &
-                     & CALL FCN(M,N,X,Fvec,Fjac,Ldfjac,iflag)
-                  IF ( iflag<0 ) GOTO 100
-               ENDIF
+                  if ( mod(iter-1,Nprint)==0 )                          &
+                     & call fcn(m,n,x,Fvec,Fjac,Ldfjac,iflag)
+                  if ( iflag<0 ) goto 100
+               endif
 !
 !        compute the qr factorization of the jacobian.
 !
-               CALL QRFAC(M,N,Fjac,Ldfjac,.TRUE.,Ipvt,N,Wa1,Wa2,Wa3)
+               call qrfac(m,n,Fjac,Ldfjac,.true.,Ipvt,n,Wa1,Wa2,Wa3)
 !
 !        on the first iteration and if mode is 1, scale according
 !        to the norms of the columns of the initial jacobian.
 !
-               IF ( iter==1 ) THEN
-                  IF ( Mode/=2 ) THEN
-                     DO j = 1 , N
+               if ( iter==1 ) then
+                  if ( Mode/=2 ) then
+                     do j = 1 , n
                         Diag(j) = Wa2(j)
-                        IF ( Wa2(j)==zero ) Diag(j) = one
-                     ENDDO
-                  ENDIF
+                        if ( Wa2(j)==zero ) Diag(j) = one
+                     enddo
+                  endif
 !
 !        on the first iteration, calculate the norm of the scaled x
 !        and initialize the step bound delta.
 !
-                  DO j = 1 , N
-                     Wa3(j) = Diag(j)*X(j)
-                  ENDDO
-                  xnorm = ENORM(N,Wa3)
+                  do j = 1 , n
+                     Wa3(j) = Diag(j)*x(j)
+                  enddo
+                  xnorm = enorm(n,Wa3)
                   delta = Factor*xnorm
-                  IF ( delta==zero ) delta = Factor
-               ENDIF
+                  if ( delta==zero ) delta = Factor
+               endif
 !
 !        form (q transpose)*fvec and store the first n components in
 !        qtf.
 !
-               DO i = 1 , M
+               do i = 1 , m
                   Wa4(i) = Fvec(i)
-               ENDDO
-               DO j = 1 , N
-                  IF ( Fjac(j,j)/=zero ) THEN
+               enddo
+               do j = 1 , n
+                  if ( Fjac(j,j)/=zero ) then
                      sum = zero
-                     DO i = j , M
+                     do i = j , m
                         sum = sum + Fjac(i,j)*Wa4(i)
-                     ENDDO
+                     enddo
                      temp = -sum/Fjac(j,j)
-                     DO i = j , M
+                     do i = j , m
                         Wa4(i) = Wa4(i) + Fjac(i,j)*temp
-                     ENDDO
-                  ENDIF
+                     enddo
+                  endif
                   Fjac(j,j) = Wa1(j)
                   Qtf(j) = Wa4(j)
-               ENDDO
+               enddo
 !
 !        compute the norm of the scaled gradient.
 !
                gnorm = zero
-               IF ( fnorm/=zero ) THEN
-                  DO j = 1 , N
+               if ( fnorm/=zero ) then
+                  do j = 1 , n
                      l = Ipvt(j)
-                     IF ( Wa2(l)/=zero ) THEN
+                     if ( Wa2(l)/=zero ) then
                         sum = zero
-                        DO i = 1 , j
+                        do i = 1 , j
                            sum = sum + Fjac(i,j)*(Qtf(i)/fnorm)
-                        ENDDO
-                        gnorm = DMAX1(gnorm,DABS(sum/Wa2(l)))
-                     ENDIF
-                  ENDDO
-               ENDIF
+                        enddo
+                        gnorm = dmax1(gnorm,dabs(sum/Wa2(l)))
+                     endif
+                  enddo
+               endif
 !
 !        test for convergence of the gradient norm.
 !
-               IF ( gnorm<=Gtol ) Info = 4
-               IF ( Info==0 ) THEN
+               if ( gnorm<=Gtol ) Info = 4
+               if ( Info==0 ) then
 !
 !        rescale if necessary.
 !
-                  IF ( Mode/=2 ) THEN
-                     DO j = 1 , N
-                        Diag(j) = DMAX1(Diag(j),Wa2(j))
-                     ENDDO
-                  ENDIF
+                  if ( Mode/=2 ) then
+                     do j = 1 , n
+                        Diag(j) = dmax1(Diag(j),Wa2(j))
+                     enddo
+                  endif
 !
 !        beginning of the inner loop.
 !
 !
 !           determine the levenberg-marquardt parameter.
 !
- 25               CALL LMPAR(N,Fjac,Ldfjac,Ipvt,Diag,Qtf,delta,par,Wa1, &
+ 25               call lmpar(n,Fjac,Ldfjac,Ipvt,Diag,Qtf,delta,par,Wa1, &
                            & Wa2,Wa3,Wa4)
 !
 !           store the direction p and x + p. calculate the norm of p.
 !
-                  DO j = 1 , N
+                  do j = 1 , n
                      Wa1(j) = -Wa1(j)
-                     Wa2(j) = X(j) + Wa1(j)
+                     Wa2(j) = x(j) + Wa1(j)
                      Wa3(j) = Diag(j)*Wa1(j)
-                  ENDDO
-                  pnorm = ENORM(N,Wa3)
+                  enddo
+                  pnorm = enorm(n,Wa3)
 !
 !           on the first iteration, adjust the initial step bound.
 !
-                  IF ( iter==1 ) delta = DMIN1(delta,pnorm)
+                  if ( iter==1 ) delta = dmin1(delta,pnorm)
 !
 !           evaluate the function at x + p and calculate its norm.
 !
                   iflag = 1
-                  CALL FCN(M,N,Wa2,Wa4,Fjac,Ldfjac,iflag)
+                  call fcn(m,n,Wa2,Wa4,Fjac,Ldfjac,iflag)
                   Nfev = Nfev + 1
-                  IF ( iflag>=0 ) THEN
-                     fnorm1 = ENORM(M,Wa4)
+                  if ( iflag>=0 ) then
+                     fnorm1 = enorm(m,Wa4)
 !
 !           compute the scaled actual reduction.
 !
                      actred = -one
-                     IF ( p1*fnorm1<fnorm ) actred = one -              &
+                     if ( p1*fnorm1<fnorm ) actred = one -              &
                         & (fnorm1/fnorm)**2
 !
 !           compute the scaled predicted reduction and
 !           the scaled directional derivative.
 !
-                     DO j = 1 , N
+                     do j = 1 , n
                         Wa3(j) = zero
                         l = Ipvt(j)
                         temp = Wa1(l)
-                        DO i = 1 , j
+                        do i = 1 , j
                            Wa3(i) = Wa3(i) + Fjac(i,j)*temp
-                        ENDDO
-                     ENDDO
-                     temp1 = ENORM(N,Wa3)/fnorm
-                     temp2 = (DSQRT(par)*pnorm)/fnorm
+                        enddo
+                     enddo
+                     temp1 = enorm(n,Wa3)/fnorm
+                     temp2 = (dsqrt(par)*pnorm)/fnorm
                      prered = temp1**2 + temp2**2/p5
                      dirder = -(temp1**2+temp2**2)
 !
@@ -2394,95 +2394,95 @@
 !           reduction.
 !
                      ratio = zero
-                     IF ( prered/=zero ) ratio = actred/prered
+                     if ( prered/=zero ) ratio = actred/prered
 !
 !           update the step bound.
 !
-                     IF ( ratio<=p25 ) THEN
-                        IF ( actred>=zero ) temp = p5
-                        IF ( actred<zero )                              &
+                     if ( ratio<=p25 ) then
+                        if ( actred>=zero ) temp = p5
+                        if ( actred<zero )                              &
                            & temp = p5*dirder/(dirder+p5*actred)
-                        IF ( p1*fnorm1>=fnorm .OR. temp<p1 ) temp = p1
-                        delta = temp*DMIN1(delta,pnorm/p1)
+                        if ( p1*fnorm1>=fnorm .or. temp<p1 ) temp = p1
+                        delta = temp*dmin1(delta,pnorm/p1)
                         par = par/temp
-                     ELSEIF ( par==zero .OR. ratio>=p75 ) THEN
+                     elseif ( par==zero .or. ratio>=p75 ) then
                         delta = pnorm/p5
                         par = p5*par
-                     ENDIF
+                     endif
 !
 !           test for successful iteration.
 !
-                     IF ( ratio>=p0001 ) THEN
+                     if ( ratio>=p0001 ) then
 !
 !           successful iteration. update x, fvec, and their norms.
 !
-                        DO j = 1 , N
-                           X(j) = Wa2(j)
-                           Wa2(j) = Diag(j)*X(j)
-                        ENDDO
-                        DO i = 1 , M
+                        do j = 1 , n
+                           x(j) = Wa2(j)
+                           Wa2(j) = Diag(j)*x(j)
+                        enddo
+                        do i = 1 , m
                            Fvec(i) = Wa4(i)
-                        ENDDO
-                        xnorm = ENORM(N,Wa2)
+                        enddo
+                        xnorm = enorm(n,Wa2)
                         fnorm = fnorm1
                         iter = iter + 1
-                     ENDIF
+                     endif
 !
 !           tests for convergence.
 !
-                     IF ( DABS(actred)<=Ftol .AND. prered<=Ftol .AND.   &
+                     if ( dabs(actred)<=Ftol .and. prered<=Ftol .and.   &
                         & p5*ratio<=one ) Info = 1
-                     IF ( delta<=Xtol*xnorm ) Info = 2
-                     IF ( DABS(actred)<=Ftol .AND. prered<=Ftol .AND.   &
-                        & p5*ratio<=one .AND. Info==2 ) Info = 3
-                     IF ( Info==0 ) THEN
+                     if ( delta<=Xtol*xnorm ) Info = 2
+                     if ( dabs(actred)<=Ftol .and. prered<=Ftol .and.   &
+                        & p5*ratio<=one .and. Info==2 ) Info = 3
+                     if ( Info==0 ) then
 !
 !           tests for termination and stringent tolerances.
 !
-                        IF ( Nfev>=Maxfev ) Info = 5
-                        IF ( DABS(actred)<=epsmch .AND.                 &
-                           & prered<=epsmch .AND. p5*ratio<=one )       &
+                        if ( Nfev>=Maxfev ) Info = 5
+                        if ( dabs(actred)<=epsmch .and.                 &
+                           & prered<=epsmch .and. p5*ratio<=one )       &
                            & Info = 6
-                        IF ( delta<=epsmch*xnorm ) Info = 7
-                        IF ( gnorm<=epsmch ) Info = 8
-                        IF ( Info==0 ) THEN
+                        if ( delta<=epsmch*xnorm ) Info = 7
+                        if ( gnorm<=epsmch ) Info = 8
+                        if ( Info==0 ) then
 !
 !           end of the inner loop. repeat if iteration unsuccessful.
 !
 !
 !        end of the outer loop.
 !
-                           IF ( ratio>=p0001 ) GOTO 20
-                           GOTO 25
-                        ENDIF
-                     ENDIF
-                  ENDIF
-               ENDIF
-            ENDIF
-         ENDIF
-      ENDIF
+                           if ( ratio>=p0001 ) goto 20
+                           goto 25
+                        endif
+                     endif
+                  endif
+               endif
+            endif
+         endif
+      endif
 !
 !     termination, either normal or user imposed.
 !
- 100  IF ( iflag<0 ) Info = iflag
+ 100  if ( iflag<0 ) Info = iflag
       iflag = 0
-      IF ( Nprint>0 ) CALL FCN(M,N,X,Fvec,Fjac,Ldfjac,iflag)
+      if ( Nprint>0 ) call fcn(m,n,x,Fvec,Fjac,Ldfjac,iflag)
 !
 !     last card of subroutine lmder.
 !
-      END
+      end
 !*==LMDER1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE LMDER1(FCN,M,N,X,Fvec,Fjac,Ldfjac,Tol,Info,Ipvt,Wa,Lwa)
-      IMPLICIT NONE
+      subroutine lmder1(fcn,m,n,x,Fvec,Fjac,Ldfjac,Tol,Info,Ipvt,Wa,Lwa)
+      implicit none
 !*--LMDER12477
 !*** Start of declarations inserted by SPAG
-      REAL FCN
+      real fcn
 !*** End of declarations inserted by SPAG
-      INTEGER M , N , Ldfjac , Info , Lwa
-      INTEGER Ipvt(N)
-      DOUBLE PRECISION Tol
-      DOUBLE PRECISION X(N) , Fvec(M) , Fjac(Ldfjac,N) , Wa(Lwa)
-      EXTERNAL FCN
+      integer m , n , Ldfjac , Info , Lwa
+      integer Ipvt(n)
+      double precision Tol
+      double precision x(n) , Fvec(m) , Fjac(Ldfjac,n) , Wa(Lwa)
+      external fcn
 !     **********
 !
 !     subroutine lmder1
@@ -2604,45 +2604,45 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER maxfev , mode , nfev , njev , nprint
-      DOUBLE PRECISION factor , ftol , gtol , xtol , zero
-      DATA factor , zero/1.0D2 , 0.0D0/
+      integer maxfev , mode , nfev , njev , nprint
+      double precision factor , ftol , gtol , xtol , zero
+      data factor , zero/1.0d2 , 0.0d0/
       Info = 0
 !
 !     check the input parameters for errors.
 !
-      IF ( N>0 .AND. M>=N .AND. Ldfjac>=M .AND. Tol>=zero .AND.         &
-         & Lwa>=5*N+M ) THEN
+      if ( n>0 .and. m>=n .and. Ldfjac>=m .and. Tol>=zero .and.         &
+         & Lwa>=5*n+m ) then
 !
 !     call lmder.
 !
-         maxfev = 100*(N+1)
+         maxfev = 100*(n+1)
          ftol = Tol
          xtol = Tol
          gtol = zero
          mode = 1
          nprint = 0
-         CALL LMDER(FCN,M,N,X,Fvec,Fjac,Ldfjac,ftol,xtol,gtol,maxfev,   &
-                  & Wa(1),mode,factor,nprint,Info,nfev,njev,Ipvt,Wa(N+1)&
-                  & ,Wa(2*N+1),Wa(3*N+1),Wa(4*N+1),Wa(5*N+1))
-         IF ( Info==8 ) Info = 4
-      ENDIF
+         call lmder(fcn,m,n,x,Fvec,Fjac,Ldfjac,ftol,xtol,gtol,maxfev,   &
+                  & Wa(1),mode,factor,nprint,Info,nfev,njev,Ipvt,Wa(n+1)&
+                  & ,Wa(2*n+1),Wa(3*n+1),Wa(4*n+1),Wa(5*n+1))
+         if ( Info==8 ) Info = 4
+      endif
 !
 !     last card of subroutine lmder1.
 !
-      END
+      end
 !*==LMDIF.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE LMDIF(FCN,M,N,X,Fvec,Ftol,Xtol,Gtol,Maxfev,Epsfcn,Diag,&
+      subroutine lmdif(fcn,m,n,x,Fvec,Ftol,Xtol,Gtol,Maxfev,Epsfcn,Diag,&
                      & Mode,Factor,Nprint,Info,Nfev,Fjac,Ldfjac,Ipvt,   &
                      & Qtf,Wa1,Wa2,Wa3,Wa4)
-      IMPLICIT NONE
+      implicit none
 !*--LMDIF2639
-      INTEGER M , N , Maxfev , Mode , Nprint , Info , Nfev , Ldfjac
-      INTEGER Ipvt(N)
-      DOUBLE PRECISION Ftol , Xtol , Gtol , Epsfcn , Factor
-      DOUBLE PRECISION X(N) , Fvec(M) , Diag(N) , Fjac(Ldfjac,N) ,      &
-                     & Qtf(N) , Wa1(N) , Wa2(N) , Wa3(N) , Wa4(M)
-      EXTERNAL FCN
+      integer m , n , Maxfev , Mode , Nprint , Info , Nfev , Ldfjac
+      integer Ipvt(n)
+      double precision Ftol , Xtol , Gtol , Epsfcn , Factor
+      double precision x(n) , Fvec(m) , Diag(n) , Fjac(Ldfjac,n) ,      &
+                     & Qtf(n) , Wa1(n) , Wa2(n) , Wa3(n) , Wa4(m)
+      external fcn
 !     **********
 !
 !     subroutine lmdif
@@ -2823,18 +2823,18 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , iflag , iter , j , l
-      DOUBLE PRECISION actred , delta , dirder , epsmch , fnorm ,       &
+      integer i , iflag , iter , j , l
+      double precision actred , delta , dirder , epsmch , fnorm ,       &
                      & fnorm1 , gnorm , one , par , pnorm , prered ,    &
                      & p1 , p5 , p25 , p75 , p0001 , ratio , sum ,      &
                      & temp , temp1 , temp2 , xnorm , zero
-      DOUBLE PRECISION DPMPAR , ENORM
-      DATA one , p1 , p5 , p25 , p75 , p0001 , zero/1.0D0 , 1.0D-1 ,    &
-         & 5.0D-1 , 2.5D-1 , 7.5D-1 , 1.0D-4 , 0.0D0/
+      double precision dpmpar , enorm
+      data one , p1 , p5 , p25 , p75 , p0001 , zero/1.0d0 , 1.0d-1 ,    &
+         & 5.0d-1 , 2.5d-1 , 7.5d-1 , 1.0d-4 , 0.0d0/
 !
 !     epsmch is the machine precision.
 !
-      epsmch = DPMPAR(1)
+      epsmch = dpmpar(1)
 !
       Info = 0
       iflag = 0
@@ -2842,23 +2842,23 @@
 !
 !     check the input parameters for errors.
 !
-      IF ( N>0 .AND. M>=N .AND. Ldfjac>=M .AND. Ftol>=zero .AND.        &
-         & Xtol>=zero .AND. Gtol>=zero .AND. Maxfev>0 .AND.             &
-         & Factor>zero ) THEN
-         IF ( Mode==2 ) THEN
-            DO j = 1 , N
-               IF ( Diag(j)<=zero ) GOTO 100
-            ENDDO
-         ENDIF
+      if ( n>0 .and. m>=n .and. Ldfjac>=m .and. Ftol>=zero .and.        &
+         & Xtol>=zero .and. Gtol>=zero .and. Maxfev>0 .and.             &
+         & Factor>zero ) then
+         if ( Mode==2 ) then
+            do j = 1 , n
+               if ( Diag(j)<=zero ) goto 100
+            enddo
+         endif
 !
 !     evaluate the function at the starting point
 !     and calculate its norm.
 !
          iflag = 1
-         CALL FCN(M,N,X,Fvec,iflag)
+         call fcn(m,n,x,Fvec,iflag)
          Nfev = 1
-         IF ( iflag>=0 ) THEN
-            fnorm = ENORM(M,Fvec)
+         if ( iflag>=0 ) then
+            fnorm = enorm(m,Fvec)
 !
 !     initialize levenberg-marquardt parameter and iteration counter.
 !
@@ -2871,143 +2871,143 @@
 !        calculate the jacobian matrix.
 !
  20         iflag = 2
-            CALL FDJAC2(FCN,M,N,X,Fvec,Fjac,Ldfjac,iflag,Epsfcn,Wa4)
-            Nfev = Nfev + N
-            IF ( iflag>=0 ) THEN
+            call fdjac2(fcn,m,n,x,Fvec,Fjac,Ldfjac,iflag,Epsfcn,Wa4)
+            Nfev = Nfev + n
+            if ( iflag>=0 ) then
 !
 !        if requested, call fcn to enable printing of iterates.
 !
-               IF ( Nprint>0 ) THEN
+               if ( Nprint>0 ) then
                   iflag = 0
-                  IF ( MOD(iter-1,Nprint)==0 )                          &
-                     & CALL FCN(M,N,X,Fvec,iflag)
-                  IF ( iflag<0 ) GOTO 100
-               ENDIF
+                  if ( mod(iter-1,Nprint)==0 )                          &
+                     & call fcn(m,n,x,Fvec,iflag)
+                  if ( iflag<0 ) goto 100
+               endif
 !
 !        compute the qr factorization of the jacobian.
 !
-               CALL QRFAC(M,N,Fjac,Ldfjac,.TRUE.,Ipvt,N,Wa1,Wa2,Wa3)
+               call qrfac(m,n,Fjac,Ldfjac,.true.,Ipvt,n,Wa1,Wa2,Wa3)
 !
 !        on the first iteration and if mode is 1, scale according
 !        to the norms of the columns of the initial jacobian.
 !
-               IF ( iter==1 ) THEN
-                  IF ( Mode/=2 ) THEN
-                     DO j = 1 , N
+               if ( iter==1 ) then
+                  if ( Mode/=2 ) then
+                     do j = 1 , n
                         Diag(j) = Wa2(j)
-                        IF ( Wa2(j)==zero ) Diag(j) = one
-                     ENDDO
-                  ENDIF
+                        if ( Wa2(j)==zero ) Diag(j) = one
+                     enddo
+                  endif
 !
 !        on the first iteration, calculate the norm of the scaled x
 !        and initialize the step bound delta.
 !
-                  DO j = 1 , N
-                     Wa3(j) = Diag(j)*X(j)
-                  ENDDO
-                  xnorm = ENORM(N,Wa3)
+                  do j = 1 , n
+                     Wa3(j) = Diag(j)*x(j)
+                  enddo
+                  xnorm = enorm(n,Wa3)
                   delta = Factor*xnorm
-                  IF ( delta==zero ) delta = Factor
-               ENDIF
+                  if ( delta==zero ) delta = Factor
+               endif
 !
 !        form (q transpose)*fvec and store the first n components in
 !        qtf.
 !
-               DO i = 1 , M
+               do i = 1 , m
                   Wa4(i) = Fvec(i)
-               ENDDO
-               DO j = 1 , N
-                  IF ( Fjac(j,j)/=zero ) THEN
+               enddo
+               do j = 1 , n
+                  if ( Fjac(j,j)/=zero ) then
                      sum = zero
-                     DO i = j , M
+                     do i = j , m
                         sum = sum + Fjac(i,j)*Wa4(i)
-                     ENDDO
+                     enddo
                      temp = -sum/Fjac(j,j)
-                     DO i = j , M
+                     do i = j , m
                         Wa4(i) = Wa4(i) + Fjac(i,j)*temp
-                     ENDDO
-                  ENDIF
+                     enddo
+                  endif
                   Fjac(j,j) = Wa1(j)
                   Qtf(j) = Wa4(j)
-               ENDDO
+               enddo
 !
 !        compute the norm of the scaled gradient.
 !
                gnorm = zero
-               IF ( fnorm/=zero ) THEN
-                  DO j = 1 , N
+               if ( fnorm/=zero ) then
+                  do j = 1 , n
                      l = Ipvt(j)
-                     IF ( Wa2(l)/=zero ) THEN
+                     if ( Wa2(l)/=zero ) then
                         sum = zero
-                        DO i = 1 , j
+                        do i = 1 , j
                            sum = sum + Fjac(i,j)*(Qtf(i)/fnorm)
-                        ENDDO
-                        gnorm = DMAX1(gnorm,DABS(sum/Wa2(l)))
-                     ENDIF
-                  ENDDO
-               ENDIF
+                        enddo
+                        gnorm = dmax1(gnorm,dabs(sum/Wa2(l)))
+                     endif
+                  enddo
+               endif
 !
 !        test for convergence of the gradient norm.
 !
-               IF ( gnorm<=Gtol ) Info = 4
-               IF ( Info==0 ) THEN
+               if ( gnorm<=Gtol ) Info = 4
+               if ( Info==0 ) then
 !
 !        rescale if necessary.
 !
-                  IF ( Mode/=2 ) THEN
-                     DO j = 1 , N
-                        Diag(j) = DMAX1(Diag(j),Wa2(j))
-                     ENDDO
-                  ENDIF
+                  if ( Mode/=2 ) then
+                     do j = 1 , n
+                        Diag(j) = dmax1(Diag(j),Wa2(j))
+                     enddo
+                  endif
 !
 !        beginning of the inner loop.
 !
 !
 !           determine the levenberg-marquardt parameter.
 !
- 25               CALL LMPAR(N,Fjac,Ldfjac,Ipvt,Diag,Qtf,delta,par,Wa1, &
+ 25               call lmpar(n,Fjac,Ldfjac,Ipvt,Diag,Qtf,delta,par,Wa1, &
                            & Wa2,Wa3,Wa4)
 !
 !           store the direction p and x + p. calculate the norm of p.
 !
-                  DO j = 1 , N
+                  do j = 1 , n
                      Wa1(j) = -Wa1(j)
-                     Wa2(j) = X(j) + Wa1(j)
+                     Wa2(j) = x(j) + Wa1(j)
                      Wa3(j) = Diag(j)*Wa1(j)
-                  ENDDO
-                  pnorm = ENORM(N,Wa3)
+                  enddo
+                  pnorm = enorm(n,Wa3)
 !
 !           on the first iteration, adjust the initial step bound.
 !
-                  IF ( iter==1 ) delta = DMIN1(delta,pnorm)
+                  if ( iter==1 ) delta = dmin1(delta,pnorm)
 !
 !           evaluate the function at x + p and calculate its norm.
 !
                   iflag = 1
-                  CALL FCN(M,N,Wa2,Wa4,iflag)
+                  call fcn(m,n,Wa2,Wa4,iflag)
                   Nfev = Nfev + 1
-                  IF ( iflag>=0 ) THEN
-                     fnorm1 = ENORM(M,Wa4)
+                  if ( iflag>=0 ) then
+                     fnorm1 = enorm(m,Wa4)
 !
 !           compute the scaled actual reduction.
 !
                      actred = -one
-                     IF ( p1*fnorm1<fnorm ) actred = one -              &
+                     if ( p1*fnorm1<fnorm ) actred = one -              &
                         & (fnorm1/fnorm)**2
 !
 !           compute the scaled predicted reduction and
 !           the scaled directional derivative.
 !
-                     DO j = 1 , N
+                     do j = 1 , n
                         Wa3(j) = zero
                         l = Ipvt(j)
                         temp = Wa1(l)
-                        DO i = 1 , j
+                        do i = 1 , j
                            Wa3(i) = Wa3(i) + Fjac(i,j)*temp
-                        ENDDO
-                     ENDDO
-                     temp1 = ENORM(N,Wa3)/fnorm
-                     temp2 = (DSQRT(par)*pnorm)/fnorm
+                        enddo
+                     enddo
+                     temp1 = enorm(n,Wa3)/fnorm
+                     temp2 = (dsqrt(par)*pnorm)/fnorm
                      prered = temp1**2 + temp2**2/p5
                      dirder = -(temp1**2+temp2**2)
 !
@@ -3015,95 +3015,95 @@
 !           reduction.
 !
                      ratio = zero
-                     IF ( prered/=zero ) ratio = actred/prered
+                     if ( prered/=zero ) ratio = actred/prered
 !
 !           update the step bound.
 !
-                     IF ( ratio<=p25 ) THEN
-                        IF ( actred>=zero ) temp = p5
-                        IF ( actred<zero )                              &
+                     if ( ratio<=p25 ) then
+                        if ( actred>=zero ) temp = p5
+                        if ( actred<zero )                              &
                            & temp = p5*dirder/(dirder+p5*actred)
-                        IF ( p1*fnorm1>=fnorm .OR. temp<p1 ) temp = p1
-                        delta = temp*DMIN1(delta,pnorm/p1)
+                        if ( p1*fnorm1>=fnorm .or. temp<p1 ) temp = p1
+                        delta = temp*dmin1(delta,pnorm/p1)
                         par = par/temp
-                     ELSEIF ( par==zero .OR. ratio>=p75 ) THEN
+                     elseif ( par==zero .or. ratio>=p75 ) then
                         delta = pnorm/p5
                         par = p5*par
-                     ENDIF
+                     endif
 !
 !           test for successful iteration.
 !
-                     IF ( ratio>=p0001 ) THEN
+                     if ( ratio>=p0001 ) then
 !
 !           successful iteration. update x, fvec, and their norms.
 !
-                        DO j = 1 , N
-                           X(j) = Wa2(j)
-                           Wa2(j) = Diag(j)*X(j)
-                        ENDDO
-                        DO i = 1 , M
+                        do j = 1 , n
+                           x(j) = Wa2(j)
+                           Wa2(j) = Diag(j)*x(j)
+                        enddo
+                        do i = 1 , m
                            Fvec(i) = Wa4(i)
-                        ENDDO
-                        xnorm = ENORM(N,Wa2)
+                        enddo
+                        xnorm = enorm(n,Wa2)
                         fnorm = fnorm1
                         iter = iter + 1
-                     ENDIF
+                     endif
 !
 !           tests for convergence.
 !
-                     IF ( DABS(actred)<=Ftol .AND. prered<=Ftol .AND.   &
+                     if ( dabs(actred)<=Ftol .and. prered<=Ftol .and.   &
                         & p5*ratio<=one ) Info = 1
-                     IF ( delta<=Xtol*xnorm ) Info = 2
-                     IF ( DABS(actred)<=Ftol .AND. prered<=Ftol .AND.   &
-                        & p5*ratio<=one .AND. Info==2 ) Info = 3
-                     IF ( Info==0 ) THEN
+                     if ( delta<=Xtol*xnorm ) Info = 2
+                     if ( dabs(actred)<=Ftol .and. prered<=Ftol .and.   &
+                        & p5*ratio<=one .and. Info==2 ) Info = 3
+                     if ( Info==0 ) then
 !
 !           tests for termination and stringent tolerances.
 !
-                        IF ( Nfev>=Maxfev ) Info = 5
-                        IF ( DABS(actred)<=epsmch .AND.                 &
-                           & prered<=epsmch .AND. p5*ratio<=one )       &
+                        if ( Nfev>=Maxfev ) Info = 5
+                        if ( dabs(actred)<=epsmch .and.                 &
+                           & prered<=epsmch .and. p5*ratio<=one )       &
                            & Info = 6
-                        IF ( delta<=epsmch*xnorm ) Info = 7
-                        IF ( gnorm<=epsmch ) Info = 8
-                        IF ( Info==0 ) THEN
+                        if ( delta<=epsmch*xnorm ) Info = 7
+                        if ( gnorm<=epsmch ) Info = 8
+                        if ( Info==0 ) then
 !
 !           end of the inner loop. repeat if iteration unsuccessful.
 !
 !
 !        end of the outer loop.
 !
-                           IF ( ratio>=p0001 ) GOTO 20
-                           GOTO 25
-                        ENDIF
-                     ENDIF
-                  ENDIF
-               ENDIF
-            ENDIF
-         ENDIF
-      ENDIF
+                           if ( ratio>=p0001 ) goto 20
+                           goto 25
+                        endif
+                     endif
+                  endif
+               endif
+            endif
+         endif
+      endif
 !
 !     termination, either normal or user imposed.
 !
- 100  IF ( iflag<0 ) Info = iflag
+ 100  if ( iflag<0 ) Info = iflag
       iflag = 0
-      IF ( Nprint>0 ) CALL FCN(M,N,X,Fvec,iflag)
+      if ( Nprint>0 ) call fcn(m,n,x,Fvec,iflag)
 !
 !     last card of subroutine lmdif.
 !
-      END
+      end
 !*==LMDIF1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE LMDIF1(FCN,M,N,X,Fvec,Tol,Info,Iwa,Wa,Lwa)
-      IMPLICIT NONE
+      subroutine lmdif1(fcn,m,n,x,Fvec,Tol,Info,Iwa,Wa,Lwa)
+      implicit none
 !*--LMDIF13098
 !*** Start of declarations inserted by SPAG
-      REAL FCN
+      real fcn
 !*** End of declarations inserted by SPAG
-      INTEGER M , N , Info , Lwa
-      INTEGER Iwa(N)
-      DOUBLE PRECISION Tol
-      DOUBLE PRECISION X(N) , Fvec(M) , Wa(Lwa)
-      EXTERNAL FCN
+      integer m , n , Info , Lwa
+      integer Iwa(n)
+      double precision Tol
+      double precision x(n) , Fvec(m) , Wa(Lwa)
+      external fcn
 !     **********
 !
 !     subroutine lmdif1
@@ -3203,43 +3203,43 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER maxfev , mode , mp5n , nfev , nprint
-      DOUBLE PRECISION epsfcn , factor , ftol , gtol , xtol , zero
-      DATA factor , zero/1.0D2 , 0.0D0/
+      integer maxfev , mode , mp5n , nfev , nprint
+      double precision epsfcn , factor , ftol , gtol , xtol , zero
+      data factor , zero/1.0d2 , 0.0d0/
       Info = 0
 !
 !     check the input parameters for errors.
 !
-      IF ( N>0 .AND. M>=N .AND. Tol>=zero .AND. Lwa>=M*N+5*N+M ) THEN
+      if ( n>0 .and. m>=n .and. Tol>=zero .and. Lwa>=m*n+5*n+m ) then
 !
 !     call lmdif.
 !
-         maxfev = 200*(N+1)
+         maxfev = 200*(n+1)
          ftol = Tol
          xtol = Tol
          gtol = zero
          epsfcn = zero
          mode = 1
          nprint = 0
-         mp5n = M + 5*N
-         CALL LMDIF(FCN,M,N,X,Fvec,ftol,xtol,gtol,maxfev,epsfcn,Wa(1),  &
-                  & mode,factor,nprint,Info,nfev,Wa(mp5n+1),M,Iwa,      &
-                  & Wa(N+1),Wa(2*N+1),Wa(3*N+1),Wa(4*N+1),Wa(5*N+1))
-         IF ( Info==8 ) Info = 4
-      ENDIF
+         mp5n = m + 5*n
+         call lmdif(fcn,m,n,x,Fvec,ftol,xtol,gtol,maxfev,epsfcn,Wa(1),  &
+                  & mode,factor,nprint,Info,nfev,Wa(mp5n+1),m,Iwa,      &
+                  & Wa(n+1),Wa(2*n+1),Wa(3*n+1),Wa(4*n+1),Wa(5*n+1))
+         if ( Info==8 ) Info = 4
+      endif
 !
 !     last card of subroutine lmdif1.
 !
-      END
+      end
 !*==LMPAR.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE LMPAR(N,R,Ldr,Ipvt,Diag,Qtb,Delta,Par,X,Sdiag,Wa1,Wa2)
-      IMPLICIT NONE
+      subroutine lmpar(n,r,Ldr,Ipvt,Diag,Qtb,Delta,Par,x,Sdiag,Wa1,Wa2)
+      implicit none
 !*--LMPAR3237
-      INTEGER N , Ldr
-      INTEGER Ipvt(N)
-      DOUBLE PRECISION Delta , Par
-      DOUBLE PRECISION R(Ldr,N) , Diag(N) , Qtb(N) , X(N) , Sdiag(N) ,  &
-                     & Wa1(N) , Wa2(N)
+      integer n , Ldr
+      integer Ipvt(n)
+      double precision Delta , Par
+      double precision r(Ldr,n) , Diag(n) , Qtb(n) , x(n) , Sdiag(n) ,  &
+                     & Wa1(n) , Wa2(n)
 !     **********
 !
 !     subroutine lmpar
@@ -3334,104 +3334,104 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , iter , j , jm1 , jp1 , k , l , nsing
-      DOUBLE PRECISION dxnorm , dwarf , fp , gnorm , parc , parl ,      &
+      integer i , iter , j , jm1 , jp1 , k , l , nsing
+      double precision dxnorm , dwarf , fp , gnorm , parc , parl ,      &
                      & paru , p1 , p001 , sum , temp , zero
-      DOUBLE PRECISION DPMPAR , ENORM
-      DATA p1 , p001 , zero/1.0D-1 , 1.0D-3 , 0.0D0/
+      double precision dpmpar , enorm
+      data p1 , p001 , zero/1.0d-1 , 1.0d-3 , 0.0d0/
 !
 !     dwarf is the smallest positive magnitude.
 !
-      dwarf = DPMPAR(2)
+      dwarf = dpmpar(2)
 !
 !     compute and store in x the gauss-newton direction. if the
 !     jacobian is rank-deficient, obtain a least squares solution.
 !
-      nsing = N
-      DO j = 1 , N
+      nsing = n
+      do j = 1 , n
          Wa1(j) = Qtb(j)
-         IF ( R(j,j)==zero .AND. nsing==N ) nsing = j - 1
-         IF ( nsing<N ) Wa1(j) = zero
-      ENDDO
-      IF ( nsing>=1 ) THEN
-         DO k = 1 , nsing
+         if ( r(j,j)==zero .and. nsing==n ) nsing = j - 1
+         if ( nsing<n ) Wa1(j) = zero
+      enddo
+      if ( nsing>=1 ) then
+         do k = 1 , nsing
             j = nsing - k + 1
-            Wa1(j) = Wa1(j)/R(j,j)
+            Wa1(j) = Wa1(j)/r(j,j)
             temp = Wa1(j)
             jm1 = j - 1
-            IF ( jm1>=1 ) THEN
-               DO i = 1 , jm1
-                  Wa1(i) = Wa1(i) - R(i,j)*temp
-               ENDDO
-            ENDIF
-         ENDDO
-      ENDIF
-      DO j = 1 , N
+            if ( jm1>=1 ) then
+               do i = 1 , jm1
+                  Wa1(i) = Wa1(i) - r(i,j)*temp
+               enddo
+            endif
+         enddo
+      endif
+      do j = 1 , n
          l = Ipvt(j)
-         X(l) = Wa1(j)
-      ENDDO
+         x(l) = Wa1(j)
+      enddo
 !
 !     initialize the iteration counter.
 !     evaluate the function at the origin, and test
 !     for acceptance of the gauss-newton direction.
 !
       iter = 0
-      DO j = 1 , N
-         Wa2(j) = Diag(j)*X(j)
-      ENDDO
-      dxnorm = ENORM(N,Wa2)
+      do j = 1 , n
+         Wa2(j) = Diag(j)*x(j)
+      enddo
+      dxnorm = enorm(n,Wa2)
       fp = dxnorm - Delta
-      IF ( fp<=p1*Delta ) THEN
+      if ( fp<=p1*Delta ) then
 !
 !     termination.
 !
-         IF ( iter==0 ) Par = zero
-      ELSE
+         if ( iter==0 ) Par = zero
+      else
 !
 !     if the jacobian is not rank deficient, the newton
 !     step provides a lower bound, parl, for the zero of
 !     the function. otherwise set this bound to zero.
 !
          parl = zero
-         IF ( nsing>=N ) THEN
-            DO j = 1 , N
+         if ( nsing>=n ) then
+            do j = 1 , n
                l = Ipvt(j)
                Wa1(j) = Diag(l)*(Wa2(l)/dxnorm)
-            ENDDO
-            DO j = 1 , N
+            enddo
+            do j = 1 , n
                sum = zero
                jm1 = j - 1
-               IF ( jm1>=1 ) THEN
-                  DO i = 1 , jm1
-                     sum = sum + R(i,j)*Wa1(i)
-                  ENDDO
-               ENDIF
-               Wa1(j) = (Wa1(j)-sum)/R(j,j)
-            ENDDO
-            temp = ENORM(N,Wa1)
+               if ( jm1>=1 ) then
+                  do i = 1 , jm1
+                     sum = sum + r(i,j)*Wa1(i)
+                  enddo
+               endif
+               Wa1(j) = (Wa1(j)-sum)/r(j,j)
+            enddo
+            temp = enorm(n,Wa1)
             parl = ((fp/Delta)/temp)/temp
-         ENDIF
+         endif
 !
 !     calculate an upper bound, paru, for the zero of the function.
 !
-         DO j = 1 , N
+         do j = 1 , n
             sum = zero
-            DO i = 1 , j
-               sum = sum + R(i,j)*Qtb(i)
-            ENDDO
+            do i = 1 , j
+               sum = sum + r(i,j)*Qtb(i)
+            enddo
             l = Ipvt(j)
             Wa1(j) = sum/Diag(l)
-         ENDDO
-         gnorm = ENORM(N,Wa1)
+         enddo
+         gnorm = enorm(n,Wa1)
          paru = gnorm/Delta
-         IF ( paru==zero ) paru = dwarf/DMIN1(Delta,p1)
+         if ( paru==zero ) paru = dwarf/dmin1(Delta,p1)
 !
 !     if the input par lies outside of the interval (parl,paru),
 !     set par to the closer endpoint.
 !
-         Par = DMAX1(Par,parl)
-         Par = DMIN1(Par,paru)
-         IF ( Par==zero ) Par = gnorm/dxnorm
+         Par = dmax1(Par,parl)
+         Par = dmin1(Par,paru)
+         if ( Par==zero ) Par = gnorm/dxnorm
 !
 !     beginning of an iteration.
 !
@@ -3439,16 +3439,16 @@
 !
 !        evaluate the function at the current value of par.
 !
-         IF ( Par==zero ) Par = DMAX1(dwarf,p001*paru)
-         temp = DSQRT(Par)
-         DO j = 1 , N
+         if ( Par==zero ) Par = dmax1(dwarf,p001*paru)
+         temp = dsqrt(Par)
+         do j = 1 , n
             Wa1(j) = temp*Diag(j)
-         ENDDO
-         CALL QRSOLV(N,R,Ldr,Ipvt,Wa1,Qtb,X,Sdiag,Wa2)
-         DO j = 1 , N
-            Wa2(j) = Diag(j)*X(j)
-         ENDDO
-         dxnorm = ENORM(N,Wa2)
+         enddo
+         call qrsolv(n,r,Ldr,Ipvt,Wa1,Qtb,x,Sdiag,Wa2)
+         do j = 1 , n
+            Wa2(j) = Diag(j)*x(j)
+         enddo
+         dxnorm = enorm(n,Wa2)
          temp = fp
          fp = dxnorm - Delta
 !
@@ -3456,61 +3456,61 @@
 !        of par. also test for the exceptional cases where parl
 !        is zero or the number of iterations has reached 10.
 !
-         IF ( DABS(fp)<=p1*Delta .OR. parl==zero .AND. fp<=temp .AND.   &
-            & temp<zero .OR. iter==10 ) THEN
-            IF ( iter==0 ) Par = zero
-         ELSE
+         if ( dabs(fp)<=p1*Delta .or. parl==zero .and. fp<=temp .and.   &
+            & temp<zero .or. iter==10 ) then
+            if ( iter==0 ) Par = zero
+         else
 !
 !        compute the newton correction.
 !
-            DO j = 1 , N
+            do j = 1 , n
                l = Ipvt(j)
                Wa1(j) = Diag(l)*(Wa2(l)/dxnorm)
-            ENDDO
-            DO j = 1 , N
+            enddo
+            do j = 1 , n
                Wa1(j) = Wa1(j)/Sdiag(j)
                temp = Wa1(j)
                jp1 = j + 1
-               IF ( N>=jp1 ) THEN
-                  DO i = jp1 , N
-                     Wa1(i) = Wa1(i) - R(i,j)*temp
-                  ENDDO
-               ENDIF
-            ENDDO
-            temp = ENORM(N,Wa1)
+               if ( n>=jp1 ) then
+                  do i = jp1 , n
+                     Wa1(i) = Wa1(i) - r(i,j)*temp
+                  enddo
+               endif
+            enddo
+            temp = enorm(n,Wa1)
             parc = ((fp/Delta)/temp)/temp
 !
 !        depending on the sign of the function, update parl or paru.
 !
-            IF ( fp>zero ) parl = DMAX1(parl,Par)
-            IF ( fp<zero ) paru = DMIN1(paru,Par)
+            if ( fp>zero ) parl = dmax1(parl,Par)
+            if ( fp<zero ) paru = dmin1(paru,Par)
 !
 !        compute an improved estimate for par.
 !
-            Par = DMAX1(parl,Par+parc)
+            Par = dmax1(parl,Par+parc)
 !
 !        end of an iteration.
 !
-            GOTO 50
-         ENDIF
-      ENDIF
+            goto 50
+         endif
+      endif
 !
 !     last card of subroutine lmpar.
 !
-      END
+      end
 !*==LMSTR.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE LMSTR(FCN,M,N,X,Fvec,Fjac,Ldfjac,Ftol,Xtol,Gtol,Maxfev,&
+      subroutine lmstr(fcn,m,n,x,Fvec,Fjac,Ldfjac,Ftol,Xtol,Gtol,Maxfev,&
                      & Diag,Mode,Factor,Nprint,Info,Nfev,Njev,Ipvt,Qtf, &
                      & Wa1,Wa2,Wa3,Wa4)
-      IMPLICIT NONE
+      implicit none
 !*--LMSTR3506
-      INTEGER M , N , Ldfjac , Maxfev , Mode , Nprint , Info , Nfev ,   &
+      integer m , n , Ldfjac , Maxfev , Mode , Nprint , Info , Nfev ,   &
             & Njev
-      INTEGER Ipvt(N)
-      LOGICAL sing
-      DOUBLE PRECISION Ftol , Xtol , Gtol , Factor
-      DOUBLE PRECISION X(N) , Fvec(M) , Fjac(Ldfjac,N) , Diag(N) ,      &
-                     & Qtf(N) , Wa1(N) , Wa2(N) , Wa3(N) , Wa4(M)
+      integer Ipvt(n)
+      logical sing
+      double precision Ftol , Xtol , Gtol , Factor
+      double precision x(n) , Fvec(m) , Fjac(Ldfjac,n) , Diag(n) ,      &
+                     & Qtf(n) , Wa1(n) , Wa2(n) , Wa3(n) , Wa4(m)
 !     **********
 !
 !     subroutine lmstr
@@ -3687,18 +3687,18 @@
 !     jorge j. more
 !
 !     **********
-      INTEGER i , iflag , iter , j , l
-      DOUBLE PRECISION actred , delta , dirder , epsmch , fnorm ,       &
+      integer i , iflag , iter , j , l
+      double precision actred , delta , dirder , epsmch , fnorm ,       &
                      & fnorm1 , gnorm , one , par , pnorm , prered ,    &
                      & p1 , p5 , p25 , p75 , p0001 , ratio , sum ,      &
                      & temp , temp1 , temp2 , xnorm , zero
-      DOUBLE PRECISION DPMPAR , ENORM
-      DATA one , p1 , p5 , p25 , p75 , p0001 , zero/1.0D0 , 1.0D-1 ,    &
-         & 5.0D-1 , 2.5D-1 , 7.5D-1 , 1.0D-4 , 0.0D0/
+      double precision dpmpar , enorm
+      data one , p1 , p5 , p25 , p75 , p0001 , zero/1.0d0 , 1.0d-1 ,    &
+         & 5.0d-1 , 2.5d-1 , 7.5d-1 , 1.0d-4 , 0.0d0/
 !
 !     epsmch is the machine precision.
 !
-      epsmch = DPMPAR(1)
+      epsmch = dpmpar(1)
 !
       Info = 0
       iflag = 0
@@ -3707,23 +3707,23 @@
 !
 !     check the input parameters for errors.
 !
-      IF ( N<=0 .OR. M<N .OR. Ldfjac<N .OR. Ftol<zero .OR.              &
-         & Xtol<zero .OR. Gtol<zero .OR. Maxfev<=0 .OR. Factor<=zero )  &
-         & GOTO 200
-      IF ( Mode==2 ) THEN
-         DO j = 1 , N
-            IF ( Diag(j)<=zero ) GOTO 200
-         ENDDO
-      ENDIF
+      if ( n<=0 .or. m<n .or. Ldfjac<n .or. Ftol<zero .or.              &
+         & Xtol<zero .or. Gtol<zero .or. Maxfev<=0 .or. Factor<=zero )  &
+         & goto 200
+      if ( Mode==2 ) then
+         do j = 1 , n
+            if ( Diag(j)<=zero ) goto 200
+         enddo
+      endif
 !
 !     evaluate the function at the starting point
 !     and calculate its norm.
 !
       iflag = 1
-      CALL FCN(M,N,X,Fvec,Wa3,iflag)
+      call fcn(m,n,x,Fvec,Wa3,iflag)
       Nfev = 1
-      IF ( iflag<0 ) GOTO 200
-      fnorm = ENORM(M,Fvec)
+      if ( iflag<0 ) goto 200
+      fnorm = enorm(m,Fvec)
 !
 !     initialize levenberg-marquardt parameter and iteration counter.
 !
@@ -3735,157 +3735,157 @@
 !
 !        if requested, call fcn to enable printing of iterates.
 !
- 100  IF ( Nprint>0 ) THEN
+ 100  if ( Nprint>0 ) then
          iflag = 0
-         IF ( MOD(iter-1,Nprint)==0 ) CALL FCN(M,N,X,Fvec,Wa3,iflag)
-         IF ( iflag<0 ) GOTO 200
-      ENDIF
+         if ( mod(iter-1,Nprint)==0 ) call fcn(m,n,x,Fvec,Wa3,iflag)
+         if ( iflag<0 ) goto 200
+      endif
 !
 !        compute the qr factorization of the jacobian matrix
 !        calculated one row at a time, while simultaneously
 !        forming (q transpose)*fvec and storing the first
 !        n components in qtf.
 !
-      DO j = 1 , N
+      do j = 1 , n
          Qtf(j) = zero
-         DO i = 1 , N
+         do i = 1 , n
             Fjac(i,j) = zero
-         ENDDO
-      ENDDO
+         enddo
+      enddo
       iflag = 2
-      DO i = 1 , M
-         CALL FCN(M,N,X,Fvec,Wa3,iflag)
-         IF ( iflag<0 ) GOTO 200
+      do i = 1 , m
+         call fcn(m,n,x,Fvec,Wa3,iflag)
+         if ( iflag<0 ) goto 200
          temp = Fvec(i)
-         CALL RWUPDT(N,Fjac,Ldfjac,Wa3,Qtf,temp,Wa1,Wa2)
+         call rwupdt(n,Fjac,Ldfjac,Wa3,Qtf,temp,Wa1,Wa2)
          iflag = iflag + 1
-      ENDDO
+      enddo
       Njev = Njev + 1
 !
 !        if the jacobian is rank deficient, call qrfac to
 !        reorder its columns and update the components of qtf.
 !
-      sing = .FALSE.
-      DO j = 1 , N
-         IF ( Fjac(j,j)==zero ) sing = .TRUE.
+      sing = .false.
+      do j = 1 , n
+         if ( Fjac(j,j)==zero ) sing = .true.
          Ipvt(j) = j
-         Wa2(j) = ENORM(j,Fjac(1,j))
-      ENDDO
-      IF ( sing ) THEN
-         CALL QRFAC(N,N,Fjac,Ldfjac,.TRUE.,Ipvt,N,Wa1,Wa2,Wa3)
-         DO j = 1 , N
-            IF ( Fjac(j,j)/=zero ) THEN
+         Wa2(j) = enorm(j,Fjac(1,j))
+      enddo
+      if ( sing ) then
+         call qrfac(n,n,Fjac,Ldfjac,.true.,Ipvt,n,Wa1,Wa2,Wa3)
+         do j = 1 , n
+            if ( Fjac(j,j)/=zero ) then
                sum = zero
-               DO i = j , N
+               do i = j , n
                   sum = sum + Fjac(i,j)*Qtf(i)
-               ENDDO
+               enddo
                temp = -sum/Fjac(j,j)
-               DO i = j , N
+               do i = j , n
                   Qtf(i) = Qtf(i) + Fjac(i,j)*temp
-               ENDDO
-            ENDIF
+               enddo
+            endif
             Fjac(j,j) = Wa1(j)
-         ENDDO
-      ENDIF
+         enddo
+      endif
 !
 !        on the first iteration and if mode is 1, scale according
 !        to the norms of the columns of the initial jacobian.
 !
-      IF ( iter==1 ) THEN
-         IF ( Mode/=2 ) THEN
-            DO j = 1 , N
+      if ( iter==1 ) then
+         if ( Mode/=2 ) then
+            do j = 1 , n
                Diag(j) = Wa2(j)
-               IF ( Wa2(j)==zero ) Diag(j) = one
-            ENDDO
-         ENDIF
+               if ( Wa2(j)==zero ) Diag(j) = one
+            enddo
+         endif
 !
 !        on the first iteration, calculate the norm of the scaled x
 !        and initialize the step bound delta.
 !
-         DO j = 1 , N
-            Wa3(j) = Diag(j)*X(j)
-         ENDDO
-         xnorm = ENORM(N,Wa3)
+         do j = 1 , n
+            Wa3(j) = Diag(j)*x(j)
+         enddo
+         xnorm = enorm(n,Wa3)
          delta = Factor*xnorm
-         IF ( delta==zero ) delta = Factor
-      ENDIF
+         if ( delta==zero ) delta = Factor
+      endif
 !
 !        compute the norm of the scaled gradient.
 !
       gnorm = zero
-      IF ( fnorm/=zero ) THEN
-         DO j = 1 , N
+      if ( fnorm/=zero ) then
+         do j = 1 , n
             l = Ipvt(j)
-            IF ( Wa2(l)/=zero ) THEN
+            if ( Wa2(l)/=zero ) then
                sum = zero
-               DO i = 1 , j
+               do i = 1 , j
                   sum = sum + Fjac(i,j)*(Qtf(i)/fnorm)
-               ENDDO
-               gnorm = DMAX1(gnorm,DABS(sum/Wa2(l)))
-            ENDIF
-         ENDDO
-      ENDIF
+               enddo
+               gnorm = dmax1(gnorm,dabs(sum/Wa2(l)))
+            endif
+         enddo
+      endif
 !
 !        test for convergence of the gradient norm.
 !
-      IF ( gnorm<=Gtol ) Info = 4
-      IF ( Info==0 ) THEN
+      if ( gnorm<=Gtol ) Info = 4
+      if ( Info==0 ) then
 !
 !        rescale if necessary.
 !
-         IF ( Mode/=2 ) THEN
-            DO j = 1 , N
-               Diag(j) = DMAX1(Diag(j),Wa2(j))
-            ENDDO
-         ENDIF
+         if ( Mode/=2 ) then
+            do j = 1 , n
+               Diag(j) = dmax1(Diag(j),Wa2(j))
+            enddo
+         endif
 !
 !        beginning of the inner loop.
 !
 !
 !           determine the levenberg-marquardt parameter.
 !
- 150     CALL LMPAR(N,Fjac,Ldfjac,Ipvt,Diag,Qtf,delta,par,Wa1,Wa2,Wa3,  &
+ 150     call lmpar(n,Fjac,Ldfjac,Ipvt,Diag,Qtf,delta,par,Wa1,Wa2,Wa3,  &
                   & Wa4)
 !
 !           store the direction p and x + p. calculate the norm of p.
 !
-         DO j = 1 , N
+         do j = 1 , n
             Wa1(j) = -Wa1(j)
-            Wa2(j) = X(j) + Wa1(j)
+            Wa2(j) = x(j) + Wa1(j)
             Wa3(j) = Diag(j)*Wa1(j)
-         ENDDO
-         pnorm = ENORM(N,Wa3)
+         enddo
+         pnorm = enorm(n,Wa3)
 !
 !           on the first iteration, adjust the initial step bound.
 !
-         IF ( iter==1 ) delta = DMIN1(delta,pnorm)
+         if ( iter==1 ) delta = dmin1(delta,pnorm)
 !
 !           evaluate the function at x + p and calculate its norm.
 !
          iflag = 1
-         CALL FCN(M,N,Wa2,Wa4,Wa3,iflag)
+         call fcn(m,n,Wa2,Wa4,Wa3,iflag)
          Nfev = Nfev + 1
-         IF ( iflag>=0 ) THEN
-            fnorm1 = ENORM(M,Wa4)
+         if ( iflag>=0 ) then
+            fnorm1 = enorm(m,Wa4)
 !
 !           compute the scaled actual reduction.
 !
             actred = -one
-            IF ( p1*fnorm1<fnorm ) actred = one - (fnorm1/fnorm)**2
+            if ( p1*fnorm1<fnorm ) actred = one - (fnorm1/fnorm)**2
 !
 !           compute the scaled predicted reduction and
 !           the scaled directional derivative.
 !
-            DO j = 1 , N
+            do j = 1 , n
                Wa3(j) = zero
                l = Ipvt(j)
                temp = Wa1(l)
-               DO i = 1 , j
+               do i = 1 , j
                   Wa3(i) = Wa3(i) + Fjac(i,j)*temp
-               ENDDO
-            ENDDO
-            temp1 = ENORM(N,Wa3)/fnorm
-            temp2 = (DSQRT(par)*pnorm)/fnorm
+               enddo
+            enddo
+            temp1 = enorm(n,Wa3)/fnorm
+            temp2 = (dsqrt(par)*pnorm)/fnorm
             prered = temp1**2 + temp2**2/p5
             dirder = -(temp1**2+temp2**2)
 !
@@ -3893,90 +3893,90 @@
 !           reduction.
 !
             ratio = zero
-            IF ( prered/=zero ) ratio = actred/prered
+            if ( prered/=zero ) ratio = actred/prered
 !
 !           update the step bound.
 !
-            IF ( ratio<=p25 ) THEN
-               IF ( actred>=zero ) temp = p5
-               IF ( actred<zero ) temp = p5*dirder/(dirder+p5*actred)
-               IF ( p1*fnorm1>=fnorm .OR. temp<p1 ) temp = p1
-               delta = temp*DMIN1(delta,pnorm/p1)
+            if ( ratio<=p25 ) then
+               if ( actred>=zero ) temp = p5
+               if ( actred<zero ) temp = p5*dirder/(dirder+p5*actred)
+               if ( p1*fnorm1>=fnorm .or. temp<p1 ) temp = p1
+               delta = temp*dmin1(delta,pnorm/p1)
                par = par/temp
-            ELSEIF ( par==zero .OR. ratio>=p75 ) THEN
+            elseif ( par==zero .or. ratio>=p75 ) then
                delta = pnorm/p5
                par = p5*par
-            ENDIF
+            endif
 !
 !           test for successful iteration.
 !
-            IF ( ratio>=p0001 ) THEN
+            if ( ratio>=p0001 ) then
 !
 !           successful iteration. update x, fvec, and their norms.
 !
-               DO j = 1 , N
-                  X(j) = Wa2(j)
-                  Wa2(j) = Diag(j)*X(j)
-               ENDDO
-               DO i = 1 , M
+               do j = 1 , n
+                  x(j) = Wa2(j)
+                  Wa2(j) = Diag(j)*x(j)
+               enddo
+               do i = 1 , m
                   Fvec(i) = Wa4(i)
-               ENDDO
-               xnorm = ENORM(N,Wa2)
+               enddo
+               xnorm = enorm(n,Wa2)
                fnorm = fnorm1
                iter = iter + 1
-            ENDIF
+            endif
 !
 !           tests for convergence.
 !
-            IF ( DABS(actred)<=Ftol .AND. prered<=Ftol .AND.            &
+            if ( dabs(actred)<=Ftol .and. prered<=Ftol .and.            &
                & p5*ratio<=one ) Info = 1
-            IF ( delta<=Xtol*xnorm ) Info = 2
-            IF ( DABS(actred)<=Ftol .AND. prered<=Ftol .AND.            &
-               & p5*ratio<=one .AND. Info==2 ) Info = 3
-            IF ( Info==0 ) THEN
+            if ( delta<=Xtol*xnorm ) Info = 2
+            if ( dabs(actred)<=Ftol .and. prered<=Ftol .and.            &
+               & p5*ratio<=one .and. Info==2 ) Info = 3
+            if ( Info==0 ) then
 !
 !           tests for termination and stringent tolerances.
 !
-               IF ( Nfev>=Maxfev ) Info = 5
-               IF ( DABS(actred)<=epsmch .AND. prered<=epsmch .AND.     &
+               if ( Nfev>=Maxfev ) Info = 5
+               if ( dabs(actred)<=epsmch .and. prered<=epsmch .and.     &
                   & p5*ratio<=one ) Info = 6
-               IF ( delta<=epsmch*xnorm ) Info = 7
-               IF ( gnorm<=epsmch ) Info = 8
-               IF ( Info==0 ) THEN
+               if ( delta<=epsmch*xnorm ) Info = 7
+               if ( gnorm<=epsmch ) Info = 8
+               if ( Info==0 ) then
 !
 !           end of the inner loop. repeat if iteration unsuccessful.
 !
 !
 !        end of the outer loop.
 !
-                  IF ( ratio>=p0001 ) GOTO 100
-                  GOTO 150
-               ENDIF
-            ENDIF
-         ENDIF
-      ENDIF
+                  if ( ratio>=p0001 ) goto 100
+                  goto 150
+               endif
+            endif
+         endif
+      endif
 !
 !     termination, either normal or user imposed.
 !
- 200  IF ( iflag<0 ) Info = iflag
+ 200  if ( iflag<0 ) Info = iflag
       iflag = 0
-      IF ( Nprint>0 ) CALL FCN(M,N,X,Fvec,Wa3,iflag)
+      if ( Nprint>0 ) call fcn(m,n,x,Fvec,Wa3,iflag)
 !
 !     last card of subroutine lmstr.
 !
-      END
+      end
 !*==LMSTR1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE LMSTR1(FCN,M,N,X,Fvec,Fjac,Ldfjac,Tol,Info,Ipvt,Wa,Lwa)
-      IMPLICIT NONE
+      subroutine lmstr1(fcn,m,n,x,Fvec,Fjac,Ldfjac,Tol,Info,Ipvt,Wa,Lwa)
+      implicit none
 !*--LMSTR13971
 !*** Start of declarations inserted by SPAG
-      REAL FCN
+      real fcn
 !*** End of declarations inserted by SPAG
-      INTEGER M , N , Ldfjac , Info , Lwa
-      INTEGER Ipvt(N)
-      DOUBLE PRECISION Tol
-      DOUBLE PRECISION X(N) , Fvec(M) , Fjac(Ldfjac,N) , Wa(Lwa)
-      EXTERNAL FCN
+      integer m , n , Ldfjac , Info , Lwa
+      integer Ipvt(n)
+      double precision Tol
+      double precision x(n) , Fvec(m) , Fjac(Ldfjac,n) , Wa(Lwa)
+      external fcn
 !     **********
 !
 !     subroutine lmstr1
@@ -4098,39 +4098,39 @@
 !     jorge j. more
 !
 !     **********
-      INTEGER maxfev , mode , nfev , njev , nprint
-      DOUBLE PRECISION factor , ftol , gtol , xtol , zero
-      DATA factor , zero/1.0D2 , 0.0D0/
+      integer maxfev , mode , nfev , njev , nprint
+      double precision factor , ftol , gtol , xtol , zero
+      data factor , zero/1.0d2 , 0.0d0/
       Info = 0
 !
 !     check the input parameters for errors.
 !
-      IF ( N>0 .AND. M>=N .AND. Ldfjac>=N .AND. Tol>=zero .AND.         &
-         & Lwa>=5*N+M ) THEN
+      if ( n>0 .and. m>=n .and. Ldfjac>=n .and. Tol>=zero .and.         &
+         & Lwa>=5*n+m ) then
 !
 !     call lmstr.
 !
-         maxfev = 100*(N+1)
+         maxfev = 100*(n+1)
          ftol = Tol
          xtol = Tol
          gtol = zero
          mode = 1
          nprint = 0
-         CALL LMSTR(FCN,M,N,X,Fvec,Fjac,Ldfjac,ftol,xtol,gtol,maxfev,   &
-                  & Wa(1),mode,factor,nprint,Info,nfev,njev,Ipvt,Wa(N+1)&
-                  & ,Wa(2*N+1),Wa(3*N+1),Wa(4*N+1),Wa(5*N+1))
-         IF ( Info==8 ) Info = 4
-      ENDIF
+         call lmstr(fcn,m,n,x,Fvec,Fjac,Ldfjac,ftol,xtol,gtol,maxfev,   &
+                  & Wa(1),mode,factor,nprint,Info,nfev,njev,Ipvt,Wa(n+1)&
+                  & ,Wa(2*n+1),Wa(3*n+1),Wa(4*n+1),Wa(5*n+1))
+         if ( Info==8 ) Info = 4
+      endif
 !
 !     last card of subroutine lmstr1.
 !
-      END
+      end
 !*==QFORM.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE QFORM(M,N,Q,Ldq,Wa)
-      IMPLICIT NONE
+      subroutine qform(m,n,q,Ldq,Wa)
+      implicit none
 !*--QFORM4131
-      INTEGER M , N , Ldq
-      DOUBLE PRECISION Q(Ldq,M) , Wa(M)
+      integer m , n , Ldq
+      double precision q(Ldq,m) , Wa(m)
 !     **********
 !
 !     subroutine qform
@@ -4168,68 +4168,68 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , j , jm1 , k , l , minmn , np1
-      DOUBLE PRECISION one , sum , temp , zero
-      DATA one , zero/1.0D0 , 0.0D0/
+      integer i , j , jm1 , k , l , minmn , np1
+      double precision one , sum , temp , zero
+      data one , zero/1.0d0 , 0.0d0/
 !
 !     zero out upper triangle of q in the first min(m,n) columns.
 !
-      minmn = MIN0(M,N)
-      IF ( minmn>=2 ) THEN
-         DO j = 2 , minmn
+      minmn = min0(m,n)
+      if ( minmn>=2 ) then
+         do j = 2 , minmn
             jm1 = j - 1
-            DO i = 1 , jm1
-               Q(i,j) = zero
-            ENDDO
-         ENDDO
-      ENDIF
+            do i = 1 , jm1
+               q(i,j) = zero
+            enddo
+         enddo
+      endif
 !
 !     initialize remaining columns to those of the identity matrix.
 !
-      np1 = N + 1
-      IF ( M>=np1 ) THEN
-         DO j = np1 , M
-            DO i = 1 , M
-               Q(i,j) = zero
-            ENDDO
-            Q(j,j) = one
-         ENDDO
-      ENDIF
+      np1 = n + 1
+      if ( m>=np1 ) then
+         do j = np1 , m
+            do i = 1 , m
+               q(i,j) = zero
+            enddo
+            q(j,j) = one
+         enddo
+      endif
 !
 !     accumulate q from its factored form.
 !
-      DO l = 1 , minmn
+      do l = 1 , minmn
          k = minmn - l + 1
-         DO i = k , M
-            Wa(i) = Q(i,k)
-            Q(i,k) = zero
-         ENDDO
-         Q(k,k) = one
-         IF ( Wa(k)/=zero ) THEN
-            DO j = k , M
+         do i = k , m
+            Wa(i) = q(i,k)
+            q(i,k) = zero
+         enddo
+         q(k,k) = one
+         if ( Wa(k)/=zero ) then
+            do j = k , m
                sum = zero
-               DO i = k , M
-                  sum = sum + Q(i,j)*Wa(i)
-               ENDDO
+               do i = k , m
+                  sum = sum + q(i,j)*Wa(i)
+               enddo
                temp = sum/Wa(k)
-               DO i = k , M
-                  Q(i,j) = Q(i,j) - temp*Wa(i)
-               ENDDO
-            ENDDO
-         ENDIF
-      ENDDO
+               do i = k , m
+                  q(i,j) = q(i,j) - temp*Wa(i)
+               enddo
+            enddo
+         endif
+      enddo
 !
 !     last card of subroutine qform.
 !
-      END
+      end
 !*==QRFAC.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE QRFAC(M,N,A,Lda,Pivot,Ipvt,Lipvt,Rdiag,Acnorm,Wa)
-      IMPLICIT NONE
+      subroutine qrfac(m,n,a,Lda,Pivot,Ipvt,Lipvt,Rdiag,Acnorm,Wa)
+      implicit none
 !*--QRFAC4228
-      INTEGER M , N , Lda , Lipvt
-      INTEGER Ipvt(Lipvt)
-      LOGICAL Pivot
-      DOUBLE PRECISION A(Lda,N) , Rdiag(N) , Acnorm(N) , Wa(N)
+      integer m , n , Lda , Lipvt
+      integer Ipvt(Lipvt)
+      logical Pivot
+      double precision a(Lda,n) , Rdiag(n) , Acnorm(n) , Wa(n)
 !     **********
 !
 !     subroutine qrfac
@@ -4305,100 +4305,100 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , j , jp1 , k , kmax , minmn
-      DOUBLE PRECISION ajnorm , epsmch , one , p05 , sum , temp , zero
-      DOUBLE PRECISION DPMPAR , ENORM
-      DATA one , p05 , zero/1.0D0 , 5.0D-2 , 0.0D0/
+      integer i , j , jp1 , k , kmax , minmn
+      double precision ajnorm , epsmch , one , p05 , sum , temp , zero
+      double precision dpmpar , enorm
+      data one , p05 , zero/1.0d0 , 5.0d-2 , 0.0d0/
 !
 !     epsmch is the machine precision.
 !
-      epsmch = DPMPAR(1)
+      epsmch = dpmpar(1)
 !
 !     compute the initial column norms and initialize several arrays.
 !
-      DO j = 1 , N
-         Acnorm(j) = ENORM(M,A(1,j))
+      do j = 1 , n
+         Acnorm(j) = enorm(m,a(1,j))
          Rdiag(j) = Acnorm(j)
          Wa(j) = Rdiag(j)
-         IF ( Pivot ) Ipvt(j) = j
-      ENDDO
+         if ( Pivot ) Ipvt(j) = j
+      enddo
 !
 !     reduce a to r with householder transformations.
 !
-      minmn = MIN0(M,N)
-      DO j = 1 , minmn
-         IF ( Pivot ) THEN
+      minmn = min0(m,n)
+      do j = 1 , minmn
+         if ( Pivot ) then
 !
 !        bring the column of largest norm into the pivot position.
 !
             kmax = j
-            DO k = j , N
-               IF ( Rdiag(k)>Rdiag(kmax) ) kmax = k
-            ENDDO
-            IF ( kmax/=j ) THEN
-               DO i = 1 , M
-                  temp = A(i,j)
-                  A(i,j) = A(i,kmax)
-                  A(i,kmax) = temp
-               ENDDO
+            do k = j , n
+               if ( Rdiag(k)>Rdiag(kmax) ) kmax = k
+            enddo
+            if ( kmax/=j ) then
+               do i = 1 , m
+                  temp = a(i,j)
+                  a(i,j) = a(i,kmax)
+                  a(i,kmax) = temp
+               enddo
                Rdiag(kmax) = Rdiag(j)
                Wa(kmax) = Wa(j)
                k = Ipvt(j)
                Ipvt(j) = Ipvt(kmax)
                Ipvt(kmax) = k
-            ENDIF
-         ENDIF
+            endif
+         endif
 !
 !        compute the householder transformation to reduce the
 !        j-th column of a to a multiple of the j-th unit vector.
 !
-         ajnorm = ENORM(M-j+1,A(j,j))
-         IF ( ajnorm/=zero ) THEN
-            IF ( A(j,j)<zero ) ajnorm = -ajnorm
-            DO i = j , M
-               A(i,j) = A(i,j)/ajnorm
-            ENDDO
-            A(j,j) = A(j,j) + one
+         ajnorm = enorm(m-j+1,a(j,j))
+         if ( ajnorm/=zero ) then
+            if ( a(j,j)<zero ) ajnorm = -ajnorm
+            do i = j , m
+               a(i,j) = a(i,j)/ajnorm
+            enddo
+            a(j,j) = a(j,j) + one
 !
 !        apply the transformation to the remaining columns
 !        and update the norms.
 !
             jp1 = j + 1
-            IF ( N>=jp1 ) THEN
-               DO k = jp1 , N
+            if ( n>=jp1 ) then
+               do k = jp1 , n
                   sum = zero
-                  DO i = j , M
-                     sum = sum + A(i,j)*A(i,k)
-                  ENDDO
-                  temp = sum/A(j,j)
-                  DO i = j , M
-                     A(i,k) = A(i,k) - temp*A(i,j)
-                  ENDDO
-                  IF ( .NOT.(.NOT.Pivot .OR. Rdiag(k)==zero) ) THEN
-                     temp = A(j,k)/Rdiag(k)
-                     Rdiag(k) = Rdiag(k)*DSQRT(DMAX1(zero,one-temp**2))
-                     IF ( p05*(Rdiag(k)/Wa(k))**2<=epsmch ) THEN
-                        Rdiag(k) = ENORM(M-j,A(jp1,k))
+                  do i = j , m
+                     sum = sum + a(i,j)*a(i,k)
+                  enddo
+                  temp = sum/a(j,j)
+                  do i = j , m
+                     a(i,k) = a(i,k) - temp*a(i,j)
+                  enddo
+                  if ( .not.(.not.Pivot .or. Rdiag(k)==zero) ) then
+                     temp = a(j,k)/Rdiag(k)
+                     Rdiag(k) = Rdiag(k)*dsqrt(dmax1(zero,one-temp**2))
+                     if ( p05*(Rdiag(k)/Wa(k))**2<=epsmch ) then
+                        Rdiag(k) = enorm(m-j,a(jp1,k))
                         Wa(k) = Rdiag(k)
-                     ENDIF
-                  ENDIF
-               ENDDO
-            ENDIF
-         ENDIF
+                     endif
+                  endif
+               enddo
+            endif
+         endif
          Rdiag(j) = -ajnorm
-      ENDDO
+      enddo
 !
 !     last card of subroutine qrfac.
 !
-      END
+      end
 !*==QRSOLV.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE QRSOLV(N,R,Ldr,Ipvt,Diag,Qtb,X,Sdiag,Wa)
-      IMPLICIT NONE
+      subroutine qrsolv(n,r,Ldr,Ipvt,Diag,Qtb,x,Sdiag,Wa)
+      implicit none
 !*--QRSOLV4397
-      INTEGER N , Ldr
-      INTEGER Ipvt(N)
-      DOUBLE PRECISION R(Ldr,N) , Diag(N) , Qtb(N) , X(N) , Sdiag(N) ,  &
-                     & Wa(N)
+      integer n , Ldr
+      integer Ipvt(n)
+      double precision r(Ldr,n) , Diag(n) , Qtb(n) , x(n) , Sdiag(n) ,  &
+                     & Wa(n)
 !     **********
 !
 !     subroutine qrsolv
@@ -4476,34 +4476,34 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , j , jp1 , k , kp1 , l , nsing
-      DOUBLE PRECISION cos , cotan , p5 , p25 , qtbpj , sin , sum ,     &
+      integer i , j , jp1 , k , kp1 , l , nsing
+      double precision cos , cotan , p5 , p25 , qtbpj , sin , sum ,     &
                      & tan , temp , zero
-      DATA p5 , p25 , zero/5.0D-1 , 2.5D-1 , 0.0D0/
+      data p5 , p25 , zero/5.0d-1 , 2.5d-1 , 0.0d0/
 !
 !     copy r and (q transpose)*b to preserve input and initialize s.
 !     in particular, save the diagonal elements of r in x.
 !
-      DO j = 1 , N
-         DO i = j , N
-            R(i,j) = R(j,i)
-         ENDDO
-         X(j) = R(j,j)
+      do j = 1 , n
+         do i = j , n
+            r(i,j) = r(j,i)
+         enddo
+         x(j) = r(j,j)
          Wa(j) = Qtb(j)
-      ENDDO
+      enddo
 !
 !     eliminate the diagonal matrix d using a givens rotation.
 !
-      DO j = 1 , N
+      do j = 1 , n
 !
 !        prepare the row of d to be eliminated, locating the
 !        diagonal element using p from the qr factorization.
 !
          l = Ipvt(j)
-         IF ( Diag(l)/=zero ) THEN
-            DO k = j , N
+         if ( Diag(l)/=zero ) then
+            do k = j , n
                Sdiag(k) = zero
-            ENDDO
+            enddo
             Sdiag(j) = Diag(l)
 !
 !        the transformations to eliminate the row of d
@@ -4511,26 +4511,26 @@
 !        beyond the first n, which is initially zero.
 !
             qtbpj = zero
-            DO k = j , N
+            do k = j , n
 !
 !           determine a givens rotation which eliminates the
 !           appropriate element in the current row of d.
 !
-               IF ( Sdiag(k)/=zero ) THEN
-                  IF ( DABS(R(k,k))>=DABS(Sdiag(k)) ) THEN
-                     tan = Sdiag(k)/R(k,k)
-                     cos = p5/DSQRT(p25+p25*tan**2)
+               if ( Sdiag(k)/=zero ) then
+                  if ( dabs(r(k,k))>=dabs(Sdiag(k)) ) then
+                     tan = Sdiag(k)/r(k,k)
+                     cos = p5/dsqrt(p25+p25*tan**2)
                      sin = cos*tan
-                  ELSE
-                     cotan = R(k,k)/Sdiag(k)
-                     sin = p5/DSQRT(p25+p25*cotan**2)
+                  else
+                     cotan = r(k,k)/Sdiag(k)
+                     sin = p5/dsqrt(p25+p25*cotan**2)
                      cos = sin*cotan
-                  ENDIF
+                  endif
 !
 !           compute the modified diagonal element of r and
 !           the modified element of ((q transpose)*b,0).
 !
-                  R(k,k) = cos*R(k,k) + sin*Sdiag(k)
+                  r(k,k) = cos*r(k,k) + sin*Sdiag(k)
                   temp = cos*Wa(k) + sin*qtbpj
                   qtbpj = -sin*Wa(k) + cos*qtbpj
                   Wa(k) = temp
@@ -4538,62 +4538,62 @@
 !           accumulate the tranformation in the row of s.
 !
                   kp1 = k + 1
-                  IF ( N>=kp1 ) THEN
-                     DO i = kp1 , N
-                        temp = cos*R(i,k) + sin*Sdiag(i)
-                        Sdiag(i) = -sin*R(i,k) + cos*Sdiag(i)
-                        R(i,k) = temp
-                     ENDDO
-                  ENDIF
-               ENDIF
-            ENDDO
-         ENDIF
+                  if ( n>=kp1 ) then
+                     do i = kp1 , n
+                        temp = cos*r(i,k) + sin*Sdiag(i)
+                        Sdiag(i) = -sin*r(i,k) + cos*Sdiag(i)
+                        r(i,k) = temp
+                     enddo
+                  endif
+               endif
+            enddo
+         endif
 !
 !        store the diagonal element of s and restore
 !        the corresponding diagonal element of r.
 !
-         Sdiag(j) = R(j,j)
-         R(j,j) = X(j)
-      ENDDO
+         Sdiag(j) = r(j,j)
+         r(j,j) = x(j)
+      enddo
 !
 !     solve the triangular system for z. if the system is
 !     singular, then obtain a least squares solution.
 !
-      nsing = N
-      DO j = 1 , N
-         IF ( Sdiag(j)==zero .AND. nsing==N ) nsing = j - 1
-         IF ( nsing<N ) Wa(j) = zero
-      ENDDO
-      IF ( nsing>=1 ) THEN
-         DO k = 1 , nsing
+      nsing = n
+      do j = 1 , n
+         if ( Sdiag(j)==zero .and. nsing==n ) nsing = j - 1
+         if ( nsing<n ) Wa(j) = zero
+      enddo
+      if ( nsing>=1 ) then
+         do k = 1 , nsing
             j = nsing - k + 1
             sum = zero
             jp1 = j + 1
-            IF ( nsing>=jp1 ) THEN
-               DO i = jp1 , nsing
-                  sum = sum + R(i,j)*Wa(i)
-               ENDDO
-            ENDIF
+            if ( nsing>=jp1 ) then
+               do i = jp1 , nsing
+                  sum = sum + r(i,j)*Wa(i)
+               enddo
+            endif
             Wa(j) = (Wa(j)-sum)/Sdiag(j)
-         ENDDO
-      ENDIF
+         enddo
+      endif
 !
 !     permute the components of z back to components of x.
 !
-      DO j = 1 , N
+      do j = 1 , n
          l = Ipvt(j)
-         X(l) = Wa(j)
-      ENDDO
+         x(l) = Wa(j)
+      enddo
 !
 !     last card of subroutine qrsolv.
 !
-      END
+      end
 !*==R1MPYQ.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE R1MPYQ(M,N,A,Lda,V,W)
-      IMPLICIT NONE
+      subroutine r1mpyq(m,n,a,Lda,v,w)
+      implicit none
 !*--R1MPYQ4594
-      INTEGER M , N , Lda
-      DOUBLE PRECISION A(Lda,N) , V(N) , W(N)
+      integer m , n , Lda
+      double precision a(Lda,n) , v(n) , w(n)
 !     **********
 !
 !     subroutine r1mpyq
@@ -4643,52 +4643,52 @@
 !     burton s. garbow, kenneth e. hillstrom, jorge j. more
 !
 !     **********
-      INTEGER i , j , nmj , nm1
-      DOUBLE PRECISION cos , one , sin , temp
-      DATA one/1.0D0/
+      integer i , j , nmj , nm1
+      double precision cos , one , sin , temp
+      data one/1.0d0/
 !
 !     apply the first set of givens rotations to a.
 !
-      nm1 = N - 1
-      IF ( nm1>=1 ) THEN
-         DO nmj = 1 , nm1
-            j = N - nmj
-            IF ( DABS(V(j))>one ) cos = one/V(j)
-            IF ( DABS(V(j))>one ) sin = DSQRT(one-cos**2)
-            IF ( DABS(V(j))<=one ) sin = V(j)
-            IF ( DABS(V(j))<=one ) cos = DSQRT(one-sin**2)
-            DO i = 1 , M
-               temp = cos*A(i,j) - sin*A(i,N)
-               A(i,N) = sin*A(i,j) + cos*A(i,N)
-               A(i,j) = temp
-            ENDDO
-         ENDDO
+      nm1 = n - 1
+      if ( nm1>=1 ) then
+         do nmj = 1 , nm1
+            j = n - nmj
+            if ( dabs(v(j))>one ) cos = one/v(j)
+            if ( dabs(v(j))>one ) sin = dsqrt(one-cos**2)
+            if ( dabs(v(j))<=one ) sin = v(j)
+            if ( dabs(v(j))<=one ) cos = dsqrt(one-sin**2)
+            do i = 1 , m
+               temp = cos*a(i,j) - sin*a(i,n)
+               a(i,n) = sin*a(i,j) + cos*a(i,n)
+               a(i,j) = temp
+            enddo
+         enddo
 !
 !     apply the second set of givens rotations to a.
 !
-         DO j = 1 , nm1
-            IF ( DABS(W(j))>one ) cos = one/W(j)
-            IF ( DABS(W(j))>one ) sin = DSQRT(one-cos**2)
-            IF ( DABS(W(j))<=one ) sin = W(j)
-            IF ( DABS(W(j))<=one ) cos = DSQRT(one-sin**2)
-            DO i = 1 , M
-               temp = cos*A(i,j) + sin*A(i,N)
-               A(i,N) = -sin*A(i,j) + cos*A(i,N)
-               A(i,j) = temp
-            ENDDO
-         ENDDO
-      ENDIF
+         do j = 1 , nm1
+            if ( dabs(w(j))>one ) cos = one/w(j)
+            if ( dabs(w(j))>one ) sin = dsqrt(one-cos**2)
+            if ( dabs(w(j))<=one ) sin = w(j)
+            if ( dabs(w(j))<=one ) cos = dsqrt(one-sin**2)
+            do i = 1 , m
+               temp = cos*a(i,j) + sin*a(i,n)
+               a(i,n) = -sin*a(i,j) + cos*a(i,n)
+               a(i,j) = temp
+            enddo
+         enddo
+      endif
 !
 !     last card of subroutine r1mpyq.
 !
-      END
+      end
 !*==R1UPDT.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE R1UPDT(M,N,S,Ls,U,V,W,Sing)
-      IMPLICIT NONE
+      subroutine r1updt(m,n,s,Ls,u,v,w,Sing)
+      implicit none
 !*--R1UPDT4688
-      INTEGER M , N , Ls
-      LOGICAL Sing
-      DOUBLE PRECISION S(Ls) , U(M) , V(N) , W(M)
+      integer m , n , Ls
+      logical Sing
+      double precision s(Ls) , u(m) , v(n) , w(m)
 !     **********
 !
 !     subroutine r1updt
@@ -4757,145 +4757,145 @@
 !     john l. nazareth
 !
 !     **********
-      INTEGER i , j , jj , l , nmj , nm1
-      DOUBLE PRECISION cos , cotan , giant , one , p5 , p25 , sin ,     &
+      integer i , j , jj , l , nmj , nm1
+      double precision cos , cotan , giant , one , p5 , p25 , sin ,     &
                      & tan , tau , temp , zero
-      DOUBLE PRECISION DPMPAR
-      DATA one , p5 , p25 , zero/1.0D0 , 5.0D-1 , 2.5D-1 , 0.0D0/
+      double precision dpmpar
+      data one , p5 , p25 , zero/1.0d0 , 5.0d-1 , 2.5d-1 , 0.0d0/
 !
 !     giant is the largest magnitude.
 !
-      giant = DPMPAR(3)
+      giant = dpmpar(3)
 !
 !     initialize the diagonal element pointer.
 !
-      jj = (N*(2*M-N+1))/2 - (M-N)
+      jj = (n*(2*m-n+1))/2 - (m-n)
 !
 !     move the nontrivial part of the last column of s into w.
 !
       l = jj
-      DO i = N , M
-         W(i) = S(l)
+      do i = n , m
+         w(i) = s(l)
          l = l + 1
-      ENDDO
+      enddo
 !
 !     rotate the vector v into a multiple of the n-th unit vector
 !     in such a way that a spike is introduced into w.
 !
-      nm1 = N - 1
-      IF ( nm1>=1 ) THEN
-         DO nmj = 1 , nm1
-            j = N - nmj
-            jj = jj - (M-j+1)
-            W(j) = zero
-            IF ( V(j)/=zero ) THEN
+      nm1 = n - 1
+      if ( nm1>=1 ) then
+         do nmj = 1 , nm1
+            j = n - nmj
+            jj = jj - (m-j+1)
+            w(j) = zero
+            if ( v(j)/=zero ) then
 !
 !        determine a givens rotation which eliminates the
 !        j-th element of v.
 !
-               IF ( DABS(V(N))>=DABS(V(j)) ) THEN
-                  tan = V(j)/V(N)
-                  cos = p5/DSQRT(p25+p25*tan**2)
+               if ( dabs(v(n))>=dabs(v(j)) ) then
+                  tan = v(j)/v(n)
+                  cos = p5/dsqrt(p25+p25*tan**2)
                   sin = cos*tan
                   tau = sin
-               ELSE
-                  cotan = V(N)/V(j)
-                  sin = p5/DSQRT(p25+p25*cotan**2)
+               else
+                  cotan = v(n)/v(j)
+                  sin = p5/dsqrt(p25+p25*cotan**2)
                   cos = sin*cotan
                   tau = one
-                  IF ( DABS(cos)*giant>one ) tau = one/cos
-               ENDIF
+                  if ( dabs(cos)*giant>one ) tau = one/cos
+               endif
 !
 !        apply the transformation to v and store the information
 !        necessary to recover the givens rotation.
 !
-               V(N) = sin*V(j) + cos*V(N)
-               V(j) = tau
+               v(n) = sin*v(j) + cos*v(n)
+               v(j) = tau
 !
 !        apply the transformation to s and extend the spike in w.
 !
                l = jj
-               DO i = j , M
-                  temp = cos*S(l) - sin*W(i)
-                  W(i) = sin*S(l) + cos*W(i)
-                  S(l) = temp
+               do i = j , m
+                  temp = cos*s(l) - sin*w(i)
+                  w(i) = sin*s(l) + cos*w(i)
+                  s(l) = temp
                   l = l + 1
-               ENDDO
-            ENDIF
-         ENDDO
-      ENDIF
+               enddo
+            endif
+         enddo
+      endif
 !
 !     add the spike from the rank 1 update to w.
 !
-      DO i = 1 , M
-         W(i) = W(i) + V(N)*U(i)
-      ENDDO
+      do i = 1 , m
+         w(i) = w(i) + v(n)*u(i)
+      enddo
 !
 !     eliminate the spike.
 !
-      Sing = .FALSE.
-      IF ( nm1>=1 ) THEN
-         DO j = 1 , nm1
-            IF ( W(j)/=zero ) THEN
+      Sing = .false.
+      if ( nm1>=1 ) then
+         do j = 1 , nm1
+            if ( w(j)/=zero ) then
 !
 !        determine a givens rotation which eliminates the
 !        j-th element of the spike.
 !
-               IF ( DABS(S(jj))>=DABS(W(j)) ) THEN
-                  tan = W(j)/S(jj)
-                  cos = p5/DSQRT(p25+p25*tan**2)
+               if ( dabs(s(jj))>=dabs(w(j)) ) then
+                  tan = w(j)/s(jj)
+                  cos = p5/dsqrt(p25+p25*tan**2)
                   sin = cos*tan
                   tau = sin
-               ELSE
-                  cotan = S(jj)/W(j)
-                  sin = p5/DSQRT(p25+p25*cotan**2)
+               else
+                  cotan = s(jj)/w(j)
+                  sin = p5/dsqrt(p25+p25*cotan**2)
                   cos = sin*cotan
                   tau = one
-                  IF ( DABS(cos)*giant>one ) tau = one/cos
-               ENDIF
+                  if ( dabs(cos)*giant>one ) tau = one/cos
+               endif
 !
 !        apply the transformation to s and reduce the spike in w.
 !
                l = jj
-               DO i = j , M
-                  temp = cos*S(l) + sin*W(i)
-                  W(i) = -sin*S(l) + cos*W(i)
-                  S(l) = temp
+               do i = j , m
+                  temp = cos*s(l) + sin*w(i)
+                  w(i) = -sin*s(l) + cos*w(i)
+                  s(l) = temp
                   l = l + 1
-               ENDDO
+               enddo
 !
 !        store the information necessary to recover the
 !        givens rotation.
 !
-               W(j) = tau
-            ENDIF
+               w(j) = tau
+            endif
 !
 !        test for zero diagonal elements in the output s.
 !
-            IF ( S(jj)==zero ) Sing = .TRUE.
-            jj = jj + (M-j+1)
-         ENDDO
-      ENDIF
+            if ( s(jj)==zero ) Sing = .true.
+            jj = jj + (m-j+1)
+         enddo
+      endif
 !
 !     move w back into the last column of the output s.
 !
       l = jj
-      DO i = N , M
-         S(l) = W(i)
+      do i = n , m
+         s(l) = w(i)
          l = l + 1
-      ENDDO
-      IF ( S(jj)==zero ) Sing = .TRUE.
+      enddo
+      if ( s(jj)==zero ) Sing = .true.
 !
 !     last card of subroutine r1updt.
 !
-      END
+      end
 !*==RWUPDT.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
-      SUBROUTINE RWUPDT(N,R,Ldr,W,B,Alpha,Cos,Sin)
-      IMPLICIT NONE
+      subroutine rwupdt(n,r,Ldr,w,b,Alpha,Cos,Sin)
+      implicit none
 !*--RWUPDT4895
-      INTEGER N , Ldr
-      DOUBLE PRECISION Alpha
-      DOUBLE PRECISION R(Ldr,N) , W(N) , B(N) , Cos(N) , Sin(N)
+      integer n , Ldr
+      double precision Alpha
+      double precision r(Ldr,n) , w(n) , b(n) , Cos(n) , Sin(n)
 !     **********
 !
 !     subroutine rwupdt
@@ -4957,49 +4957,49 @@
 !     jorge j. more
 !
 !     **********
-      INTEGER i , j , jm1
-      DOUBLE PRECISION cotan , one , p5 , p25 , rowj , tan , temp , zero
-      DATA one , p5 , p25 , zero/1.0D0 , 5.0D-1 , 2.5D-1 , 0.0D0/
+      integer i , j , jm1
+      double precision cotan , one , p5 , p25 , rowj , tan , temp , zero
+      data one , p5 , p25 , zero/1.0d0 , 5.0d-1 , 2.5d-1 , 0.0d0/
 !
-      DO j = 1 , N
-         rowj = W(j)
+      do j = 1 , n
+         rowj = w(j)
          jm1 = j - 1
 !
 !        apply the previous transformations to
 !        r(i,j), i=1,2,...,j-1, and to w(j).
 !
-         IF ( jm1>=1 ) THEN
-            DO i = 1 , jm1
-               temp = Cos(i)*R(i,j) + Sin(i)*rowj
-               rowj = -Sin(i)*R(i,j) + Cos(i)*rowj
-               R(i,j) = temp
-            ENDDO
-         ENDIF
+         if ( jm1>=1 ) then
+            do i = 1 , jm1
+               temp = Cos(i)*r(i,j) + Sin(i)*rowj
+               rowj = -Sin(i)*r(i,j) + Cos(i)*rowj
+               r(i,j) = temp
+            enddo
+         endif
 !
 !        determine a givens rotation which eliminates w(j).
 !
          Cos(j) = one
          Sin(j) = zero
-         IF ( rowj/=zero ) THEN
-            IF ( DABS(R(j,j))>=DABS(rowj) ) THEN
-               tan = rowj/R(j,j)
-               Cos(j) = p5/DSQRT(p25+p25*tan**2)
+         if ( rowj/=zero ) then
+            if ( dabs(r(j,j))>=dabs(rowj) ) then
+               tan = rowj/r(j,j)
+               Cos(j) = p5/dsqrt(p25+p25*tan**2)
                Sin(j) = Cos(j)*tan
-            ELSE
-               cotan = R(j,j)/rowj
-               Sin(j) = p5/DSQRT(p25+p25*cotan**2)
+            else
+               cotan = r(j,j)/rowj
+               Sin(j) = p5/dsqrt(p25+p25*cotan**2)
                Cos(j) = Sin(j)*cotan
-            ENDIF
+            endif
 !
 !        apply the current transformation to r(j,j), b(j), and alpha.
 !
-            R(j,j) = Cos(j)*R(j,j) + Sin(j)*rowj
-            temp = Cos(j)*B(j) + Sin(j)*Alpha
-            Alpha = -Sin(j)*B(j) + Cos(j)*Alpha
-            B(j) = temp
-         ENDIF
-      ENDDO
+            r(j,j) = Cos(j)*r(j,j) + Sin(j)*rowj
+            temp = Cos(j)*b(j) + Sin(j)*Alpha
+            Alpha = -Sin(j)*b(j) + Cos(j)*Alpha
+            b(j) = temp
+         endif
+      enddo
 !
 !     last card of subroutine rwupdt.
 !
-      END
+      end
