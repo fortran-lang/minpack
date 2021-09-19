@@ -1,6 +1,7 @@
 project: minpack
 project_dir: ./src
 output_dir: ./doc
+media_dir: ./media
 project_github: https://github.com/jacobwilliams/minpack
 summary: Modernized Minpack
 author: Jacob Williams
