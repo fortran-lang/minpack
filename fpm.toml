@@ -1,0 +1,13 @@
+name = "minpack"
+version = "0.0.1"
+license = "BSD"
+author = "Jacob Williams"
+copyright = "Copyright 2021, Jacob Williams"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+
+[install]
+library = false
