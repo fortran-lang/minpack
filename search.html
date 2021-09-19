@@ -10,7 +10,9 @@
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="./favicon.png">
 
-    <title> minpack </title>
+    <title>
+Search Results &ndash; minpack
+</title>
 
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/pygments.css" rel="stylesheet">
@@ -103,105 +105,29 @@
 
     <div class="container">
     
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <p>Modernized Minpack</p>
-        	 
-	<p> Find us on&hellip;</p>
-        <p>
-			 
-          <a class="btn btn-lg btn-primary" href="https://github.com/jacobwilliams/minpack" role="button">GitHub</a>
-			 
-			 
-			 
-			 
-			 
-	         
-			 
-        </p>
-      </div>
-
-      <div class="row" id='text'>
-		  
-        <div class="col-md-8">
-		  
-          <h1>minpack</h1>
-          <h1>minpack</h1>
-<p>Modernized Minpack</p>
-        </div>
-		  
-        <div class="col-md-4">
-	  <div class="well">
-          <h2>Developer Info</h2>
-          <h4>Jacob Williams</h4>
-          
-          
-			   
-            <div class="text-center"><div class="btn-group" role="group">
-              
-              
-              
-              <a class="btn btn-lg btn-primary" href="https://github.com/jacobwilliams"><i class="fa fa-github fa-lg"></i></a>
-              
-              
-				  
-              
-              
-              
-              
-            </div></div>
-            
-       </div>
-       </div>
-       
-      </div>
-      
-      
-      
-      
-      
-      
-		
-        
       <div class="row">
-        
-        <div class="col-xs-6 col-sm-6">
-              <h3>Source Files</h3>
-              <ul>
-                    <li><a href='./sourcefile/minpack.f90.html'>minpack.f90</a></li>
-                  </ul>
-          </div>
-        
-          
-          
-		  <div class="col-xs-6 col-sm-6">
-              <h3>Procedures</h3>
-              <ul>
-                    <li><a href='./proc/chkder.html'>chkder</a></li>
-                  
-                    <li><a href='./proc/dogleg.html'>dogleg</a></li>
-                  
-                    <li><a href='./proc/dpmpar.html'>dpmpar</a></li>
-                  
-                    <li><a href='./proc/enorm.html'>enorm</a></li>
-                  
-                    <li><a href='./proc/fdjac1.html'>fdjac1</a></li>
-                  
-                    <li><a href='./proc/hybrd1.html'>hybrd1</a></li>
-                  
-                    <li><a href='./proc/hybrj.html'>hybrj</a></li>
-                  
-                    <li><a href='./proc/hybrj1.html'>hybrj1</a></li>
-                  
-                    <li><a href='./proc/lmder.html'>lmder</a></li>
-                  
-                    <li><a href='./proc/lmder1.html'>lmder1</a></li>
-                  </ul>
-          </div>
-          
-          
+        <div class="col-lg-12">
+			 <h1>Search Results</h1>
+             <div id="tipue_search_content"><div id="tipue_search_loading"></div></div>
+        </div>
       </div>
-      
+<!--
+    <script>
+      $(document).ready(function() {
+           $('#tipue_search_input').tipuesearch({
+             'mode' : 'static',
+             'show': 10,
+             'newWindow': false,
+             'descriptiveWords': 35,
+         });
+      });
+    </script>
+-->
+<script>
+$(document).ready(function() {
+     $('#tipue_search_input').tipuesearch();
+});
+</script>
 
     <hr>    
     </div> <!-- /container -->
