@@ -1,6 +1,6 @@
 !*==AA0001.spg  processed by SPAG 6.72Dc at 04:41 on 19 Sep 2021
-      PROGRAM TEST
-      IMPLICIT NONE
+      program test
+      implicit none
 !*--AA00013
 !     **********
 !
@@ -26,80 +26,80 @@
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
 !
 !     **********
-      INTEGER i , ic , info , k , ldfjac , lwa , n , NFEv , NJEv ,      &
+      integer i , ic , info , k , ldfjac , lwa , n , NFEv , NJEv ,      &
             & NPRob , nread , ntries , nwrite
-      INTEGER na(60) , nf(60) , nj(60) , np(60) , nx(60)
-      DOUBLE PRECISION factor , fnorm1 , fnorm2 , one , ten , tol
-      DOUBLE PRECISION fnm(60) , fjac(40,40) , fvec(40) , wa(1060) ,    &
+      integer na(60) , nf(60) , nj(60) , np(60) , nx(60)
+      double precision factor , fnorm1 , fnorm2 , one , ten , tol
+      double precision fnm(60) , fjac(40,40) , fvec(40) , wa(1060) ,    &
                      & x(40)
-      DOUBLE PRECISION DPMPAR , ENORM
-      EXTERNAL FCN
-      COMMON /REFNUM/ NPRob , NFEv , NJEv
+      double precision dpmpar , enorm
+      external fcn
+      common /refnum/ NPRob , NFEv , NJEv
 !
 !     LOGICAL INPUT UNIT IS ASSUMED TO BE NUMBER 5.
 !     LOGICAL OUTPUT UNIT IS ASSUMED TO BE NUMBER 6.
 !
-      DATA nread , nwrite/5 , 6/
+      data nread , nwrite/5 , 6/
 !
-      DATA one , ten/1.0D0 , 1.0D1/
-      tol = DSQRT(DPMPAR(1))
+      data one , ten/1.0d0 , 1.0d1/
+      tol = dsqrt(dpmpar(1))
       ldfjac = 40
       lwa = 1060
       ic = 0
- 100  READ (nread,99001) NPRob , n , ntries
-99001 FORMAT (3I5)
-      IF ( NPRob<=0 ) THEN
-         WRITE (nwrite,99002) ic
-99002    FORMAT ('1SUMMARY OF ',I3,' CALLS TO HYBRJ1'/)
-         WRITE (nwrite,99003)
-99003    FORMAT (' NPROB   N    NFEV   NJEV  INFO  FINAL L2 NORM'/)
-         DO i = 1 , ic
-            WRITE (nwrite,99004) np(i) , na(i) , nf(i) , nj(i) , nx(i) ,&
+ 100  read (nread,99001) NPRob , n , ntries
+99001 format (3i5)
+      if ( NPRob<=0 ) then
+         write (nwrite,99002) ic
+99002    format ('1SUMMARY OF ',i3,' CALLS TO HYBRJ1'/)
+         write (nwrite,99003)
+99003    format (' NPROB   N    NFEV   NJEV  INFO  FINAL L2 NORM'/)
+         do i = 1 , ic
+            write (nwrite,99004) np(i) , na(i) , nf(i) , nj(i) , nx(i) ,&
                                & fnm(i)
-99004       FORMAT (I4,I6,2I7,I6,1X,D15.7)
-         ENDDO
-         STOP
-      ELSE
+99004       format (i4,i6,2i7,i6,1x,d15.7)
+         enddo
+         stop
+      else
          factor = one
-         DO k = 1 , ntries
+         do k = 1 , ntries
             ic = ic + 1
-            CALL INITPT(n,x,NPRob,factor)
-            CALL VECFCN(n,x,fvec,NPRob)
-            fnorm1 = ENORM(n,fvec)
-            WRITE (nwrite,99005) NPRob , n
-99005       FORMAT (////5X,' PROBLEM',I5,5X,' DIMENSION',I5,5X//)
+            call initpt(n,x,NPRob,factor)
+            call vecfcn(n,x,fvec,NPRob)
+            fnorm1 = enorm(n,fvec)
+            write (nwrite,99005) NPRob , n
+99005       format (////5x,' PROBLEM',i5,5x,' DIMENSION',i5,5x//)
             NFEv = 0
             NJEv = 0
-            CALL HYBRJ1(FCN,n,x,fvec,fjac,ldfjac,tol,info,wa,lwa)
-            fnorm2 = ENORM(n,fvec)
+            call hybrj1(fcn,n,x,fvec,fjac,ldfjac,tol,info,wa,lwa)
+            fnorm2 = enorm(n,fvec)
             np(ic) = NPRob
             na(ic) = n
             nf(ic) = NFEv
             nj(ic) = NJEv
             nx(ic) = info
             fnm(ic) = fnorm2
-            WRITE (nwrite,99006) fnorm1 , fnorm2 , NFEv , NJEv , info , &
+            write (nwrite,99006) fnorm1 , fnorm2 , NFEv , NJEv , info , &
                                & (x(i),i=1,n)
-99006       FORMAT (5X,' INITIAL L2 NORM OF THE RESIDUALS',D15.7//5X,   &
-                   &' FINAL L2 NORM OF THE RESIDUALS  ',D15.7//5X,      &
-                   &' NUMBER OF FUNCTION EVALUATIONS  ',I10//5X,        &
-                   &' NUMBER OF JACOBIAN EVALUATIONS  ',I10//5X,        &
-                   &' EXIT PARAMETER',18X,I10//5X,                      &
-                   &' FINAL APPROXIMATE SOLUTION'//(5X,5D15.7))
+99006       format (5x,' INITIAL L2 NORM OF THE RESIDUALS',d15.7//5x,   &
+                   &' FINAL L2 NORM OF THE RESIDUALS  ',d15.7//5x,      &
+                   &' NUMBER OF FUNCTION EVALUATIONS  ',i10//5x,        &
+                   &' NUMBER OF JACOBIAN EVALUATIONS  ',i10//5x,        &
+                   &' EXIT PARAMETER',18x,i10//5x,                      &
+                   &' FINAL APPROXIMATE SOLUTION'//(5x,5d15.7))
             factor = ten*factor
-         ENDDO
-         GOTO 100
-      ENDIF
+         enddo
+         goto 100
+      endif
 !
 !     LAST CARD OF DRIVER.
 !
-      END
+      end
 !*==FCN.spg  processed by SPAG 6.72Dc at 04:41 on 19 Sep 2021
-      SUBROUTINE FCN(N,X,Fvec,Fjac,Ldfjac,Iflag)
-      IMPLICIT NONE
+      subroutine fcn(n,x,Fvec,Fjac,Ldfjac,Iflag)
+      implicit none
 !*--FCN102
-      INTEGER N , Ldfjac , Iflag
-      DOUBLE PRECISION X(N) , Fvec(N) , Fjac(Ldfjac,N)
+      integer n , Ldfjac , Iflag
+      double precision x(n) , Fvec(n) , Fjac(Ldfjac,n)
 !     **********
 !
 !     THE CALLING SEQUENCE OF FCN SHOULD BE IDENTICAL TO THE
@@ -116,22 +116,22 @@
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
 !
 !     **********
-      INTEGER NPRob , NFEv , NJEv
-      COMMON /REFNUM/ NPRob , NFEv , NJEv
-      IF ( Iflag==1 ) CALL VECFCN(N,X,Fvec,NPRob)
-      IF ( Iflag==2 ) CALL VECJAC(N,X,Fjac,Ldfjac,NPRob)
-      IF ( Iflag==1 ) NFEv = NFEv + 1
-      IF ( Iflag==2 ) NJEv = NJEv + 1
+      integer NPRob , NFEv , NJEv
+      common /refnum/ NPRob , NFEv , NJEv
+      if ( Iflag==1 ) call vecfcn(n,x,Fvec,NPRob)
+      if ( Iflag==2 ) call vecjac(n,x,Fjac,Ldfjac,NPRob)
+      if ( Iflag==1 ) NFEv = NFEv + 1
+      if ( Iflag==2 ) NJEv = NJEv + 1
 !
 !     LAST CARD OF INTERFACE SUBROUTINE FCN.
 !
-      END
+      end
 !*==VECJAC.spg  processed by SPAG 6.72Dc at 04:41 on 19 Sep 2021
-      SUBROUTINE VECJAC(N,X,Fjac,Ldfjac,Nprob)
-      IMPLICIT NONE
+      subroutine vecjac(n,x,Fjac,Ldfjac,Nprob)
+      implicit none
 !*--VECJAC134
-      INTEGER N , Ldfjac , Nprob
-      DOUBLE PRECISION X(N) , Fjac(Ldfjac,N)
+      integer n , Ldfjac , Nprob
+      double precision x(n) , Fjac(Ldfjac,n)
 !     **********
 !
 !     SUBROUTINE VECJAC
@@ -168,145 +168,145 @@
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
 !
 !     **********
-      INTEGER i , ivar , j , k , k1 , k2 , ml , mu
-      DOUBLE PRECISION c1 , c3 , c4 , c5 , c6 , c9 , eight , fiftn ,    &
+      integer i , ivar , j , k , k1 , k2 , ml , mu
+      double precision c1 , c3 , c4 , c5 , c6 , c9 , eight , fiftn ,    &
                      & five , four , h , hundrd , one , prod , six ,    &
                      & sum , sum1 , sum2 , temp , temp1 , temp2 ,       &
                      & temp3 , temp4 , ten , three , ti , tj , tk ,     &
                      & tpi , twenty , two , zero
-      DOUBLE PRECISION DFLOAT
-      DATA zero , one , two , three , four , five , six , eight , ten , &
-         & fiftn , twenty , hundrd/0.0D0 , 1.0D0 , 2.0D0 , 3.0D0 ,      &
-         & 4.0D0 , 5.0D0 , 6.0D0 , 8.0D0 , 1.0D1 , 1.5D1 , 2.0D1 ,      &
-         & 1.0D2/
-      DATA c1 , c3 , c4 , c5 , c6 , c9/1.0D4 , 2.0D2 , 2.02D1 , 1.98D1 ,&
-         & 1.8D2 , 2.9D1/
-      DFLOAT(ivar) = ivar
+      double precision dfloat
+      data zero , one , two , three , four , five , six , eight , ten , &
+         & fiftn , twenty , hundrd/0.0d0 , 1.0d0 , 2.0d0 , 3.0d0 ,      &
+         & 4.0d0 , 5.0d0 , 6.0d0 , 8.0d0 , 1.0d1 , 1.5d1 , 2.0d1 ,      &
+         & 1.0d2/
+      data c1 , c3 , c4 , c5 , c6 , c9/1.0d4 , 2.0d2 , 2.02d1 , 1.98d1 ,&
+         & 1.8d2 , 2.9d1/
+      dfloat(ivar) = ivar
 !
 !     JACOBIAN ROUTINE SELECTOR.
 !
-      SELECT CASE (Nprob)
-      CASE (2)
+      select case (Nprob)
+      case (2)
 !
 !     POWELL SINGULAR FUNCTION.
 !
-         DO k = 1 , 4
-            DO j = 1 , 4
+         do k = 1 , 4
+            do j = 1 , 4
                Fjac(k,j) = zero
-            ENDDO
-         ENDDO
+            enddo
+         enddo
          Fjac(1,1) = one
          Fjac(1,2) = ten
-         Fjac(2,3) = DSQRT(five)
+         Fjac(2,3) = dsqrt(five)
          Fjac(2,4) = -Fjac(2,3)
-         Fjac(3,2) = two*(X(2)-two*X(3))
+         Fjac(3,2) = two*(x(2)-two*x(3))
          Fjac(3,3) = -two*Fjac(3,2)
-         Fjac(4,1) = two*DSQRT(ten)*(X(1)-X(4))
+         Fjac(4,1) = two*dsqrt(ten)*(x(1)-x(4))
          Fjac(4,4) = -Fjac(4,1)
-      CASE (3)
+      case (3)
 !
 !     POWELL BADLY SCALED FUNCTION.
 !
-         Fjac(1,1) = c1*X(2)
-         Fjac(1,2) = c1*X(1)
-         Fjac(2,1) = -DEXP(-X(1))
-         Fjac(2,2) = -DEXP(-X(2))
-      CASE (4)
+         Fjac(1,1) = c1*x(2)
+         Fjac(1,2) = c1*x(1)
+         Fjac(2,1) = -dexp(-x(1))
+         Fjac(2,2) = -dexp(-x(2))
+      case (4)
 !
 !     WOOD FUNCTION.
 !
-         DO k = 1 , 4
-            DO j = 1 , 4
+         do k = 1 , 4
+            do j = 1 , 4
                Fjac(k,j) = zero
-            ENDDO
-         ENDDO
-         temp1 = X(2) - three*X(1)**2
-         temp2 = X(4) - three*X(3)**2
+            enddo
+         enddo
+         temp1 = x(2) - three*x(1)**2
+         temp2 = x(4) - three*x(3)**2
          Fjac(1,1) = -c3*temp1 + one
-         Fjac(1,2) = -c3*X(1)
-         Fjac(2,1) = -two*c3*X(1)
+         Fjac(1,2) = -c3*x(1)
+         Fjac(2,1) = -two*c3*x(1)
          Fjac(2,2) = c3 + c4
          Fjac(2,4) = c5
          Fjac(3,3) = -c6*temp2 + one
-         Fjac(3,4) = -c6*X(3)
+         Fjac(3,4) = -c6*x(3)
          Fjac(4,2) = c5
-         Fjac(4,3) = -two*c6*X(3)
+         Fjac(4,3) = -two*c6*x(3)
          Fjac(4,4) = c6 + c4
-      CASE (5)
+      case (5)
 !
 !     HELICAL VALLEY FUNCTION.
 !
-         tpi = eight*DATAN(one)
-         temp = X(1)**2 + X(2)**2
+         tpi = eight*datan(one)
+         temp = x(1)**2 + x(2)**2
          temp1 = tpi*temp
-         temp2 = DSQRT(temp)
-         Fjac(1,1) = hundrd*X(2)/temp1
-         Fjac(1,2) = -hundrd*X(1)/temp1
+         temp2 = dsqrt(temp)
+         Fjac(1,1) = hundrd*x(2)/temp1
+         Fjac(1,2) = -hundrd*x(1)/temp1
          Fjac(1,3) = ten
-         Fjac(2,1) = ten*X(1)/temp2
-         Fjac(2,2) = ten*X(2)/temp2
+         Fjac(2,1) = ten*x(1)/temp2
+         Fjac(2,2) = ten*x(2)/temp2
          Fjac(2,3) = zero
          Fjac(3,1) = zero
          Fjac(3,2) = zero
          Fjac(3,3) = one
-      CASE (6)
+      case (6)
 !
 !     WATSON FUNCTION.
 !
-         DO k = 1 , N
-            DO j = k , N
+         do k = 1 , n
+            do j = k , n
                Fjac(k,j) = zero
-            ENDDO
-         ENDDO
-         DO i = 1 , 29
-            ti = DFLOAT(i)/c9
+            enddo
+         enddo
+         do i = 1 , 29
+            ti = dfloat(i)/c9
             sum1 = zero
             temp = one
-            DO j = 2 , N
-               sum1 = sum1 + DFLOAT(j-1)*temp*X(j)
+            do j = 2 , n
+               sum1 = sum1 + dfloat(j-1)*temp*x(j)
                temp = ti*temp
-            ENDDO
+            enddo
             sum2 = zero
             temp = one
-            DO j = 1 , N
-               sum2 = sum2 + temp*X(j)
+            do j = 1 , n
+               sum2 = sum2 + temp*x(j)
                temp = ti*temp
-            ENDDO
+            enddo
             temp1 = two*(sum1-sum2**2-one)
             temp2 = two*sum2
             temp = ti**2
             tk = one
-            DO k = 1 , N
+            do k = 1 , n
                tj = tk
-               DO j = k , N
+               do j = k , n
                   Fjac(k,j) = Fjac(k,j)                                 &
-                            & + tj*((DFLOAT(k-1)/ti-temp2)*(DFLOAT(j-1) &
+                            & + tj*((dfloat(k-1)/ti-temp2)*(dfloat(j-1) &
                             & /ti-temp2)-temp1)
                   tj = ti*tj
-               ENDDO
+               enddo
                tk = temp*tk
-            ENDDO
-         ENDDO
-         Fjac(1,1) = Fjac(1,1) + six*X(1)**2 - two*X(2) + three
-         Fjac(1,2) = Fjac(1,2) - two*X(1)
+            enddo
+         enddo
+         Fjac(1,1) = Fjac(1,1) + six*x(1)**2 - two*x(2) + three
+         Fjac(1,2) = Fjac(1,2) - two*x(1)
          Fjac(2,2) = Fjac(2,2) + one
-         DO k = 1 , N
-            DO j = k , N
+         do k = 1 , n
+            do j = k , n
                Fjac(j,k) = Fjac(k,j)
-            ENDDO
-         ENDDO
-      CASE (7)
+            enddo
+         enddo
+      case (7)
 !
 !     CHEBYQUAD FUNCTION.
 !
-         tk = one/DFLOAT(N)
-         DO j = 1 , N
+         tk = one/dfloat(n)
+         do j = 1 , n
             temp1 = one
-            temp2 = two*X(j) - one
+            temp2 = two*x(j) - one
             temp = two*temp2
             temp3 = zero
             temp4 = two
-            DO k = 1 , N
+            do k = 1 , n
                Fjac(k,j) = tk*temp4
                ti = four*temp2 + temp*temp4 - temp3
                temp3 = temp4
@@ -314,135 +314,135 @@
                ti = temp*temp2 - temp1
                temp1 = temp2
                temp2 = ti
-            ENDDO
-         ENDDO
-      CASE (8)
+            enddo
+         enddo
+      case (8)
 !
 !     BROWN ALMOST-LINEAR FUNCTION.
 !
          prod = one
-         DO j = 1 , N
-            prod = X(j)*prod
-            DO k = 1 , N
+         do j = 1 , n
+            prod = x(j)*prod
+            do k = 1 , n
                Fjac(k,j) = one
-            ENDDO
+            enddo
             Fjac(j,j) = two
-         ENDDO
-         DO j = 1 , N
-            temp = X(j)
-            IF ( temp==zero ) THEN
+         enddo
+         do j = 1 , n
+            temp = x(j)
+            if ( temp==zero ) then
                temp = one
                prod = one
-               DO k = 1 , N
-                  IF ( k/=j ) prod = X(k)*prod
-               ENDDO
-            ENDIF
-            Fjac(N,j) = prod/temp
-         ENDDO
-      CASE (9)
+               do k = 1 , n
+                  if ( k/=j ) prod = x(k)*prod
+               enddo
+            endif
+            Fjac(n,j) = prod/temp
+         enddo
+      case (9)
 !
 !     DISCRETE BOUNDARY VALUE FUNCTION.
 !
-         h = one/DFLOAT(N+1)
-         DO k = 1 , N
-            temp = three*(X(k)+DFLOAT(k)*h+one)**2
-            DO j = 1 , N
+         h = one/dfloat(n+1)
+         do k = 1 , n
+            temp = three*(x(k)+dfloat(k)*h+one)**2
+            do j = 1 , n
                Fjac(k,j) = zero
-            ENDDO
+            enddo
             Fjac(k,k) = two + temp*h**2/two
-            IF ( k/=1 ) Fjac(k,k-1) = -one
-            IF ( k/=N ) Fjac(k,k+1) = -one
-         ENDDO
-      CASE (10)
+            if ( k/=1 ) Fjac(k,k-1) = -one
+            if ( k/=n ) Fjac(k,k+1) = -one
+         enddo
+      case (10)
 !
 !     DISCRETE INTEGRAL EQUATION FUNCTION.
 !
-         h = one/DFLOAT(N+1)
-         DO k = 1 , N
-            tk = DFLOAT(k)*h
-            DO j = 1 , N
-               tj = DFLOAT(j)*h
-               temp = three*(X(j)+tj+one)**2
-               Fjac(k,j) = h*DMIN1(tj*(one-tk),tk*(one-tj))*temp/two
-            ENDDO
+         h = one/dfloat(n+1)
+         do k = 1 , n
+            tk = dfloat(k)*h
+            do j = 1 , n
+               tj = dfloat(j)*h
+               temp = three*(x(j)+tj+one)**2
+               Fjac(k,j) = h*dmin1(tj*(one-tk),tk*(one-tj))*temp/two
+            enddo
             Fjac(k,k) = Fjac(k,k) + one
-         ENDDO
-      CASE (11)
+         enddo
+      case (11)
 !
 !     TRIGONOMETRIC FUNCTION.
 !
-         DO j = 1 , N
-            temp = DSIN(X(j))
-            DO k = 1 , N
+         do j = 1 , n
+            temp = dsin(x(j))
+            do k = 1 , n
                Fjac(k,j) = temp
-            ENDDO
-            Fjac(j,j) = DFLOAT(j+1)*temp - DCOS(X(j))
-         ENDDO
-      CASE (12)
+            enddo
+            Fjac(j,j) = dfloat(j+1)*temp - dcos(x(j))
+         enddo
+      case (12)
 !
 !     VARIABLY DIMENSIONED FUNCTION.
 !
          sum = zero
-         DO j = 1 , N
-            sum = sum + DFLOAT(j)*(X(j)-one)
-         ENDDO
+         do j = 1 , n
+            sum = sum + dfloat(j)*(x(j)-one)
+         enddo
          temp = one + six*sum**2
-         DO k = 1 , N
-            DO j = k , N
-               Fjac(k,j) = DFLOAT(k*j)*temp
+         do k = 1 , n
+            do j = k , n
+               Fjac(k,j) = dfloat(k*j)*temp
                Fjac(j,k) = Fjac(k,j)
-            ENDDO
+            enddo
             Fjac(k,k) = Fjac(k,k) + one
-         ENDDO
-      CASE (13)
+         enddo
+      case (13)
 !
 !     BROYDEN TRIDIAGONAL FUNCTION.
 !
-         DO k = 1 , N
-            DO j = 1 , N
+         do k = 1 , n
+            do j = 1 , n
                Fjac(k,j) = zero
-            ENDDO
-            Fjac(k,k) = three - four*X(k)
-            IF ( k/=1 ) Fjac(k,k-1) = -one
-            IF ( k/=N ) Fjac(k,k+1) = -two
-         ENDDO
-      CASE (14)
+            enddo
+            Fjac(k,k) = three - four*x(k)
+            if ( k/=1 ) Fjac(k,k-1) = -one
+            if ( k/=n ) Fjac(k,k+1) = -two
+         enddo
+      case (14)
 !
 !     BROYDEN BANDED FUNCTION.
 !
          ml = 5
          mu = 1
-         DO k = 1 , N
-            DO j = 1 , N
+         do k = 1 , n
+            do j = 1 , n
                Fjac(k,j) = zero
-            ENDDO
-            k1 = MAX0(1,k-ml)
-            k2 = MIN0(k+mu,N)
-            DO j = k1 , k2
-               IF ( j/=k ) Fjac(k,j) = -(one+two*X(j))
-            ENDDO
-            Fjac(k,k) = two + fiftn*X(k)**2
-         ENDDO
-      CASE DEFAULT
+            enddo
+            k1 = max0(1,k-ml)
+            k2 = min0(k+mu,n)
+            do j = k1 , k2
+               if ( j/=k ) Fjac(k,j) = -(one+two*x(j))
+            enddo
+            Fjac(k,k) = two + fiftn*x(k)**2
+         enddo
+      case default
 !
 !     ROSENBROCK FUNCTION.
 !
          Fjac(1,1) = -one
          Fjac(1,2) = zero
-         Fjac(2,1) = -twenty*X(1)
+         Fjac(2,1) = -twenty*x(1)
          Fjac(2,2) = ten
-      END SELECT
+      end select
 !
 !     LAST CARD OF SUBROUTINE VECJAC.
 !
-      END
+      end
 !*==INITPT.spg  processed by SPAG 6.72Dc at 04:41 on 19 Sep 2021
-      SUBROUTINE INITPT(N,X,Nprob,Factor)
-      IMPLICIT NONE
+      subroutine initpt(n,x,Nprob,Factor)
+      implicit none
 !*--INITPT444
-      INTEGER N , Nprob
-      DOUBLE PRECISION Factor
-      DOUBLE PRECISION X(N)
+      integer n , Nprob
+      double precision Factor
+      double precision x(n)
 !     **********
 !
 !     SUBROUTINE INITPT
@@ -476,130 +476,130 @@
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
 !
 !     **********
-      INTEGER ivar , j
-      DOUBLE PRECISION c1 , h , half , one , three , tj , zero
-      DOUBLE PRECISION DFLOAT
-      DATA zero , half , one , three , c1/0.0D0 , 5.0D-1 , 1.0D0 ,      &
-         & 3.0D0 , 1.2D0/
-      DFLOAT(ivar) = ivar
+      integer ivar , j
+      double precision c1 , h , half , one , three , tj , zero
+      double precision dfloat
+      data zero , half , one , three , c1/0.0d0 , 5.0d-1 , 1.0d0 ,      &
+         & 3.0d0 , 1.2d0/
+      dfloat(ivar) = ivar
 !
 !     SELECTION OF INITIAL POINT.
 !
-      SELECT CASE (Nprob)
-      CASE (2)
+      select case (Nprob)
+      case (2)
 !
 !     POWELL SINGULAR FUNCTION.
 !
-         X(1) = three
-         X(2) = -one
-         X(3) = zero
-         X(4) = one
-      CASE (3)
+         x(1) = three
+         x(2) = -one
+         x(3) = zero
+         x(4) = one
+      case (3)
 !
 !     POWELL BADLY SCALED FUNCTION.
 !
-         X(1) = zero
-         X(2) = one
-      CASE (4)
+         x(1) = zero
+         x(2) = one
+      case (4)
 !
 !     WOOD FUNCTION.
 !
-         X(1) = -three
-         X(2) = -one
-         X(3) = -three
-         X(4) = -one
-      CASE (5)
+         x(1) = -three
+         x(2) = -one
+         x(3) = -three
+         x(4) = -one
+      case (5)
 !
 !     HELICAL VALLEY FUNCTION.
 !
-         X(1) = -one
-         X(2) = zero
-         X(3) = zero
-      CASE (6)
+         x(1) = -one
+         x(2) = zero
+         x(3) = zero
+      case (6)
 !
 !     WATSON FUNCTION.
 !
-         DO j = 1 , N
-            X(j) = zero
-         ENDDO
-      CASE (7)
+         do j = 1 , n
+            x(j) = zero
+         enddo
+      case (7)
 !
 !     CHEBYQUAD FUNCTION.
 !
-         h = one/DFLOAT(N+1)
-         DO j = 1 , N
-            X(j) = DFLOAT(j)*h
-         ENDDO
-      CASE (8)
+         h = one/dfloat(n+1)
+         do j = 1 , n
+            x(j) = dfloat(j)*h
+         enddo
+      case (8)
 !
 !     BROWN ALMOST-LINEAR FUNCTION.
 !
-         DO j = 1 , N
-            X(j) = half
-         ENDDO
-      CASE (9,10)
+         do j = 1 , n
+            x(j) = half
+         enddo
+      case (9,10)
 !
 !     DISCRETE BOUNDARY VALUE AND INTEGRAL EQUATION FUNCTIONS.
 !
-         h = one/DFLOAT(N+1)
-         DO j = 1 , N
-            tj = DFLOAT(j)*h
-            X(j) = tj*(tj-one)
-         ENDDO
-      CASE (11)
+         h = one/dfloat(n+1)
+         do j = 1 , n
+            tj = dfloat(j)*h
+            x(j) = tj*(tj-one)
+         enddo
+      case (11)
 !
 !     TRIGONOMETRIC FUNCTION.
 !
-         h = one/DFLOAT(N)
-         DO j = 1 , N
-            X(j) = h
-         ENDDO
-      CASE (12)
+         h = one/dfloat(n)
+         do j = 1 , n
+            x(j) = h
+         enddo
+      case (12)
 !
 !     VARIABLY DIMENSIONED FUNCTION.
 !
-         h = one/DFLOAT(N)
-         DO j = 1 , N
-            X(j) = one - DFLOAT(j)*h
-         ENDDO
-      CASE (13,14)
+         h = one/dfloat(n)
+         do j = 1 , n
+            x(j) = one - dfloat(j)*h
+         enddo
+      case (13,14)
 !
 !     BROYDEN TRIDIAGONAL AND BANDED FUNCTIONS.
 !
-         DO j = 1 , N
-            X(j) = -one
-         ENDDO
-      CASE DEFAULT
+         do j = 1 , n
+            x(j) = -one
+         enddo
+      case default
 !
 !     ROSENBROCK FUNCTION.
 !
-         X(1) = -c1
-         X(2) = one
-      END SELECT
+         x(1) = -c1
+         x(2) = one
+      end select
 !
 !     COMPUTE MULTIPLE OF INITIAL POINT.
 !
-      IF ( Factor/=one ) THEN
-         IF ( Nprob==6 ) THEN
-            DO j = 1 , N
-               X(j) = Factor
-            ENDDO
-         ELSE
-            DO j = 1 , N
-               X(j) = Factor*X(j)
-            ENDDO
-         ENDIF
-      ENDIF
+      if ( Factor/=one ) then
+         if ( Nprob==6 ) then
+            do j = 1 , n
+               x(j) = Factor
+            enddo
+         else
+            do j = 1 , n
+               x(j) = Factor*x(j)
+            enddo
+         endif
+      endif
 !
 !     LAST CARD OF SUBROUTINE INITPT.
 !
-      END
+      end
 !*==VECFCN.spg  processed by SPAG 6.72Dc at 04:41 on 19 Sep 2021
-      SUBROUTINE VECFCN(N,X,Fvec,Nprob)
-      IMPLICIT NONE
+      subroutine vecfcn(n,x,Fvec,Nprob)
+      implicit none
 !*--VECFCN602
-      INTEGER N , Nprob
-      DOUBLE PRECISION X(N) , Fvec(N)
+      integer n , Nprob
+      double precision x(n) , Fvec(n)
 !     **********
 !
 !     SUBROUTINE VECFCN
@@ -635,224 +635,224 @@
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
 !
 !     **********
-      INTEGER i , iev , ivar , j , k , k1 , k2 , kp1 , ml , mu
-      DOUBLE PRECISION c1 , c2 , c3 , c4 , c5 , c6 , c7 , c8 , c9 ,     &
+      integer i , iev , ivar , j , k , k1 , k2 , kp1 , ml , mu
+      double precision c1 , c2 , c3 , c4 , c5 , c6 , c7 , c8 , c9 ,     &
                      & eight , five , h , one , prod , sum , sum1 ,     &
                      & sum2 , temp , temp1 , temp2 , ten , three , ti , &
                      & tj , tk , tpi , two , zero
-      DOUBLE PRECISION DFLOAT
-      DATA zero , one , two , three , five , eight , ten/0.0D0 , 1.0D0 ,&
-         & 2.0D0 , 3.0D0 , 5.0D0 , 8.0D0 , 1.0D1/
-      DATA c1 , c2 , c3 , c4 , c5 , c6 , c7 , c8 , c9/1.0D4 , 1.0001D0 ,&
-         & 2.0D2 , 2.02D1 , 1.98D1 , 1.8D2 , 2.5D-1 , 5.0D-1 , 2.9D1/
-      DFLOAT(ivar) = ivar
+      double precision dfloat
+      data zero , one , two , three , five , eight , ten/0.0d0 , 1.0d0 ,&
+         & 2.0d0 , 3.0d0 , 5.0d0 , 8.0d0 , 1.0d1/
+      data c1 , c2 , c3 , c4 , c5 , c6 , c7 , c8 , c9/1.0d4 , 1.0001d0 ,&
+         & 2.0d2 , 2.02d1 , 1.98d1 , 1.8d2 , 2.5d-1 , 5.0d-1 , 2.9d1/
+      dfloat(ivar) = ivar
 !
 !     PROBLEM SELECTOR.
 !
-      SELECT CASE (Nprob)
-      CASE (2)
+      select case (Nprob)
+      case (2)
 !
 !     POWELL SINGULAR FUNCTION.
 !
-         Fvec(1) = X(1) + ten*X(2)
-         Fvec(2) = DSQRT(five)*(X(3)-X(4))
-         Fvec(3) = (X(2)-two*X(3))**2
-         Fvec(4) = DSQRT(ten)*(X(1)-X(4))**2
-      CASE (3)
+         Fvec(1) = x(1) + ten*x(2)
+         Fvec(2) = dsqrt(five)*(x(3)-x(4))
+         Fvec(3) = (x(2)-two*x(3))**2
+         Fvec(4) = dsqrt(ten)*(x(1)-x(4))**2
+      case (3)
 !
 !     POWELL BADLY SCALED FUNCTION.
 !
-         Fvec(1) = c1*X(1)*X(2) - one
-         Fvec(2) = DEXP(-X(1)) + DEXP(-X(2)) - c2
-      CASE (4)
+         Fvec(1) = c1*x(1)*x(2) - one
+         Fvec(2) = dexp(-x(1)) + dexp(-x(2)) - c2
+      case (4)
 !
 !     WOOD FUNCTION.
 !
-         temp1 = X(2) - X(1)**2
-         temp2 = X(4) - X(3)**2
-         Fvec(1) = -c3*X(1)*temp1 - (one-X(1))
-         Fvec(2) = c3*temp1 + c4*(X(2)-one) + c5*(X(4)-one)
-         Fvec(3) = -c6*X(3)*temp2 - (one-X(3))
-         Fvec(4) = c6*temp2 + c4*(X(4)-one) + c5*(X(2)-one)
-      CASE (5)
+         temp1 = x(2) - x(1)**2
+         temp2 = x(4) - x(3)**2
+         Fvec(1) = -c3*x(1)*temp1 - (one-x(1))
+         Fvec(2) = c3*temp1 + c4*(x(2)-one) + c5*(x(4)-one)
+         Fvec(3) = -c6*x(3)*temp2 - (one-x(3))
+         Fvec(4) = c6*temp2 + c4*(x(4)-one) + c5*(x(2)-one)
+      case (5)
 !
 !     HELICAL VALLEY FUNCTION.
 !
-         tpi = eight*DATAN(one)
-         temp1 = DSIGN(c7,X(2))
-         IF ( X(1)>zero ) temp1 = DATAN(X(2)/X(1))/tpi
-         IF ( X(1)<zero ) temp1 = DATAN(X(2)/X(1))/tpi + c8
-         temp2 = DSQRT(X(1)**2+X(2)**2)
-         Fvec(1) = ten*(X(3)-ten*temp1)
+         tpi = eight*datan(one)
+         temp1 = dsign(c7,x(2))
+         if ( x(1)>zero ) temp1 = datan(x(2)/x(1))/tpi
+         if ( x(1)<zero ) temp1 = datan(x(2)/x(1))/tpi + c8
+         temp2 = dsqrt(x(1)**2+x(2)**2)
+         Fvec(1) = ten*(x(3)-ten*temp1)
          Fvec(2) = ten*(temp2-one)
-         Fvec(3) = X(3)
-      CASE (6)
+         Fvec(3) = x(3)
+      case (6)
 !
 !     WATSON FUNCTION.
 !
-         DO k = 1 , N
+         do k = 1 , n
             Fvec(k) = zero
-         ENDDO
-         DO i = 1 , 29
-            ti = DFLOAT(i)/c9
+         enddo
+         do i = 1 , 29
+            ti = dfloat(i)/c9
             sum1 = zero
             temp = one
-            DO j = 2 , N
-               sum1 = sum1 + DFLOAT(j-1)*temp*X(j)
+            do j = 2 , n
+               sum1 = sum1 + dfloat(j-1)*temp*x(j)
                temp = ti*temp
-            ENDDO
+            enddo
             sum2 = zero
             temp = one
-            DO j = 1 , N
-               sum2 = sum2 + temp*X(j)
+            do j = 1 , n
+               sum2 = sum2 + temp*x(j)
                temp = ti*temp
-            ENDDO
+            enddo
             temp1 = sum1 - sum2**2 - one
             temp2 = two*ti*sum2
             temp = one/ti
-            DO k = 1 , N
-               Fvec(k) = Fvec(k) + temp*(DFLOAT(k-1)-temp2)*temp1
+            do k = 1 , n
+               Fvec(k) = Fvec(k) + temp*(dfloat(k-1)-temp2)*temp1
                temp = ti*temp
-            ENDDO
-         ENDDO
-         temp = X(2) - X(1)**2 - one
-         Fvec(1) = Fvec(1) + X(1)*(one-two*temp)
+            enddo
+         enddo
+         temp = x(2) - x(1)**2 - one
+         Fvec(1) = Fvec(1) + x(1)*(one-two*temp)
          Fvec(2) = Fvec(2) + temp
-      CASE (7)
+      case (7)
 !
 !     CHEBYQUAD FUNCTION.
 !
-         DO k = 1 , N
+         do k = 1 , n
             Fvec(k) = zero
-         ENDDO
-         DO j = 1 , N
+         enddo
+         do j = 1 , n
             temp1 = one
-            temp2 = two*X(j) - one
+            temp2 = two*x(j) - one
             temp = two*temp2
-            DO i = 1 , N
+            do i = 1 , n
                Fvec(i) = Fvec(i) + temp2
                ti = temp*temp2 - temp1
                temp1 = temp2
                temp2 = ti
-            ENDDO
-         ENDDO
-         tk = one/DFLOAT(N)
+            enddo
+         enddo
+         tk = one/dfloat(n)
          iev = -1
-         DO k = 1 , N
+         do k = 1 , n
             Fvec(k) = tk*Fvec(k)
-            IF ( iev>0 ) Fvec(k) = Fvec(k) + one/(DFLOAT(k)**2-one)
+            if ( iev>0 ) Fvec(k) = Fvec(k) + one/(dfloat(k)**2-one)
             iev = -iev
-         ENDDO
-      CASE (8)
+         enddo
+      case (8)
 !
 !     BROWN ALMOST-LINEAR FUNCTION.
 !
-         sum = -DFLOAT(N+1)
+         sum = -dfloat(n+1)
          prod = one
-         DO j = 1 , N
-            sum = sum + X(j)
-            prod = X(j)*prod
-         ENDDO
-         DO k = 1 , N
-            Fvec(k) = X(k) + sum
-         ENDDO
-         Fvec(N) = prod - one
-      CASE (9)
+         do j = 1 , n
+            sum = sum + x(j)
+            prod = x(j)*prod
+         enddo
+         do k = 1 , n
+            Fvec(k) = x(k) + sum
+         enddo
+         Fvec(n) = prod - one
+      case (9)
 !
 !     DISCRETE BOUNDARY VALUE FUNCTION.
 !
-         h = one/DFLOAT(N+1)
-         DO k = 1 , N
-            temp = (X(k)+DFLOAT(k)*h+one)**3
+         h = one/dfloat(n+1)
+         do k = 1 , n
+            temp = (x(k)+dfloat(k)*h+one)**3
             temp1 = zero
-            IF ( k/=1 ) temp1 = X(k-1)
+            if ( k/=1 ) temp1 = x(k-1)
             temp2 = zero
-            IF ( k/=N ) temp2 = X(k+1)
-            Fvec(k) = two*X(k) - temp1 - temp2 + temp*h**2/two
-         ENDDO
-      CASE (10)
+            if ( k/=n ) temp2 = x(k+1)
+            Fvec(k) = two*x(k) - temp1 - temp2 + temp*h**2/two
+         enddo
+      case (10)
 !
 !     DISCRETE INTEGRAL EQUATION FUNCTION.
 !
-         h = one/DFLOAT(N+1)
-         DO k = 1 , N
-            tk = DFLOAT(k)*h
+         h = one/dfloat(n+1)
+         do k = 1 , n
+            tk = dfloat(k)*h
             sum1 = zero
-            DO j = 1 , k
-               tj = DFLOAT(j)*h
-               temp = (X(j)+tj+one)**3
+            do j = 1 , k
+               tj = dfloat(j)*h
+               temp = (x(j)+tj+one)**3
                sum1 = sum1 + tj*temp
-            ENDDO
+            enddo
             sum2 = zero
             kp1 = k + 1
-            IF ( N>=kp1 ) THEN
-               DO j = kp1 , N
-                  tj = DFLOAT(j)*h
-                  temp = (X(j)+tj+one)**3
+            if ( n>=kp1 ) then
+               do j = kp1 , n
+                  tj = dfloat(j)*h
+                  temp = (x(j)+tj+one)**3
                   sum2 = sum2 + (one-tj)*temp
-               ENDDO
-            ENDIF
-            Fvec(k) = X(k) + h*((one-tk)*sum1+tk*sum2)/two
-         ENDDO
-      CASE (11)
+               enddo
+            endif
+            Fvec(k) = x(k) + h*((one-tk)*sum1+tk*sum2)/two
+         enddo
+      case (11)
 !
 !     TRIGONOMETRIC FUNCTION.
 !
          sum = zero
-         DO j = 1 , N
-            Fvec(j) = DCOS(X(j))
+         do j = 1 , n
+            Fvec(j) = dcos(x(j))
             sum = sum + Fvec(j)
-         ENDDO
-         DO k = 1 , N
-            Fvec(k) = DFLOAT(N+k) - DSIN(X(k)) - sum - DFLOAT(k)*Fvec(k)
-         ENDDO
-      CASE (12)
+         enddo
+         do k = 1 , n
+            Fvec(k) = dfloat(n+k) - dsin(x(k)) - sum - dfloat(k)*Fvec(k)
+         enddo
+      case (12)
 !
 !     VARIABLY DIMENSIONED FUNCTION.
 !
          sum = zero
-         DO j = 1 , N
-            sum = sum + DFLOAT(j)*(X(j)-one)
-         ENDDO
+         do j = 1 , n
+            sum = sum + dfloat(j)*(x(j)-one)
+         enddo
          temp = sum*(one+two*sum**2)
-         DO k = 1 , N
-            Fvec(k) = X(k) - one + DFLOAT(k)*temp
-         ENDDO
-      CASE (13)
+         do k = 1 , n
+            Fvec(k) = x(k) - one + dfloat(k)*temp
+         enddo
+      case (13)
 !
 !     BROYDEN TRIDIAGONAL FUNCTION.
 !
-         DO k = 1 , N
-            temp = (three-two*X(k))*X(k)
+         do k = 1 , n
+            temp = (three-two*x(k))*x(k)
             temp1 = zero
-            IF ( k/=1 ) temp1 = X(k-1)
+            if ( k/=1 ) temp1 = x(k-1)
             temp2 = zero
-            IF ( k/=N ) temp2 = X(k+1)
+            if ( k/=n ) temp2 = x(k+1)
             Fvec(k) = temp - temp1 - two*temp2 + one
-         ENDDO
-      CASE (14)
+         enddo
+      case (14)
 !
 !     BROYDEN BANDED FUNCTION.
 !
          ml = 5
          mu = 1
-         DO k = 1 , N
-            k1 = MAX0(1,k-ml)
-            k2 = MIN0(k+mu,N)
+         do k = 1 , n
+            k1 = max0(1,k-ml)
+            k2 = min0(k+mu,n)
             temp = zero
-            DO j = k1 , k2
-               IF ( j/=k ) temp = temp + X(j)*(one+X(j))
-            ENDDO
-            Fvec(k) = X(k)*(two+five*X(k)**2) + one - temp
-         ENDDO
-      CASE DEFAULT
+            do j = k1 , k2
+               if ( j/=k ) temp = temp + x(j)*(one+x(j))
+            enddo
+            Fvec(k) = x(k)*(two+five*x(k)**2) + one - temp
+         enddo
+      case default
 !
 !     ROSENBROCK FUNCTION.
 !
-         Fvec(1) = one - X(1)
-         Fvec(2) = ten*(X(2)-X(1)**2)
-      END SELECT
+         Fvec(1) = one - x(1)
+         Fvec(2) = ten*(x(2)-x(1)**2)
+      end select
 !
 !     LAST CARD OF SUBROUTINE VECFCN.
 !
-      END
+      end
