@@ -1317,9 +1317,6 @@
       subroutine hybrd1(fcn,n,x,Fvec,Tol,Info,Wa,Lwa)
       implicit none
 !*--HYBRD11319
-!*** Start of declarations inserted by SPAG
-      real fcn
-!*** End of declarations inserted by SPAG
       integer n , Info , Lwa
       double precision Tol
       double precision x(n) , Fvec(n) , Wa(Lwa)
@@ -1884,9 +1881,6 @@
       subroutine hybrj1(fcn,n,x,Fvec,Fjac,Ldfjac,Tol,Info,Wa,Lwa)
       implicit none
 !*--HYBRJ11886
-!*** Start of declarations inserted by SPAG
-      real fcn
-!*** End of declarations inserted by SPAG
       integer n , Ldfjac , Info , Lwa
       double precision Tol
       double precision x(n) , Fvec(n) , Fjac(Ldfjac,n) , Wa(Lwa)
@@ -2475,9 +2469,6 @@
       subroutine lmder1(fcn,m,n,x,Fvec,Fjac,Ldfjac,Tol,Info,Ipvt,Wa,Lwa)
       implicit none
 !*--LMDER12477
-!*** Start of declarations inserted by SPAG
-      real fcn
-!*** End of declarations inserted by SPAG
       integer m , n , Ldfjac , Info , Lwa
       integer Ipvt(n)
       double precision Tol
@@ -3096,9 +3087,6 @@
       subroutine lmdif1(fcn,m,n,x,Fvec,Tol,Info,Iwa,Wa,Lwa)
       implicit none
 !*--LMDIF13098
-!*** Start of declarations inserted by SPAG
-      real fcn
-!*** End of declarations inserted by SPAG
       integer m , n , Info , Lwa
       integer Iwa(n)
       double precision Tol
@@ -3969,9 +3957,6 @@
       subroutine lmstr1(fcn,m,n,x,Fvec,Fjac,Ldfjac,Tol,Info,Ipvt,Wa,Lwa)
       implicit none
 !*--LMSTR13971
-!*** Start of declarations inserted by SPAG
-      real fcn
-!*** End of declarations inserted by SPAG
       integer m , n , Ldfjac , Info , Lwa
       integer Ipvt(n)
       double precision Tol
