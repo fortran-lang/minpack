@@ -1,7 +1,7 @@
-!*==AA0001.spg  processed by SPAG 6.72Dc at 04:41 on 19 Sep 2021
+
       program test
       implicit none
-!*--AA00013
+
 !     **********
 !
 !     THIS PROGRAM TESTS CODES FOR THE LEAST-SQUARES SOLUTION OF
@@ -97,10 +97,10 @@
 !     LAST CARD OF DRIVER.
 !
       end
-!*==FCN.spg  processed by SPAG 6.72Dc at 04:41 on 19 Sep 2021
+
       subroutine fcn(m,n,x,Fvec,Fjac,Ldfjac,Iflag)
       implicit none
-!*--FCN105
+
       integer m , n , Ldfjac , Iflag
       double precision x(n) , Fvec(m) , Fjac(Ldfjac,n)
 !     **********
@@ -129,10 +129,10 @@
 !     LAST CARD OF INTERFACE SUBROUTINE FCN.
 !
       end
-!*==SSQJAC.spg  processed by SPAG 6.72Dc at 04:41 on 19 Sep 2021
+
       subroutine ssqjac(m,n,x,Fjac,Ldfjac,Nprob)
       implicit none
-!*--SSQJAC137
+
       integer m , n , Ldfjac , Nprob
       double precision x(n) , Fjac(Ldfjac,n)
 !     **********
@@ -463,10 +463,10 @@
 !     LAST CARD OF SUBROUTINE SSQJAC.
 !
       end
-!*==INITPT.spg  processed by SPAG 6.72Dc at 04:41 on 19 Sep 2021
+
       subroutine initpt(n,x,Nprob,Factor)
       implicit none
-!*--INITPT471
+
       integer n , Nprob
       double precision Factor
       double precision x(n)
@@ -663,10 +663,10 @@
 !     LAST CARD OF SUBROUTINE INITPT.
 !
       end
-!*==SSQFCN.spg  processed by SPAG 6.72Dc at 04:41 on 19 Sep 2021
+
       subroutine ssqfcn(m,n,x,Fvec,Nprob)
       implicit none
-!*--SSQFCN671
+
       integer m , n , Nprob
       double precision x(n) , Fvec(m)
 !     **********

@@ -1,7 +1,7 @@
-!*==AA0001.spg  processed by SPAG 6.72Dc at 04:43 on 19 Sep 2021
+
       program test
       implicit none
-!*--AA00013
+
 !     **********
 !
 !     THIS PROGRAM TESTS THE ABILITY OF CHKDER TO DETECT
@@ -92,10 +92,10 @@
 !     LAST CARD OF DERIVATIVE CHECK TEST DRIVER.
 !
       end
-!*==ERRJAC.spg  processed by SPAG 6.72Dc at 04:43 on 19 Sep 2021
+
       subroutine errjac(n,x,Fjac,Ldfjac,Nprob)
       implicit none
-!*--ERRJAC97
+
       integer n , Ldfjac , Nprob
       double precision x(n) , Fjac(Ldfjac,n)
 !     **********
@@ -414,10 +414,10 @@
 !     LAST CARD OF SUBROUTINE ERRJAC.
 !
       end
-!*==INITPT.spg  processed by SPAG 6.72Dc at 04:43 on 19 Sep 2021
+
       subroutine initpt(n,x,Nprob,Factor)
       implicit none
-!*--INITPT419
+
       integer n , Nprob
       double precision Factor
       double precision x(n)
@@ -572,10 +572,10 @@
 !     LAST CARD OF SUBROUTINE INITPT.
 !
       end
-!*==VECFCN.spg  processed by SPAG 6.72Dc at 04:43 on 19 Sep 2021
+
       subroutine vecfcn(n,x,Fvec,Nprob)
       implicit none
-!*--VECFCN577
+
       integer n , Nprob
       double precision x(n) , Fvec(n)
 !     **********

@@ -1,7 +1,7 @@
-!*==AA0001.spg  processed by SPAG 6.72Dc at 04:38 on 19 Sep 2021
+
       program test
       implicit none
-!*--AA00013
+
 !     **********
 !
 !     THIS PROGRAM TESTS CODES FOR THE SOLUTION OF N NONLINEAR
@@ -88,10 +88,10 @@
 !     LAST CARD OF DRIVER.
 !
       end
-!*==FCN.spg  processed by SPAG 6.72Dc at 04:38 on 19 Sep 2021
+
       subroutine fcn(n,x,Fvec,Iflag)
       implicit none
-!*--FCN96
+
       integer n , Iflag
       double precision x(n) , Fvec(n)
 !     **********
@@ -118,10 +118,10 @@
 !     LAST CARD OF INTERFACE SUBROUTINE FCN.
 !
       end
-!*==VECFCN.spg  processed by SPAG 6.72Dc at 04:38 on 19 Sep 2021
+
       subroutine vecfcn(n,x,Fvec,Nprob)
       implicit none
-!*--VECFCN126
+
       integer n , Nprob
       double precision x(n) , Fvec(n)
 !     **********
@@ -380,10 +380,10 @@
 !     LAST CARD OF SUBROUTINE VECFCN.
 !
       end
-!*==INITPT.spg  processed by SPAG 6.72Dc at 04:38 on 19 Sep 2021
+
       subroutine initpt(n,x,Nprob,Factor)
       implicit none
-!*--INITPT388
+
       integer n , Nprob
       double precision Factor
       double precision x(n)

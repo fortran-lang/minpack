@@ -1,7 +1,7 @@
-!*==CHKDER.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine chkder(m,n,x,Fvec,Fjac,Ldfjac,Xp,Fvecp,Mode,Err)
       implicit none
-!*--CHKDER4
+
       integer m , n , Ldfjac , Mode
       double precision x(n) , Fvec(m) , Fjac(Ldfjac,n) , Xp(n) ,        &
                      & Fvecp(m) , Err(m)
@@ -140,10 +140,10 @@
 !     last card of subroutine chkder.
 !
       end
-!*==DOGLEG.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine dogleg(n,r,Lr,Diag,Qtb,Delta,x,Wa1,Wa2)
       implicit none
-!*--DOGLEG146
+
       integer n , Lr
       double precision Delta
       double precision r(Lr) , Diag(n) , Qtb(n) , x(n) , Wa1(n) , Wa2(n)
@@ -321,10 +321,10 @@
 !     last card of subroutine dogleg.
 !
       end
-!*==DPMPAR.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       double precision function dpmpar(i)
       implicit none
-!*--DPMPAR327
+
       integer i
 !     **********
 !
@@ -500,10 +500,10 @@
 !     Last card of function dpmpar.
 !
       end
-!*==ENORM.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       double precision function enorm(n,x)
       implicit none
-!*--ENORM506
+
       integer n
       double precision x(n)
 !     **********
@@ -597,11 +597,11 @@
 !     last card of function enorm.
 !
       end
-!*==FDJAC1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine fdjac1(fcn,n,x,Fvec,Fjac,Ldfjac,Iflag,Ml,Mu,Epsfcn,Wa1,&
                       & Wa2)
       implicit none
-!*--FDJAC1604
+
       integer n , Ldfjac , Iflag , Ml , Mu
       double precision Epsfcn
       double precision x(n) , Fvec(n) , Fjac(Ldfjac,n) , Wa1(n) , Wa2(n)
@@ -746,11 +746,11 @@
 !     last card of subroutine fdjac1.
 !
 99999 end
-!*==FDJAC2.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
  
       subroutine fdjac2(fcn,m,n,x,Fvec,Fjac,Ldfjac,Iflag,Epsfcn,Wa)
       implicit none
-!*--FDJAC2753
+
       integer m , n , Ldfjac , Iflag
       double precision Epsfcn
       double precision x(n) , Fvec(m) , Fjac(Ldfjac,n) , Wa(m)
@@ -855,12 +855,12 @@
 !     last card of subroutine fdjac2.
 !
 99999 end
-!*==HYBRD.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine hybrd(fcn,n,x,Fvec,Xtol,Maxfev,Ml,Mu,Epsfcn,Diag,Mode, &
                      & Factor,Nprint,Info,Nfev,Fjac,Ldfjac,r,Lr,Qtf,Wa1,&
                      & Wa2,Wa3,Wa4)
       implicit none
-!*--HYBRD863
+
       integer n , Maxfev , Ml , Mu , Mode , Nprint , Info , Nfev ,      &
             & Ldfjac , Lr
       double precision Xtol , Epsfcn , Factor
@@ -1313,10 +1313,10 @@
 !     last card of subroutine hybrd.
 !
       end
-!*==HYBRD1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine hybrd1(fcn,n,x,Fvec,Tol,Info,Wa,Lwa)
       implicit none
-!*--HYBRD11319
+
       integer n , Info , Lwa
       double precision Tol
       double precision x(n) , Fvec(n) , Wa(Lwa)
@@ -1437,12 +1437,12 @@
 !     last card of subroutine hybrd1.
 !
       end
-!*==HYBRJ.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine hybrj(fcn,n,x,Fvec,Fjac,Ldfjac,Xtol,Maxfev,Diag,Mode,  &
                      & Factor,Nprint,Info,Nfev,Njev,r,Lr,Qtf,Wa1,Wa2,   &
                      & Wa3,Wa4)
       implicit none
-!*--HYBRJ1448
+
       integer n , Ldfjac , Maxfev , Mode , Nprint , Info , Nfev , Njev ,&
             & Lr
       double precision Xtol , Factor
@@ -1877,10 +1877,10 @@
 !     last card of subroutine hybrj.
 !
       end
-!*==HYBRJ1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine hybrj1(fcn,n,x,Fvec,Fjac,Ldfjac,Tol,Info,Wa,Lwa)
       implicit none
-!*--HYBRJ11886
+
       integer n , Ldfjac , Info , Lwa
       double precision Tol
       double precision x(n) , Fvec(n) , Fjac(Ldfjac,n) , Wa(Lwa)
@@ -2006,12 +2006,12 @@
 !     last card of subroutine hybrj1.
 !
       end
-!*==LMDER.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine lmder(fcn,m,n,x,Fvec,Fjac,Ldfjac,Ftol,Xtol,Gtol,Maxfev,&
                      & Diag,Mode,Factor,Nprint,Info,Nfev,Njev,Ipvt,Qtf, &
                      & Wa1,Wa2,Wa3,Wa4)
       implicit none
-!*--LMDER2020
+
       integer m , n , Ldfjac , Maxfev , Mode , Nprint , Info , Nfev ,   &
             & Njev
       integer Ipvt(n)
@@ -2465,10 +2465,10 @@
 !     last card of subroutine lmder.
 !
       end
-!*==LMDER1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine lmder1(fcn,m,n,x,Fvec,Fjac,Ldfjac,Tol,Info,Ipvt,Wa,Lwa)
       implicit none
-!*--LMDER12477
+
       integer m , n , Ldfjac , Info , Lwa
       integer Ipvt(n)
       double precision Tol
@@ -2622,12 +2622,12 @@
 !     last card of subroutine lmder1.
 !
       end
-!*==LMDIF.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine lmdif(fcn,m,n,x,Fvec,Ftol,Xtol,Gtol,Maxfev,Epsfcn,Diag,&
                      & Mode,Factor,Nprint,Info,Nfev,Fjac,Ldfjac,Ipvt,   &
                      & Qtf,Wa1,Wa2,Wa3,Wa4)
       implicit none
-!*--LMDIF2639
+
       integer m , n , Maxfev , Mode , Nprint , Info , Nfev , Ldfjac
       integer Ipvt(n)
       double precision Ftol , Xtol , Gtol , Epsfcn , Factor
@@ -3083,10 +3083,10 @@
 !     last card of subroutine lmdif.
 !
       end
-!*==LMDIF1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine lmdif1(fcn,m,n,x,Fvec,Tol,Info,Iwa,Wa,Lwa)
       implicit none
-!*--LMDIF13098
+
       integer m , n , Info , Lwa
       integer Iwa(n)
       double precision Tol
@@ -3219,10 +3219,10 @@
 !     last card of subroutine lmdif1.
 !
       end
-!*==LMPAR.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine lmpar(n,r,Ldr,Ipvt,Diag,Qtb,Delta,Par,x,Sdiag,Wa1,Wa2)
       implicit none
-!*--LMPAR3237
+
       integer n , Ldr
       integer Ipvt(n)
       double precision Delta , Par
@@ -3486,12 +3486,12 @@
 !     last card of subroutine lmpar.
 !
       end
-!*==LMSTR.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine lmstr(fcn,m,n,x,Fvec,Fjac,Ldfjac,Ftol,Xtol,Gtol,Maxfev,&
                      & Diag,Mode,Factor,Nprint,Info,Nfev,Njev,Ipvt,Qtf, &
                      & Wa1,Wa2,Wa3,Wa4)
       implicit none
-!*--LMSTR3506
+
       integer m , n , Ldfjac , Maxfev , Mode , Nprint , Info , Nfev ,   &
             & Njev
       integer Ipvt(n)
@@ -3953,10 +3953,10 @@
 !     last card of subroutine lmstr.
 !
       end
-!*==LMSTR1.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine lmstr1(fcn,m,n,x,Fvec,Fjac,Ldfjac,Tol,Info,Ipvt,Wa,Lwa)
       implicit none
-!*--LMSTR13971
+
       integer m , n , Ldfjac , Info , Lwa
       integer Ipvt(n)
       double precision Tol
@@ -4110,10 +4110,10 @@
 !     last card of subroutine lmstr1.
 !
       end
-!*==QFORM.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine qform(m,n,q,Ldq,Wa)
       implicit none
-!*--QFORM4131
+
       integer m , n , Ldq
       double precision q(Ldq,m) , Wa(m)
 !     **********
@@ -4207,10 +4207,10 @@
 !     last card of subroutine qform.
 !
       end
-!*==QRFAC.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine qrfac(m,n,a,Lda,Pivot,Ipvt,Lipvt,Rdiag,Acnorm,Wa)
       implicit none
-!*--QRFAC4228
+
       integer m , n , Lda , Lipvt
       integer Ipvt(Lipvt)
       logical Pivot
@@ -4376,10 +4376,10 @@
 !     last card of subroutine qrfac.
 !
       end
-!*==QRSOLV.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine qrsolv(n,r,Ldr,Ipvt,Diag,Qtb,x,Sdiag,Wa)
       implicit none
-!*--QRSOLV4397
+
       integer n , Ldr
       integer Ipvt(n)
       double precision r(Ldr,n) , Diag(n) , Qtb(n) , x(n) , Sdiag(n) ,  &
@@ -4573,10 +4573,10 @@
 !     last card of subroutine qrsolv.
 !
       end
-!*==R1MPYQ.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine r1mpyq(m,n,a,Lda,v,w)
       implicit none
-!*--R1MPYQ4594
+
       integer m , n , Lda
       double precision a(Lda,n) , v(n) , w(n)
 !     **********
@@ -4667,10 +4667,10 @@
 !     last card of subroutine r1mpyq.
 !
       end
-!*==R1UPDT.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine r1updt(m,n,s,Ls,u,v,w,Sing)
       implicit none
-!*--R1UPDT4688
+
       integer m , n , Ls
       logical Sing
       double precision s(Ls) , u(m) , v(n) , w(m)
@@ -4874,10 +4874,10 @@
 !     last card of subroutine r1updt.
 !
       end
-!*==RWUPDT.spg  processed by SPAG 6.72Dc at 03:59 on 19 Sep 2021
+
       subroutine rwupdt(n,r,Ldr,w,b,Alpha,Cos,Sin)
       implicit none
-!*--RWUPDT4895
+
       integer n , Ldr
       double precision Alpha
       double precision r(Ldr,n) , w(n) , b(n) , Cos(n) , Sin(n)
