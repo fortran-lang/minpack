@@ -41,9 +41,9 @@
          & .false./
       data cp , one/1.23d-1 , 1.0d0/
       ldfjac = 10
- 100  read (nread,99001) nprob , n
-99001 format (2i5)
-      if ( nprob<=0 ) then
+      n = 10
+      do nprob = 1, 15
+      if ( nprob==15 ) then
          write (nwrite,99002) lnp
 99002    format ('1SUMMARY OF ',i3,' TESTS OF CHKDER'/)
          write (nwrite,99003)
@@ -86,12 +86,9 @@
 99007    format (//5x,' FUNCTION DIFFERENCE VECTOR'//(5x,5d15.7))
          write (nwrite,99008) (err(i),i=1,n)
 99008    format (//5x,' ERROR VECTOR'//(5x,5d15.7))
-         goto 100
       endif
-!
-!     LAST CARD OF DERIVATIVE CHECK TEST DRIVER.
-!
-      end
+      end do
+      end program test
 
       subroutine errjac(n,x,Fjac,Ldfjac,Nprob)
       implicit none

@@ -45,9 +45,11 @@
       tol = dsqrt(dpmpar(1))
       lwa = 2865
       ic = 0
- 100  read (nread,99001) NPRob , n , m , ntries
-99001 format (4i5)
-      if ( NPRob<=0 ) then
+      n = 40
+      m = 65
+      ntries = 1
+      do NPRob = 1, 20
+      if ( NPRob==20 ) then
          write (nwrite,99002) ic
 99002    format ('1SUMMARY OF ',i3,' CALLS TO LMDIF1'/)
          write (nwrite,99003)
@@ -90,12 +92,9 @@
                    &' FINAL APPROXIMATE SOLUTION'//(5x,5d15.7))
             factor = ten*factor
          enddo
-         goto 100
       endif
-!
-!     LAST CARD OF DRIVER.
-!
-      end
+      end do
+      end program test
 
       subroutine fcn(m,n,x,Fvec,Iflag)
       implicit none

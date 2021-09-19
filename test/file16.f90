@@ -46,9 +46,10 @@
       ldfjac = 40
       lwa = 1060
       ic = 0
- 100  read (nread,99001) NPRob , n , ntries
-99001 format (3i5)
-      if ( NPRob<=0 ) then
+      n = 5
+      ntries = 1
+      do NPRob = 1, 16
+      if ( NPRob==16 ) then
          write (nwrite,99002) ic
 99002    format ('1SUMMARY OF ',i3,' CALLS TO HYBRJ1'/)
          write (nwrite,99003)
@@ -88,12 +89,9 @@
                    &' FINAL APPROXIMATE SOLUTION'//(5x,5d15.7))
             factor = ten*factor
          enddo
-         goto 100
       endif
-!
-!     LAST CARD OF DRIVER.
-!
-      end
+      end do
+      end program test
 
       subroutine fcn(n,x,Fvec,Fjac,Ldfjac,Iflag)
       implicit none
