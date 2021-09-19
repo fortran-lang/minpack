@@ -4,10 +4,35 @@ license = "BSD"
 author = "Jacob Williams"
 copyright = "Copyright 2021, Jacob Williams"
 
-[build]
-auto-executables = true
-auto-tests = true
-auto-examples = true
-
 [install]
-library = false
+library = true
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[[test]]
+name = "file15"
+source-dir = "test"
+main = "file15.f90"
+
+[[test]]
+name = "file16"
+source-dir = "test"
+main = "file16.f90"
+
+[[test]]
+name = "file17"
+source-dir = "test"
+main = "file17.f90"
+
+[[test]]
+name = "file19"
+source-dir = "test"
+main = "file19.f90"
+
+[[test]]
+name = "file20"
+source-dir = "test"
+main = "file20.f90"
