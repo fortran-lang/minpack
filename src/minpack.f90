@@ -1,5 +1,14 @@
+!*****************************************************************************************
+!>
+!  Modernized Minpack
+    module minpack_module
 
-      subroutine chkder(m,n,x,Fvec,Fjac,Ldfjac,Xp,Fvecp,Mode,Err)
+    implicit none
+
+    contains
+!*****************************************************************************************
+
+subroutine chkder(m,n,x,Fvec,Fjac,Ldfjac,Xp,Fvecp,Mode,Err)
       implicit none
 
       integer m , n , Ldfjac , Mode
@@ -89,8 +98,7 @@
       integer i , j
       double precision eps , epsf , epslog , epsmch , factor , one ,    &
                      & temp , zero
-      double precision dpmpar
-      data factor , one , zero/1.0d2 , 1.0d0 , 0.0d0/
+            data factor , one , zero/1.0d2 , 1.0d0 , 0.0d0/
 !
 !     epsmch is the machine precision.
 !
@@ -207,7 +215,6 @@
       integer i , j , jj , jp1 , k , l
       double precision alpha , bnorm , epsmch , gnorm , one , qnorm ,   &
                      & sgnorm , sum , temp , zero
-      double precision dpmpar , enorm
       data one , zero/1.0d0 , 0.0d0/
 !
 !     epsmch is the machine precision.
@@ -692,8 +699,7 @@
 !     **********
       integer i , j , k , msum
       double precision eps , epsmch , h , temp , zero
-      double precision dpmpar
-      data zero/0.0d0/
+            data zero/0.0d0/
 !
 !     epsmch is the machine precision.
 !
@@ -747,7 +753,7 @@
 !
 99999 end
 
- 
+
       subroutine fdjac2(fcn,m,n,x,Fvec,Fjac,Ldfjac,Iflag,Epsfcn,Wa)
       implicit none
 
@@ -831,8 +837,7 @@
 !     **********
       integer i , j
       double precision eps , epsmch , h , temp , zero
-      double precision dpmpar
-      data zero/0.0d0/
+            data zero/0.0d0/
 !
 !     epsmch is the machine precision.
 !
@@ -1031,7 +1036,6 @@
       double precision actred , delta , epsmch , fnorm , fnorm1 , one , &
                      & pnorm , prered , p1 , p5 , p001 , p0001 , ratio ,&
                      & sum , temp , xnorm , zero
-      double precision dpmpar , enorm
       data one , p1 , p5 , p001 , p0001 , zero/1.0d0 , 1.0d-1 , 5.0d-1 ,&
          & 1.0d-3 , 1.0d-4 , 0.0d0/
 !
@@ -1599,7 +1603,6 @@
       double precision actred , delta , epsmch , fnorm , fnorm1 , one , &
                      & pnorm , prered , p1 , p5 , p001 , p0001 , ratio ,&
                      & sum , temp , xnorm , zero
-      double precision dpmpar , enorm
       data one , p1 , p5 , p001 , p0001 , zero/1.0d0 , 1.0d-1 , 5.0d-1 ,&
          & 1.0d-3 , 1.0d-4 , 0.0d0/
 !
@@ -2200,7 +2203,6 @@
                      & fnorm1 , gnorm , one , par , pnorm , prered ,    &
                      & p1 , p5 , p25 , p75 , p0001 , ratio , sum ,      &
                      & temp , temp1 , temp2 , xnorm , zero
-      double precision dpmpar , enorm
       data one , p1 , p5 , p25 , p75 , p0001 , zero/1.0d0 , 1.0d-1 ,    &
          & 5.0d-1 , 2.5d-1 , 7.5d-1 , 1.0d-4 , 0.0d0/
 !
@@ -2819,8 +2821,7 @@
                      & fnorm1 , gnorm , one , par , pnorm , prered ,    &
                      & p1 , p5 , p25 , p75 , p0001 , ratio , sum ,      &
                      & temp , temp1 , temp2 , xnorm , zero
-      double precision dpmpar , enorm
-      data one , p1 , p5 , p25 , p75 , p0001 , zero/1.0d0 , 1.0d-1 ,    &
+            data one , p1 , p5 , p25 , p75 , p0001 , zero/1.0d0 , 1.0d-1 ,    &
          & 5.0d-1 , 2.5d-1 , 7.5d-1 , 1.0d-4 , 0.0d0/
 !
 !     epsmch is the machine precision.
@@ -3325,8 +3326,7 @@
       integer i , iter , j , jm1 , jp1 , k , l , nsing
       double precision dxnorm , dwarf , fp , gnorm , parc , parl ,      &
                      & paru , p1 , p001 , sum , temp , zero
-      double precision dpmpar , enorm
-      data p1 , p001 , zero/1.0d-1 , 1.0d-3 , 0.0d0/
+            data p1 , p001 , zero/1.0d-1 , 1.0d-3 , 0.0d0/
 !
 !     dwarf is the smallest positive magnitude.
 !
@@ -3680,8 +3680,7 @@
                      & fnorm1 , gnorm , one , par , pnorm , prered ,    &
                      & p1 , p5 , p25 , p75 , p0001 , ratio , sum ,      &
                      & temp , temp1 , temp2 , xnorm , zero
-      double precision dpmpar , enorm
-      data one , p1 , p5 , p25 , p75 , p0001 , zero/1.0d0 , 1.0d-1 ,    &
+            data one , p1 , p5 , p25 , p75 , p0001 , zero/1.0d0 , 1.0d-1 ,    &
          & 5.0d-1 , 2.5d-1 , 7.5d-1 , 1.0d-4 , 0.0d0/
 !
 !     epsmch is the machine precision.
@@ -4292,8 +4291,7 @@
 !     **********
       integer i , j , jp1 , k , kmax , minmn
       double precision ajnorm , epsmch , one , p05 , sum , temp , zero
-      double precision dpmpar , enorm
-      data one , p05 , zero/1.0d0 , 5.0d-2 , 0.0d0/
+            data one , p05 , zero/1.0d0 , 5.0d-2 , 0.0d0/
 !
 !     epsmch is the machine precision.
 !
@@ -4745,7 +4743,6 @@
       integer i , j , jj , l , nmj , nm1
       double precision cos , cotan , giant , one , p5 , p25 , sin ,     &
                      & tan , tau , temp , zero
-      double precision dpmpar
       data one , p5 , p25 , zero/1.0d0 , 5.0d-1 , 2.5d-1 , 0.0d0/
 !
 !     giant is the largest magnitude.
@@ -4988,3 +4985,7 @@
 !     last card of subroutine rwupdt.
 !
       end
+
+!*****************************************************************************************
+    end module minpack_module
+!*****************************************************************************************
