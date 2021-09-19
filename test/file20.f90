@@ -1,5 +1,6 @@
 
       program test
+         use minpack_module
       implicit none
 
 !     **********

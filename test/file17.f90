@@ -1,5 +1,6 @@
 
       program test
+         use minpack_module
       implicit none
 
 !     **********
@@ -33,8 +34,7 @@
       double precision factor , fnorm1 , fnorm2 , one , ten , tol
       double precision fjac(65,40) , fnm(60) , fvec(65) , wa(265) ,     &
                      & x(40)
-      double precision dpmpar , enorm
-      external fcn
+            external fcn
       common /refnum/ NPRob , NFEv , NJEv
 !
 !     LOGICAL INPUT UNIT IS ASSUMED TO BE NUMBER 5.

@@ -20,7 +20,7 @@ This version is a modernization of the original Fortran 77 code. This is a work 
 * Conversion from fixed (`.f`) to free-form (`.f90`) source.
 * Modified the tests so they can be automatically run in the [CI](https://github.com/jacobwilliams/minpack/actions)
 
-Further updated are planned...
+Further updates are planned...
 
 ### Documentation
 

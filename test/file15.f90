@@ -1,5 +1,6 @@
 
       program test
+         use minpack_module
       implicit none
 
 !     **********
@@ -31,8 +32,7 @@
       integer na(60) , nf(60) , np(60) , nx(60)
       double precision factor , fnorm1 , fnorm2 , one , ten , tol
       double precision fnm(60) , fvec(40) , wa(2660) , x(40)
-      double precision dpmpar , enorm
-      external fcn
+            external fcn
       common /refnum/ NPRob , NFEv
 !
 !     LOGICAL INPUT UNIT IS ASSUMED TO BE NUMBER 5.
