@@ -132,7 +132,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="99.7% of total for modules and submodules.">1911 statements</a>
+    title="99.7% of total for modules and submodules.">1909 statements</a>
      </li> 
      
      
@@ -300,7 +300,8 @@
 <h3>Authors</h3>
 <ul>
 <li>argonne national laboratory. minpack project. march 1980.
-    burton s. garbow, kenneth e. hillstrom, jorge j. more</li>
+    burton s. garbow, kenneth e. hillstrom, jorge j. more.</li>
+<li>Jacob Williams, Sept 2021, updated to modern standards.</li>
 </ul>
       <br>
     
@@ -2591,20 +2592,22 @@ of <code>fcn</code> with <code>iflag = 0</code> are made.</p></td>
   <td><strong>info</strong></td><td><p>an integer output variable. if the user has
 terminated execution, <code>info</code> is set to the (negative)
 value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
-<code>info</code> is set as follows:
- * <strong><em>info = 0</em></strong> improper input parameters.
- * <strong><em>info = 1</em></strong> relative error between two consecutive iterates
-   is at most <code>xtol</code>.
- * <strong><em>info = 2</em></strong> number of calls to <code>fcn</code> has reached or exceeded
-   <code>maxfev</code>.
- * <strong><em>info = 3</em></strong> <code>xtol</code> is too small. no further improvement in
-   the approximate solution <code>x</code> is possible.
- * <strong><em>info = 4</em></strong> iteration is not making good progress, as
+<code>info</code> is set as follows:</p>
+<ul>
+<li><strong><em>info = 0</em></strong> improper input parameters.</li>
+<li><strong><em>info = 1</em></strong> relative error between two consecutive iterates
+   is at most <code>xtol</code>.</li>
+<li><strong><em>info = 2</em></strong> number of calls to <code>fcn</code> has reached or exceeded
+   <code>maxfev</code>.</li>
+<li><strong><em>info = 3</em></strong> <code>xtol</code> is too small. no further improvement in
+   the approximate solution <code>x</code> is possible.</li>
+<li><strong><em>info = 4</em></strong> iteration is not making good progress, as
    measured by the improvement from the last
-   five jacobian evaluations.
- * <strong><em>info = 5</em></strong> iteration is not making good progress, as
+   five jacobian evaluations.</li>
+<li><strong><em>info = 5</em></strong> iteration is not making good progress, as
    measured by the improvement from the last
-   ten iterations.</p></td>
+   ten iterations.</li>
+</ul></td>
   
 </tr>
 
@@ -2909,15 +2912,17 @@ between <code>x</code> and the solution is at most <code>tol</code>.</p></td>
   <td><strong>info</strong></td><td><p>an integer output variable. if the user has
 terminated execution, info is set to the (negative)
 value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
-<code>info</code> is set as follows:
- <strong><em>info = 0</em></strong> improper input parameters.
- <strong><em>info = 1</em></strong> algorithm estimates that the relative error
- between <code>x</code> and the solution is at most <code>tol</code>.
- <strong><em>info = 2</em></strong> number of calls to <code>fcn</code> has reached or exceeded
- <code>200*(n+1)</code>.
- <strong><em>info = 3</em></strong> <code>tol</code> is too small. no further improvement in
- the approximate solution <code>x</code> is possible.
- <strong><em>info = 4</em></strong> iteration is not making good progress.</p></td>
+<code>info</code> is set as follows:</p>
+<ul>
+<li><strong><em>info = 0</em></strong> improper input parameters.</li>
+<li><strong><em>info = 1</em></strong> algorithm estimates that the relative error
+ between <code>x</code> and the solution is at most <code>tol</code>.</li>
+<li><strong><em>info = 2</em></strong> number of calls to <code>fcn</code> has reached or exceeded
+ <code>200*(n+1)</code>.</li>
+<li><strong><em>info = 3</em></strong> <code>tol</code> is too small. no further improvement in
+ the approximate solution <code>x</code> is possible.</li>
+<li><strong><em>info = 4</em></strong> iteration is not making good progress.</li>
+</ul></td>
   
 </tr>
 
@@ -3564,11 +3569,11 @@ info is set as follows:</p>
 <ul>
 <li><strong><em>info = 0</em></strong>   improper input parameters.</li>
 <li><strong><em>info = 1</em></strong>   algorithm estimates that the relative error
-  between x and the solution is at most tol.</li>
+   between x and the solution is at most tol.</li>
 <li><strong><em>info = 2</em></strong>   number of calls to fcn with iflag = 1 has
-  reached 100*(n+1).</li>
+   reached 100*(n+1).</li>
 <li><strong><em>info = 3</em></strong>   tol is too small. no further improvement in
-  the approximate solution x is possible.</li>
+   the approximate solution x is possible.</li>
 <li><strong><em>info = 4</em></strong>   iteration is not making good progress.</li>
 </ul></td>
   
