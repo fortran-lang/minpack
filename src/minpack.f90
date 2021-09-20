@@ -25,7 +25,7 @@ module minpack_module
             !! interface for user-supplied subroutine.
             import :: wp
             implicit none
-            integer,intent(in) :: n
+            integer,intent(in) :: n !! the number of variables.
             real(wp),intent(in) :: x(n) !! independant variable vector
             real(wp),intent(out) :: fvec(n) !! value of function at `x`
             integer,intent(inout) :: iflag !! set to <0 to terminate execution
@@ -35,8 +35,8 @@ module minpack_module
             !! interface for user-supplied subroutine.
             import :: wp
             implicit none
-            integer,intent(in) :: n
-            integer,intent(in) :: m
+            integer,intent(in) :: m !! the number of functions.
+            integer,intent(in) :: n !! the number of variables.
             real(wp),intent(in) :: x(n) !! independant variable vector
             real(wp),intent(out) :: fvec(m) !! value of function at `x`
             integer,intent(inout) :: iflag !! the value of iflag should not be changed unless
@@ -48,21 +48,28 @@ module minpack_module
             !! function for [[hybrj]]
             import :: wp
             implicit none
-            integer,intent(in)                       :: n
+            integer,intent(in)                       :: n !! the number of variables.
             real(wp),dimension(n),intent(in)         :: x !! independant variable vector
-            integer,intent(in)                       :: ldfjac
+            integer,intent(in)                       :: ldfjac !! leading dimension of the array fjac.
             real(wp),dimension(n),intent(out)        :: fvec !! value of function at `x`
-            real(wp),dimension(ldfjac,n),intent(out) :: fjac
-            integer,intent(inout)                    :: iflag
+            real(wp),dimension(ldfjac,n),intent(out) :: fjac !! jacobian matrix at `x`
+            integer,intent(inout)                    :: iflag !! if iflag = 1 calculate the functions at x and
+                                                              !! return this vector in fvec. do not alter fjac.
+                                                              !! if iflag = 2 calculate the jacobian at x and
+                                                              !! return this matrix in fjac. do not alter fvec.
+                                                              !!
+                                                              !! the value of iflag should not be changed by fcn unless
+                                                              !! the user wants to terminate execution of hybrj.
+                                                              !! in this case set iflag to a negative integer.
         end subroutine fcn_hybrj
 
         subroutine fcn_lmder(m,n,x,fvec,fjac,ldfjac,iflag)
             !! function for [[lmder]]
             import :: wp
             implicit none
-            integer,intent(in) :: m
-            integer,intent(in) :: n
-            integer,intent(in) :: ldfjac
+            integer,intent(in) :: m !! the number of functions.
+            integer,intent(in) :: n !! the number of variables.
+            integer,intent(in) :: ldfjac !! leading dimension of the array fjac.
             integer,intent(inout) :: iflag !! if iflag = 1 calculate the functions at x and
                                            !! return this vector in fvec. do not alter fjac.
                                            !! if iflag = 2 calculate the jacobian at x and
@@ -73,14 +80,14 @@ module minpack_module
                                            !! in this case set iflag to a negative integer.
             real(wp),intent(in) :: x(n) !! independant variable vector
             real(wp),intent(inout) :: fvec(m) !! value of function at `x`
-            real(wp),intent(inout) :: fjac(ldfjac,n)
+            real(wp),intent(inout) :: fjac(ldfjac,n) !! jacobian matrix at `x`
         end subroutine fcn_lmder
 
         subroutine fcn_lmstr(m,n,x,fvec,fjrow,iflag)
         import :: wp
         implicit none
-        integer,intent(in) :: m
-        integer,intent(in) :: n
+        integer,intent(in) :: m !! the number of functions.
+        integer,intent(in) :: n !! the number of variables.
         integer,intent(inout) :: iflag !! if iflag = 1 calculate the functions at x and
                                        !! return this vector in fvec.
                                        !! if iflag = i calculate the (i-1)-st row of the
@@ -91,7 +98,7 @@ module minpack_module
                                        !! in this case set iflag to a negative integer.
         real(wp) :: x(n) !! independant variable vector
         real(wp) :: fvec(m) !! value of function at `x`
-        real(wp) :: fjrow(n)
+        real(wp) :: fjrow(n) !! jacobian row
         end subroutine fcn_lmstr
 
     end interface
@@ -2491,8 +2498,7 @@ module minpack_module
         real(wp),intent(inout) :: Wa2(n) !! work array of length n.
 
         integer :: i, iter, j, jm1, jp1, k, l, nsing
-        real(wp) :: dxnorm, fp, gnorm, parc, parl, &
-                    paru, sum, temp
+        real(wp) :: dxnorm, fp, gnorm, parc, parl, paru, sum, temp
 
         real(wp),parameter :: p1 = 1.0e-1_wp
         real(wp),parameter :: p001 = 1.0e-3_wp

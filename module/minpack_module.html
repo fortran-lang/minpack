@@ -703,7 +703,7 @@ public subroutine func(n, x, fvec, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>the number of variables.</p></td>
   
 </tr>
 
@@ -810,7 +810,7 @@ public subroutine func2(m, n, x, fvec, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
+  <td><strong>m</strong></td><td><p>the number of functions.</p></td>
   
 </tr>
 
@@ -825,7 +825,7 @@ public subroutine func2(m, n, x, fvec, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>the number of variables.</p></td>
   
 </tr>
 
@@ -934,7 +934,7 @@ public subroutine fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>the number of variables.</p></td>
   
 </tr>
 
@@ -979,7 +979,7 @@ public subroutine fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag)
   <td></td>
   
   <td>dimension(ldfjac,n)</td><td>::</td>
-  <td><strong>fjac</strong></td><td></td>
+  <td><strong>fjac</strong></td><td><p>jacobian matrix at <code>x</code></p></td>
   
 </tr>
 
@@ -994,7 +994,7 @@ public subroutine fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>ldfjac</strong></td><td></td>
+  <td><strong>ldfjac</strong></td><td><p>leading dimension of the array fjac.</p></td>
   
 </tr>
 
@@ -1009,7 +1009,13 @@ public subroutine fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>iflag</strong></td><td></td>
+  <td><strong>iflag</strong></td><td><p>if iflag = 1 calculate the functions at x and
+return this vector in fvec. do not alter fjac.
+if iflag = 2 calculate the jacobian at x and
+return this matrix in fjac. do not alter fvec.</p>
+<p>the value of iflag should not be changed by fcn unless
+the user wants to terminate execution of hybrj.
+in this case set iflag to a negative integer.</p></td>
   
 </tr>
 
@@ -1071,7 +1077,7 @@ public subroutine fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
+  <td><strong>m</strong></td><td><p>the number of functions.</p></td>
   
 </tr>
 
@@ -1086,7 +1092,7 @@ public subroutine fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>the number of variables.</p></td>
   
 </tr>
 
@@ -1131,7 +1137,7 @@ public subroutine fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fjac</strong>(ldfjac,n)</td><td></td>
+  <td><strong>fjac</strong>(ldfjac,n)</td><td><p>jacobian matrix at <code>x</code></p></td>
   
 </tr>
 
@@ -1146,7 +1152,7 @@ public subroutine fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>ldfjac</strong></td><td></td>
+  <td><strong>ldfjac</strong></td><td><p>leading dimension of the array fjac.</p></td>
   
 </tr>
 
@@ -1225,7 +1231,7 @@ public subroutine fcn_lmstr(m, n, x, fvec, fjrow, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
+  <td><strong>m</strong></td><td><p>the number of functions.</p></td>
   
 </tr>
 
@@ -1240,7 +1246,7 @@ public subroutine fcn_lmstr(m, n, x, fvec, fjrow, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>the number of variables.</p></td>
   
 </tr>
 
@@ -1285,7 +1291,7 @@ public subroutine fcn_lmstr(m, n, x, fvec, fjrow, iflag)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fjrow</strong>(n)</td><td></td>
+  <td><strong>fjrow</strong>(n)</td><td><p>jacobian row</p></td>
   
 </tr>
 
