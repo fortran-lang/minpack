@@ -23,7 +23,7 @@ module minpack_module
 
     abstract interface
         subroutine func(n,x,fvec,iflag)
-            !! interface for user-supplied subroutine.
+            !! user-supplied subroutine for [[hybrd]], [[hybrd1]], and [[fdjac1]]
             import :: wp
             implicit none
             integer,intent(in) :: n !! the number of variables.
@@ -33,7 +33,7 @@ module minpack_module
         end subroutine func
 
         subroutine func2(m,n,x,fvec,iflag)
-            !! interface for user-supplied subroutine.
+            !! user-supplied subroutine for [[fdjac2]], [[lmdif]], and [[lmdif1]]
             import :: wp
             implicit none
             integer,intent(in) :: m !! the number of functions.
@@ -46,7 +46,7 @@ module minpack_module
         end subroutine func2
 
         subroutine fcn_hybrj(n,x,fvec,fjac,ldfjac,iflag)
-            !! function for [[hybrj]]
+            !! user-supplied subroutine for [[hybrj]] and [[hybrj1]]
             import :: wp
             implicit none
             integer,intent(in)                       :: n !! the number of variables.
@@ -65,7 +65,7 @@ module minpack_module
         end subroutine fcn_hybrj
 
         subroutine fcn_lmder(m,n,x,fvec,fjac,ldfjac,iflag)
-            !! function for [[lmder]]
+            !! user-supplied subroutine for [[lmder]] and [[lmder1]]
             import :: wp
             implicit none
             integer,intent(in) :: m !! the number of functions.
