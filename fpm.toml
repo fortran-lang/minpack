@@ -13,26 +13,31 @@ auto-tests = false
 auto-examples = false
 
 [[test]]
-name = "file15"
+name = "test_chkder"
 source-dir = "test"
-main = "file15.f90"
+main = "test_chkder.f90"
 
 [[test]]
-name = "file16"
+name = "test_hybrd"
 source-dir = "test"
-main = "file16.f90"
+main = "test_hybrd.f90"
 
 [[test]]
-name = "file17"
+name = "test_hybrj"
 source-dir = "test"
-main = "file17.f90"
+main = "test_hybrj.f90"
 
 [[test]]
-name = "file19"
+name = "test_lmder"
 source-dir = "test"
-main = "file19.f90"
+main = "test_lmder.f90"
 
 [[test]]
-name = "file20"
+name = "test_lmdif"
 source-dir = "test"
-main = "file20.f90"
+main = "test_lmdif.f90"
+
+[[test]]
+name = "test_lmstr"
+source-dir = "test"
+main = "test_lmstr.f90"
