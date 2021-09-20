@@ -43,7 +43,7 @@
       data nread , nwrite/5 , 6/
 !
       data one , ten/1.0d0 , 1.0d1/
-      tol = dsqrt(dpmpar(1))
+      tol = sqrt(dpmpar(1))
       ldfjac = 65
       lwa = 265
       ic = 0
@@ -232,7 +232,7 @@
          tpi = eight*datan(one)
          temp = x(1)**2 + x(2)**2
          tmp1 = tpi*temp
-         tmp2 = dsqrt(temp)
+         tmp2 = sqrt(temp)
          Fjac(1,1) = c100*x(2)/tmp1
          Fjac(1,2) = -c100*x(1)/tmp1
          Fjac(1,3) = ten
@@ -253,11 +253,11 @@
          enddo
          Fjac(1,1) = one
          Fjac(1,2) = ten
-         Fjac(2,3) = dsqrt(five)
+         Fjac(2,3) = sqrt(five)
          Fjac(2,4) = -Fjac(2,3)
          Fjac(3,2) = two*(x(2)-two*x(3))
          Fjac(3,3) = -two*Fjac(3,2)
-         Fjac(4,1) = two*dsqrt(ten)*(x(1)-x(4))
+         Fjac(4,1) = two*sqrt(ten)*(x(1)-x(4))
          Fjac(4,4) = -Fjac(4,1)
       case (7)
 !
@@ -817,7 +817,7 @@
          tmp1 = dsign(zp25,x(2))
          if ( x(1)>zero ) tmp1 = datan(x(2)/x(1))/tpi
          if ( x(1)<zero ) tmp1 = datan(x(2)/x(1))/tpi + zp5
-         tmp2 = dsqrt(x(1)**2+x(2)**2)
+         tmp2 = sqrt(x(1)**2+x(2)**2)
          Fvec(1) = ten*(x(3)-ten*tmp1)
          Fvec(2) = ten*(tmp2-one)
          Fvec(3) = x(3)
@@ -826,9 +826,9 @@
 !     POWELL SINGULAR FUNCTION.
 !
          Fvec(1) = x(1) + ten*x(2)
-         Fvec(2) = dsqrt(five)*(x(3)-x(4))
+         Fvec(2) = sqrt(five)*(x(3)-x(4))
          Fvec(3) = (x(2)-two*x(3))**2
-         Fvec(4) = dsqrt(ten)*(x(1)-x(4))**2
+         Fvec(4) = sqrt(ten)*(x(1)-x(4))**2
       case (7)
 !
 !     FREUDENSTEIN AND ROTH FUNCTION.

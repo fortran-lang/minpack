@@ -41,7 +41,7 @@
       data nread , nwrite/5 , 6/
 !
       data one , ten/1.0d0 , 1.0d1/
-      tol = dsqrt(dpmpar(1))
+      tol = sqrt(dpmpar(1))
       lwa = 2660
       ic = 0
       n = 5
@@ -177,9 +177,9 @@
 !     POWELL SINGULAR FUNCTION.
 !
          Fvec(1) = x(1) + ten*x(2)
-         Fvec(2) = dsqrt(five)*(x(3)-x(4))
+         Fvec(2) = sqrt(five)*(x(3)-x(4))
          Fvec(3) = (x(2)-two*x(3))**2
-         Fvec(4) = dsqrt(ten)*(x(1)-x(4))**2
+         Fvec(4) = sqrt(ten)*(x(1)-x(4))**2
       case (3)
 !
 !     POWELL BADLY SCALED FUNCTION.
@@ -204,7 +204,7 @@
          temp1 = dsign(c7,x(2))
          if ( x(1)>zero ) temp1 = datan(x(2)/x(1))/tpi
          if ( x(1)<zero ) temp1 = datan(x(2)/x(1))/tpi + c8
-         temp2 = dsqrt(x(1)**2+x(2)**2)
+         temp2 = sqrt(x(1)**2+x(2)**2)
          Fvec(1) = ten*(x(3)-ten*temp1)
          Fvec(2) = ten*(temp2-one)
          Fvec(3) = x(3)
