@@ -57,7 +57,7 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+            <li><a href="../lists/files.html">Source Files</a></li>
         
         
         
@@ -67,6 +67,8 @@
                                 
             <li><a href="../lists/procedures.html">Procedures</a></li>
         
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
                
                
         
@@ -76,7 +78,7 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
 
 
 
@@ -86,6 +88,8 @@
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
                              
 
 
@@ -128,7 +132,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.2% of total for procedures.">37 statements</a>
+    title=" 2.3% of total for procedures.">43 statements</a>
      </li> 
      
      
@@ -186,7 +190,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/rwupdt.html#src">rwupdt</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -204,6 +214,22 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
   
 
 
+    
+    <p>given an n by n upper triangular matrix r, this subroutine
+  computes the qr decomposition of the matrix formed when a row
+  is added to r. if the row is specified by the vector w, then
+  rwupdt determines an orthogonal matrix q such that when the
+  n+1 by n matrix composed of r augmented by w is premultiplied
+  by (q transpose), the resulting matrix is upper trapezoidal.
+  the matrix (q transpose) is the product of n transformations</p>
+<div class="codehilite"><pre><span></span><code>        g(n)*g(n-1)* ... *g(1)
+</code></pre></div>
+
+<p>where g(i) is a givens rotation in the (i,n+1) plane which
+  eliminates elements in the (n+1)-st plane. rwupdt also
+  computes the product (q transpose)*c where c is the
+  (n+1)-vector (b,alpha). q itself is not accumulated, rather
+  the information to recover the g rotations is supplied.</p>
     
 
     <h3>Arguments</h3>
@@ -224,12 +250,12 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~20"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-n~27"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>a positive integer input variable set to the order of r.</p></td>
   
 </tr>
 
@@ -239,12 +265,14 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
   
 <tr>
   
-  <td><span class="anchor" id="variable-r~5"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-r~6"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>r</strong>(Ldr,n)</td><td></td>
+  <td><strong>r</strong>(Ldr,n)</td><td><p>an n by n array. on input the upper triangular part of
+r must contain the matrix to be updated. on output r
+contains the updated triangular matrix.</p></td>
   
 </tr>
 
@@ -254,12 +282,13 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
   
 <tr>
   
-  <td><span class="anchor" id="variable-ldr~3"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ldr~3"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ldr</strong></td><td></td>
+  <td><strong>Ldr</strong></td><td><p>a positive integer input variable not less than n
+which specifies the leading dimension of the array r.</p></td>
   
 </tr>
 
@@ -269,12 +298,13 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
   
 <tr>
   
-  <td><span class="anchor" id="variable-w~3"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-w~3"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>w</strong>(n)</td><td></td>
+  <td><strong>w</strong>(n)</td><td><p>an input array of length n which must contain the row
+vector to be added to r.</p></td>
   
 </tr>
 
@@ -284,12 +314,14 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
   
 <tr>
   
-  <td><span class="anchor" id="variable-b"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-b"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>b</strong>(n)</td><td></td>
+  <td><strong>b</strong>(n)</td><td><p>an array of length n. on input b must contain the
+first n elements of the vector c. on output b contains
+the first n elements of the vector (q transpose)*c.</p></td>
   
 </tr>
 
@@ -299,12 +331,14 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
   
 <tr>
   
-  <td><span class="anchor" id="variable-alpha"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-alpha"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Alpha</strong></td><td></td>
+  <td><strong>Alpha</strong></td><td><p>a variable. on input alpha must contain the
+(n+1)-st element of the vector c. on output alpha contains
+the (n+1)-st element of the vector (q transpose)*c.</p></td>
   
 </tr>
 
@@ -314,12 +348,13 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
   
 <tr>
   
-  <td><span class="anchor" id="variable-cos"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-cos"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Cos</strong>(n)</td><td></td>
+  <td><strong>Cos</strong>(n)</td><td><p>an output array of length n which contains the
+cosines of the transforming givens rotations.</p></td>
   
 </tr>
 
@@ -329,12 +364,13 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
   
 <tr>
   
-  <td><span class="anchor" id="variable-sin"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-sin"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Sin</strong>(n)</td><td></td>
+  <td><strong>Sin</strong>(n)</td><td><p>an output array of length n which contains the
+sines of the transforming givens rotations.</p></td>
   
 </tr>
 
@@ -491,7 +527,13 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/rwupdt.html#src">rwupdt</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -514,6 +556,81 @@ public subroutine rwupdt(n, r, Ldr, w, b, Alpha, Cos, Sin)
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">rwupdt</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">Ldr</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">Alpha</span><span class="p">,</span> <span class="nb">Cos</span><span class="p">,</span> <span class="nb">Sin</span><span class="p">)</span>
+        <span class="k">implicit none</span>
+
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span> <span class="c">!! a positive integer input variable set to the order of r.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ldr</span> <span class="c">!! a positive integer input variable not less than n</span>
+                                  <span class="c">!! which specifies the leading dimension of the array r.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Alpha</span> <span class="c">!! a variable. on input alpha must contain the</span>
+                                        <span class="c">!! (n+1)-st element of the vector c. on output alpha contains</span>
+                                        <span class="c">!! the (n+1)-st element of the vector (q transpose)*c.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">r</span><span class="p">(</span><span class="n">Ldr</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="c">!! an n by n array. on input the upper triangular part of</span>
+                                            <span class="c">!! r must contain the matrix to be updated. on output r</span>
+                                            <span class="c">!! contains the updated triangular matrix.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">w</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an input array of length n which must contain the row</span>
+                                    <span class="c">!! vector to be added to r.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an array of length n. on input b must contain the</span>
+                                       <span class="c">!! first n elements of the vector c. on output b contains</span>
+                                       <span class="c">!! the first n elements of the vector (q transpose)*c.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="nb">Cos</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an output array of length n which contains the</span>
+                                       <span class="c">!! cosines of the transforming givens rotations.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="nb">Sin</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an output array of length n which contains the</span>
+                                       <span class="c">!! sines of the transforming givens rotations.</span>
+
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jm1</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">cotan</span><span class="p">,</span> <span class="n">rowj</span><span class="p">,</span> <span class="nb">tan</span><span class="p">,</span> <span class="n">temp</span>
+
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">p5</span> <span class="o">=</span> <span class="mf">5.0e-1_wp</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">p25</span> <span class="o">=</span> <span class="mf">2.5e-1_wp</span>
+
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+            <span class="n">rowj</span> <span class="o">=</span> <span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">jm1</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="c">!</span>
+<span class="c">!        apply the previous transformations to</span>
+<span class="c">!        r(i,j), i=1,2,...,j-1, and to w(j).</span>
+<span class="c">!</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">jm1</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">jm1</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="nb">Cos</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">Sin</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">rowj</span>
+                    <span class="n">rowj</span> <span class="o">=</span> <span class="o">-</span><span class="nb">Sin</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">Cos</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">rowj</span>
+                    <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">temp</span>
+                <span class="k">end do</span>
+<span class="k">            end if</span>
+<span class="c">!</span>
+<span class="c">!        determine a givens rotation which eliminates w(j).</span>
+<span class="c">!</span>
+            <span class="nb">Cos</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
+            <span class="nb">Sin</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">rowj</span> <span class="o">/=</span> <span class="n">zero</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">rowj</span><span class="p">))</span> <span class="k">then</span>
+<span class="k">                    </span><span class="nb">tan</span> <span class="o">=</span> <span class="n">rowj</span><span class="o">/</span><span class="n">r</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                    <span class="nb">Cos</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">p5</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">p25</span> <span class="o">+</span> <span class="n">p25</span><span class="o">*</span><span class="nb">tan</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="nb">Sin</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="nb">Cos</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="nb">tan</span>
+<span class="nb">                </span><span class="k">else</span>
+<span class="k">                    </span><span class="n">cotan</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">rowj</span>
+                    <span class="nb">Sin</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">p5</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">p25</span> <span class="o">+</span> <span class="n">p25</span><span class="o">*</span><span class="n">cotan</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="nb">Cos</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="nb">Sin</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">cotan</span>
+                <span class="k">end if</span>
+<span class="c">!</span>
+<span class="c">!        apply the current transformation to r(j,j), b(j), and alpha.</span>
+<span class="c">!</span>
+                <span class="n">r</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="nb">Cos</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">r</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">Sin</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">rowj</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="nb">Cos</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">Sin</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Alpha</span>
+                <span class="n">Alpha</span> <span class="o">=</span> <span class="o">-</span><span class="nb">Sin</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">Cos</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Alpha</span>
+                <span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">temp</span>
+            <span class="k">end if</span>
+<span class="k">        end do</span>
+
+<span class="k">    end subroutine </span><span class="n">rwupdt</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>

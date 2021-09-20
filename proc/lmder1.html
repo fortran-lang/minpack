@@ -57,7 +57,7 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+            <li><a href="../lists/files.html">Source Files</a></li>
         
         
         
@@ -67,6 +67,8 @@
                                 
             <li><a href="../lists/procedures.html">Procedures</a></li>
         
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
                
                
         
@@ -76,7 +78,7 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
 
 
 
@@ -86,6 +88,8 @@
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
                              
 
 
@@ -128,7 +132,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.3% of total for procedures.">22 statements</a>
+    title=" 1.6% of total for procedures.">29 statements</a>
      </li> 
      
      
@@ -186,7 +190,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/lmder1.html#src">lmder1</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -204,6 +214,12 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 
 
+    
+    <p>the purpose of lmder1 is to minimize the sum of the squares of
+m nonlinear functions in n variables by a modification of the
+levenberg-marquardt algorithm. this is done by using the more
+general least-squares solver lmder. the user must provide a
+subroutine which calculates the functions and the jacobian.</p>
     
 
     <h3>Arguments</h3>
@@ -224,12 +240,13 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-fcn~6"></span>real</td>
+  <td><span class="anchor" id="variable-fcn~8"></span>procedure(<a href='../interface/fcn_lmder.html'>fcn_lmder</a>)</td>
   <td></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fcn</strong></td><td></td>
+  <td><strong>fcn</strong></td><td><p>user-supplied subroutine which
+calculates the functions and the jacobian.</p></td>
   
 </tr>
 
@@ -239,12 +256,13 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-m~3"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-m~7"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
+  <td><strong>m</strong></td><td><p>a positive integer input variable set to the number
+of functions.</p></td>
   
 </tr>
 
@@ -254,12 +272,13 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~9"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-n~16"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>a positive integer input variable set to the number
+of variables. n must not exceed m.</p></td>
   
 </tr>
 
@@ -269,12 +288,14 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-x~9"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-x~16"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>x</strong>(n)</td><td></td>
+  <td><strong>x</strong>(n)</td><td><p>an array of length n. on input x must contain
+an initial estimate of the solution vector. on output x
+contains the final estimate of the solution vector.</p></td>
   
 </tr>
 
@@ -284,12 +305,13 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-fvec~7"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-fvec~7"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fvec</strong>(m)</td><td></td>
+  <td><strong>Fvec</strong>(m)</td><td><p>an output array of length m which contains
+the functions evaluated at the output x.</p></td>
   
 </tr>
 
@@ -299,12 +321,23 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-fjac~6"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-fjac~7"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fjac</strong>(Ldfjac,n)</td><td></td>
+  <td><strong>Fjac</strong>(Ldfjac,n)</td><td><p>an output m by n array. the upper n by n submatrix
+ of fjac contains an upper triangular matrix r with
+ diagonal elements of nonincreasing magnitude such that</p>
+<div class="codehilite"><pre><span></span><code>        t     t           t
+       p *(jac *jac)*p = r *r,
+</code></pre></div>
+
+<p>where p is a permutation matrix and jac is the final
+ calculated jacobian. column j of p is column ipvt(j)
+ (see below) of the identity matrix. the lower trapezoidal
+ part of fjac contains information generated during
+ the computation of r.</p></td>
   
 </tr>
 
@@ -314,12 +347,13 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-ldfjac~6"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ldfjac~7"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ldfjac</strong></td><td></td>
+  <td><strong>Ldfjac</strong></td><td><p>a positive integer input variable not less than m
+which specifies the leading dimension of the array fjac.</p></td>
   
 </tr>
 
@@ -329,12 +363,16 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-tol~3"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-tol~2"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Tol</strong></td><td></td>
+  <td><strong>Tol</strong></td><td><p>a nonnegative input variable. termination occurs
+when the algorithm estimates either that the relative
+error in the sum of squares is at most tol or that
+the relative error between x and the solution is at
+most tol.</p></td>
   
 </tr>
 
@@ -344,12 +382,31 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-info~5"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-info~4"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Info</strong></td><td></td>
+  <td><strong>Info</strong></td><td><p>an integer output variable. if the user has
+terminated execution, info is set to the (negative)
+value of iflag. see description of fcn. otherwise,
+info is set as follows.</p>
+<ul>
+<li><strong><em>info = 0</em></strong>  improper input parameters.</li>
+<li><strong><em>info = 1</em></strong>  algorithm estimates that the relative error
+   in the sum of squares is at most tol.</li>
+<li><strong><em>info = 2</em></strong>  algorithm estimates that the relative error
+   between x and the solution is at most tol.</li>
+<li><strong><em>info = 3</em></strong>  conditions for info = 1 and info = 2 both hold.</li>
+<li><strong><em>info = 4</em></strong>  fvec is orthogonal to the columns of the
+   jacobian to machine precision.</li>
+<li><strong><em>info = 5</em></strong>  number of calls to fcn with iflag = 1 has
+   reached 100*(n+1).</li>
+<li><strong><em>info = 6</em></strong>  tol is too small. no further reduction in
+   the sum of squares is possible.</li>
+<li><strong><em>info = 7</em></strong>  tol is too small. no further improvement in
+   the approximate solution x is possible.</li>
+</ul></td>
   
 </tr>
 
@@ -359,12 +416,17 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-ipvt~2"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ipvt~2"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ipvt</strong>(n)</td><td></td>
+  <td><strong>Ipvt</strong>(n)</td><td><p>an integer output array of length n. ipvt
+defines a permutation matrix p such that jac<em>p = q</em>r,
+where jac is the final calculated jacobian, q is
+orthogonal (not stored), and r is upper triangular
+with diagonal elements of nonincreasing magnitude.
+column j of p is column ipvt(j) of the identity matrix.</p></td>
   
 </tr>
 
@@ -374,12 +436,12 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-wa~3"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-wa~4"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wa</strong>(Lwa)</td><td></td>
+  <td><strong>Wa</strong>(Lwa)</td><td><p>a work array of length lwa.</p></td>
   
 </tr>
 
@@ -389,12 +451,12 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-lwa~3"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-lwa~3"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Lwa</strong></td><td></td>
+  <td><strong>Lwa</strong></td><td><p>a positive integer input variable not less than 5*n+m.</p></td>
   
 </tr>
 
@@ -572,7 +634,13 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/lmder1.html#src">lmder1</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -595,6 +663,101 @@ public subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, 
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">lmder1</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Fvec</span><span class="p">,</span> <span class="n">Fjac</span><span class="p">,</span> <span class="n">Ldfjac</span><span class="p">,</span> <span class="n">Tol</span><span class="p">,</span> <span class="n">Info</span><span class="p">,</span> <span class="n">Ipvt</span><span class="p">,</span> <span class="n">Wa</span><span class="p">,</span> <span class="n">Lwa</span><span class="p">)</span>
+        <span class="k">implicit none</span>
+
+<span class="k">        procedure</span><span class="p">(</span><span class="n">fcn_lmder</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fcn</span> <span class="c">!! user-supplied subroutine which</span>
+                                    <span class="c">!! calculates the functions and the jacobian.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">m</span> <span class="c">!! a positive integer input variable set to the number</span>
+                                <span class="c">!! of functions.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span> <span class="c">!! a positive integer input variable set to the number</span>
+                                <span class="c">!! of variables. n must not exceed m.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ldfjac</span> <span class="c">!! a positive integer input variable not less than m</span>
+                                     <span class="c">!! which specifies the leading dimension of the array fjac.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Info</span> <span class="c">!! an integer output variable. if the user has</span>
+                                    <span class="c">!! terminated execution, info is set to the (negative)</span>
+                                    <span class="c">!! value of iflag. see description of fcn. otherwise,</span>
+                                    <span class="c">!! info is set as follows.</span>
+                                    <span class="c">!!</span>
+                                    <span class="c">!!  * ***info = 0***  improper input parameters.</span>
+                                    <span class="c">!!  * ***info = 1***  algorithm estimates that the relative error</span>
+                                    <span class="c">!!    in the sum of squares is at most tol.</span>
+                                    <span class="c">!!  * ***info = 2***  algorithm estimates that the relative error</span>
+                                    <span class="c">!!    between x and the solution is at most tol.</span>
+                                    <span class="c">!!  * ***info = 3***  conditions for info = 1 and info = 2 both hold.</span>
+                                    <span class="c">!!  * ***info = 4***  fvec is orthogonal to the columns of the</span>
+                                    <span class="c">!!    jacobian to machine precision.</span>
+                                    <span class="c">!!  * ***info = 5***  number of calls to fcn with iflag = 1 has</span>
+                                    <span class="c">!!    reached 100*(n+1).</span>
+                                    <span class="c">!!  * ***info = 6***  tol is too small. no further reduction in</span>
+                                    <span class="c">!!    the sum of squares is possible.</span>
+                                    <span class="c">!!  * ***info = 7***  tol is too small. no further improvement in</span>
+                                    <span class="c">!!    the approximate solution x is possible.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Lwa</span> <span class="c">!! a positive integer input variable not less than 5*n+m.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ipvt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an integer output array of length n. ipvt</span>
+                                       <span class="c">!! defines a permutation matrix p such that jac*p = q*r,</span>
+                                       <span class="c">!! where jac is the final calculated jacobian, q is</span>
+                                       <span class="c">!! orthogonal (not stored), and r is upper triangular</span>
+                                       <span class="c">!! with diagonal elements of nonincreasing magnitude.</span>
+                                       <span class="c">!! column j of p is column ipvt(j) of the identity matrix.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Tol</span> <span class="c">!! a nonnegative input variable. termination occurs</span>
+                                   <span class="c">!! when the algorithm estimates either that the relative</span>
+                                   <span class="c">!! error in the sum of squares is at most tol or that</span>
+                                   <span class="c">!! the relative error between x and the solution is at</span>
+                                   <span class="c">!! most tol.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an array of length n. on input x must contain</span>
+                                       <span class="c">!! an initial estimate of the solution vector. on output x</span>
+                                       <span class="c">!! contains the final estimate of the solution vector.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Fvec</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="c">!! an output array of length m which contains</span>
+                                        <span class="c">!! the functions evaluated at the output x.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Fjac</span><span class="p">(</span><span class="n">Ldfjac</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="c">!! an output m by n array. the upper n by n submatrix</span>
+                                                <span class="c">!! of fjac contains an upper triangular matrix r with</span>
+                                                <span class="c">!! diagonal elements of nonincreasing magnitude such that</span>
+                                                <span class="c">!!```</span>
+                                                <span class="c">!!        t     t           t</span>
+                                                <span class="c">!!       p *(jac *jac)*p = r *r,</span>
+                                                <span class="c">!!```</span>
+                                                <span class="c">!! where p is a permutation matrix and jac is the final</span>
+                                                <span class="c">!! calculated jacobian. column j of p is column ipvt(j)</span>
+                                                <span class="c">!! (see below) of the identity matrix. the lower trapezoidal</span>
+                                                <span class="c">!! part of fjac contains information generated during</span>
+                                                <span class="c">!! the computation of r.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wa</span><span class="p">(</span><span class="n">Lwa</span><span class="p">)</span> <span class="c">!! a work array of length lwa.</span>
+
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">maxfev</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">nfev</span><span class="p">,</span> <span class="n">njev</span><span class="p">,</span> <span class="n">nprint</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span> <span class="n">xtol</span>
+
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">factor</span> <span class="o">=</span> <span class="mi">10</span><span class="mf">0.0_wp</span>
+
+        <span class="n">Info</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c">!</span>
+<span class="c">!     check the input parameters for errors.</span>
+<span class="c">!</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">m</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">Ldfjac</span> <span class="o">&gt;=</span> <span class="n">m</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">Tol</span> <span class="o">&gt;=</span> <span class="n">zero</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+             <span class="n">Lwa</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="n">m</span><span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">!     call lmder.</span>
+<span class="c">!</span>
+            <span class="n">maxfev</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">ftol</span> <span class="o">=</span> <span class="n">Tol</span>
+            <span class="n">xtol</span> <span class="o">=</span> <span class="n">Tol</span>
+            <span class="n">gtol</span> <span class="o">=</span> <span class="n">zero</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">nprint</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">call </span><span class="n">lmder</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Fvec</span><span class="p">,</span> <span class="n">Fjac</span><span class="p">,</span> <span class="n">Ldfjac</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span> <span class="n">maxfev</span><span class="p">,</span>   <span class="p">&amp;</span>
+                     <span class="p">&amp;</span> <span class="n">Wa</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mode</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">nprint</span><span class="p">,</span> <span class="n">Info</span><span class="p">,</span> <span class="n">nfev</span><span class="p">,</span> <span class="n">njev</span><span class="p">,</span> <span class="n">Ipvt</span><span class="p">,</span> <span class="n">Wa</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)&amp;</span>
+                     <span class="p">&amp;</span> <span class="p">,</span> <span class="n">Wa</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Wa</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Wa</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Wa</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Info</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span> <span class="n">Info</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="k">end if</span>
+
+<span class="k">    end subroutine </span><span class="n">lmder1</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>

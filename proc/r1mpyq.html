@@ -57,7 +57,7 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+            <li><a href="../lists/files.html">Source Files</a></li>
         
         
         
@@ -67,6 +67,8 @@
                                 
             <li><a href="../lists/procedures.html">Procedures</a></li>
         
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
                
                
         
@@ -76,7 +78,7 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
 
 
 
@@ -86,6 +88,8 @@
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
                              
 
 
@@ -128,7 +132,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.1% of total for procedures.">34 statements</a>
+    title=" 2.0% of total for procedures.">37 statements</a>
      </li> 
      
      
@@ -186,7 +190,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/r1mpyq.html#src">r1mpyq</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -204,6 +214,16 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
   
 
 
+    
+    <p>given an m by n matrix a, this subroutine computes a<em>q where
+  q is the product of 2</em>(n - 1) transformations</p>
+<div class="codehilite"><pre><span></span><code>        gv(n-1)*...*gv(1)*gw(1)*...*gw(n-1)
+</code></pre></div>
+
+<p>and gv(i), gw(i) are givens rotations in the (i,n) plane which
+  eliminate elements in the i-th and n-th planes, respectively.
+  q itself is not given, rather the information to recover the
+  gv, gw rotations is supplied.</p>
     
 
     <h3>Arguments</h3>
@@ -224,12 +244,13 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
   
 <tr>
   
-  <td><span class="anchor" id="variable-m~10"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-m~14"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
+  <td><strong>m</strong></td><td><p>a positive integer input variable set to the number
+of rows of a.</p></td>
   
 </tr>
 
@@ -239,12 +260,13 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~18"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-n~25"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>a positive integer input variable set to the number
+of columns of a.</p></td>
   
 </tr>
 
@@ -254,12 +276,14 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
   
 <tr>
   
-  <td><span class="anchor" id="variable-a~2"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-a~2"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>a</strong>(Lda,n)</td><td></td>
+  <td><strong>a</strong>(Lda,n)</td><td><p>an m by n array. on input a must contain the matrix
+to be postmultiplied by the orthogonal matrix q
+described above. on output a*q has replaced a.</p></td>
   
 </tr>
 
@@ -269,12 +293,13 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
   
 <tr>
   
-  <td><span class="anchor" id="variable-lda~2"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-lda~2"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Lda</strong></td><td></td>
+  <td><strong>Lda</strong></td><td><p>a positive integer input variable not less than m
+which specifies the leading dimension of the array a.</p></td>
   
 </tr>
 
@@ -284,12 +309,14 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
   
 <tr>
   
-  <td><span class="anchor" id="variable-v"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-v"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>v</strong>(n)</td><td></td>
+  <td><strong>v</strong>(n)</td><td><p>an input array of length n. v(i) must contain the
+information necessary to recover the givens rotation gv(i)
+described above.</p></td>
   
 </tr>
 
@@ -299,12 +326,14 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
   
 <tr>
   
-  <td><span class="anchor" id="variable-w"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-w"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>w</strong>(n)</td><td></td>
+  <td><strong>w</strong>(n)</td><td><p>an input array of length n. w(i) must contain the
+information necessary to recover the givens rotation gw(i)
+described above.</p></td>
   
 </tr>
 
@@ -329,50 +358,44 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~r1mpyq~~CalledByGraph Pages: 1 -->
-<svg id="procr1mpyqCalledByGraph" width="242pt" height="92pt"
- viewBox="0.00 0.00 242.00 92.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~r1mpyq~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 88)">
+<svg id="procr1mpyqCalledByGraph" width="242pt" height="74pt"
+ viewBox="0.00 0.00 242.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~r1mpyq~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
 <title>proc~~r1mpyq~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-88 238,-88 238,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 238,-70 238,4 -4,4"/>
 <!-- proc~r1mpyq -->
 <g id="proc~~r1mpyq~~CalledByGraph_node1" class="node">
 <title>proc~r1mpyq</title>
 <polygon fill="none" stroke="black" points="234,-45 180,-45 180,-21 234,-21 234,-45"/>
 <text text-anchor="middle" x="207" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">r1mpyq</text>
 </g>
-<!-- proc~fdjac1 -->
-<g id="proc~~r1mpyq~~CalledByGraph_node2" class="node">
-<title>proc~fdjac1</title>
-<g id="a_proc~~r1mpyq~~CalledByGraph_node2"><a xlink:href=".././proc/fdjac1.html" xlink:title="fdjac1">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fdjac1</text>
-</a>
-</g>
-</g>
-<!-- proc~fdjac1&#45;&gt;proc~r1mpyq -->
-<g id="proc~~r1mpyq~~CalledByGraph_edge1" class="edge">
-<title>proc~fdjac1&#45;&gt;proc~r1mpyq</title>
-<path fill="none" stroke="#000000" d="M144.4,-47.7C152.48,-45.77 161.51,-43.62 170.1,-41.57"/>
-<polygon fill="#000000" stroke="#000000" points="171,-44.95 179.92,-39.22 169.38,-38.14 171,-44.95"/>
-</g>
-<!-- proc~fdjac1&#45;&gt;proc~fdjac1 -->
-<g id="proc~~r1mpyq~~CalledByGraph_edge3" class="edge">
-<title>proc~fdjac1&#45;&gt;proc~fdjac1</title>
-<path fill="none" stroke="#000000" d="M102.12,-66.01C96.92,-74.97 101.88,-84 117,-84 126.21,-84 131.65,-80.65 133.32,-76"/>
-<polygon fill="#000000" stroke="#000000" points="136.77,-75.41 131.88,-66.01 129.84,-76.41 136.77,-75.41"/>
-</g>
 <!-- proc~hybrj -->
-<g id="proc~~r1mpyq~~CalledByGraph_node3" class="node">
+<g id="proc~~r1mpyq~~CalledByGraph_node2" class="node">
 <title>proc~hybrj</title>
-<g id="a_proc~~r1mpyq~~CalledByGraph_node3"><a xlink:href=".././proc/hybrj.html" xlink:title="hybrj">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj</text>
+<g id="a_proc~~r1mpyq~~CalledByGraph_node2"><a xlink:href=".././proc/hybrj.html" xlink:title="hybrj">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrj&#45;&gt;proc~r1mpyq -->
-<g id="proc~~r1mpyq~~CalledByGraph_edge2" class="edge">
+<g id="proc~~r1mpyq~~CalledByGraph_edge1" class="edge">
 <title>proc~hybrj&#45;&gt;proc~r1mpyq</title>
+<path fill="none" stroke="#000000" d="M144.4,-47.7C152.48,-45.77 161.51,-43.62 170.1,-41.57"/>
+<polygon fill="#000000" stroke="#000000" points="171,-44.95 179.92,-39.22 169.38,-38.14 171,-44.95"/>
+</g>
+<!-- proc~hybrd -->
+<g id="proc~~r1mpyq~~CalledByGraph_node3" class="node">
+<title>proc~hybrd</title>
+<g id="a_proc~~r1mpyq~~CalledByGraph_node3"><a xlink:href=".././proc/hybrd.html" xlink:title="hybrd">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~r1mpyq -->
+<g id="proc~~r1mpyq~~CalledByGraph_edge2" class="edge">
+<title>proc~hybrd&#45;&gt;proc~r1mpyq</title>
 <path fill="none" stroke="#000000" d="M144.4,-18.3C152.48,-20.23 161.51,-22.38 170.1,-24.43"/>
 <polygon fill="#000000" stroke="#000000" points="169.38,-27.86 179.92,-26.78 171,-21.05 169.38,-27.86"/>
 </g>
@@ -380,14 +403,29 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
 <g id="proc~~r1mpyq~~CalledByGraph_node4" class="node">
 <title>proc~hybrj1</title>
 <g id="a_proc~~r1mpyq~~CalledByGraph_node4"><a xlink:href=".././proc/hybrj1.html" xlink:title="hybrj1">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
-<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj1</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
+<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj1</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrj1&#45;&gt;proc~hybrj -->
-<g id="proc~~r1mpyq~~CalledByGraph_edge4" class="edge">
+<g id="proc~~r1mpyq~~CalledByGraph_edge3" class="edge">
 <title>proc~hybrj1&#45;&gt;proc~hybrj</title>
+<path fill="none" stroke="#000000" d="M54.4,-54C62.39,-54 71.31,-54 79.82,-54"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-57.5 89.92,-54 79.92,-50.5 79.92,-57.5"/>
+</g>
+<!-- proc~hybrd1 -->
+<g id="proc~~r1mpyq~~CalledByGraph_node5" class="node">
+<title>proc~hybrd1</title>
+<g id="a_proc~~r1mpyq~~CalledByGraph_node5"><a xlink:href=".././proc/hybrd1.html" xlink:title="hybrd1">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd1</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd1&#45;&gt;proc~hybrd -->
+<g id="proc~~r1mpyq~~CalledByGraph_edge4" class="edge">
+<title>proc~hybrd1&#45;&gt;proc~hybrd</title>
 <path fill="none" stroke="#000000" d="M54.4,-12C62.39,-12 71.31,-12 79.82,-12"/>
 <polygon fill="#000000" stroke="#000000" points="79.92,-15.5 89.92,-12 79.92,-8.5 79.92,-15.5"/>
 </g>
@@ -482,7 +520,13 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/r1mpyq.html#src">r1mpyq</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -505,6 +549,68 @@ public subroutine r1mpyq(m, n, a, Lda, v, w)
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">r1mpyq</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Lda</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        <span class="k">implicit none</span>
+
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">m</span> <span class="c">!! a positive integer input variable set to the number</span>
+                                <span class="c">!! of rows of a.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span> <span class="c">!! a positive integer input variable set to the number</span>
+                                <span class="c">!! of columns of a.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Lda</span> <span class="c">!! a positive integer input variable not less than m</span>
+                                  <span class="c">!! which specifies the leading dimension of the array a.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">a</span><span class="p">(</span><span class="n">Lda</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="c">!! an m by n array. on input a must contain the matrix</span>
+                                            <span class="c">!! to be postmultiplied by the orthogonal matrix q</span>
+                                            <span class="c">!! described above. on output a*q has replaced a.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an input array of length n. v(i) must contain the</span>
+                                    <span class="c">!! information necessary to recover the givens rotation gv(i)</span>
+                                    <span class="c">!! described above.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">w</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an input array of length n. w(i) must contain the</span>
+                                    <span class="c">!! information necessary to recover the givens rotation gw(i)</span>
+                                    <span class="c">!! described above.</span>
+
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nmj</span><span class="p">,</span> <span class="n">nm1</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="nb">cos</span><span class="p">,</span> <span class="nb">sin</span><span class="p">,</span> <span class="n">temp</span>
+<span class="c">!</span>
+<span class="c">!     apply the first set of givens rotations to a.</span>
+<span class="c">!</span>
+        <span class="n">nm1</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nm1</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            do </span><span class="n">nmj</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nm1</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">nmj</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">one</span><span class="p">)</span> <span class="nb">cos</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">one</span><span class="p">)</span> <span class="nb">sin</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span> <span class="o">-</span> <span class="nb">cos</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">one</span><span class="p">)</span> <span class="nb">sin</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">one</span><span class="p">)</span> <span class="nb">cos</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span> <span class="o">-</span> <span class="nb">sin</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+                    <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+                    <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">temp</span>
+                <span class="k">end do</span>
+<span class="k">            end do</span>
+<span class="c">!</span>
+<span class="c">!     apply the second set of givens rotations to a.</span>
+<span class="c">!</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nm1</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">one</span><span class="p">)</span> <span class="nb">cos</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">one</span><span class="p">)</span> <span class="nb">sin</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span> <span class="o">-</span> <span class="nb">cos</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">one</span><span class="p">)</span> <span class="nb">sin</span> <span class="o">=</span> <span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">one</span><span class="p">)</span> <span class="nb">cos</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span> <span class="o">-</span> <span class="nb">sin</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+                    <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+                    <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">temp</span>
+                <span class="k">end do</span>
+<span class="k">            end do</span>
+<span class="k">        end if</span>
+
+<span class="k">    end subroutine </span><span class="n">r1mpyq</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>

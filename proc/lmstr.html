@@ -57,7 +57,7 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+            <li><a href="../lists/files.html">Source Files</a></li>
         
         
         
@@ -67,6 +67,8 @@
                                 
             <li><a href="../lists/procedures.html">Procedures</a></li>
         
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
                
                
         
@@ -76,7 +78,7 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
 
 
 
@@ -86,6 +88,8 @@
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
                              
 
 
@@ -128,7 +132,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="10.6% of total for procedures.">174 statements</a>
+    title="10.6% of total for procedures.">197 statements</a>
      </li> 
      
      
@@ -186,7 +190,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/lmstr.html#src">lmstr</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -204,6 +214,12 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 
 
+    
+    <p>the purpose of lmstr is to minimize the sum of the squares of
+m nonlinear functions in n variables by a modification of
+the levenberg-marquardt algorithm which uses minimal storage.
+the user must provide a subroutine which calculates the
+functions and the rows of the jacobian.</p>
     
 
     <h3>Arguments</h3>
@@ -224,12 +240,13 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-fcn~9"></span>real</td>
+  <td><span class="anchor" id="variable-fcn~11"></span>procedure(<a href='../interface/fcn_lmstr.html'>fcn_lmstr</a>)</td>
   <td></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fcn</strong></td><td></td>
+  <td><strong>fcn</strong></td><td><p>user-supplied subroutine which
+calculates the functions and the rows of the jacobian.</p></td>
   
 </tr>
 
@@ -239,12 +256,13 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-m~6"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-m~10"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
+  <td><strong>m</strong></td><td><p>a positive integer input variable set to the number
+of functions.</p></td>
   
 </tr>
 
@@ -254,12 +272,13 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~13"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-n~20"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>a positive integer input variable set to the number
+of variables. n must not exceed m.</p></td>
   
 </tr>
 
@@ -269,12 +288,14 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-x~13"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-x~20"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>x</strong>(n)</td><td></td>
+  <td><strong>x</strong>(n)</td><td><p>an array of length n. on input x must contain
+an initial estimate of the solution vector. on output x
+contains the final estimate of the solution vector.</p></td>
   
 </tr>
 
@@ -284,12 +305,13 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-fvec~10"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-fvec~10"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fvec</strong>(m)</td><td></td>
+  <td><strong>Fvec</strong>(m)</td><td><p>an output array of length m which contains
+the functions evaluated at the output x.</p></td>
   
 </tr>
 
@@ -299,12 +321,22 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-fjac~8"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-fjac~9"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fjac</strong>(Ldfjac,n)</td><td></td>
+  <td><strong>Fjac</strong>(Ldfjac,n)</td><td><p>an output n by n array. the upper triangle of fjac
+ contains an upper triangular matrix r such that</p>
+<div class="codehilite"><pre><span></span><code>        t     t           t
+       p *(jac *jac)*p = r *r,
+</code></pre></div>
+
+<p>where p is a permutation matrix and jac is the final
+ calculated jacobian. column j of p is column ipvt(j)
+ (see below) of the identity matrix. the lower triangular
+ part of fjac contains information generated during
+ the computation of r.</p></td>
   
 </tr>
 
@@ -314,12 +346,13 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-ldfjac~8"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ldfjac~9"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ldfjac</strong></td><td></td>
+  <td><strong>Ldfjac</strong></td><td><p>a positive integer input variable not less than n
+which specifies the leading dimension of the array fjac.</p></td>
   
 </tr>
 
@@ -329,12 +362,16 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-ftol~3"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ftol~3"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ftol</strong></td><td></td>
+  <td><strong>Ftol</strong></td><td><p>a nonnegative input variable. termination
+occurs when both the actual and predicted relative
+reductions in the sum of squares are at most ftol.
+therefore, ftol measures the relative error desired
+in the sum of squares.</p></td>
   
 </tr>
 
@@ -344,12 +381,15 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-xtol~4"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-xtol~4"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Xtol</strong></td><td></td>
+  <td><strong>Xtol</strong></td><td><p>a nonnegative input variable. termination
+occurs when the relative error between two consecutive
+iterates is at most xtol. therefore, xtol measures the
+relative error desired in the approximate solution.</p></td>
   
 </tr>
 
@@ -359,12 +399,17 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-gtol~3"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-gtol~3"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Gtol</strong></td><td></td>
+  <td><strong>Gtol</strong></td><td><p>a nonnegative input variable. termination
+occurs when the cosine of the angle between fvec and
+any column of the jacobian is at most gtol in absolute
+value. therefore, gtol measures the orthogonality
+desired between the function vector and the columns
+of the jacobian.</p></td>
   
 </tr>
 
@@ -374,12 +419,14 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-maxfev~4"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-maxfev~4"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Maxfev</strong></td><td></td>
+  <td><strong>Maxfev</strong></td><td><p>a positive integer input variable. termination
+occurs when the number of calls to fcn with iflag = 1
+has reached maxfev.</p></td>
   
 </tr>
 
@@ -389,12 +436,15 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-diag~6"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-diag~6"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Diag</strong>(n)</td><td></td>
+  <td><strong>Diag</strong>(n)</td><td><p>an array of length n. if mode = 1 (see
+below), diag is internally set. if mode = 2, diag
+must contain positive entries that serve as
+multiplicative scale factors for the variables.</p></td>
   
 </tr>
 
@@ -404,12 +454,15 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-mode~5"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-mode~5"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Mode</strong></td><td></td>
+  <td><strong>Mode</strong></td><td><p>an integer input variable. if mode = 1, the
+variables will be scaled internally. if mode = 2,
+the scaling is specified by the input diag. other
+values of mode are equivalent to mode = 1.</p></td>
   
 </tr>
 
@@ -419,12 +472,16 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-factor~4"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-factor~4"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Factor</strong></td><td></td>
+  <td><strong>Factor</strong></td><td><p>a positive input variable used in determining the
+initial step bound. this bound is set to the product of
+factor and the euclidean norm of diag*x if nonzero, or else
+to factor itself. in most cases factor should lie in the
+interval (.1,100.). 100. is a generally recommended value.</p></td>
   
 </tr>
 
@@ -434,12 +491,18 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-nprint~4"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-nprint~4"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Nprint</strong></td><td></td>
+  <td><strong>Nprint</strong></td><td><p>an integer input variable that enables controlled
+printing of iterates if it is positive. in this case,
+fcn is called with iflag = 0 at the beginning of the first
+iteration and every nprint iterations thereafter and
+immediately prior to return, with x and fvec available
+for printing. if nprint is not positive, no special calls
+of fcn with iflag = 0 are made.</p></td>
   
 </tr>
 
@@ -449,12 +512,34 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-info~8"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-info~7"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Info</strong></td><td></td>
+  <td><strong>Info</strong></td><td><p>an integer output variable. if the user has
+terminated execution, info is set to the (negative)
+value of iflag. see description of fcn. otherwise,
+info is set as follows:</p>
+<ul>
+<li><strong><em>info = 0</em></strong>  improper input parameters.</li>
+<li><strong><em>info = 1</em></strong>  both actual and predicted relative reductions
+   in the sum of squares are at most ftol.</li>
+<li><strong><em>info = 2</em></strong>  relative error between two consecutive iterates
+   is at most xtol.</li>
+<li><strong><em>info = 3</em></strong>  conditions for info = 1 and info = 2 both hold.</li>
+<li><strong><em>info = 4</em></strong>  the cosine of the angle between fvec and any
+   column of the jacobian is at most gtol in
+   absolute value.</li>
+<li><strong><em>info = 5</em></strong>  number of calls to fcn with iflag = 1 has
+   reached maxfev.</li>
+<li><strong><em>info = 6</em></strong>  ftol is too small. no further reduction in
+   the sum of squares is possible.</li>
+<li><strong><em>info = 7</em></strong>  xtol is too small. no further improvement in
+   the approximate solution x is possible.</li>
+<li><strong><em>info = 8</em></strong>  gtol is too small. fvec is orthogonal to the
+   columns of the jacobian to machine precision.</li>
+</ul></td>
   
 </tr>
 
@@ -464,12 +549,13 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-nfev~4"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-nfev~4"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Nfev</strong></td><td></td>
+  <td><strong>Nfev</strong></td><td><p>an integer output variable set to the number of
+calls to fcn with iflag = 1.</p></td>
   
 </tr>
 
@@ -479,12 +565,13 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-njev~3"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-njev~3"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Njev</strong></td><td></td>
+  <td><strong>Njev</strong></td><td><p>an integer output variable set to the number of
+calls to fcn with iflag = 2.</p></td>
   
 </tr>
 
@@ -494,12 +581,16 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-ipvt~5"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ipvt~5"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ipvt</strong>(n)</td><td></td>
+  <td><strong>Ipvt</strong>(n)</td><td><p>an integer output array of length n. ipvt
+defines a permutation matrix p such that jac<em>p = q</em>r,
+where jac is the final calculated jacobian, q is
+orthogonal (not stored), and r is upper triangular.
+column j of p is column ipvt(j) of the identity matrix.</p></td>
   
 </tr>
 
@@ -509,12 +600,13 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-qtf~4"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-qtf~4"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Qtf</strong>(n)</td><td></td>
+  <td><strong>Qtf</strong>(n)</td><td><p>an output array of length n which contains
+the first n elements of the vector (q transpose)*fvec.</p></td>
   
 </tr>
 
@@ -524,12 +616,12 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-wa1~7"></span>double precision</td>
+  <td><span class="anchor" id="variable-wa1~7"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wa1</strong>(n)</td><td></td>
+  <td><strong>Wa1</strong>(n)</td><td><p>work array of length n.</p></td>
   
 </tr>
 
@@ -539,12 +631,12 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-wa2~7"></span>double precision</td>
+  <td><span class="anchor" id="variable-wa2~7"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wa2</strong>(n)</td><td></td>
+  <td><strong>Wa2</strong>(n)</td><td><p>work array of length n.</p></td>
   
 </tr>
 
@@ -554,12 +646,12 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-wa3~4"></span>double precision</td>
+  <td><span class="anchor" id="variable-wa3~4"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wa3</strong>(n)</td><td></td>
+  <td><strong>Wa3</strong>(n)</td><td><p>work array of length n.</p></td>
   
 </tr>
 
@@ -569,12 +661,12 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
   
 <tr>
   
-  <td><span class="anchor" id="variable-wa4~4"></span>double precision</td>
+  <td><span class="anchor" id="variable-wa4~4"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wa4</strong>(m)</td><td></td>
+  <td><strong>Wa4</strong>(m)</td><td><p>work array of length m.</p></td>
   
 </tr>
 
@@ -598,46 +690,46 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~lmstr~~CallsGraph Pages: 1 -->
-<svg id="proclmstrCallsGraph" width="242pt" height="86pt"
- viewBox="0.00 0.00 242.00 86.01" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~lmstr~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 82.01)">
+<svg id="proclmstrCallsGraph" width="242pt" height="112pt"
+ viewBox="0.00 0.00 242.00 112.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~lmstr~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 108)">
 <title>proc~~lmstr~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-82.01 238,-82.01 238,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-108 238,-108 238,4 -4,4"/>
 <!-- proc~lmstr -->
 <g id="proc~~lmstr~~CallsGraph_node1" class="node">
 <title>proc~lmstr</title>
-<polygon fill="none" stroke="black" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
-<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">lmstr</text>
-</g>
-<!-- proc~enorm -->
-<g id="proc~~lmstr~~CallsGraph_node2" class="node">
-<title>proc~enorm</title>
-<g id="a_proc~~lmstr~~CallsGraph_node2"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-65 180,-65 180,-41 234,-41 234,-65"/>
-<text text-anchor="middle" x="207" y="-50.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
-</a>
-</g>
-</g>
-<!-- proc~lmstr&#45;&gt;proc~enorm -->
-<g id="proc~~lmstr~~CallsGraph_edge1" class="edge">
-<title>proc~lmstr&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M54.06,-64.94C64.96,-68.96 77.89,-73 90,-75 113.68,-78.9 120.35,-79.07 144,-75 152.74,-73.5 161.88,-70.88 170.37,-67.97"/>
-<polygon fill="#000000" stroke="#000000" points="171.79,-71.18 179.98,-64.46 169.39,-64.6 171.79,-71.18"/>
+<polygon fill="none" stroke="black" points="54,-64 0,-64 0,-40 54,-40 54,-64"/>
+<text text-anchor="middle" x="27" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50">lmstr</text>
 </g>
 <!-- proc~rwupdt -->
-<g id="proc~~lmstr~~CallsGraph_node3" class="node">
+<g id="proc~~lmstr~~CallsGraph_node2" class="node">
 <title>proc~rwupdt</title>
-<g id="a_proc~~lmstr~~CallsGraph_node3"><a xlink:href=".././proc/rwupdt.html" xlink:title="rwupdt">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rwupdt</text>
+<g id="a_proc~~lmstr~~CallsGraph_node2"><a xlink:href=".././proc/rwupdt.html" xlink:title="rwupdt">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-104 90,-104 90,-80 144,-80 144,-104"/>
+<text text-anchor="middle" x="117" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rwupdt</text>
 </a>
 </g>
 </g>
 <!-- proc~lmstr&#45;&gt;proc~rwupdt -->
-<g id="proc~~lmstr~~CallsGraph_edge2" class="edge">
+<g id="proc~~lmstr~~CallsGraph_edge1" class="edge">
 <title>proc~lmstr&#45;&gt;proc~rwupdt</title>
-<path fill="none" stroke="#000000" d="M54.4,-54C62.39,-54 71.31,-54 79.82,-54"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-57.5 89.92,-54 79.92,-50.5 79.92,-57.5"/>
+<path fill="none" stroke="#000000" d="M54.4,-64C62.66,-67.75 71.9,-71.95 80.66,-75.94"/>
+<polygon fill="#000000" stroke="#000000" points="79.37,-79.19 89.92,-80.14 82.26,-72.82 79.37,-79.19"/>
+</g>
+<!-- proc~enorm -->
+<g id="proc~~lmstr~~CallsGraph_node3" class="node">
+<title>proc~enorm</title>
+<g id="a_proc~~lmstr~~CallsGraph_node3"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-44 180,-44 180,-20 234,-20 234,-44"/>
+<text text-anchor="middle" x="207" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
+</a>
+</g>
+</g>
+<!-- proc~lmstr&#45;&gt;proc~enorm -->
+<g id="proc~~lmstr~~CallsGraph_edge2" class="edge">
+<title>proc~lmstr&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M54.26,-49.05C84.85,-45.61 135.55,-39.92 169.84,-36.06"/>
+<polygon fill="#000000" stroke="#000000" points="170.37,-39.53 179.92,-34.93 169.59,-32.57 170.37,-39.53"/>
 </g>
 <!-- proc~qrfac -->
 <g id="proc~~lmstr~~CallsGraph_node4" class="node">
@@ -651,14 +743,14 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
 <!-- proc~lmstr&#45;&gt;proc~qrfac -->
 <g id="proc~~lmstr~~CallsGraph_edge3" class="edge">
 <title>proc~lmstr&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M53.45,-41.85C62.21,-37.67 72.17,-32.92 81.52,-28.46"/>
-<polygon fill="#000000" stroke="#000000" points="83.09,-31.59 90.6,-24.12 80.07,-25.27 83.09,-31.59"/>
+<path fill="none" stroke="#000000" d="M54.4,-40C62.66,-36.25 71.9,-32.05 80.66,-28.06"/>
+<polygon fill="#000000" stroke="#000000" points="82.26,-31.18 89.92,-23.86 79.37,-24.81 82.26,-31.18"/>
 </g>
 <!-- proc~qrfac&#45;&gt;proc~enorm -->
 <g id="proc~~lmstr~~CallsGraph_edge4" class="edge">
 <title>proc~qrfac&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M143.93,-24.08C152.36,-28.01 161.86,-32.43 170.84,-36.62"/>
-<polygon fill="#000000" stroke="#000000" points="169.41,-39.81 179.95,-40.87 172.37,-33.47 169.41,-39.81"/>
+<path fill="none" stroke="#000000" d="M144.4,-18C152.48,-19.84 161.51,-21.89 170.1,-23.84"/>
+<polygon fill="#000000" stroke="#000000" points="169.39,-27.27 179.92,-26.07 170.94,-20.44 169.39,-27.27"/>
 </g>
 </g>
 </svg>
@@ -853,7 +945,13 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/lmstr.html#src">lmstr</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -876,6 +974,392 @@ public subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxf
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">lmstr</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Fvec</span><span class="p">,</span> <span class="n">Fjac</span><span class="p">,</span> <span class="n">Ldfjac</span><span class="p">,</span> <span class="n">Ftol</span><span class="p">,</span> <span class="n">Xtol</span><span class="p">,</span> <span class="n">Gtol</span><span class="p">,</span> <span class="n">Maxfev</span><span class="p">,&amp;</span>
+                     <span class="n">Diag</span><span class="p">,</span> <span class="n">Mode</span><span class="p">,</span> <span class="n">Factor</span><span class="p">,</span> <span class="n">Nprint</span><span class="p">,</span> <span class="n">Info</span><span class="p">,</span> <span class="n">Nfev</span><span class="p">,</span> <span class="n">Njev</span><span class="p">,</span> <span class="n">Ipvt</span><span class="p">,</span> <span class="n">Qtf</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="n">Wa1</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">,</span> <span class="n">Wa4</span><span class="p">)</span>
+        <span class="k">implicit none</span>
+
+<span class="k">        procedure</span><span class="p">(</span><span class="n">fcn_lmstr</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fcn</span> <span class="c">!! user-supplied subroutine which</span>
+                                    <span class="c">!! calculates the functions and the rows of the jacobian.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">m</span> <span class="c">!! a positive integer input variable set to the number</span>
+                                <span class="c">!! of functions.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span> <span class="c">!! a positive integer input variable set to the number</span>
+                                <span class="c">!! of variables. n must not exceed m.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ldfjac</span> <span class="c">!! a positive integer input variable not less than n</span>
+                                     <span class="c">!! which specifies the leading dimension of the array fjac.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Maxfev</span> <span class="c">!! a positive integer input variable. termination</span>
+                                     <span class="c">!! occurs when the number of calls to fcn with iflag = 1</span>
+                                     <span class="c">!! has reached maxfev.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Mode</span> <span class="c">!! an integer input variable. if mode = 1, the</span>
+                                   <span class="c">!! variables will be scaled internally. if mode = 2,</span>
+                                   <span class="c">!! the scaling is specified by the input diag. other</span>
+                                   <span class="c">!! values of mode are equivalent to mode = 1.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nprint</span> <span class="c">!! an integer input variable that enables controlled</span>
+                                     <span class="c">!! printing of iterates if it is positive. in this case,</span>
+                                     <span class="c">!! fcn is called with iflag = 0 at the beginning of the first</span>
+                                     <span class="c">!! iteration and every nprint iterations thereafter and</span>
+                                     <span class="c">!! immediately prior to return, with x and fvec available</span>
+                                     <span class="c">!! for printing. if nprint is not positive, no special calls</span>
+                                     <span class="c">!! of fcn with iflag = 0 are made.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Info</span> <span class="c">!! an integer output variable. if the user has</span>
+                                    <span class="c">!! terminated execution, info is set to the (negative)</span>
+                                    <span class="c">!! value of iflag. see description of fcn. otherwise,</span>
+                                    <span class="c">!! info is set as follows:</span>
+                                    <span class="c">!!</span>
+                                    <span class="c">!!  * ***info = 0***  improper input parameters.</span>
+                                    <span class="c">!!  * ***info = 1***  both actual and predicted relative reductions</span>
+                                    <span class="c">!!    in the sum of squares are at most ftol.</span>
+                                    <span class="c">!!  * ***info = 2***  relative error between two consecutive iterates</span>
+                                    <span class="c">!!    is at most xtol.</span>
+                                    <span class="c">!!  * ***info = 3***  conditions for info = 1 and info = 2 both hold.</span>
+                                    <span class="c">!!  * ***info = 4***  the cosine of the angle between fvec and any</span>
+                                    <span class="c">!!    column of the jacobian is at most gtol in</span>
+                                    <span class="c">!!    absolute value.</span>
+                                    <span class="c">!!  * ***info = 5***  number of calls to fcn with iflag = 1 has</span>
+                                    <span class="c">!!    reached maxfev.</span>
+                                    <span class="c">!!  * ***info = 6***  ftol is too small. no further reduction in</span>
+                                    <span class="c">!!    the sum of squares is possible.</span>
+                                    <span class="c">!!  * ***info = 7***  xtol is too small. no further improvement in</span>
+                                    <span class="c">!!    the approximate solution x is possible.</span>
+                                    <span class="c">!!  * ***info = 8***  gtol is too small. fvec is orthogonal to the</span>
+                                    <span class="c">!!    columns of the jacobian to machine precision.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Nfev</span> <span class="c">!! an integer output variable set to the number of</span>
+                                    <span class="c">!! calls to fcn with iflag = 1.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Njev</span> <span class="c">!! an integer output variable set to the number of</span>
+                                    <span class="c">!! calls to fcn with iflag = 2.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ipvt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an integer output array of length n. ipvt</span>
+                                       <span class="c">!! defines a permutation matrix p such that jac*p = q*r,</span>
+                                       <span class="c">!! where jac is the final calculated jacobian, q is</span>
+                                       <span class="c">!! orthogonal (not stored), and r is upper triangular.</span>
+                                       <span class="c">!! column j of p is column ipvt(j) of the identity matrix.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ftol</span> <span class="c">!! a nonnegative input variable. termination</span>
+                                    <span class="c">!! occurs when both the actual and predicted relative</span>
+                                    <span class="c">!! reductions in the sum of squares are at most ftol.</span>
+                                    <span class="c">!! therefore, ftol measures the relative error desired</span>
+                                    <span class="c">!! in the sum of squares.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Xtol</span> <span class="c">!! a nonnegative input variable. termination</span>
+                                    <span class="c">!! occurs when the relative error between two consecutive</span>
+                                    <span class="c">!! iterates is at most xtol. therefore, xtol measures the</span>
+                                    <span class="c">!! relative error desired in the approximate solution.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Gtol</span> <span class="c">!! a nonnegative input variable. termination</span>
+                                    <span class="c">!! occurs when the cosine of the angle between fvec and</span>
+                                    <span class="c">!! any column of the jacobian is at most gtol in absolute</span>
+                                    <span class="c">!! value. therefore, gtol measures the orthogonality</span>
+                                    <span class="c">!! desired between the function vector and the columns</span>
+                                    <span class="c">!! of the jacobian.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Factor</span> <span class="c">!! a positive input variable used in determining the</span>
+                                      <span class="c">!! initial step bound. this bound is set to the product of</span>
+                                      <span class="c">!! factor and the euclidean norm of diag*x if nonzero, or else</span>
+                                      <span class="c">!! to factor itself. in most cases factor should lie in the</span>
+                                      <span class="c">!! interval (.1,100.). 100. is a generally recommended value.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an array of length n. on input x must contain</span>
+                                       <span class="c">!! an initial estimate of the solution vector. on output x</span>
+                                       <span class="c">!! contains the final estimate of the solution vector.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Fvec</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="c">!! an output array of length m which contains</span>
+                                        <span class="c">!! the functions evaluated at the output x.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Fjac</span><span class="p">(</span><span class="n">Ldfjac</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="c">!! an output n by n array. the upper triangle of fjac</span>
+                                                <span class="c">!! contains an upper triangular matrix r such that</span>
+                                                <span class="c">!!```</span>
+                                                <span class="c">!!        t     t           t</span>
+                                                <span class="c">!!       p *(jac *jac)*p = r *r,</span>
+                                                <span class="c">!!```</span>
+                                                <span class="c">!! where p is a permutation matrix and jac is the final</span>
+                                                <span class="c">!! calculated jacobian. column j of p is column ipvt(j)</span>
+                                                <span class="c">!! (see below) of the identity matrix. the lower triangular</span>
+                                                <span class="c">!! part of fjac contains information generated during</span>
+                                                <span class="c">!! the computation of r.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Diag</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an array of length n. if mode = 1 (see</span>
+                                          <span class="c">!! below), diag is internally set. if mode = 2, diag</span>
+                                          <span class="c">!! must contain positive entries that serve as</span>
+                                          <span class="c">!! multiplicative scale factors for the variables.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Qtf</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an output array of length n which contains</span>
+                                       <span class="c">!! the first n elements of the vector (q transpose)*fvec.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! work array of length n.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wa2</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! work array of length n.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wa3</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! work array of length n.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wa4</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="c">!! work array of length m.</span>
+
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">iflag</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">l</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">actred</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">dirder</span><span class="p">,</span> <span class="n">fnorm</span><span class="p">,</span> <span class="p">&amp;</span>
+                    <span class="n">fnorm1</span><span class="p">,</span> <span class="n">gnorm</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">pnorm</span><span class="p">,</span> <span class="n">prered</span><span class="p">,</span> <span class="p">&amp;</span>
+                    <span class="n">ratio</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">temp1</span><span class="p">,</span> <span class="n">temp2</span><span class="p">,</span> <span class="n">xnorm</span>
+        <span class="kt">logical</span> <span class="kd">::</span> <span class="n">sing</span>
+
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">p1</span> <span class="o">=</span> <span class="mf">1.0e-1_wp</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">p5</span> <span class="o">=</span> <span class="mf">5.0e-1_wp</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">p25</span> <span class="o">=</span> <span class="mf">2.5e-1_wp</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">p75</span> <span class="o">=</span> <span class="mf">7.5e-1_wp</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">p0001</span> <span class="o">=</span> <span class="mf">1.0e-4_wp</span>
+
+        <span class="n">Info</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">iflag</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">Nfev</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">Njev</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c">!</span>
+<span class="c">!     check the input parameters for errors.</span>
+<span class="c">!</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">Ldfjac</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">Ftol</span> <span class="o">&lt;</span> <span class="n">zero</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="p">&amp;</span>
+             <span class="n">Xtol</span> <span class="o">&lt;</span> <span class="n">zero</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">Gtol</span> <span class="o">&lt;</span> <span class="n">zero</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">Maxfev</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">Factor</span> <span class="o">&lt;=</span> <span class="n">zero</span><span class="p">)</span> <span class="p">&amp;</span>
+             <span class="k">goto </span><span class="mi">200</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Mode</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">zero</span><span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+            <span class="k">end do</span>
+<span class="k">        end if</span>
+<span class="c">!</span>
+<span class="c">!     evaluate the function at the starting point</span>
+<span class="c">!     and calculate its norm.</span>
+<span class="c">!</span>
+        <span class="n">iflag</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Fvec</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">,</span> <span class="n">iflag</span><span class="p">)</span>
+        <span class="n">Nfev</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+        <span class="n">fnorm</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Fvec</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!     initialize levenberg-marquardt parameter and iteration counter.</span>
+<span class="c">!</span>
+        <span class="n">par</span> <span class="o">=</span> <span class="n">zero</span>
+        <span class="n">iter</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">!</span>
+<span class="c">!     beginning of the outer loop.</span>
+<span class="c">!</span>
+<span class="c">!</span>
+<span class="c">!        if requested, call fcn to enable printing of iterates.</span>
+<span class="c">!</span>
+<span class="mi">100</span>     <span class="k">if</span> <span class="p">(</span><span class="n">Nprint</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">iflag</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">iter</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nprint</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Fvec</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">,</span> <span class="n">iflag</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+        <span class="k">end if</span>
+<span class="c">!</span>
+<span class="c">!        compute the qr factorization of the jacobian matrix</span>
+<span class="c">!        calculated one row at a time, while simultaneously</span>
+<span class="c">!        forming (q transpose)*fvec and storing the first</span>
+<span class="c">!        n components in qtf.</span>
+<span class="c">!</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+            <span class="n">Qtf</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                <span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+            <span class="k">end do</span>
+<span class="k">        end do</span>
+<span class="k">        </span><span class="n">iflag</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span>
+            <span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Fvec</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">,</span> <span class="n">iflag</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">goto </span><span class="mi">200</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">Fvec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">call </span><span class="n">rwupdt</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Fjac</span><span class="p">,</span> <span class="n">Ldfjac</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">,</span> <span class="n">Qtf</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">)</span>
+            <span class="n">iflag</span> <span class="o">=</span> <span class="n">iflag</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">end do</span>
+<span class="k">        </span><span class="n">Njev</span> <span class="o">=</span> <span class="n">Njev</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c">!</span>
+<span class="c">!        if the jacobian is rank deficient, call qrfac to</span>
+<span class="c">!        reorder its columns and update the components of qtf.</span>
+<span class="c">!</span>
+        <span class="n">sing</span> <span class="o">=</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Fjac</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="n">zero</span><span class="p">)</span> <span class="n">sing</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
+            <span class="n">Ipvt</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">Fjac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">end do</span>
+<span class="k">        if</span> <span class="p">(</span><span class="n">sing</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            call </span><span class="n">qrfac</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">Fjac</span><span class="p">,</span> <span class="n">Ldfjac</span><span class="p">,</span> <span class="p">.</span><span class="n">true</span><span class="p">.,</span> <span class="n">Ipvt</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">)</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">Fjac</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">/=</span> <span class="n">zero</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                    </span><span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
+                    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">n</span>
+                        <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="k">end do</span>
+<span class="k">                    </span><span class="n">temp</span> <span class="o">=</span> <span class="o">-</span><span class="nb">sum</span><span class="o">/</span><span class="n">Fjac</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">n</span>
+                        <span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span>
+                    <span class="k">end do</span>
+<span class="k">                end if</span>
+<span class="k">                </span><span class="n">Fjac</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">end do</span>
+<span class="k">        end if</span>
+<span class="c">!</span>
+<span class="c">!        on the first iteration and if mode is 1, scale according</span>
+<span class="c">!        to the norms of the columns of the initial jacobian.</span>
+<span class="c">!</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            if</span> <span class="p">(</span><span class="n">Mode</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                    <span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="n">zero</span><span class="p">)</span> <span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span>
+                <span class="k">end do</span>
+<span class="k">            end if</span>
+<span class="c">!</span>
+<span class="c">!        on the first iteration, calculate the norm of the scaled x</span>
+<span class="c">!        and initialize the step bound delta.</span>
+<span class="c">!</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                <span class="n">Wa3</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">end do</span>
+<span class="k">            </span><span class="n">xnorm</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">)</span>
+            <span class="n">delta</span> <span class="o">=</span> <span class="n">Factor</span><span class="o">*</span><span class="n">xnorm</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">delta</span> <span class="o">==</span> <span class="n">zero</span><span class="p">)</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">Factor</span>
+        <span class="k">end if</span>
+<span class="c">!</span>
+<span class="c">!        compute the norm of the scaled gradient.</span>
+<span class="c">!</span>
+        <span class="n">gnorm</span> <span class="o">=</span> <span class="n">zero</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">fnorm</span> <span class="o">/=</span> <span class="n">zero</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">Ipvt</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">Wa2</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">/=</span> <span class="n">zero</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                    </span><span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
+                    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span>
+                        <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">fnorm</span><span class="p">)</span>
+                    <span class="k">end do</span>
+<span class="k">                    </span><span class="n">gnorm</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">gnorm</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">sum</span><span class="o">/</span><span class="n">Wa2</span><span class="p">(</span><span class="n">l</span><span class="p">)))</span>
+                <span class="k">end if</span>
+<span class="k">            end do</span>
+<span class="k">        end if</span>
+<span class="c">!</span>
+<span class="c">!        test for convergence of the gradient norm.</span>
+<span class="c">!</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">gnorm</span> <span class="o">&lt;=</span> <span class="n">Gtol</span><span class="p">)</span> <span class="n">Info</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Info</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">!        rescale if necessary.</span>
+<span class="c">!</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Mode</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                    <span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">),</span> <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+                <span class="k">end do</span>
+<span class="k">            end if</span>
+<span class="c">!</span>
+<span class="c">!        beginning of the inner loop.</span>
+<span class="c">!</span>
+<span class="c">!</span>
+<span class="c">!           determine the levenberg-marquardt parameter.</span>
+<span class="c">!</span>
+<span class="mi">150</span>         <span class="k">call </span><span class="n">lmpar</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Fjac</span><span class="p">,</span> <span class="n">Ldfjac</span><span class="p">,</span> <span class="n">Ipvt</span><span class="p">,</span> <span class="n">Diag</span><span class="p">,</span> <span class="n">Qtf</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">,</span> <span class="n">Wa4</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!           store the direction p and x + p. calculate the norm of p.</span>
+<span class="c">!</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">Wa3</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">end do</span>
+<span class="k">            </span><span class="n">pnorm</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!           on the first iteration, adjust the initial step bound.</span>
+<span class="c">!</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="n">delta</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">pnorm</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!           evaluate the function at x + p and calculate its norm.</span>
+<span class="c">!</span>
+            <span class="n">iflag</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">,</span> <span class="n">Wa4</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">,</span> <span class="n">iflag</span><span class="p">)</span>
+            <span class="n">Nfev</span> <span class="o">=</span> <span class="n">Nfev</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                </span><span class="n">fnorm1</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Wa4</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!           compute the scaled actual reduction.</span>
+<span class="c">!</span>
+                <span class="n">actred</span> <span class="o">=</span> <span class="o">-</span><span class="n">one</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">p1</span><span class="o">*</span><span class="n">fnorm1</span> <span class="o">&lt;</span> <span class="n">fnorm</span><span class="p">)</span> <span class="n">actred</span> <span class="o">=</span> <span class="n">one</span> <span class="o">-</span> <span class="p">(</span><span class="n">fnorm1</span><span class="o">/</span><span class="n">fnorm</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="c">!</span>
+<span class="c">!           compute the scaled predicted reduction and</span>
+<span class="c">!           the scaled directional derivative.</span>
+<span class="c">!</span>
+                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                    <span class="n">Wa3</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="n">Ipvt</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+                    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span>
+                        <span class="n">Wa3</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa3</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span>
+                    <span class="k">end do</span>
+<span class="k">                end do</span>
+<span class="k">                </span><span class="n">temp1</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">)</span><span class="o">/</span><span class="n">fnorm</span>
+                <span class="n">temp2</span> <span class="o">=</span> <span class="p">(</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">par</span><span class="p">)</span><span class="o">*</span><span class="n">pnorm</span><span class="p">)</span><span class="o">/</span><span class="n">fnorm</span>
+                <span class="n">prered</span> <span class="o">=</span> <span class="n">temp1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">temp2</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">p5</span>
+                <span class="n">dirder</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">temp1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">temp2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!           compute the ratio of the actual to the predicted</span>
+<span class="c">!           reduction.</span>
+<span class="c">!</span>
+                <span class="n">ratio</span> <span class="o">=</span> <span class="n">zero</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">prered</span> <span class="o">/=</span> <span class="n">zero</span><span class="p">)</span> <span class="n">ratio</span> <span class="o">=</span> <span class="n">actred</span><span class="o">/</span><span class="n">prered</span>
+<span class="c">!</span>
+<span class="c">!           update the step bound.</span>
+<span class="c">!</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">ratio</span> <span class="o">&lt;=</span> <span class="n">p25</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                    if</span> <span class="p">(</span><span class="n">actred</span> <span class="o">&gt;=</span> <span class="n">zero</span><span class="p">)</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">p5</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">actred</span> <span class="o">&lt;</span> <span class="n">zero</span><span class="p">)</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">p5</span><span class="o">*</span><span class="n">dirder</span><span class="o">/</span><span class="p">(</span><span class="n">dirder</span> <span class="o">+</span> <span class="n">p5</span><span class="o">*</span><span class="n">actred</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">p1</span><span class="o">*</span><span class="n">fnorm1</span> <span class="o">&gt;=</span> <span class="n">fnorm</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">temp</span> <span class="o">&lt;</span> <span class="n">p1</span><span class="p">)</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">p1</span>
+                    <span class="n">delta</span> <span class="o">=</span> <span class="n">temp</span><span class="o">*</span><span class="nb">min</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">pnorm</span><span class="o">/</span><span class="n">p1</span><span class="p">)</span>
+                    <span class="n">par</span> <span class="o">=</span> <span class="n">par</span><span class="o">/</span><span class="n">temp</span>
+                <span class="n">elseif</span> <span class="p">(</span><span class="n">par</span> <span class="o">==</span> <span class="n">zero</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">ratio</span> <span class="o">&gt;=</span> <span class="n">p75</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                    </span><span class="n">delta</span> <span class="o">=</span> <span class="n">pnorm</span><span class="o">/</span><span class="n">p5</span>
+                    <span class="n">par</span> <span class="o">=</span> <span class="n">p5</span><span class="o">*</span><span class="n">par</span>
+                <span class="k">end if</span>
+<span class="c">!</span>
+<span class="c">!           test for successful iteration.</span>
+<span class="c">!</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">ratio</span> <span class="o">&gt;=</span> <span class="n">p0001</span><span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">!           successful iteration. update x, fvec, and their norms.</span>
+<span class="c">!</span>
+                    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                        <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                        <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="k">end do</span>
+<span class="k">                    do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span>
+                        <span class="n">Fvec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa4</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="k">end do</span>
+<span class="k">                    </span><span class="n">xnorm</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">)</span>
+                    <span class="n">fnorm</span> <span class="o">=</span> <span class="n">fnorm1</span>
+                    <span class="n">iter</span> <span class="o">=</span> <span class="n">iter</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">end if</span>
+<span class="c">!</span>
+<span class="c">!           tests for convergence.</span>
+<span class="c">!</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">actred</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">Ftol</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">prered</span> <span class="o">&lt;=</span> <span class="n">Ftol</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+                     <span class="n">p5</span><span class="o">*</span><span class="n">ratio</span> <span class="o">&lt;=</span> <span class="n">one</span><span class="p">)</span> <span class="n">Info</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">delta</span> <span class="o">&lt;=</span> <span class="n">Xtol</span><span class="o">*</span><span class="n">xnorm</span><span class="p">)</span> <span class="n">Info</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">actred</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">Ftol</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">prered</span> <span class="o">&lt;=</span> <span class="n">Ftol</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+                     <span class="n">p5</span><span class="o">*</span><span class="n">ratio</span> <span class="o">&lt;=</span> <span class="n">one</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">Info</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="n">Info</span> <span class="o">=</span> <span class="mi">3</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">Info</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">!           tests for termination and stringent tolerances.</span>
+<span class="c">!</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">Nfev</span> <span class="o">&gt;=</span> <span class="n">Maxfev</span><span class="p">)</span> <span class="n">Info</span> <span class="o">=</span> <span class="mi">5</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">actred</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">epsmch</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">prered</span> <span class="o">&lt;=</span> <span class="n">epsmch</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+                         <span class="n">p5</span><span class="o">*</span><span class="n">ratio</span> <span class="o">&lt;=</span> <span class="n">one</span><span class="p">)</span> <span class="n">Info</span> <span class="o">=</span> <span class="mi">6</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">delta</span> <span class="o">&lt;=</span> <span class="n">epsmch</span><span class="o">*</span><span class="n">xnorm</span><span class="p">)</span> <span class="n">Info</span> <span class="o">=</span> <span class="mi">7</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">gnorm</span> <span class="o">&lt;=</span> <span class="n">epsmch</span><span class="p">)</span> <span class="n">Info</span> <span class="o">=</span> <span class="mi">8</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">Info</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">!           end of the inner loop. repeat if iteration unsuccessful.</span>
+<span class="c">!</span>
+<span class="c">!</span>
+<span class="c">!        end of the outer loop.</span>
+<span class="c">!</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">ratio</span> <span class="o">&gt;=</span> <span class="n">p0001</span><span class="p">)</span> <span class="k">goto </span><span class="mi">100</span>
+                        <span class="k">goto </span><span class="mi">150</span>
+                    <span class="k">end if</span>
+<span class="k">                end if</span>
+<span class="k">            end if</span>
+<span class="k">        end if</span>
+<span class="c">!</span>
+<span class="c">!     termination, either normal or user imposed.</span>
+<span class="c">!</span>
+<span class="mi">200</span>     <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">Info</span> <span class="o">=</span> <span class="n">iflag</span>
+        <span class="n">iflag</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Nprint</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Fvec</span><span class="p">,</span> <span class="n">Wa3</span><span class="p">,</span> <span class="n">iflag</span><span class="p">)</span>
+
+    <span class="k">end subroutine </span><span class="n">lmstr</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>

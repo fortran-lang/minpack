@@ -57,7 +57,7 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+            <li><a href="../lists/files.html">Source Files</a></li>
         
         
         
@@ -67,6 +67,8 @@
                                 
             <li><a href="../lists/procedures.html">Procedures</a></li>
         
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
                
                
         
@@ -76,7 +78,7 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
 
 
 
@@ -86,6 +88,8 @@
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
                              
 
 
@@ -128,7 +132,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 6.9% of total for procedures.">114 statements</a>
+    title=" 6.6% of total for procedures.">123 statements</a>
      </li> 
      
      
@@ -186,7 +190,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/lmpar.html#src">lmpar</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -204,6 +214,41 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 
 
+    
+    <p>given an m by n matrix a, an n by n nonsingular diagonal
+  matrix d, an m-vector b, and a positive number delta,
+  the problem is to determine a value for the parameter
+  par such that if x solves the system</p>
+<div class="codehilite"><pre><span></span><code>        a*x = b ,     sqrt(par)*d*x = 0 ,
+</code></pre></div>
+
+<p>in the least squares sense, and dxnorm is the euclidean
+  norm of d*x, then either par is zero and</p>
+<div class="codehilite"><pre><span></span><code>        (dxnorm-delta) &lt;= 0.1*delta ,
+</code></pre></div>
+
+<p>or par is positive and</p>
+<div class="codehilite"><pre><span></span><code>        abs(dxnorm-delta) &lt;= 0.1*delta .
+</code></pre></div>
+
+<p>this subroutine completes the solution of the problem
+  if it is provided with the necessary information from the
+  qr factorization, with column pivoting, of a. that is, if
+  a<em>p = q</em>r, where p is a permutation matrix, q has orthogonal
+  columns, and r is an upper triangular matrix with diagonal
+  elements of nonincreasing magnitude, then lmpar expects
+  the full upper triangle of r, the permutation matrix p,
+  and the first n components of (q transpose)*b. on output
+  lmpar also provides an upper triangular matrix s such that</p>
+<div class="codehilite"><pre><span></span><code>         t   t                   t
+        p *(a *a + par*d*d)*p = s *s .
+</code></pre></div>
+
+<p>s is employed within lmpar and may be of separate interest.</p>
+<p>only a few iterations are generally needed for convergence
+  of the algorithm. if, however, the limit of 10 iterations
+  is reached, then the output par will contain the best
+  value obtained so far.</p>
     
 
     <h3>Arguments</h3>
@@ -224,12 +269,12 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~12"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-n~19"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>a positive integer input variable set to the order of r.</p></td>
   
 </tr>
 
@@ -239,12 +284,16 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-r~3"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-r~4"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>r</strong>(Ldr,n)</td><td></td>
+  <td><strong>r</strong>(Ldr,n)</td><td><p>an n by n array. on input the full upper triangle
+must contain the full upper triangle of the matrix r.
+on output the full upper triangle is unaltered, and the
+strict lower triangle contains the strict upper triangle
+(transposed) of the upper triangular matrix s.</p></td>
   
 </tr>
 
@@ -254,12 +303,13 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-ldr"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ldr"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ldr</strong></td><td></td>
+  <td><strong>Ldr</strong></td><td><p>a positive integer input variable not less than n
+which specifies the leading dimension of the array r.</p></td>
   
 </tr>
 
@@ -269,12 +319,14 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-ipvt~4"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ipvt~4"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ipvt</strong>(n)</td><td></td>
+  <td><strong>Ipvt</strong>(n)</td><td><p>an integer input array of length n which defines the
+permutation matrix p such that a<em>p = q</em>r. column j of p
+is column ipvt(j) of the identity matrix.</p></td>
   
 </tr>
 
@@ -284,12 +336,13 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-diag~5"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-diag~5"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Diag</strong>(n)</td><td></td>
+  <td><strong>Diag</strong>(n)</td><td><p>an input array of length n which must contain the
+diagonal elements of the matrix d.</p></td>
   
 </tr>
 
@@ -299,12 +352,13 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-qtb~2"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-qtb~2"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Qtb</strong>(n)</td><td></td>
+  <td><strong>Qtb</strong>(n)</td><td><p>an input array of length n which must contain the first
+n elements of the vector (q transpose)*b.</p></td>
   
 </tr>
 
@@ -314,12 +368,13 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-delta~2"></span>double precision</td>
+  <td><span class="anchor" id="variable-delta~2"></span>real(kind=wp)</td>
   <td></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Delta</strong></td><td></td>
+  <td><strong>Delta</strong></td><td><p>a positive input variable which specifies an upper
+bound on the euclidean norm of d*x.</p></td>
   
 </tr>
 
@@ -329,12 +384,14 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-par"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-par"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Par</strong></td><td></td>
+  <td><strong>Par</strong></td><td><p>a nonnegative variable. on input par contains an
+initial estimate of the levenberg-marquardt parameter.
+on output par contains the final estimate.</p></td>
   
 </tr>
 
@@ -344,12 +401,14 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-x~12"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-x~19"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>x</strong>(n)</td><td></td>
+  <td><strong>x</strong>(n)</td><td><p>an output array of length n which contains the least
+squares solution of the system a<em>x = b, sqrt(par)</em>d*x = 0,
+for the output par.</p></td>
   
 </tr>
 
@@ -359,12 +418,13 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-sdiag"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-sdiag"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Sdiag</strong>(n)</td><td></td>
+  <td><strong>Sdiag</strong>(n)</td><td><p>an output array of length n which contains the
+diagonal elements of the upper triangular matrix s.</p></td>
   
 </tr>
 
@@ -374,12 +434,12 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-wa1~6"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-wa1~6"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wa1</strong>(n)</td><td></td>
+  <td><strong>Wa1</strong>(n)</td><td><p>work array of length n.</p></td>
   
 </tr>
 
@@ -389,12 +449,12 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-wa2~6"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-wa2~6"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wa2</strong>(n)</td><td></td>
+  <td><strong>Wa2</strong>(n)</td><td><p>work array of length n.</p></td>
   
 </tr>
 
@@ -551,7 +611,13 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/lmpar.html#src">lmpar</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -574,6 +640,204 @@ public subroutine lmpar(n, r, Ldr, Ipvt, Diag, Qtb, Delta, Par, x, Sdiag, Wa1, W
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">lmpar</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">Ldr</span><span class="p">,</span> <span class="n">Ipvt</span><span class="p">,</span> <span class="n">Diag</span><span class="p">,</span> <span class="n">Qtb</span><span class="p">,</span> <span class="n">Delta</span><span class="p">,</span> <span class="n">Par</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Sdiag</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">)</span>
+        <span class="k">implicit none</span>
+
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span> <span class="c">!! a positive integer input variable set to the order of r.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ldr</span> <span class="c">!! a positive integer input variable not less than n</span>
+                                  <span class="c">!! which specifies the leading dimension of the array r.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ipvt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an integer input array of length n which defines the</span>
+                                      <span class="c">!! permutation matrix p such that a*p = q*r. column j of p</span>
+                                      <span class="c">!! is column ipvt(j) of the identity matrix.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Delta</span> <span class="c">!! a positive input variable which specifies an upper</span>
+                          <span class="c">!! bound on the euclidean norm of d*x.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Par</span> <span class="c">!! a nonnegative variable. on input par contains an</span>
+                                      <span class="c">!! initial estimate of the levenberg-marquardt parameter.</span>
+                                      <span class="c">!! on output par contains the final estimate.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">r</span><span class="p">(</span><span class="n">Ldr</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="c">!! an n by n array. on input the full upper triangle</span>
+                                            <span class="c">!! must contain the full upper triangle of the matrix r.</span>
+                                            <span class="c">!! on output the full upper triangle is unaltered, and the</span>
+                                            <span class="c">!! strict lower triangle contains the strict upper triangle</span>
+                                            <span class="c">!! (transposed) of the upper triangular matrix s.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Diag</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an input array of length n which must contain the</span>
+                                       <span class="c">!! diagonal elements of the matrix d.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Qtb</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an input array of length n which must contain the first</span>
+                                      <span class="c">!! n elements of the vector (q transpose)*b.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an output array of length n which contains the least</span>
+                                     <span class="c">!! squares solution of the system a*x = b, sqrt(par)*d*x = 0,</span>
+                                     <span class="c">!! for the output par.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Sdiag</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an output array of length n which contains the</span>
+                                         <span class="c">!! diagonal elements of the upper triangular matrix s.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! work array of length n.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wa2</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! work array of length n.</span>
+
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jm1</span><span class="p">,</span> <span class="n">jp1</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">nsing</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dxnorm</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">gnorm</span><span class="p">,</span> <span class="n">parc</span><span class="p">,</span> <span class="n">parl</span><span class="p">,</span> <span class="p">&amp;</span>
+                    <span class="n">paru</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">temp</span>
+
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">p1</span> <span class="o">=</span> <span class="mf">1.0e-1_wp</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">p001</span> <span class="o">=</span> <span class="mf">1.0e-3_wp</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">dwarf</span> <span class="o">=</span> <span class="n">dpmpar</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c">!! the smallest positive magnitude</span>
+
+<span class="c">!     compute and store in x the gauss-newton direction. if the</span>
+<span class="c">!     jacobian is rank-deficient, obtain a least squares solution.</span>
+<span class="c">!</span>
+        <span class="n">nsing</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+            <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Qtb</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">r</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="n">zero</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">nsing</span> <span class="o">==</span> <span class="n">n</span><span class="p">)</span> <span class="n">nsing</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nsing</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+        <span class="k">end do</span>
+<span class="k">        if</span> <span class="p">(</span><span class="n">nsing</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nsing</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">nsing</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">r</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">jm1</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">jm1</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                    do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">jm1</span>
+                        <span class="n">Wa1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span>
+                    <span class="k">end do</span>
+<span class="k">                end if</span>
+<span class="k">            end do</span>
+<span class="k">        end if</span>
+<span class="k">        do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">Ipvt</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">x</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">end do</span>
+<span class="c">!</span>
+<span class="c">!     initialize the iteration counter.</span>
+<span class="c">!     evaluate the function at the origin, and test</span>
+<span class="c">!     for acceptance of the gauss-newton direction.</span>
+<span class="c">!</span>
+        <span class="n">iter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+            <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">end do</span>
+<span class="k">        </span><span class="n">dxnorm</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">)</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">dxnorm</span> <span class="o">-</span> <span class="n">Delta</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">fp</span> <span class="o">&lt;=</span> <span class="n">p1</span><span class="o">*</span><span class="n">Delta</span><span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">!     termination.</span>
+<span class="c">!</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">Par</span> <span class="o">=</span> <span class="n">zero</span>
+        <span class="k">else</span>
+<span class="c">!</span>
+<span class="c">!     if the jacobian is not rank deficient, the newton</span>
+<span class="c">!     step provides a lower bound, parl, for the zero of</span>
+<span class="c">!     the function. otherwise set this bound to zero.</span>
+<span class="c">!</span>
+            <span class="n">parl</span> <span class="o">=</span> <span class="n">zero</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nsing</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="n">Ipvt</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Diag</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">Wa2</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="n">dxnorm</span><span class="p">)</span>
+                <span class="k">end do</span>
+<span class="k">                do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                    <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
+                    <span class="n">jm1</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">jm1</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                        do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">jm1</span>
+                            <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Wa1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                        <span class="k">end do</span>
+<span class="k">                    end if</span>
+<span class="k">                    </span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">)</span><span class="o">/</span><span class="n">r</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                <span class="k">end do</span>
+<span class="k">                </span><span class="n">temp</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">)</span>
+                <span class="n">parl</span> <span class="o">=</span> <span class="p">((</span><span class="n">fp</span><span class="o">/</span><span class="n">Delta</span><span class="p">)</span><span class="o">/</span><span class="n">temp</span><span class="p">)</span><span class="o">/</span><span class="n">temp</span>
+            <span class="k">end if</span>
+<span class="c">!</span>
+<span class="c">!     calculate an upper bound, paru, for the zero of the function.</span>
+<span class="c">!</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                <span class="nb">sum</span> <span class="o">=</span> <span class="n">zero</span>
+                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span>
+                    <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Qtb</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">end do</span>
+<span class="k">                </span><span class="n">l</span> <span class="o">=</span> <span class="n">Ipvt</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="nb">sum</span><span class="o">/</span><span class="n">Diag</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="k">end do</span>
+<span class="k">            </span><span class="n">gnorm</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">)</span>
+            <span class="n">paru</span> <span class="o">=</span> <span class="n">gnorm</span><span class="o">/</span><span class="n">Delta</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">paru</span> <span class="o">==</span> <span class="n">zero</span><span class="p">)</span> <span class="n">paru</span> <span class="o">=</span> <span class="n">dwarf</span><span class="o">/</span><span class="nb">min</span><span class="p">(</span><span class="n">Delta</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!     if the input par lies outside of the interval (parl,paru),</span>
+<span class="c">!     set par to the closer endpoint.</span>
+<span class="c">!</span>
+            <span class="n">Par</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">Par</span><span class="p">,</span> <span class="n">parl</span><span class="p">)</span>
+            <span class="n">Par</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">Par</span><span class="p">,</span> <span class="n">paru</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Par</span> <span class="o">==</span> <span class="n">zero</span><span class="p">)</span> <span class="n">Par</span> <span class="o">=</span> <span class="n">gnorm</span><span class="o">/</span><span class="n">dxnorm</span>
+<span class="c">!</span>
+<span class="c">!     beginning of an iteration.</span>
+<span class="c">!</span>
+<span class="mi">50</span>          <span class="n">iter</span> <span class="o">=</span> <span class="n">iter</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c">!</span>
+<span class="c">!        evaluate the function at the current value of par.</span>
+<span class="c">!</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Par</span> <span class="o">==</span> <span class="n">zero</span><span class="p">)</span> <span class="n">Par</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dwarf</span><span class="p">,</span> <span class="n">p001</span><span class="o">*</span><span class="n">paru</span><span class="p">)</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">Par</span><span class="p">)</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">temp</span><span class="o">*</span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">end do</span>
+<span class="k">            call </span><span class="n">qrsolv</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">Ldr</span><span class="p">,</span> <span class="n">Ipvt</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">,</span> <span class="n">Qtb</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Sdiag</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">)</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">end do</span>
+<span class="k">            </span><span class="n">dxnorm</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">)</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">fp</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="n">dxnorm</span> <span class="o">-</span> <span class="n">Delta</span>
+<span class="c">!</span>
+<span class="c">!        if the function is small enough, accept the current value</span>
+<span class="c">!        of par. also test for the exceptional cases where parl</span>
+<span class="c">!        is zero or the number of iterations has reached 10.</span>
+<span class="c">!</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">p1</span><span class="o">*</span><span class="n">Delta</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">parl</span> <span class="o">==</span> <span class="n">zero</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">fp</span> <span class="o">&lt;=</span> <span class="n">temp</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+                 <span class="n">temp</span> <span class="o">&lt;</span> <span class="n">zero</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">iter</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                if</span> <span class="p">(</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">Par</span> <span class="o">=</span> <span class="n">zero</span>
+            <span class="k">else</span>
+<span class="c">!</span>
+<span class="c">!        compute the newton correction.</span>
+<span class="c">!</span>
+                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="n">Ipvt</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Diag</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">Wa2</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="n">dxnorm</span><span class="p">)</span>
+                <span class="k">end do</span>
+<span class="k">                do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                    <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">Sdiag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="n">jp1</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="n">jp1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                        do </span><span class="n">i</span> <span class="o">=</span> <span class="n">jp1</span><span class="p">,</span> <span class="n">n</span>
+                            <span class="n">Wa1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span>
+                        <span class="k">end do</span>
+<span class="k">                    end if</span>
+<span class="k">                end do</span>
+<span class="k">                </span><span class="n">temp</span> <span class="o">=</span> <span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">)</span>
+                <span class="n">parc</span> <span class="o">=</span> <span class="p">((</span><span class="n">fp</span><span class="o">/</span><span class="n">Delta</span><span class="p">)</span><span class="o">/</span><span class="n">temp</span><span class="p">)</span><span class="o">/</span><span class="n">temp</span>
+<span class="c">!</span>
+<span class="c">!        depending on the sign of the function, update parl or paru.</span>
+<span class="c">!</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">fp</span> <span class="o">&gt;</span> <span class="n">zero</span><span class="p">)</span> <span class="n">parl</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">parl</span><span class="p">,</span> <span class="n">Par</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">fp</span> <span class="o">&lt;</span> <span class="n">zero</span><span class="p">)</span> <span class="n">paru</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">paru</span><span class="p">,</span> <span class="n">Par</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!        compute an improved estimate for par.</span>
+<span class="c">!</span>
+                <span class="n">Par</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">parl</span><span class="p">,</span> <span class="n">Par</span> <span class="o">+</span> <span class="n">parc</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!        end of an iteration.</span>
+<span class="c">!</span>
+                <span class="k">goto </span><span class="mi">50</span>
+            <span class="k">end if</span>
+<span class="k">        end if</span>
+
+<span class="k">    end subroutine </span><span class="n">lmpar</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>

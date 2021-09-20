@@ -57,7 +57,7 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+            <li><a href="../lists/files.html">Source Files</a></li>
         
         
         
@@ -67,6 +67,8 @@
                                 
             <li><a href="../lists/procedures.html">Procedures</a></li>
         
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
                
                
         
@@ -76,7 +78,7 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
 
 
 
@@ -86,6 +88,8 @@
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
                              
 
 
@@ -128,7 +132,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="14.7% of total for procedures.">242 statements</a>
+    title=" 3.0% of total for procedures.">55 statements</a>
      </li> 
      
      
@@ -186,7 +190,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/fdjac1.html#src">fdjac1</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -204,6 +214,12 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 
 
+    
+    <p>this subroutine computes a forward-difference approximation
+to the n by n jacobian matrix associated with a specified
+problem of n functions in n variables. if the jacobian has
+a banded form, then function evaluations are saved by only
+approximating the nonzero terms.</p>
     
 
     <h3>Arguments</h3>
@@ -224,12 +240,13 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-fcn"></span>real</td>
+  <td><span class="anchor" id="variable-fcn"></span>procedure(<a href='../interface/func.html'>func</a>)</td>
   <td></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fcn</strong></td><td></td>
+  <td><strong>fcn</strong></td><td><p>the user-supplied subroutine which
+calculates the functions.</p></td>
   
 </tr>
 
@@ -239,12 +256,13 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~4"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-n~9"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>a positive integer input variable set to the number
+of functions and variables.</p></td>
   
 </tr>
 
@@ -254,12 +272,12 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-x~4"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-x~9"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>x</strong>(n)</td><td></td>
+  <td><strong>x</strong>(n)</td><td><p>an input array of length n.</p></td>
   
 </tr>
 
@@ -269,12 +287,13 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-fvec~2"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-fvec~2"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fvec</strong>(n)</td><td></td>
+  <td><strong>Fvec</strong>(n)</td><td><p>an input array of length n which must contain the
+functions evaluated at x.</p></td>
   
 </tr>
 
@@ -284,12 +303,13 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-fjac~2"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-fjac~2"></span>real(kind=wp),</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Fjac</strong>(Ldfjac,n)</td><td></td>
+  <td><strong>Fjac</strong>(Ldfjac,n)</td><td><p>an output n by n array which contains the
+approximation to the jacobian matrix evaluated at x.</p></td>
   
 </tr>
 
@@ -299,12 +319,13 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-ldfjac~2"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ldfjac~2"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ldfjac</strong></td><td></td>
+  <td><strong>Ldfjac</strong></td><td><p>a positive integer input variable not less than n
+which specifies the leading dimension of the array fjac.</p></td>
   
 </tr>
 
@@ -314,12 +335,13 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-iflag"></span>integer,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Iflag</strong></td><td></td>
+  <td><strong>Iflag</strong></td><td><p>an integer variable which can be used to terminate
+the execution of fdjac1. see description of <a href="../interface/func.html">func</a>.</p></td>
   
 </tr>
 
@@ -329,12 +351,15 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-ml"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-ml"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ml</strong></td><td></td>
+  <td><strong>Ml</strong></td><td><p>a nonnegative integer input variable which specifies
+the number of subdiagonals within the band of the
+jacobian matrix. if the jacobian is not banded, set
+ml to at least n - 1.</p></td>
   
 </tr>
 
@@ -344,12 +369,15 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-mu"></span>integer</td>
-  <td></td>
+  <td><span class="anchor" id="variable-mu"></span>integer,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Mu</strong></td><td></td>
+  <td><strong>Mu</strong></td><td><p>a nonnegative integer input variable which specifies
+the number of superdiagonals within the band of the
+jacobian matrix. if the jacobian is not banded, set
+mu to at least n - 1.</p></td>
   
 </tr>
 
@@ -359,12 +387,18 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-epsfcn"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-epsfcn"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Epsfcn</strong></td><td></td>
+  <td><strong>Epsfcn</strong></td><td><p>an input variable used in determining a suitable
+step length for the forward-difference approximation. this
+approximation assumes that the relative errors in the
+functions are of the order of epsfcn. if epsfcn is less
+than the machine precision, it is assumed that the relative
+errors in the functions are of the order of the machine
+precision.</p></td>
   
 </tr>
 
@@ -374,12 +408,12 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-wa1~2"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-wa1~2"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wa1</strong>(n)</td><td></td>
+  <td><strong>Wa1</strong>(n)</td><td><p>work array of length n.</p></td>
   
 </tr>
 
@@ -389,12 +423,14 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
   
 <tr>
   
-  <td><span class="anchor" id="variable-wa2~2"></span>double precision</td>
-  <td></td>
+  <td><span class="anchor" id="variable-wa2~2"></span>real(kind=wp),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Wa2</strong>(n)</td><td></td>
+  <td><strong>Wa2</strong>(n)</td><td><p>work array of length n. if ml + mu + 1 is at
+least n, then the jacobian is considered dense, and wa2 is
+not referenced.</p></td>
   
 </tr>
 
@@ -407,9 +443,10 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
     <br>
     
     
+     
     <div class="panel panel-default">
       <div class="panel-heading">
-  <h3 class="panel-title">Calls</h3>
+  <h3 class="panel-title">Called by</h3>
       </div>
       <div class="panel-body">
   <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -417,125 +454,47 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~fdjac1~~CallsGraph Pages: 1 -->
-<svg id="procfdjac1CallsGraph" width="242pt" height="218pt"
- viewBox="0.00 0.00 242.00 218.19" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~fdjac1~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 214.19)">
-<title>proc~~fdjac1~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-214.19 238,-214.19 238,4 -4,4"/>
+<!-- Title: proc~~fdjac1~~CalledByGraph Pages: 1 -->
+<svg id="procfdjac1CalledByGraph" width="242pt" height="32pt"
+ viewBox="0.00 0.00 242.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~fdjac1~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~fdjac1~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 238,-28 238,4 -4,4"/>
 <!-- proc~fdjac1 -->
-<g id="proc~~fdjac1~~CallsGraph_node1" class="node">
+<g id="proc~~fdjac1~~CalledByGraph_node1" class="node">
 <title>proc~fdjac1</title>
-<polygon fill="none" stroke="black" points="54,-129 0,-129 0,-105 54,-105 54,-129"/>
-<text text-anchor="middle" x="27" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">fdjac1</text>
+<polygon fill="none" stroke="black" points="234,-24 180,-24 180,0 234,0 234,-24"/>
+<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">fdjac1</text>
 </g>
-<!-- proc~fdjac1&#45;&gt;proc~fdjac1 -->
-<g id="proc~~fdjac1~~CallsGraph_edge3" class="edge">
-<title>proc~fdjac1&#45;&gt;proc~fdjac1</title>
-<path fill="none" stroke="#000000" d="M12.12,-129.01C6.92,-137.97 11.88,-147 27,-147 36.21,-147 41.65,-143.65 43.32,-139"/>
-<polygon fill="#000000" stroke="#000000" points="46.77,-138.41 41.88,-129.01 39.84,-139.41 46.77,-138.41"/>
-</g>
-<!-- proc~enorm -->
-<g id="proc~~fdjac1~~CallsGraph_node2" class="node">
-<title>proc~enorm</title>
-<g id="a_proc~~fdjac1~~CallsGraph_node2"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
-<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
-</a>
-</g>
-</g>
-<!-- proc~fdjac1&#45;&gt;proc~enorm -->
-<g id="proc~~fdjac1~~CallsGraph_edge1" class="edge">
-<title>proc~fdjac1&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M32.75,-129.31C41.02,-148.75 60.07,-185.89 90,-201 111.42,-211.82 124,-214.27 144,-201 186.09,-173.07 199.68,-110.33 204.01,-76.55"/>
-<polygon fill="#000000" stroke="#000000" points="207.52,-76.62 205.15,-66.3 200.57,-75.85 207.52,-76.62"/>
-</g>
-<!-- proc~r1mpyq -->
-<g id="proc~~fdjac1~~CallsGraph_node3" class="node">
-<title>proc~r1mpyq</title>
-<g id="a_proc~~fdjac1~~CallsGraph_node3"><a xlink:href=".././proc/r1mpyq.html" xlink:title="r1mpyq">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-192 90,-192 90,-168 144,-168 144,-192"/>
-<text text-anchor="middle" x="117" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1mpyq</text>
-</a>
-</g>
-</g>
-<!-- proc~fdjac1&#45;&gt;proc~r1mpyq -->
-<g id="proc~~fdjac1~~CallsGraph_edge2" class="edge">
-<title>proc~fdjac1&#45;&gt;proc~r1mpyq</title>
-<path fill="none" stroke="#000000" d="M44.97,-129.15C57.99,-138.47 76.18,-151.49 90.89,-162.02"/>
-<polygon fill="#000000" stroke="#000000" points="88.92,-164.91 99.08,-167.89 92.99,-159.22 88.92,-164.91"/>
-</g>
-<!-- proc~qform -->
-<g id="proc~~fdjac1~~CallsGraph_node4" class="node">
-<title>proc~qform</title>
-<g id="a_proc~~fdjac1~~CallsGraph_node4"><a xlink:href=".././proc/qform.html" xlink:title="qform">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-150 90,-150 90,-126 144,-126 144,-150"/>
-<text text-anchor="middle" x="117" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qform</text>
-</a>
-</g>
-</g>
-<!-- proc~fdjac1&#45;&gt;proc~qform -->
-<g id="proc~~fdjac1~~CallsGraph_edge4" class="edge">
-<title>proc~fdjac1&#45;&gt;proc~qform</title>
-<path fill="none" stroke="#000000" d="M54.4,-123.3C62.48,-125.23 71.51,-127.38 80.1,-129.43"/>
-<polygon fill="#000000" stroke="#000000" points="79.38,-132.86 89.92,-131.78 81,-126.05 79.38,-132.86"/>
-</g>
-<!-- proc~r1updt -->
-<g id="proc~~fdjac1~~CallsGraph_node5" class="node">
-<title>proc~r1updt</title>
-<g id="a_proc~~fdjac1~~CallsGraph_node5"><a xlink:href=".././proc/r1updt.html" xlink:title="r1updt">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-108 90,-108 90,-84 144,-84 144,-108"/>
-<text text-anchor="middle" x="117" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1updt</text>
-</a>
-</g>
-</g>
-<!-- proc~fdjac1&#45;&gt;proc~r1updt -->
-<g id="proc~~fdjac1~~CallsGraph_edge5" class="edge">
-<title>proc~fdjac1&#45;&gt;proc~r1updt</title>
-<path fill="none" stroke="#000000" d="M54.4,-110.7C62.48,-108.77 71.51,-106.62 80.1,-104.57"/>
-<polygon fill="#000000" stroke="#000000" points="81,-107.95 89.92,-102.22 79.38,-101.14 81,-107.95"/>
-</g>
-<!-- proc~qrfac -->
-<g id="proc~~fdjac1~~CallsGraph_node6" class="node">
-<title>proc~qrfac</title>
-<g id="a_proc~~fdjac1~~CallsGraph_node6"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
-</a>
-</g>
-</g>
-<!-- proc~fdjac1&#45;&gt;proc~qrfac -->
-<g id="proc~~fdjac1~~CallsGraph_edge6" class="edge">
-<title>proc~fdjac1&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M44.97,-104.85C57.99,-95.53 76.18,-82.51 90.89,-71.98"/>
-<polygon fill="#000000" stroke="#000000" points="92.99,-74.78 99.08,-66.11 88.92,-69.09 92.99,-74.78"/>
-</g>
-<!-- proc~dogleg -->
-<g id="proc~~fdjac1~~CallsGraph_node7" class="node">
-<title>proc~dogleg</title>
-<g id="a_proc~~fdjac1~~CallsGraph_node7"><a xlink:href=".././proc/dogleg.html" xlink:title="dogleg">
+<!-- proc~hybrd -->
+<g id="proc~~fdjac1~~CalledByGraph_node2" class="node">
+<title>proc~hybrd</title>
+<g id="a_proc~~fdjac1~~CalledByGraph_node2"><a xlink:href=".././proc/hybrd.html" xlink:title="hybrd">
 <polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
 </a>
 </g>
 </g>
-<!-- proc~fdjac1&#45;&gt;proc~dogleg -->
-<g id="proc~~fdjac1~~CallsGraph_edge7" class="edge">
-<title>proc~fdjac1&#45;&gt;proc~dogleg</title>
-<path fill="none" stroke="#000000" d="M35.55,-104.85C46.43,-87.81 67.69,-56.31 90,-33 90.65,-32.32 91.32,-31.64 92.01,-30.97"/>
-<polygon fill="#000000" stroke="#000000" points="94.64,-33.32 99.76,-24.05 89.97,-28.1 94.64,-33.32"/>
+<!-- proc~hybrd&#45;&gt;proc~fdjac1 -->
+<g id="proc~~fdjac1~~CalledByGraph_edge1" class="edge">
+<title>proc~hybrd&#45;&gt;proc~fdjac1</title>
+<path fill="none" stroke="#000000" d="M144.4,-12C152.39,-12 161.31,-12 169.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-15.5 179.92,-12 169.92,-8.5 169.92,-15.5"/>
 </g>
-<!-- proc~qrfac&#45;&gt;proc~enorm -->
-<g id="proc~~fdjac1~~CallsGraph_edge8" class="edge">
-<title>proc~qrfac&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M144.4,-54C152.39,-54 161.31,-54 169.82,-54"/>
-<polygon fill="#000000" stroke="#000000" points="169.92,-57.5 179.92,-54 169.92,-50.5 169.92,-57.5"/>
+<!-- proc~hybrd1 -->
+<g id="proc~~fdjac1~~CalledByGraph_node3" class="node">
+<title>proc~hybrd1</title>
+<g id="a_proc~~fdjac1~~CalledByGraph_node3"><a xlink:href=".././proc/hybrd1.html" xlink:title="hybrd1">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd1</text>
+</a>
 </g>
-<!-- proc~dogleg&#45;&gt;proc~enorm -->
-<g id="proc~~fdjac1~~CallsGraph_edge9" class="edge">
-<title>proc~dogleg&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M143.45,-24.15C152.21,-28.33 162.17,-33.08 171.52,-37.54"/>
-<polygon fill="#000000" stroke="#000000" points="170.07,-40.73 180.6,-41.88 173.09,-34.41 170.07,-40.73"/>
+</g>
+<!-- proc~hybrd1&#45;&gt;proc~hybrd -->
+<g id="proc~~fdjac1~~CalledByGraph_edge2" class="edge">
+<title>proc~hybrd1&#45;&gt;proc~hybrd</title>
+<path fill="none" stroke="#000000" d="M54.4,-12C62.39,-12 71.31,-12 79.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-15.5 89.92,-12 79.92,-8.5 79.92,-15.5"/>
 </g>
 </g>
 </svg>
@@ -601,7 +560,6 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
       </div>
     </div>
      
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
@@ -629,7 +587,13 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/fdjac1.html#src">fdjac1</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -652,6 +616,99 @@ public subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, W
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">fdjac1</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Fvec</span><span class="p">,</span> <span class="n">Fjac</span><span class="p">,</span> <span class="n">Ldfjac</span><span class="p">,</span> <span class="n">Iflag</span><span class="p">,</span> <span class="n">Ml</span><span class="p">,</span> <span class="n">Mu</span><span class="p">,</span> <span class="n">Epsfcn</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">,</span> <span class="n">Wa2</span><span class="p">)</span>
+        <span class="k">implicit none</span>
+
+<span class="k">        procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fcn</span> <span class="c">!! the user-supplied subroutine which</span>
+                               <span class="c">!! calculates the functions.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span> <span class="c">!! a positive integer input variable set to the number</span>
+                                <span class="c">!! of functions and variables.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ldfjac</span> <span class="c">!! a positive integer input variable not less than n</span>
+                                     <span class="c">!! which specifies the leading dimension of the array fjac.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Iflag</span> <span class="c">!! an integer variable which can be used to terminate</span>
+                                     <span class="c">!! the execution of fdjac1. see description of [[func]].</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Ml</span> <span class="c">!! a nonnegative integer input variable which specifies</span>
+                                 <span class="c">!! the number of subdiagonals within the band of the</span>
+                                 <span class="c">!! jacobian matrix. if the jacobian is not banded, set</span>
+                                 <span class="c">!! ml to at least n - 1.</span>
+        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Mu</span> <span class="c">!! a nonnegative integer input variable which specifies</span>
+                                 <span class="c">!! the number of superdiagonals within the band of the</span>
+                                 <span class="c">!! jacobian matrix. if the jacobian is not banded, set</span>
+                                 <span class="c">!! mu to at least n - 1.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Epsfcn</span> <span class="c">!! an input variable used in determining a suitable</span>
+                                      <span class="c">!! step length for the forward-difference approximation. this</span>
+                                      <span class="c">!! approximation assumes that the relative errors in the</span>
+                                      <span class="c">!! functions are of the order of epsfcn. if epsfcn is less</span>
+                                      <span class="c">!! than the machine precision, it is assumed that the relative</span>
+                                      <span class="c">!! errors in the functions are of the order of the machine</span>
+                                      <span class="c">!! precision.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an input array of length n.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Fvec</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an input array of length n which must contain the</span>
+                                       <span class="c">!! functions evaluated at x.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Fjac</span><span class="p">(</span><span class="n">Ldfjac</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="c">!! an output n by n array which contains the</span>
+                                                <span class="c">!! approximation to the jacobian matrix evaluated at x.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wa1</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! work array of length n.</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Wa2</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! work array of length n. if ml + mu + 1 is at</span>
+                                         <span class="c">!! least n, then the jacobian is considered dense, and wa2 is</span>
+                                         <span class="c">!! not referenced.</span>
+
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">msum</span>
+        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">eps</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">temp</span>
+
+        <span class="n">eps</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">Epsfcn</span><span class="p">,</span> <span class="n">epsmch</span><span class="p">))</span>
+        <span class="n">msum</span> <span class="o">=</span> <span class="n">Ml</span> <span class="o">+</span> <span class="n">Mu</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">msum</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="k">then</span>
+<span class="c">!</span>
+<span class="c">!        computation of banded approximate jacobian.</span>
+<span class="c">!</span>
+            <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">msum</span>
+                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">msum</span>
+                    <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="n">h</span> <span class="o">=</span> <span class="n">eps</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">h</span> <span class="o">==</span> <span class="n">zero</span><span class="p">)</span> <span class="n">h</span> <span class="o">=</span> <span class="n">eps</span>
+                    <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">h</span>
+                <span class="k">end do</span>
+<span class="k">                </span><span class="n">Iflag</span> <span class="o">=</span> <span class="mi">1</span> <span class="c">! JW added</span>
+                <span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">,</span> <span class="n">Iflag</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">Iflag</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span>
+<span class="k">                do </span><span class="n">j</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">msum</span>
+                    <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="n">h</span> <span class="o">=</span> <span class="n">eps</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">h</span> <span class="o">==</span> <span class="n">zero</span><span class="p">)</span> <span class="n">h</span> <span class="o">=</span> <span class="n">eps</span>
+                    <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                        <span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">zero</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">j</span> <span class="o">-</span> <span class="n">Mu</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">j</span> <span class="o">+</span> <span class="n">Ml</span><span class="p">)</span> <span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="p">&amp;</span>
+                            <span class="o">=</span> <span class="p">(</span><span class="n">Wa1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">Fvec</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">/</span><span class="n">h</span>
+                    <span class="k">end do</span>
+<span class="k">                end do</span>
+<span class="k">            end do</span>
+<span class="k">        else</span>
+<span class="c">!</span>
+<span class="c">!        computation of dense approximate jacobian.</span>
+<span class="c">!</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="n">eps</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">h</span> <span class="o">==</span> <span class="n">zero</span><span class="p">)</span> <span class="n">h</span> <span class="o">=</span> <span class="n">eps</span>
+                <span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">+</span> <span class="n">h</span>
+                <span class="n">Iflag</span> <span class="o">=</span> <span class="mi">1</span> <span class="c">! JW added</span>
+                <span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Wa1</span><span class="p">,</span> <span class="n">Iflag</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">Iflag</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span>
+<span class="k">                </span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">temp</span>
+                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+                    <span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Wa1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">Fvec</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">/</span><span class="n">h</span>
+                <span class="k">end do</span>
+<span class="k">            end do</span>
+<span class="k">        end if</span>
+
+<span class="k">    end subroutine </span><span class="n">fdjac1</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>
