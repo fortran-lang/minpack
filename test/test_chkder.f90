@@ -128,7 +128,7 @@
 !
 !     SUBPROGRAMS CALLED
 !
-!       FORTRAN-SUPPLIED ... DATAN,DCOS,DEXP,DMIN1,DSIN,DSQRT,
+!       FORTRAN-SUPPLIED ... atan,cos,exp,DMIN1,sin,sqrt,
 !                            MAX0,MIN0
 !
 !     ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
@@ -178,8 +178,8 @@
 !
          Fjac(1,1) = -c1*x(2)
          Fjac(1,2) = -c1*x(1)
-         Fjac(2,1) = dexp(-x(1))
-         Fjac(2,2) = dexp(-x(2))
+         Fjac(2,1) = exp(-x(1))
+         Fjac(2,2) = exp(-x(2))
       case (4)
 !
 !     WOOD FUNCTION WITHOUT ERROR.
@@ -206,7 +206,7 @@
 !     HELICAL VALLEY FUNCTION WITH MULTIPLICATIVE ERROR AFFECTING
 !     ELEMENTS (2,1) AND (2,2).
 !
-         tpi = eight*datan(one)
+         tpi = eight*atan(one)
          temp = x(1)**2 + x(2)**2
          temp1 = tpi*temp
          temp2 = sqrt(temp)
@@ -346,11 +346,11 @@
 !     OFFDIAGONAL ELEMENTS OF THE JACOBIAN.
 !
          do j = 1 , n
-            temp = dsin(x(j))
+            temp = sin(x(j))
             do k = 1 , n
                Fjac(k,j) = -temp
             enddo
-            Fjac(j,j) = dfloat(j+1)*temp - dcos(x(j))
+            Fjac(j,j) = dfloat(j+1)*temp - cos(x(j))
          enddo
       case (12)
 !
@@ -604,7 +604,7 @@
 !
 !     SUBPROGRAMS CALLED
 !
-!       FORTRAN-SUPPLIED ... DATAN,DCOS,DEXP,DSIGN,DSIN,DSQRT,
+!       FORTRAN-SUPPLIED ... atan,cos,exp,sign,sin,sqrt,
 !                            MAX0,MIN0
 !
 !     ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
@@ -639,7 +639,7 @@
 !     POWELL BADLY SCALED FUNCTION.
 !
          Fvec(1) = c1*x(1)*x(2) - one
-         Fvec(2) = dexp(-x(1)) + dexp(-x(2)) - c2
+         Fvec(2) = exp(-x(1)) + exp(-x(2)) - c2
       case (4)
 !
 !     WOOD FUNCTION.
@@ -654,10 +654,10 @@
 !
 !     HELICAL VALLEY FUNCTION.
 !
-         tpi = eight*datan(one)
-         temp1 = dsign(c7,x(2))
-         if ( x(1)>zero ) temp1 = datan(x(2)/x(1))/tpi
-         if ( x(1)<zero ) temp1 = datan(x(2)/x(1))/tpi + c8
+         tpi = eight*atan(one)
+         temp1 = sign(c7,x(2))
+         if ( x(1)>zero ) temp1 = atan(x(2)/x(1))/tpi
+         if ( x(1)<zero ) temp1 = atan(x(2)/x(1))/tpi + c8
          temp2 = sqrt(x(1)**2+x(2)**2)
          Fvec(1) = ten*(x(3)-ten*temp1)
          Fvec(2) = ten*(temp2-one)
@@ -776,11 +776,11 @@
 !
          sum = zero
          do j = 1 , n
-            Fvec(j) = dcos(x(j))
+            Fvec(j) = cos(x(j))
             sum = sum + Fvec(j)
          enddo
          do k = 1 , n
-            Fvec(k) = dfloat(n+k) - dsin(x(k)) - sum - dfloat(k)*Fvec(k)
+            Fvec(k) = dfloat(n+k) - sin(x(k)) - sum - dfloat(k)*Fvec(k)
          enddo
       case (12)
 !

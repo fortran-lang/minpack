@@ -21,7 +21,7 @@
 !
 !       MINPACK-SUPPLIED ... DPMPAR,ENORM,INITPT,LMDIF1,SSQFCN
 !
-!       FORTRAN-SUPPLIED ... DSQRT
+!       FORTRAN-SUPPLIED ... sqrt
 !
 !     ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
@@ -169,7 +169,7 @@
 !
 !     SUBPROGRAMS CALLED
 !
-!       FORTRAN-SUPPLIED ... DATAN,DCOS,DEXP,DSIN,DSQRT,DSIGN
+!       FORTRAN-SUPPLIED ... atan,cos,exp,sin,sqrt,sign
 !
 !     ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
@@ -277,10 +277,10 @@
 !
 !     HELICAL VALLEY FUNCTION.
 !
-         tpi = eight*datan(one)
-         tmp1 = dsign(zp25,x(2))
-         if ( x(1)>zero ) tmp1 = datan(x(2)/x(1))/tpi
-         if ( x(1)<zero ) tmp1 = datan(x(2)/x(1))/tpi + zp5
+         tpi = eight*atan(one)
+         tmp1 = sign(zp25,x(2))
+         if ( x(1)>zero ) tmp1 = atan(x(2)/x(1))/tpi
+         if ( x(1)<zero ) tmp1 = atan(x(2)/x(1))/tpi + zp5
          tmp2 = sqrt(x(1)**2+x(2)**2)
          Fvec(1) = ten*(x(3)-ten*tmp1)
          Fvec(2) = ten*(tmp2-one)
@@ -326,7 +326,7 @@
          do i = 1 , 16
             temp = five*dfloat(i) + c45 + x(3)
             tmp1 = x(2)/temp
-            tmp2 = dexp(tmp1)
+            tmp2 = exp(tmp1)
             Fvec(i) = x(1)*tmp2 - y3(i)
          enddo
       case (11)
@@ -358,8 +358,8 @@
          do i = 1 , m
             temp = dfloat(i)
             tmp1 = temp/ten
-            Fvec(i) = dexp(-tmp1*x(1)) - dexp(-tmp1*x(2))               &
-                    & + (dexp(-temp)-dexp(-tmp1))*x(3)
+            Fvec(i) = exp(-tmp1*x(1)) - exp(-tmp1*x(2))               &
+                    & + (exp(-temp)-exp(-tmp1))*x(3)
          enddo
       case (13)
 !
@@ -367,7 +367,7 @@
 !
          do i = 1 , m
             temp = dfloat(i)
-            Fvec(i) = two + two*temp - dexp(temp*x(1)) - dexp(temp*x(2))
+            Fvec(i) = two + two*temp - exp(temp*x(1)) - exp(temp*x(2))
          enddo
       case (14)
 !
@@ -375,8 +375,8 @@
 !
          do i = 1 , m
             temp = dfloat(i)/five
-            tmp1 = x(1) + temp*x(2) - dexp(temp)
-            tmp2 = x(3) + dsin(temp)*x(4) - dcos(temp)
+            tmp1 = x(1) + temp*x(2) - exp(temp)
+            tmp2 = x(3) + sin(temp)*x(4) - cos(temp)
             Fvec(i) = tmp1**2 + tmp2**2
          enddo
       case (15)
@@ -424,8 +424,8 @@
 !
          do i = 1 , 33
             temp = ten*dfloat(i-1)
-            tmp1 = dexp(-x(4)*temp)
-            tmp2 = dexp(-x(5)*temp)
+            tmp1 = exp(-x(4)*temp)
+            tmp2 = exp(-x(5)*temp)
             Fvec(i) = y4(i) - (x(1)+x(2)*tmp1+x(3)*tmp2)
          enddo
       case (18)
@@ -434,10 +434,10 @@
 !
          do i = 1 , 65
             temp = dfloat(i-1)/ten
-            tmp1 = dexp(-x(5)*temp)
-            tmp2 = dexp(-x(6)*(temp-x(9))**2)
-            tmp3 = dexp(-x(7)*(temp-x(10))**2)
-            tmp4 = dexp(-x(8)*(temp-x(11))**2)
+            tmp1 = exp(-x(5)*temp)
+            tmp2 = exp(-x(6)*(temp-x(9))**2)
+            tmp3 = exp(-x(7)*(temp-x(10))**2)
+            tmp4 = exp(-x(8)*(temp-x(11))**2)
             Fvec(i) = y5(i) - (x(1)*tmp1+x(2)*tmp2+x(3)*tmp3+x(4)*tmp4)
          enddo
       case default
