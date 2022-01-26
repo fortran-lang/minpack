@@ -36,3 +36,4 @@ The Minpack source code and related files and documentation are distributed unde
   * J. J. Moré, D. C. Sorensen, K. E. Hillstrom, and B. S. Garbow, The MINPACK Project, in Sources and Development of Mathematical Software, W. J. Cowell, ed., Prentice-Hall, pages 88-111, 1984.
   * M. J. D. Powell, A Hybrid Method for Nonlinear Equations. Numerical Methods for Nonlinear Algebraic Equations, P. Rabinowitz, editor. Gordon and Breach, 1970.
   * Jorge J. More, The Levenberg-Marquardt Algorithm, Implementation and Theory. Numerical Analysis, G. A. Watson, editor. Lecture Notes in Mathematics 630, Springer-Verlag, 1977.
+  * [MINPACK-2](https://ftp.mcs.anl.gov/pub/MINPACK-2/)
