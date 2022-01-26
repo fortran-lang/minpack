@@ -57,7 +57,7 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
         
         
         
@@ -78,7 +78,7 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
 
 
 
@@ -399,25 +399,10 @@ described above.</p></td>
 <path fill="none" stroke="#000000" d="M144.4,-18.3C152.48,-20.23 161.51,-22.38 170.1,-24.43"/>
 <polygon fill="#000000" stroke="#000000" points="169.38,-27.86 179.92,-26.78 171,-21.05 169.38,-27.86"/>
 </g>
-<!-- proc~hybrj1 -->
-<g id="proc~~r1mpyq~~CalledByGraph_node4" class="node">
-<title>proc~hybrj1</title>
-<g id="a_proc~~r1mpyq~~CalledByGraph_node4"><a xlink:href=".././proc/hybrj1.html" xlink:title="hybrj1">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
-<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj1</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrj1&#45;&gt;proc~hybrj -->
-<g id="proc~~r1mpyq~~CalledByGraph_edge3" class="edge">
-<title>proc~hybrj1&#45;&gt;proc~hybrj</title>
-<path fill="none" stroke="#000000" d="M54.4,-54C62.39,-54 71.31,-54 79.82,-54"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-57.5 89.92,-54 79.92,-50.5 79.92,-57.5"/>
-</g>
 <!-- proc~hybrd1 -->
-<g id="proc~~r1mpyq~~CalledByGraph_node5" class="node">
+<g id="proc~~r1mpyq~~CalledByGraph_node4" class="node">
 <title>proc~hybrd1</title>
-<g id="a_proc~~r1mpyq~~CalledByGraph_node5"><a xlink:href=".././proc/hybrd1.html" xlink:title="hybrd1">
+<g id="a_proc~~r1mpyq~~CalledByGraph_node4"><a xlink:href=".././proc/hybrd1.html" xlink:title="hybrd1">
 <polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
 <text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd1</text>
 </a>
@@ -428,6 +413,21 @@ described above.</p></td>
 <title>proc~hybrd1&#45;&gt;proc~hybrd</title>
 <path fill="none" stroke="#000000" d="M54.4,-12C62.39,-12 71.31,-12 79.82,-12"/>
 <polygon fill="#000000" stroke="#000000" points="79.92,-15.5 89.92,-12 79.92,-8.5 79.92,-15.5"/>
+</g>
+<!-- proc~hybrj1 -->
+<g id="proc~~r1mpyq~~CalledByGraph_node5" class="node">
+<title>proc~hybrj1</title>
+<g id="a_proc~~r1mpyq~~CalledByGraph_node5"><a xlink:href=".././proc/hybrj1.html" xlink:title="hybrj1">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
+<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj1</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrj1&#45;&gt;proc~hybrj -->
+<g id="proc~~r1mpyq~~CalledByGraph_edge3" class="edge">
+<title>proc~hybrj1&#45;&gt;proc~hybrj</title>
+<path fill="none" stroke="#000000" d="M54.4,-54C62.39,-54 71.31,-54 79.82,-54"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-57.5 89.92,-54 79.92,-50.5 79.92,-57.5"/>
 </g>
 </g>
 </svg>
@@ -552,61 +552,61 @@ described above.</p></td>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">r1mpyq</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Lda</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
-        <span class="k">implicit none</span>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">r1mpyq</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">Lda</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">implicit none</span>
 
-<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">m</span> <span class="c">!! a positive integer input variable set to the number</span>
-                                <span class="c">!! of rows of a.</span>
-        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span> <span class="c">!! a positive integer input variable set to the number</span>
-                                <span class="c">!! of columns of a.</span>
-        <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">Lda</span> <span class="c">!! a positive integer input variable not less than m</span>
-                                  <span class="c">!! which specifies the leading dimension of the array a.</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">a</span><span class="p">(</span><span class="n">Lda</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="c">!! an m by n array. on input a must contain the matrix</span>
-                                            <span class="c">!! to be postmultiplied by the orthogonal matrix q</span>
-                                            <span class="c">!! described above. on output a*q has replaced a.</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an input array of length n. v(i) must contain the</span>
-                                    <span class="c">!! information necessary to recover the givens rotation gv(i)</span>
-                                    <span class="c">!! described above.</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">w</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">!! an input array of length n. w(i) must contain the</span>
-                                    <span class="c">!! information necessary to recover the givens rotation gw(i)</span>
-                                    <span class="c">!! described above.</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="c">!! a positive integer input variable set to the number</span>
+<span class="w">                                </span><span class="c">!! of rows of a.</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c">!! a positive integer input variable set to the number</span>
+<span class="w">                                </span><span class="c">!! of columns of a.</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Lda</span><span class="w"> </span><span class="c">!! a positive integer input variable not less than m</span>
+<span class="w">                                  </span><span class="c">!! which specifies the leading dimension of the array a.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">Lda</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">!! an m by n array. on input a must contain the matrix</span>
+<span class="w">                                            </span><span class="c">!! to be postmultiplied by the orthogonal matrix q</span>
+<span class="w">                                            </span><span class="c">!! described above. on output a*q has replaced a.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">!! an input array of length n. v(i) must contain the</span>
+<span class="w">                                    </span><span class="c">!! information necessary to recover the givens rotation gv(i)</span>
+<span class="w">                                    </span><span class="c">!! described above.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">!! an input array of length n. w(i) must contain the</span>
+<span class="w">                                    </span><span class="c">!! information necessary to recover the givens rotation gw(i)</span>
+<span class="w">                                    </span><span class="c">!! described above.</span>
 
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nmj</span><span class="p">,</span> <span class="n">nm1</span>
-        <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="nb">cos</span><span class="p">,</span> <span class="nb">sin</span><span class="p">,</span> <span class="n">temp</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">nmj</span><span class="p">,</span><span class="w"> </span><span class="n">nm1</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">cos</span><span class="p">,</span><span class="w"> </span><span class="nb">sin</span><span class="p">,</span><span class="w"> </span><span class="n">temp</span><span class="w"></span>
 <span class="c">!</span>
 <span class="c">!     apply the first set of givens rotations to a.</span>
 <span class="c">!</span>
-        <span class="n">nm1</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">nm1</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">            do </span><span class="n">nmj</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nm1</span>
-                <span class="n">j</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">nmj</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">one</span><span class="p">)</span> <span class="nb">cos</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">one</span><span class="p">)</span> <span class="nb">sin</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span> <span class="o">-</span> <span class="nb">cos</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">one</span><span class="p">)</span> <span class="nb">sin</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">one</span><span class="p">)</span> <span class="nb">cos</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span> <span class="o">-</span> <span class="nb">sin</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span>
-                    <span class="n">temp</span> <span class="o">=</span> <span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-                    <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-                    <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">temp</span>
-                <span class="k">end do</span>
-<span class="k">            end do</span>
+<span class="w">        </span><span class="n">nm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nm1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            do </span><span class="n">nmj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nm1</span><span class="w"></span>
+<span class="w">                </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nmj</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="nb">cos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="nb">sin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">cos</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="nb">sin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="nb">cos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">sin</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
+<span class="w">                    </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span>
+<span class="k">            end do</span><span class="w"></span>
 <span class="c">!</span>
 <span class="c">!     apply the second set of givens rotations to a.</span>
 <span class="c">!</span>
-            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nm1</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">one</span><span class="p">)</span> <span class="nb">cos</span> <span class="o">=</span> <span class="n">one</span><span class="o">/</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">one</span><span class="p">)</span> <span class="nb">sin</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span> <span class="o">-</span> <span class="nb">cos</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">one</span><span class="p">)</span> <span class="nb">sin</span> <span class="o">=</span> <span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">one</span><span class="p">)</span> <span class="nb">cos</span> <span class="o">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span> <span class="o">-</span> <span class="nb">sin</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span>
-                    <span class="n">temp</span> <span class="o">=</span> <span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-                    <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-                    <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">temp</span>
-                <span class="k">end do</span>
+<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nm1</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="nb">cos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="nb">sin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">cos</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="nb">sin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="nb">cos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">sin</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
+<span class="w">                    </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nb">sin</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span>
 <span class="k">            end do</span>
 <span class="k">        end if</span>
 
-<span class="k">    end subroutine </span><span class="n">r1mpyq</span>
+<span class="k">    end subroutine </span><span class="n">r1mpyq</span><span class="w"></span>
 </pre></div>
 
     </section>
@@ -622,7 +622,7 @@ described above.</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>minpack was developed by Jacob Williams<br>&copy; 2021 
+        <div class="col-xs-6 col-md-6"><p>minpack was developed by Jacob Williams<br>&copy; 2022 
                                           </p>
         </div>
         <div class="col-xs-6 col-md-6">
