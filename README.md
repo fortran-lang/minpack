@@ -30,6 +30,10 @@ Further updates are planned...
 
 The Minpack source code and related files and documentation are distributed under a permissive free software [license](https://github.com/jacobwilliams/minpack/blob/master/LICENSE.txt) (BSD-style).
 
+### See also
+
+  * [nlesolver-fortran](https://github.com/jacobwilliams/nlesolver-fortran)
+
 ### References
   * Original sourcecode from: [Netlib](https://www.netlib.org/minpack/)
   * J. J. Moré, B. S. Garbow, and K. E. Hillstrom, [User Guide for MINPACK-1](http://cds.cern.ch/record/126569/files/CM-P00068642.pdf), Argonne National Laboratory Report ANL-80-74, Argonne, Ill., 1980.
