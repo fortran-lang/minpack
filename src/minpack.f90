@@ -1906,14 +1906,12 @@ module minpack_module
         real(wp),parameter :: factor = 100.0_wp
 
         Info = 0
-!
-!     check the input parameters for errors.
-!
+
+        ! check the input parameters for errors.
+
         if (n > 0 .and. m >= n .and. Ldfjac >= m .and. Tol >= zero .and. &
              Lwa >= 5*n + m) then
-!
-!     call lmder.
-!
+            ! call lmder.
             maxfev = 100*(n + 1)
             ftol = Tol
             xtol = Tol
@@ -2054,18 +2052,18 @@ module minpack_module
                     fnorm1, gnorm, par, pnorm, prered, &
                     ratio, sum, temp, temp1, temp2, xnorm
 
-     real(wp),parameter :: p1 = 1.0e-1_wp
-     real(wp),parameter :: p5 = 5.0e-1_wp
-     real(wp),parameter :: p25 = 2.5e-1_wp
-     real(wp),parameter :: p75 = 7.5e-1_wp
-     real(wp),parameter :: p0001 = 1.0e-4_wp
+        real(wp),parameter :: p1 = 1.0e-1_wp
+        real(wp),parameter :: p5 = 5.0e-1_wp
+        real(wp),parameter :: p25 = 2.5e-1_wp
+        real(wp),parameter :: p75 = 7.5e-1_wp
+        real(wp),parameter :: p0001 = 1.0e-4_wp
 
         Info = 0
         iflag = 0
         Nfev = 0
-!
-!     check the input parameters for errors.
-!
+
+        ! check the input parameters for errors.
+
         if (n > 0 .and. m >= n .and. Ldfjac >= m .and. Ftol >= zero .and. &
             Xtol >= zero .and. Gtol >= zero .and. Maxfev > 0 .and. &
             Factor > zero) then
@@ -2074,47 +2072,46 @@ module minpack_module
                     if (Diag(j) <= zero) goto 100
                 end do
             end if
-!
-!     evaluate the function at the starting point
-!     and calculate its norm.
-!
+
+            ! evaluate the function at the starting point
+            ! and calculate its norm.
+
             iflag = 1
             call fcn(m, n, x, Fvec, iflag)
             Nfev = 1
             if (iflag >= 0) then
                 fnorm = enorm(m, Fvec)
-!
-!     initialize levenberg-marquardt parameter and iteration counter.
-!
+
+                ! initialize levenberg-marquardt parameter and iteration counter.
+
                 par = zero
                 iter = 1
-!
-!     beginning of the outer loop.
-!
-!
-!        calculate the jacobian matrix.
-!
+
+                ! beginning of the outer loop.
+
+                ! calculate the jacobian matrix.
+
 20              iflag = 2
                 call fdjac2(fcn, m, n, x, Fvec, Fjac, Ldfjac, iflag, Epsfcn, Wa4)
                 Nfev = Nfev + n
                 if (iflag >= 0) then
-!
-!        if requested, call fcn to enable printing of iterates.
-!
+
+                    ! if requested, call fcn to enable printing of iterates.
+
                     if (Nprint > 0) then
                         iflag = 0
                         if (mod(iter - 1, Nprint) == 0) &
                              call fcn(m, n, x, Fvec, iflag)
                         if (iflag < 0) goto 100
                     end if
-!
-!        compute the qr factorization of the jacobian.
-!
+
+                    ! compute the qr factorization of the jacobian.
+
                     call qrfac(m, n, Fjac, Ldfjac, .true., Ipvt, n, Wa1, Wa2, Wa3)
-!
-!        on the first iteration and if mode is 1, scale according
-!        to the norms of the columns of the initial jacobian.
-!
+
+                    ! on the first iteration and if mode is 1, scale according
+                    ! to the norms of the columns of the initial jacobian.
+
                     if (iter == 1) then
                         if (Mode /= 2) then
                             do j = 1, n
@@ -2122,10 +2119,10 @@ module minpack_module
                                 if (Wa2(j) == zero) Diag(j) = one
                             end do
                         end if
-!
-!        on the first iteration, calculate the norm of the scaled x
-!        and initialize the step bound delta.
-!
+
+                        ! on the first iteration, calculate the norm of the scaled x
+                        ! and initialize the step bound delta.
+
                         do j = 1, n
                             Wa3(j) = Diag(j)*x(j)
                         end do
@@ -2133,10 +2130,10 @@ module minpack_module
                         delta = Factor*xnorm
                         if (delta == zero) delta = Factor
                     end if
-!
-!        form (q transpose)*fvec and store the first n components in
-!        qtf.
-!
+
+                    ! form (q transpose)*fvec and store the first n components in
+                    ! qtf.
+
                     do i = 1, m
                         Wa4(i) = Fvec(i)
                     end do
@@ -2154,9 +2151,9 @@ module minpack_module
                         Fjac(j, j) = Wa1(j)
                         Qtf(j) = Wa4(j)
                     end do
-!
-!        compute the norm of the scaled gradient.
-!
+
+                    ! compute the norm of the scaled gradient.
+
                     gnorm = zero
                     if (fnorm /= zero) then
                         do j = 1, n
@@ -2170,57 +2167,56 @@ module minpack_module
                             end if
                         end do
                     end if
-!
-!        test for convergence of the gradient norm.
-!
+
+                    ! test for convergence of the gradient norm.
+
                     if (gnorm <= Gtol) Info = 4
                     if (Info == 0) then
-!
-!        rescale if necessary.
-!
+
+                        ! rescale if necessary.
+
                         if (Mode /= 2) then
                             do j = 1, n
                                 Diag(j) = max(Diag(j), Wa2(j))
                             end do
                         end if
-!
-!        beginning of the inner loop.
-!
-!
-!           determine the levenberg-marquardt parameter.
-!
+
+                        ! beginning of the inner loop.
+
+                        ! determine the levenberg-marquardt parameter.
+
 25                      call lmpar(n, Fjac, Ldfjac, Ipvt, Diag, Qtf, delta, par, Wa1, &
                                    Wa2, Wa3, Wa4)
-!
-!           store the direction p and x + p. calculate the norm of p.
-!
+
+                        ! store the direction p and x + p. calculate the norm of p.
+
                         do j = 1, n
                             Wa1(j) = -Wa1(j)
                             Wa2(j) = x(j) + Wa1(j)
                             Wa3(j) = Diag(j)*Wa1(j)
                         end do
                         pnorm = enorm(n, Wa3)
-!
-!           on the first iteration, adjust the initial step bound.
-!
+
+                        ! on the first iteration, adjust the initial step bound.
+
                         if (iter == 1) delta = min(delta, pnorm)
-!
-!           evaluate the function at x + p and calculate its norm.
-!
+
+                        ! evaluate the function at x + p and calculate its norm.
+
                         iflag = 1
                         call fcn(m, n, Wa2, Wa4, iflag)
                         Nfev = Nfev + 1
                         if (iflag >= 0) then
                             fnorm1 = enorm(m, Wa4)
-!
-!           compute the scaled actual reduction.
-!
+
+                            ! compute the scaled actual reduction.
+
                             actred = -one
                             if (p1*fnorm1 < fnorm) actred = one - (fnorm1/fnorm)**2
-!
-!           compute the scaled predicted reduction and
-!           the scaled directional derivative.
-!
+
+                            ! compute the scaled predicted reduction and
+                            ! the scaled directional derivative.
+
                             do j = 1, n
                                 Wa3(j) = zero
                                 l = Ipvt(j)
@@ -2233,15 +2229,15 @@ module minpack_module
                             temp2 = (sqrt(par)*pnorm)/fnorm
                             prered = temp1**2 + temp2**2/p5
                             dirder = -(temp1**2 + temp2**2)
-!
-!           compute the ratio of the actual to the predicted
-!           reduction.
-!
+
+                            ! compute the ratio of the actual to the predicted
+                            ! reduction.
+
                             ratio = zero
                             if (prered /= zero) ratio = actred/prered
-!
-!           update the step bound.
-!
+
+                            ! update the step bound.
+
                             if (ratio <= p25) then
                                 if (actred >= zero) temp = p5
                                 if (actred < zero) &
@@ -2253,13 +2249,13 @@ module minpack_module
                                 delta = pnorm/p5
                                 par = p5*par
                             end if
-!
-!           test for successful iteration.
-!
+
+                            ! test for successful iteration.
+
                             if (ratio >= p0001) then
-!
-!           successful iteration. update x, fvec, and their norms.
-!
+
+                                ! successful iteration. update x, fvec, and their norms.
+
                                 do j = 1, n
                                     x(j) = Wa2(j)
                                     Wa2(j) = Diag(j)*x(j)
@@ -2271,18 +2267,18 @@ module minpack_module
                                 fnorm = fnorm1
                                 iter = iter + 1
                             end if
-!
-!           tests for convergence.
-!
+
+                            ! tests for convergence.
+
                             if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
                                  p5*ratio <= one) Info = 1
                             if (delta <= Xtol*xnorm) Info = 2
                             if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
                                  p5*ratio <= one .and. Info == 2) Info = 3
                             if (Info == 0) then
-!
-!           tests for termination and stringent tolerances.
-!
+
+                                ! tests for termination and stringent tolerances.
+
                                 if (Nfev >= Maxfev) Info = 5
                                 if (abs(actred) <= epsmch .and. &
                                      prered <= epsmch .and. p5*ratio <= one) &
@@ -2290,12 +2286,8 @@ module minpack_module
                                 if (delta <= epsmch*xnorm) Info = 7
                                 if (gnorm <= epsmch) Info = 8
                                 if (Info == 0) then
-!
-!           end of the inner loop. repeat if iteration unsuccessful.
-!
-!
-!        end of the outer loop.
-!
+                                    ! end of the inner loop. repeat if iteration unsuccessful.
+                                    ! end of the outer loop.
                                     if (ratio >= p0001) goto 20
                                     goto 25
                                 end if
@@ -2305,15 +2297,13 @@ module minpack_module
                 end if
             end if
         end if
-!
-!     termination, either normal or user imposed.
-!
+
+        ! termination, either normal or user imposed.
+
 100     if (iflag < 0) Info = iflag
         iflag = 0
         if (Nprint > 0) call fcn(m, n, x, Fvec, iflag)
-!
-!     last card of subroutine lmdif.
-!
+
     end subroutine lmdif
 !*****************************************************************************************
 
@@ -2375,13 +2365,13 @@ module minpack_module
         real(wp),parameter :: factor = 1.0e2_wp
 
         Info = 0
-!
-!     check the input parameters for errors.
-!
+
+        ! check the input parameters for errors.
+
         if (n > 0 .and. m >= n .and. Tol >= zero .and. Lwa >= m*n + 5*n + m) then
-!
-!     call lmdif.
-!
+
+            ! call lmdif.
+
             maxfev = 200*(n + 1)
             ftol = Tol
             xtol = Tol
@@ -2475,9 +2465,9 @@ module minpack_module
         real(wp),parameter :: p001 = 1.0e-3_wp
         real(wp),parameter :: dwarf = dpmpar(2) !! the smallest positive magnitude
 
-!     compute and store in x the gauss-newton direction. if the
-!     jacobian is rank-deficient, obtain a least squares solution.
-!
+        ! compute and store in x the gauss-newton direction. if the
+        ! jacobian is rank-deficient, obtain a least squares solution.
+
         nsing = n
         do j = 1, n
             Wa1(j) = Qtb(j)
@@ -2501,11 +2491,11 @@ module minpack_module
             l = Ipvt(j)
             x(l) = Wa1(j)
         end do
-!
-!     initialize the iteration counter.
-!     evaluate the function at the origin, and test
-!     for acceptance of the gauss-newton direction.
-!
+
+        ! initialize the iteration counter.
+        ! evaluate the function at the origin, and test
+        ! for acceptance of the gauss-newton direction.
+
         iter = 0
         do j = 1, n
             Wa2(j) = Diag(j)*x(j)
@@ -2513,16 +2503,14 @@ module minpack_module
         dxnorm = enorm(n, Wa2)
         fp = dxnorm - Delta
         if (fp <= p1*Delta) then
-!
-!     termination.
-!
+            ! termination.
             if (iter == 0) Par = zero
         else
-!
-!     if the jacobian is not rank deficient, the newton
-!     step provides a lower bound, parl, for the zero of
-!     the function. otherwise set this bound to zero.
-!
+
+            ! if the jacobian is not rank deficient, the newton
+            ! step provides a lower bound, parl, for the zero of
+            ! the function. otherwise set this bound to zero.
+
             parl = zero
             if (nsing >= n) then
                 do j = 1, n
@@ -2542,9 +2530,9 @@ module minpack_module
                 temp = enorm(n, Wa1)
                 parl = ((fp/Delta)/temp)/temp
             end if
-!
-!     calculate an upper bound, paru, for the zero of the function.
-!
+
+            ! calculate an upper bound, paru, for the zero of the function.
+
             do j = 1, n
                 sum = zero
                 do i = 1, j
@@ -2556,20 +2544,20 @@ module minpack_module
             gnorm = enorm(n, Wa1)
             paru = gnorm/Delta
             if (paru == zero) paru = dwarf/min(Delta, p1)
-!
-!     if the input par lies outside of the interval (parl,paru),
-!     set par to the closer endpoint.
-!
+
+            ! if the input par lies outside of the interval (parl,paru),
+            ! set par to the closer endpoint.
+
             Par = max(Par, parl)
             Par = min(Par, paru)
             if (Par == zero) Par = gnorm/dxnorm
-!
-!     beginning of an iteration.
-!
+
+            ! beginning of an iteration.
+
 50          iter = iter + 1
-!
-!        evaluate the function at the current value of par.
-!
+
+            ! evaluate the function at the current value of par.
+
             if (Par == zero) Par = max(dwarf, p001*paru)
             temp = sqrt(Par)
             do j = 1, n
@@ -2582,18 +2570,18 @@ module minpack_module
             dxnorm = enorm(n, Wa2)
             temp = fp
             fp = dxnorm - Delta
-!
-!        if the function is small enough, accept the current value
-!        of par. also test for the exceptional cases where parl
-!        is zero or the number of iterations has reached 10.
-!
+
+            ! if the function is small enough, accept the current value
+            ! of par. also test for the exceptional cases where parl
+            ! is zero or the number of iterations has reached 10.
+
             if (abs(fp) <= p1*Delta .or. parl == zero .and. fp <= temp .and. &
                  temp < zero .or. iter == 10) then
                 if (iter == 0) Par = zero
             else
-!
-!        compute the newton correction.
-!
+
+                ! compute the newton correction.
+
                 do j = 1, n
                     l = Ipvt(j)
                     Wa1(j) = Diag(l)*(Wa2(l)/dxnorm)
@@ -2610,18 +2598,18 @@ module minpack_module
                 end do
                 temp = enorm(n, Wa1)
                 parc = ((fp/Delta)/temp)/temp
-!
-!        depending on the sign of the function, update parl or paru.
-!
+
+                ! depending on the sign of the function, update parl or paru.
+
                 if (fp > zero) parl = max(parl, Par)
                 if (fp < zero) paru = min(paru, Par)
-!
-!        compute an improved estimate for par.
-!
+
+                ! compute an improved estimate for par.
+
                 Par = max(parl, Par + parc)
-!
-!        end of an iteration.
-!
+
+                ! end of an iteration.
+
                 goto 50
             end if
         end if
@@ -2758,9 +2746,9 @@ module minpack_module
         iflag = 0
         Nfev = 0
         Njev = 0
-!
-!     check the input parameters for errors.
-!
+
+        ! check the input parameters for errors.
+
         if (n <= 0 .or. m < n .or. Ldfjac < n .or. Ftol < zero .or. &
              Xtol < zero .or. Gtol < zero .or. Maxfev <= 0 .or. Factor <= zero) &
              goto 200
@@ -2769,37 +2757,36 @@ module minpack_module
                 if (Diag(j) <= zero) goto 200
             end do
         end if
-!
-!     evaluate the function at the starting point
-!     and calculate its norm.
-!
+
+        ! evaluate the function at the starting point
+        ! and calculate its norm.
+
         iflag = 1
         call fcn(m, n, x, Fvec, Wa3, iflag)
         Nfev = 1
         if (iflag < 0) goto 200
         fnorm = enorm(m, Fvec)
-!
-!     initialize levenberg-marquardt parameter and iteration counter.
-!
+
+        ! initialize levenberg-marquardt parameter and iteration counter.
+
         par = zero
         iter = 1
-!
-!     beginning of the outer loop.
-!
-!
-!        if requested, call fcn to enable printing of iterates.
-!
+
+        ! beginning of the outer loop.
+
+        ! if requested, call fcn to enable printing of iterates.
+
 100     if (Nprint > 0) then
             iflag = 0
             if (mod(iter - 1, Nprint) == 0) call fcn(m, n, x, Fvec, Wa3, iflag)
             if (iflag < 0) goto 200
         end if
-!
-!        compute the qr factorization of the jacobian matrix
-!        calculated one row at a time, while simultaneously
-!        forming (q transpose)*fvec and storing the first
-!        n components in qtf.
-!
+
+        ! compute the qr factorization of the jacobian matrix
+        ! calculated one row at a time, while simultaneously
+        ! forming (q transpose)*fvec and storing the first
+        ! n components in qtf.
+
         do j = 1, n
             Qtf(j) = zero
             do i = 1, n
@@ -2815,10 +2802,10 @@ module minpack_module
             iflag = iflag + 1
         end do
         Njev = Njev + 1
-!
-!        if the jacobian is rank deficient, call qrfac to
-!        reorder its columns and update the components of qtf.
-!
+
+        ! if the jacobian is rank deficient, call qrfac to
+        ! reorder its columns and update the components of qtf.
+
         sing = .false.
         do j = 1, n
             if (Fjac(j, j) == zero) sing = .true.
@@ -2841,10 +2828,10 @@ module minpack_module
                 Fjac(j, j) = Wa1(j)
             end do
         end if
-!
-!        on the first iteration and if mode is 1, scale according
-!        to the norms of the columns of the initial jacobian.
-!
+
+        ! on the first iteration and if mode is 1, scale according
+        ! to the norms of the columns of the initial jacobian.
+
         if (iter == 1) then
             if (Mode /= 2) then
                 do j = 1, n
@@ -2852,10 +2839,10 @@ module minpack_module
                     if (Wa2(j) == zero) Diag(j) = one
                 end do
             end if
-!
-!        on the first iteration, calculate the norm of the scaled x
-!        and initialize the step bound delta.
-!
+
+            ! on the first iteration, calculate the norm of the scaled x
+            ! and initialize the step bound delta.
+
             do j = 1, n
                 Wa3(j) = Diag(j)*x(j)
             end do
@@ -2863,9 +2850,9 @@ module minpack_module
             delta = Factor*xnorm
             if (delta == zero) delta = Factor
         end if
-!
-!        compute the norm of the scaled gradient.
-!
+
+        ! compute the norm of the scaled gradient.
+
         gnorm = zero
         if (fnorm /= zero) then
             do j = 1, n
@@ -2879,56 +2866,55 @@ module minpack_module
                 end if
             end do
         end if
-!
-!        test for convergence of the gradient norm.
-!
+
+        ! test for convergence of the gradient norm.
+
         if (gnorm <= Gtol) Info = 4
         if (Info == 0) then
-!
-!        rescale if necessary.
-!
+
+            ! rescale if necessary.
+
             if (Mode /= 2) then
                 do j = 1, n
                     Diag(j) = max(Diag(j), Wa2(j))
                 end do
             end if
-!
-!        beginning of the inner loop.
-!
-!
-!           determine the levenberg-marquardt parameter.
-!
+
+            ! beginning of the inner loop.
+
+            ! determine the levenberg-marquardt parameter.
+
 150         call lmpar(n, Fjac, Ldfjac, Ipvt, Diag, Qtf, delta, par, Wa1, Wa2, Wa3, Wa4)
-!
-!           store the direction p and x + p. calculate the norm of p.
-!
+
+            ! store the direction p and x + p. calculate the norm of p.
+
             do j = 1, n
                 Wa1(j) = -Wa1(j)
                 Wa2(j) = x(j) + Wa1(j)
                 Wa3(j) = Diag(j)*Wa1(j)
             end do
             pnorm = enorm(n, Wa3)
-!
-!           on the first iteration, adjust the initial step bound.
-!
+
+            ! on the first iteration, adjust the initial step bound.
+
             if (iter == 1) delta = min(delta, pnorm)
-!
-!           evaluate the function at x + p and calculate its norm.
-!
+
+            ! evaluate the function at x + p and calculate its norm.
+
             iflag = 1
             call fcn(m, n, Wa2, Wa4, Wa3, iflag)
             Nfev = Nfev + 1
             if (iflag >= 0) then
                 fnorm1 = enorm(m, Wa4)
-!
-!           compute the scaled actual reduction.
-!
+
+                ! compute the scaled actual reduction.
+
                 actred = -one
                 if (p1*fnorm1 < fnorm) actred = one - (fnorm1/fnorm)**2
-!
-!           compute the scaled predicted reduction and
-!           the scaled directional derivative.
-!
+
+                ! compute the scaled predicted reduction and
+                ! the scaled directional derivative.
+
                 do j = 1, n
                     Wa3(j) = zero
                     l = Ipvt(j)
@@ -2941,15 +2927,15 @@ module minpack_module
                 temp2 = (sqrt(par)*pnorm)/fnorm
                 prered = temp1**2 + temp2**2/p5
                 dirder = -(temp1**2 + temp2**2)
-!
-!           compute the ratio of the actual to the predicted
-!           reduction.
-!
+
+                ! compute the ratio of the actual to the predicted
+                ! reduction.
+
                 ratio = zero
                 if (prered /= zero) ratio = actred/prered
-!
-!           update the step bound.
-!
+
+                ! update the step bound.
+
                 if (ratio <= p25) then
                     if (actred >= zero) temp = p5
                     if (actred < zero) temp = p5*dirder/(dirder + p5*actred)
@@ -2960,13 +2946,13 @@ module minpack_module
                     delta = pnorm/p5
                     par = p5*par
                 end if
-!
-!           test for successful iteration.
-!
+
+                ! test for successful iteration.
+
                 if (ratio >= p0001) then
-!
-!           successful iteration. update x, fvec, and their norms.
-!
+
+                    ! successful iteration. update x, fvec, and their norms.
+
                     do j = 1, n
                         x(j) = Wa2(j)
                         Wa2(j) = Diag(j)*x(j)
@@ -2978,39 +2964,38 @@ module minpack_module
                     fnorm = fnorm1
                     iter = iter + 1
                 end if
-!
-!           tests for convergence.
-!
+
+                ! tests for convergence.
+
                 if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
                      p5*ratio <= one) Info = 1
                 if (delta <= Xtol*xnorm) Info = 2
                 if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
                      p5*ratio <= one .and. Info == 2) Info = 3
                 if (Info == 0) then
-!
-!           tests for termination and stringent tolerances.
-!
+
+                    ! tests for termination and stringent tolerances.
+
                     if (Nfev >= Maxfev) Info = 5
                     if (abs(actred) <= epsmch .and. prered <= epsmch .and. &
                          p5*ratio <= one) Info = 6
                     if (delta <= epsmch*xnorm) Info = 7
                     if (gnorm <= epsmch) Info = 8
                     if (Info == 0) then
-!
-!           end of the inner loop. repeat if iteration unsuccessful.
-!
-!
-!        end of the outer loop.
-!
+
+                        ! end of the inner loop. repeat if iteration unsuccessful.
+
+                        ! end of the outer loop.
+
                         if (ratio >= p0001) goto 100
                         goto 150
                     end if
                 end if
             end if
         end if
-!
-!     termination, either normal or user imposed.
-!
+
+        ! termination, either normal or user imposed.
+
 200     if (iflag < 0) Info = iflag
         iflag = 0
         if (Nprint > 0) call fcn(m, n, x, Fvec, Wa3, iflag)
@@ -3092,14 +3077,14 @@ module minpack_module
         real(wp),parameter :: factor = 1.0e2_wp
 
         Info = 0
-!
-!     check the input parameters for errors.
-!
+
+        ! check the input parameters for errors.
+
         if (n > 0 .and. m >= n .and. Ldfjac >= n .and. Tol >= zero .and. &
              Lwa >= 5*n + m) then
-!
-!     call lmstr.
-!
+
+            ! call lmstr.
+
             maxfev = 100*(n + 1)
             ftol = Tol
             xtol = Tol
@@ -3137,9 +3122,9 @@ module minpack_module
 
         integer :: i, j, jm1, k, l, minmn, np1
         real(wp) :: sum, temp
-!
-!     zero out upper triangle of q in the first min(m,n) columns.
-!
+
+        ! zero out upper triangle of q in the first min(m,n) columns.
+
         minmn = min0(m, n)
         if (minmn >= 2) then
             do j = 2, minmn
@@ -3149,9 +3134,9 @@ module minpack_module
                 end do
             end do
         end if
-!
-!     initialize remaining columns to those of the identity matrix.
-!
+
+        ! initialize remaining columns to those of the identity matrix.
+
         np1 = n + 1
         if (m >= np1) then
             do j = np1, m
@@ -3161,9 +3146,9 @@ module minpack_module
                 q(j, j) = one
             end do
         end if
-!
-!     accumulate q from its factored form.
-!
+
+        ! accumulate q from its factored form.
+
         do l = 1, minmn
             k = minmn - l + 1
             do i = k, m
@@ -3243,24 +3228,24 @@ module minpack_module
         real(wp) :: ajnorm, sum, temp
 
         real(wp),parameter :: p05 = 5.0e-2_wp
-!
-!     compute the initial column norms and initialize several arrays.
-!
+
+        ! compute the initial column norms and initialize several arrays.
+
         do j = 1, n
             Acnorm(j) = enorm(m, a(1, j))
             Rdiag(j) = Acnorm(j)
             Wa(j) = Rdiag(j)
             if (Pivot) Ipvt(j) = j
         end do
-!
-!     reduce a to r with householder transformations.
-!
+
+        ! reduce a to r with householder transformations.
+
         minmn = min0(m, n)
         do j = 1, minmn
             if (Pivot) then
-!
-!        bring the column of largest norm into the pivot position.
-!
+
+                ! bring the column of largest norm into the pivot position.
+
                 kmax = j
                 do k = j, n
                     if (Rdiag(k) > Rdiag(kmax)) kmax = k
@@ -3278,10 +3263,10 @@ module minpack_module
                     Ipvt(kmax) = k
                 end if
             end if
-!
-!        compute the householder transformation to reduce the
-!        j-th column of a to a multiple of the j-th unit vector.
-!
+
+            ! compute the householder transformation to reduce the
+            ! j-th column of a to a multiple of the j-th unit vector.
+
             ajnorm = enorm(m - j + 1, a(j, j))
             if (ajnorm /= zero) then
                 if (a(j, j) < zero) ajnorm = -ajnorm
@@ -3289,10 +3274,10 @@ module minpack_module
                     a(i, j) = a(i, j)/ajnorm
                 end do
                 a(j, j) = a(j, j) + one
-!
-!        apply the transformation to the remaining columns
-!        and update the norms.
-!
+
+                ! apply the transformation to the remaining columns
+                ! and update the norms.
+
                 jp1 = j + 1
                 if (n >= jp1) then
                     do k = jp1, n
@@ -3382,10 +3367,10 @@ module minpack_module
 
         real(wp),parameter :: p5 = 5.0e-1_wp
         real(wp),parameter :: p25 = 2.5e-1_wp
-!
-!     copy r and (q transpose)*b to preserve input and initialize s.
-!     in particular, save the diagonal elements of r in x.
-!
+
+        ! copy r and (q transpose)*b to preserve input and initialize s.
+        ! in particular, save the diagonal elements of r in x.
+
         do j = 1, n
             do i = j, n
                 r(i, j) = r(j, i)
@@ -3393,31 +3378,31 @@ module minpack_module
             x(j) = r(j, j)
             Wa(j) = Qtb(j)
         end do
-!
-!     eliminate the diagonal matrix d using a givens rotation.
-!
+
+        ! eliminate the diagonal matrix d using a givens rotation.
+
         do j = 1, n
-!
-!        prepare the row of d to be eliminated, locating the
-!        diagonal element using p from the qr factorization.
-!
+
+            ! prepare the row of d to be eliminated, locating the
+            ! diagonal element using p from the qr factorization.
+
             l = Ipvt(j)
             if (Diag(l) /= zero) then
                 do k = j, n
                     Sdiag(k) = zero
                 end do
                 Sdiag(j) = Diag(l)
-!
-!        the transformations to eliminate the row of d
-!        modify only a single element of (q transpose)*b
-!        beyond the first n, which is initially zero.
-!
+
+                ! the transformations to eliminate the row of d
+                ! modify only a single element of (q transpose)*b
+                ! beyond the first n, which is initially zero.
+
                 qtbpj = zero
                 do k = j, n
-!
-!           determine a givens rotation which eliminates the
-!           appropriate element in the current row of d.
-!
+
+                    ! determine a givens rotation which eliminates the
+                    ! appropriate element in the current row of d.
+
                     if (Sdiag(k) /= zero) then
                         if (abs(r(k, k)) >= abs(Sdiag(k))) then
                             tan = Sdiag(k)/r(k, k)
@@ -3428,17 +3413,17 @@ module minpack_module
                             sin = p5/sqrt(p25 + p25*cotan**2)
                             cos = sin*cotan
                         end if
-!
-!           compute the modified diagonal element of r and
-!           the modified element of ((q transpose)*b,0).
-!
+
+                        ! compute the modified diagonal element of r and
+                        ! the modified element of ((q transpose)*b,0).
+
                         r(k, k) = cos*r(k, k) + sin*Sdiag(k)
                         temp = cos*Wa(k) + sin*qtbpj
                         qtbpj = -sin*Wa(k) + cos*qtbpj
                         Wa(k) = temp
-!
-!           accumulate the tranformation in the row of s.
-!
+
+                        ! accumulate the tranformation in the row of s.
+
                         kp1 = k + 1
                         if (n >= kp1) then
                             do i = kp1, n
@@ -3450,17 +3435,17 @@ module minpack_module
                     end if
                 end do
             end if
-!
-!        store the diagonal element of s and restore
-!        the corresponding diagonal element of r.
-!
+
+            ! store the diagonal element of s and restore
+            ! the corresponding diagonal element of r.
+
             Sdiag(j) = r(j, j)
             r(j, j) = x(j)
         end do
-!
-!     solve the triangular system for z. if the system is
-!     singular, then obtain a least squares solution.
-!
+
+        ! solve the triangular system for z. if the system is
+        ! singular, then obtain a least squares solution.
+
         nsing = n
         do j = 1, n
             if (Sdiag(j) == zero .and. nsing == n) nsing = j - 1
@@ -3479,9 +3464,9 @@ module minpack_module
                 Wa(j) = (Wa(j) - sum)/Sdiag(j)
             end do
         end if
-!
-!     permute the components of z back to components of x.
-!
+
+        ! permute the components of z back to components of x.
+
         do j = 1, n
             l = Ipvt(j)
             x(l) = Wa(j)
@@ -3523,9 +3508,9 @@ module minpack_module
 
         integer :: i, j, nmj, nm1
         real(wp) :: cos, sin, temp
-!
-!     apply the first set of givens rotations to a.
-!
+
+        ! apply the first set of givens rotations to a.
+
         nm1 = n - 1
         if (nm1 >= 1) then
             do nmj = 1, nm1
@@ -3540,9 +3525,9 @@ module minpack_module
                     a(i, j) = temp
                 end do
             end do
-!
-!     apply the second set of givens rotations to a.
-!
+
+            ! apply the second set of givens rotations to a.
+
             do j = 1, nm1
                 if (abs(w(j)) > one) cos = one/w(j)
                 if (abs(w(j)) > one) sin = sqrt(one - cos**2)
@@ -3610,22 +3595,22 @@ module minpack_module
         real(wp),parameter :: p5 = 5.0e-1_wp
         real(wp),parameter :: p25 = 2.5e-1_wp
         real(wp),parameter :: giant = dpmpar(3) !! the largest magnitude.
-!
-!     initialize the diagonal element pointer.
-!
+
+        ! initialize the diagonal element pointer.
+
         jj = (n*(2*m - n + 1))/2 - (m - n)
-!
-!     move the nontrivial part of the last column of s into w.
-!
+
+        ! move the nontrivial part of the last column of s into w.
+
         l = jj
         do i = n, m
             w(i) = s(l)
             l = l + 1
         end do
-!
-!     rotate the vector v into a multiple of the n-th unit vector
-!     in such a way that a spike is introduced into w.
-!
+
+        ! rotate the vector v into a multiple of the n-th unit vector
+        ! in such a way that a spike is introduced into w.
+
         nm1 = n - 1
         if (nm1 >= 1) then
             do nmj = 1, nm1
@@ -3633,10 +3618,10 @@ module minpack_module
                 jj = jj - (m - j + 1)
                 w(j) = zero
                 if (v(j) /= zero) then
-!
-!        determine a givens rotation which eliminates the
-!        j-th element of v.
-!
+
+                    ! determine a givens rotation which eliminates the
+                    ! j-th element of v.
+
                     if (abs(v(n)) >= abs(v(j))) then
                         tan = v(j)/v(n)
                         cos = p5/sqrt(p25 + p25*tan**2)
@@ -3649,15 +3634,15 @@ module minpack_module
                         tau = one
                         if (abs(cos)*giant > one) tau = one/cos
                     end if
-!
-!        apply the transformation to v and store the information
-!        necessary to recover the givens rotation.
-!
+
+                    ! apply the transformation to v and store the information
+                    ! necessary to recover the givens rotation.
+
                     v(n) = sin*v(j) + cos*v(n)
                     v(j) = tau
-!
-!        apply the transformation to s and extend the spike in w.
-!
+
+                    ! apply the transformation to s and extend the spike in w.
+
                     l = jj
                     do i = j, m
                         temp = cos*s(l) - sin*w(i)
@@ -3668,23 +3653,23 @@ module minpack_module
                 end if
             end do
         end if
-!
-!     add the spike from the rank 1 update to w.
-!
+
+        ! add the spike from the rank 1 update to w.
+
         do i = 1, m
             w(i) = w(i) + v(n)*u(i)
         end do
-!
-!     eliminate the spike.
-!
+
+        ! eliminate the spike.
+
         Sing = .false.
         if (nm1 >= 1) then
             do j = 1, nm1
                 if (w(j) /= zero) then
-!
-!        determine a givens rotation which eliminates the
-!        j-th element of the spike.
-!
+
+                    ! determine a givens rotation which eliminates the
+                    ! j-th element of the spike.
+
                     if (abs(s(jj)) >= abs(w(j))) then
                         tan = w(j)/s(jj)
                         cos = p5/sqrt(p25 + p25*tan**2)
@@ -3697,9 +3682,9 @@ module minpack_module
                         tau = one
                         if (abs(cos)*giant > one) tau = one/cos
                     end if
-!
-!        apply the transformation to s and reduce the spike in w.
-!
+
+                    ! apply the transformation to s and reduce the spike in w.
+
                     l = jj
                     do i = j, m
                         temp = cos*s(l) + sin*w(i)
@@ -3707,22 +3692,22 @@ module minpack_module
                         s(l) = temp
                         l = l + 1
                     end do
-!
-!        store the information necessary to recover the
-!        givens rotation.
-!
+
+                    ! store the information necessary to recover the
+                    ! givens rotation.
+
                     w(j) = tau
                 end if
-!
-!        test for zero diagonal elements in the output s.
-!
+
+                ! test for zero diagonal elements in the output s.
+
                 if (s(jj) == zero) Sing = .true.
                 jj = jj + (m - j + 1)
             end do
         end if
-!
-!     move w back into the last column of the output s.
-!
+
+        ! move w back into the last column of the output s.
+
         l = jj
         do i = n, m
             s(l) = w(i)
@@ -3782,10 +3767,10 @@ module minpack_module
         do j = 1, n
             rowj = w(j)
             jm1 = j - 1
-!
-!        apply the previous transformations to
-!        r(i,j), i=1,2,...,j-1, and to w(j).
-!
+
+            ! apply the previous transformations to
+            ! r(i,j), i=1,2,...,j-1, and to w(j).
+
             if (jm1 >= 1) then
                 do i = 1, jm1
                     temp = Cos(i)*r(i, j) + Sin(i)*rowj
@@ -3793,9 +3778,9 @@ module minpack_module
                     r(i, j) = temp
                 end do
             end if
-!
-!        determine a givens rotation which eliminates w(j).
-!
+
+            ! determine a givens rotation which eliminates w(j).
+
             Cos(j) = one
             Sin(j) = zero
             if (rowj /= zero) then
@@ -3808,9 +3793,9 @@ module minpack_module
                     Sin(j) = p5/sqrt(p25 + p25*cotan**2)
                     Cos(j) = Sin(j)*cotan
                 end if
-!
-!        apply the current transformation to r(j,j), b(j), and alpha.
-!
+
+                ! apply the current transformation to r(j,j), b(j), and alpha.
+
                 r(j, j) = Cos(j)*r(j, j) + Sin(j)*rowj
                 temp = Cos(j)*b(j) + Sin(j)*Alpha
                 Alpha = -Sin(j)*b(j) + Cos(j)*Alpha
