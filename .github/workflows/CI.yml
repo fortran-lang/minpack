@@ -1,8 +1,56 @@
 name: CI
-on: [push]
-jobs:
+on: [push, pull_request]
 
+jobs:
   Build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        gcc: [10] # Version of GFortran we want to use.
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Install GFortran (MacOS)
+      if: ${{ contains(matrix.os, 'macos') }}
+      run: |
+        brew install gcc@${{ matrix.gcc }}
+        ln -s /usr/local/bin/gfortran-${{ matrix.gcc }} /usr/local/bin/gfortran
+
+    - name: Install GFortran (Linux)
+      if: ${{ contains(matrix.os, 'ubuntu') }}
+      run: |
+        sudo update-alternatives \
+          --install /usr/bin/gcc gcc /usr/bin/gcc-${{ matrix.gcc }} 100 \
+          --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${{ matrix.gcc }} \
+          --slave /usr/bin/gcov gcov /usr/bin/gcov-${{ matrix.gcc }}
+
+    - name: Install GFortran (Windows)
+      if: ${{ contains(matrix.os, 'windows') }}
+      run: |
+        Invoke-WebRequest -Uri ${{ env.DOWNLOAD }} -OutFile mingw-w64.zip
+        Expand-Archive mingw-w64.zip
+        echo "$pwd\mingw-w64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      env:
+        DOWNLOAD: "https://github.com/brechtsanders/winlibs_mingw/releases/download/10.3.0-12.0.0-9.0.0-r2/winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.zip"
+
+    - name: Setup Fortran Package Manager
+      uses: fortran-lang/setup-fpm@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Compile
+      run: fpm build --profile release
+
+    - name: Run test
+      run: fpm test
+
+  Docs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -15,6 +63,12 @@ jobs:
       GCC_V: ${{ matrix.gcc_v }}
 
     steps:
+    - id: deploy-on-push
+      run:
+        echo "::set-output name=result::${{ env.DEPLOY_BRANCH }}"
+      env:
+        DEPLOY_BRANCH: ${{ secrets.DEPLOY_BRANCH && contains(github.ref, secrets.DEPLOY_BRANCH) && 1 || 0 }}
+
     - name: Checkout code
       uses: actions/checkout@v2
       with:
@@ -28,20 +82,15 @@ jobs:
     - name: Setup Graphviz
       uses: ts-graphviz/setup-graphviz@v1
 
-    - name: Setup Fortran Package Manager
-      uses: fortran-lang/setup-fpm@v3
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Install Python dependencies
-      if: contains( matrix.os, 'ubuntu')
+      if: ${{ contains( matrix.os, 'ubuntu') }}
       run: |
         python -m pip install --upgrade pip
         pip install numpy matplotlib ford
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Install GFortran Linux
-      if: contains( matrix.os, 'ubuntu')
+      if: ${{ contains( matrix.os, 'ubuntu') }}
       run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         sudo apt-get update
@@ -50,17 +99,11 @@ jobs:
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
         --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
 
-    - name: Compile
-      run: fpm build --profile release
-
-    - name: Run test
-      run: fpm test
-
     - name: Build documentation
       run: ford ./minpack.md
 
     - name: Deploy Documentation
-      if: github.ref == 'refs/heads/master'
+      if: ${{ github.event_name == 'push' && steps.deploy-on-push.outputs.result != 0 }}
       uses: JamesIves/github-pages-deploy-action@4.1.0
       with:
         branch: gh-pages # The branch the action should deploy to.
