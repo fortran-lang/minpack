@@ -1,8 +1,13 @@
 name = "minpack"
-version = "0.0.1"
-license = "BSD"
-author = "Jacob Williams"
-copyright = "Copyright 2021, Jacob Williams"
+description = "Minpack includes software for solving nonlinear equations and nonlinear least squares problems"
+homepage = "https://github.com/fortran-lang/minpack"
+version = "2.0.0"
+license = "MIT"
+author = "minpack contributors"
+maintainer = "@fortran-lang"
+copyright = "Copyright (c) 2022 minpack contributors; Minpack Copyright Notice (1999) University of Chicago. All rights reserved"
+categories = ["numerical"]
+keywords = ["least squares", "linear equations", "nonlinear equations"]
 
 [install]
 library = true
