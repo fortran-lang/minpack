@@ -1,0 +1,5 @@
+fixes:
+  - "/home/runner/work/minpack/minpack::"
+
+ignore:
+  - "test/**"

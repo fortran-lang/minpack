@@ -50,6 +50,57 @@ jobs:
     - name: Run test
       run: fpm test
 
+  Coverage:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        gcc: [10]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Install GFortran (Linux)
+      if: ${{ contains(matrix.os, 'ubuntu') }}
+      run: |
+        sudo apt-get install lcov
+        sudo update-alternatives \
+          --install /usr/bin/gcc gcc /usr/bin/gcc-${{ matrix.gcc }} 100 \
+          --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${{ matrix.gcc }} \
+          --slave /usr/bin/gcov gcov /usr/bin/gcov-${{ matrix.gcc }}
+
+    - name: Setup Fortran Package Manager
+      uses: fortran-lang/setup-fpm@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Run test
+      run: fpm test --profile debug --flag -coverage
+
+    - name: Create coverage report
+      run: |
+        mkdir -p ${{ env.COV_DIR }}
+        lcov --capture --initial --base-directory . \
+             --directory build/gfortran_*/ \
+             --output-file ${{ env.COV_DIR }}/coverage.base
+        lcov --capture --base-directory . \
+             --directory build/gfortran_*/ \
+             --output-file ${{ env.COV_DIR }}/coverage.capture
+        lcov --add-tracefile ${{ env.COV_DIR }}/coverage.base \
+             --add-tracefile ${{ env.COV_DIR }}/coverage.capture \
+             --output-file ${{ env.COV_DIR }}/coverage.info
+      env:
+        COV_DIR: build/coverage
+
+    - name: Upload coverage report
+      uses: codecov/codecov-action@v2
+      with:
+        files: build/coverage/coverage.info
+
   Docs:
     runs-on: ${{ matrix.os }}
     strategy:
