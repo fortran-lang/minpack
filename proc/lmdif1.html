@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="Modernized Minpack">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,10 +14,7 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
     <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,54 +43,25 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-               
-        
-        
+              
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-
-
-
-          </ul>
-        
+                                       </ul>
         <form action="../search.html" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
@@ -104,51 +70,29 @@
         <button type="submit" class="btn btn-default">Submit</button>
 -->
         </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>lmdif1
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 1.6% of total for procedures.">29 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/minpack.f90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/minpack.f90.html'>minpack.f90</a></li>
-    
      <li><a href='../module/minpack_module.html'>minpack_module</a></li>
-    
-  
      <li class="active">lmdif1</li>
   </ol>
 </div>
@@ -164,188 +108,96 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/lmdif1.html#src">lmdif1</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-maxfev~5">maxfev</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-mode~5">mode</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-mp5n">mp5n</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-nfev~5">nfev</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-nprint~5">nprint</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-epsfcn~3">epsfcn</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-ftol~2">ftol</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-gtol~2">gtol</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-xtol~5">xtol</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-factor~6">factor</a>
+    </div>
   </div>
 </div>
-
-
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-public subroutine lmdif1(fcn, m, n, x, Fvec, Tol, Info, Iwa, Wa, Lwa)
+    <h2>public subroutine lmdif1(fcn, m, n, x, Fvec, Tol, Info, Iwa, Wa, Lwa)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>the purpose of lmdif1 is to minimize the sum of the squares of
 m nonlinear functions in n variables by a modification of the
 levenberg-marquardt algorithm. this is done by using the more
 general least-squares solver lmdif. the user must provide a
 subroutine which calculates the functions. the jacobian is
 then calculated by a forward-difference approximation.</p>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-fcn~10"></span>procedure(<a href='../interface/func2.html'>func2</a>)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>fcn</strong></td><td><p>the user-supplied subroutine which
 calculates the functions.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-m~9"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>m</strong></td><td><p>a positive integer input variable set to the number
 of functions.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-n~18"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td><p>a positive integer input variable set to the number
 of variables. n must not exceed m.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-x~18"></span>real(kind=wp),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>x</strong>(n)</td><td><p>an array of length n. on input x must contain
 an initial estimate of the solution vector. on output x
 contains the final estimate of the solution vector.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-fvec~9"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Fvec</strong>(m)</td><td><p>an output array of length m which contains
 the functions evaluated at the output x.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-tol~3"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Tol</strong></td><td><p>a nonnegative input variable. termination occurs
 when the algorithm estimates either that the relative
 error in the sum of squares is at most tol or that
 the relative error between x and the solution is at
 most tol.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-info~6"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Info</strong></td><td><p>an integer output variable. if the user has
 terminated execution, info is set to the (negative)
 value of iflag. see description of fcn. otherwise,
@@ -366,64 +218,30 @@ info is set as follows:</p>
 <li><strong><em>info = 7</em></strong>  tol is too small. no further improvement in
    the approximate solution x is possible.</li>
 </ul></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-iwa"></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Iwa</strong>(n)</td><td><p>an integer work array of length n.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-wa~5"></span>real(kind=wp),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Wa</strong>(Lwa)</td><td><p>a work array of length lwa.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-lwa~4"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Lwa</strong></td><td><p>a positive integer input variable not less than
 m<em>n+5</em>n+m.</p></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
     <br>
-    
-    
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Calls</h3>
@@ -435,82 +253,82 @@ m<em>n+5</em>n+m.</p></td>
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~lmdif1~~CallsGraph Pages: 1 -->
-<svg id="proclmdif1CallsGraph" width="332pt" height="86pt"
- viewBox="0.00 0.00 332.00 86.01" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~lmdif1~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 82.01)">
+<svg id="proclmdif1CallsGraph" width="332pt" height="94pt"
+ viewBox="0.00 0.00 332.00 94.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~lmdif1~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 90)">
 <title>proc~~lmdif1~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-82.01 328,-82.01 328,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-90 328,-90 328,4 -4,4"/>
 <!-- proc~lmdif1 -->
 <g id="proc~~lmdif1~~CallsGraph_node1" class="node">
 <title>proc~lmdif1</title>
-<polygon fill="none" stroke="black" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
-<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">lmdif1</text>
+<polygon fill="none" stroke="black" points="54,-44 0,-44 0,-20 54,-20 54,-44"/>
+<text text-anchor="middle" x="27" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">lmdif1</text>
 </g>
 <!-- proc~lmdif -->
 <g id="proc~~lmdif1~~CallsGraph_node2" class="node">
 <title>proc~lmdif</title>
 <g id="a_proc~~lmdif1~~CallsGraph_node2"><a xlink:href=".././proc/lmdif.html" xlink:title="lmdif">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmdif</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-44 90,-44 90,-20 144,-20 144,-44"/>
+<text text-anchor="middle" x="117" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmdif</text>
 </a>
 </g>
 </g>
 <!-- proc~lmdif1&#45;&gt;proc~lmdif -->
 <g id="proc~~lmdif1~~CallsGraph_edge1" class="edge">
 <title>proc~lmdif1&#45;&gt;proc~lmdif</title>
-<path fill="none" stroke="#000000" d="M54.4,-54C62.39,-54 71.31,-54 79.82,-54"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-57.5 89.92,-54 79.92,-50.5 79.92,-57.5"/>
-</g>
-<!-- proc~enorm -->
-<g id="proc~~lmdif1~~CallsGraph_node3" class="node">
-<title>proc~enorm</title>
-<g id="a_proc~~lmdif1~~CallsGraph_node3"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-65 270,-65 270,-41 324,-41 324,-65"/>
-<text text-anchor="middle" x="297" y="-50.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
-</a>
-</g>
-</g>
-<!-- proc~lmdif&#45;&gt;proc~enorm -->
-<g id="proc~~lmdif1~~CallsGraph_edge2" class="edge">
-<title>proc~lmdif&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M144.06,-64.94C154.96,-68.96 167.89,-73 180,-75 203.68,-78.9 210.35,-79.07 234,-75 242.74,-73.5 251.88,-70.88 260.37,-67.97"/>
-<polygon fill="#000000" stroke="#000000" points="261.79,-71.18 269.98,-64.46 259.39,-64.6 261.79,-71.18"/>
+<path fill="none" stroke="#000000" d="M54.4,-32C62.39,-32 71.31,-32 79.82,-32"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-35.5 89.92,-32 79.92,-28.5 79.92,-35.5"/>
 </g>
 <!-- proc~fdjac2 -->
-<g id="proc~~lmdif1~~CallsGraph_node4" class="node">
+<g id="proc~~lmdif1~~CallsGraph_node3" class="node">
 <title>proc~fdjac2</title>
-<g id="a_proc~~lmdif1~~CallsGraph_node4"><a xlink:href=".././proc/fdjac2.html" xlink:title="fdjac2">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
-<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fdjac2</text>
+<g id="a_proc~~lmdif1~~CallsGraph_node3"><a xlink:href=".././proc/fdjac2.html" xlink:title="fdjac2">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-86 180,-86 180,-62 234,-62 234,-86"/>
+<text text-anchor="middle" x="207" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fdjac2</text>
 </a>
 </g>
 </g>
 <!-- proc~lmdif&#45;&gt;proc~fdjac2 -->
-<g id="proc~~lmdif1~~CallsGraph_edge3" class="edge">
+<g id="proc~~lmdif1~~CallsGraph_edge2" class="edge">
 <title>proc~lmdif&#45;&gt;proc~fdjac2</title>
-<path fill="none" stroke="#000000" d="M144.4,-54C152.39,-54 161.31,-54 169.82,-54"/>
-<polygon fill="#000000" stroke="#000000" points="169.92,-57.5 179.92,-54 169.92,-50.5 169.92,-57.5"/>
+<path fill="none" stroke="#000000" d="M143.45,-44.15C152.21,-48.33 162.17,-53.08 171.52,-57.54"/>
+<polygon fill="#000000" stroke="#000000" points="170.07,-60.73 180.6,-61.88 173.09,-54.41 170.07,-60.73"/>
 </g>
 <!-- proc~qrfac -->
-<g id="proc~~lmdif1~~CallsGraph_node5" class="node">
+<g id="proc~~lmdif1~~CallsGraph_node4" class="node">
 <title>proc~qrfac</title>
-<g id="a_proc~~lmdif1~~CallsGraph_node5"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
-<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
+<g id="a_proc~~lmdif1~~CallsGraph_node4"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-44 180,-44 180,-20 234,-20 234,-44"/>
+<text text-anchor="middle" x="207" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
 </a>
 </g>
 </g>
 <!-- proc~lmdif&#45;&gt;proc~qrfac -->
-<g id="proc~~lmdif1~~CallsGraph_edge4" class="edge">
+<g id="proc~~lmdif1~~CallsGraph_edge3" class="edge">
 <title>proc~lmdif&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M143.45,-41.85C152.21,-37.67 162.17,-32.92 171.52,-28.46"/>
-<polygon fill="#000000" stroke="#000000" points="173.09,-31.59 180.6,-24.12 170.07,-25.27 173.09,-31.59"/>
+<path fill="none" stroke="#000000" d="M144.4,-32C152.39,-32 161.31,-32 169.82,-32"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-35.5 179.92,-32 169.92,-28.5 169.92,-35.5"/>
+</g>
+<!-- proc~enorm -->
+<g id="proc~~lmdif1~~CallsGraph_node5" class="node">
+<title>proc~enorm</title>
+<g id="a_proc~~lmdif1~~CallsGraph_node5"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-24 270,-24 270,0 324,0 324,-24"/>
+<text text-anchor="middle" x="297" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
+</a>
+</g>
+</g>
+<!-- proc~lmdif&#45;&gt;proc~enorm -->
+<g id="proc~~lmdif1~~CallsGraph_edge4" class="edge">
+<title>proc~lmdif&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M144.06,-21.06C154.96,-17.04 167.89,-13 180,-11 206.37,-6.66 236.56,-7.08 259.53,-8.5"/>
+<polygon fill="#000000" stroke="#000000" points="259.32,-12 269.54,-9.21 259.81,-5.01 259.32,-12"/>
 </g>
 <!-- proc~qrfac&#45;&gt;proc~enorm -->
 <g id="proc~~lmdif1~~CallsGraph_edge5" class="edge">
 <title>proc~qrfac&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M233.93,-24.08C242.36,-28.01 251.86,-32.43 260.84,-36.62"/>
-<polygon fill="#000000" stroke="#000000" points="259.41,-39.81 269.95,-40.87 262.37,-33.47 259.41,-39.81"/>
+<path fill="none" stroke="#000000" d="M234.4,-26C242.48,-24.16 251.51,-22.11 260.1,-20.16"/>
+<polygon fill="#000000" stroke="#000000" points="260.94,-23.56 269.92,-17.93 259.39,-16.73 260.94,-23.56"/>
 </g>
 </g>
 </svg>
@@ -575,147 +393,104 @@ m<em>n+5</em>n+m.</p></td>
     </div></div></div></div>
       </div>
     </div>
-     
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/lmdif1.html#src">lmdif1</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-maxfev~5">maxfev</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-mode~5">mode</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-mp5n">mp5n</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-nfev~5">nfev</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-nprint~5">nprint</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-epsfcn~3">epsfcn</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-ftol~2">ftol</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-gtol~2">gtol</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-xtol~5">xtol</a>
+      <a class="list-group-item" href="../proc/lmdif1.html#variable-factor~6">factor</a>
+    </div>
   </div>
 </div>
-
-
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">lmdif1</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">Tol</span><span class="p">,</span><span class="w"> </span><span class="n">Info</span><span class="p">,</span><span class="w"> </span><span class="n">Iwa</span><span class="p">,</span><span class="w"> </span><span class="n">Wa</span><span class="p">,</span><span class="w"> </span><span class="n">Lwa</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">implicit none</span>
-
-<span class="k">        procedure</span><span class="p">(</span><span class="n">func2</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fcn</span><span class="w"> </span><span class="c">!! the user-supplied subroutine which</span>
-<span class="w">                                </span><span class="c">!! calculates the functions.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="c">!! a positive integer input variable set to the number</span>
-<span class="w">                                </span><span class="c">!! of functions.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c">!! a positive integer input variable set to the number</span>
-<span class="w">                                </span><span class="c">!! of variables. n must not exceed m.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="c">!! an integer output variable. if the user has</span>
-<span class="w">                                    </span><span class="c">!! terminated execution, info is set to the (negative)</span>
-<span class="w">                                    </span><span class="c">!! value of iflag. see description of fcn. otherwise,</span>
-<span class="w">                                    </span><span class="c">!! info is set as follows:</span>
-<span class="w">                                    </span><span class="c">!!</span>
-<span class="w">                                    </span><span class="c">!!  * ***info = 0***  improper input parameters.</span>
-<span class="w">                                    </span><span class="c">!!  * ***info = 1***  algorithm estimates that the relative error</span>
-<span class="w">                                    </span><span class="c">!!    in the sum of squares is at most tol.</span>
-<span class="w">                                    </span><span class="c">!!  * ***info = 2***  algorithm estimates that the relative error</span>
-<span class="w">                                    </span><span class="c">!!    between x and the solution is at most tol.</span>
-<span class="w">                                    </span><span class="c">!!  * ***info = 3***  conditions for info = 1 and info = 2 both hold.</span>
-<span class="w">                                    </span><span class="c">!!  * ***info = 4***  fvec is orthogonal to the columns of the</span>
-<span class="w">                                    </span><span class="c">!!    jacobian to machine precision.</span>
-<span class="w">                                    </span><span class="c">!!  * ***info = 5***  number of calls to fcn has reached or</span>
-<span class="w">                                    </span><span class="c">!!    exceeded 200*(n+1).</span>
-<span class="w">                                    </span><span class="c">!!  * ***info = 6***  tol is too small. no further reduction in</span>
-<span class="w">                                    </span><span class="c">!!    the sum of squares is possible.</span>
-<span class="w">                                    </span><span class="c">!!  * ***info = 7***  tol is too small. no further improvement in</span>
-<span class="w">                                    </span><span class="c">!!    the approximate solution x is possible.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Lwa</span><span class="w"> </span><span class="c">!! a positive integer input variable not less than</span>
-<span class="w">                                  </span><span class="c">!! m*n+5*n+m.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Iwa</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">!! an integer work array of length n.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Tol</span><span class="w"> </span><span class="c">!! a nonnegative input variable. termination occurs</span>
-<span class="w">                                   </span><span class="c">!! when the algorithm estimates either that the relative</span>
-<span class="w">                                   </span><span class="c">!! error in the sum of squares is at most tol or that</span>
-<span class="w">                                   </span><span class="c">!! the relative error between x and the solution is at</span>
-<span class="w">                                   </span><span class="c">!! most tol.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">!! an array of length n. on input x must contain</span>
-<span class="w">                                       </span><span class="c">!! an initial estimate of the solution vector. on output x</span>
-<span class="w">                                       </span><span class="c">!! contains the final estimate of the solution vector.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Fvec</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="c">!! an output array of length m which contains</span>
-<span class="w">                                        </span><span class="c">!! the functions evaluated at the output x.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="n">Lwa</span><span class="p">)</span><span class="w"> </span><span class="c">!! a work array of length lwa.</span>
-
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">maxfev</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="n">mp5n</span><span class="p">,</span><span class="w"> </span><span class="n">nfev</span><span class="p">,</span><span class="w"> </span><span class="n">nprint</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">epsfcn</span><span class="p">,</span><span class="w"> </span><span class="n">ftol</span><span class="p">,</span><span class="w"> </span><span class="n">gtol</span><span class="p">,</span><span class="w"> </span><span class="n">xtol</span><span class="w"></span>
-
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e2_wp</span><span class="w"></span>
-
-<span class="w">        </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! check the input parameters for errors.</span>
-
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Tol</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Lwa</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! call lmdif.</span>
-
-<span class="w">            </span><span class="n">maxfev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">200</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">ftol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Tol</span><span class="w"></span>
-<span class="w">            </span><span class="n">xtol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Tol</span><span class="w"></span>
-<span class="w">            </span><span class="n">gtol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">            </span><span class="n">epsfcn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">            </span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="n">nprint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">mp5n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="o">*</span><span class="n">n</span><span class="w"></span>
-<span class="w">            </span><span class="k">call </span><span class="n">lmdif</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">ftol</span><span class="p">,</span><span class="w"> </span><span class="n">xtol</span><span class="p">,</span><span class="w"> </span><span class="n">gtol</span><span class="p">,</span><span class="w"> </span><span class="n">maxfev</span><span class="p">,</span><span class="w"> </span><span class="n">epsfcn</span><span class="p">,</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                       </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="n">factor</span><span class="p">,</span><span class="w"> </span><span class="n">nprint</span><span class="p">,</span><span class="w"> </span><span class="n">Info</span><span class="p">,</span><span class="w"> </span><span class="n">nfev</span><span class="p">,</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="n">mp5n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">Iwa</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                       </span><span class="n">Wa</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Info</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span>
-
-<span class="k">    end subroutine </span><span class="n">lmdif1</span><span class="w"></span>
-</pre></div>
+    <section>    
+      <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-maxfev~5"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>maxfev</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-mode~5"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>mode</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-mp5n"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>mp5n</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nfev~5"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nfev</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nprint~5"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nprint</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-epsfcn~3"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>epsfcn</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ftol~2"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>ftol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-gtol~2"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>gtol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-xtol~5"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>xtol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-factor~6"></span>real(kind=wp),</td>
+<td>public,</td>  <td>parameter</td><td>::</td>
+  <td><strong>factor</strong></td><td> =</td><td>1.0e2_wp</td><td></td>
+</tr>
+</tbody>
+</table>
 
     </section>
     <br>
     
     
+
+    
+    
+
+
+    
+    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -723,14 +498,12 @@ m<em>n+5</em>n+m.</p></td>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>minpack was developed by Jacob Williams<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -758,14 +531,11 @@ m<em>n+5</em>n+m.</p></td>
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     <script src="../tipuesearch/tipuesearch_content.js"></script>
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
-    
     
   </body>
 </html>

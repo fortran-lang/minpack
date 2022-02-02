@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="Modernized Minpack">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,10 +14,7 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
     <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,54 +43,25 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-               
-        
-        
+              
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-
-
-
-          </ul>
-        
+                                       </ul>
         <form action="../search.html" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
@@ -104,51 +70,29 @@
         <button type="submit" class="btn btn-default">Submit</button>
 -->
         </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>hybrd1
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 1.7% of total for procedures.">31 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/minpack.f90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/minpack.f90.html'>minpack.f90</a></li>
-    
      <li><a href='../module/minpack_module.html'>minpack_module</a></li>
-    
-  
      <li class="active">hybrd1</li>
   </ol>
 </div>
@@ -164,57 +108,37 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/hybrd1.html#src">hybrd1</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-index">index</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-j~6">j</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-lr~2">lr</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-maxfev~2">maxfev</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-ml~2">ml</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-mode~2">mode</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-mu~2">mu</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-nfev~2">nfev</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-nprint~2">nprint</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-epsfcn~2">epsfcn</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-xtol~2">xtol</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-factor~3">factor</a>
+    </div>
   </div>
 </div>
-
-
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-public subroutine hybrd1(fcn, n, x, fvec, tol, info, Wa, Lwa)
+    <h2>public subroutine hybrd1(fcn, n, x, fvec, tol, info, Wa, Lwa)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>the purpose of hybrd1 is to find a zero of a system of
 n nonlinear functions in n variables by a modification
 of the powell hybrid method. this is done by using the
@@ -222,112 +146,51 @@ more general nonlinear equation solver hybrd. the user
 must provide a subroutine which calculates the functions.
 the jacobian is then calculated by a forward-difference
 approximation.</p>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-fcn~4"></span>procedure(<a href='../interface/func.html'>func</a>)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>fcn</strong></td><td><p>user-supplied subroutine which calculates the functions</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-n~12"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td><p>a positive integer input variable set to the number
 of functions and variables.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-x~12"></span>real(kind=wp),</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>dimension(n)</td><td>::</td>
+<td>intent(inout),</td>
+  <td></td>  <td>dimension(n)</td><td>::</td>
   <td><strong>x</strong></td><td><p>an array of length <code>n</code>. on input <code>x</code> must contain
 an initial estimate of the solution vector. on output <code>x</code>
 contains the final estimate of the solution vector.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-fvec~7"></span>real(kind=wp),</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>dimension(n)</td><td>::</td>
+<td>intent(out),</td>
+  <td></td>  <td>dimension(n)</td><td>::</td>
   <td><strong>fvec</strong></td><td><p>an output array of length <code>n</code> which contains
 the functions evaluated at the output <code>x</code>.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-tol"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>tol</strong></td><td><p>a nonnegative input variable. termination occurs
 when the algorithm estimates that the relative error
 between <code>x</code> and the solution is at most <code>tol</code>.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-info~2"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>info</strong></td><td><p>an integer output variable. if the user has
 terminated execution, info is set to the (negative)
 value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
@@ -342,49 +205,24 @@ value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
  the approximate solution <code>x</code> is possible.</li>
 <li><strong><em>info = 4</em></strong> iteration is not making good progress.</li>
 </ul></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-wa~2"></span>real(kind=wp),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Wa</strong>(Lwa)</td><td><p>a work array of length lwa.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-lwa"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Lwa</strong></td><td><p>a positive integer input variable not less than
 (n<em>(3</em>n+13))/2.</p></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
     <br>
-    
-    
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Calls</h3>
@@ -396,148 +234,148 @@ value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~hybrd1~~CallsGraph Pages: 1 -->
-<svg id="prochybrd1CallsGraph" width="332pt" height="259pt"
- viewBox="0.00 0.00 332.00 259.10" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~hybrd1~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 255.1)">
+<svg id="prochybrd1CallsGraph" width="332pt" height="280pt"
+ viewBox="0.00 0.00 332.00 280.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~hybrd1~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 276)">
 <title>proc~~hybrd1~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-255.1 328,-255.1 328,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-276 328,-276 328,4 -4,4"/>
 <!-- proc~hybrd1 -->
 <g id="proc~~hybrd1~~CallsGraph_node1" class="node">
 <title>proc~hybrd1</title>
-<polygon fill="none" stroke="black" points="54,-150 0,-150 0,-126 54,-126 54,-150"/>
-<text text-anchor="middle" x="27" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50">hybrd1</text>
+<polygon fill="none" stroke="black" points="54,-146 0,-146 0,-122 54,-122 54,-146"/>
+<text text-anchor="middle" x="27" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50">hybrd1</text>
 </g>
 <!-- proc~hybrd -->
 <g id="proc~~hybrd1~~CallsGraph_node2" class="node">
 <title>proc~hybrd</title>
 <g id="a_proc~~hybrd1~~CallsGraph_node2"><a xlink:href=".././proc/hybrd.html" xlink:title="hybrd">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-150 90,-150 90,-126 144,-126 144,-150"/>
-<text text-anchor="middle" x="117" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-146 90,-146 90,-122 144,-122 144,-146"/>
+<text text-anchor="middle" x="117" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd1&#45;&gt;proc~hybrd -->
 <g id="proc~~hybrd1~~CallsGraph_edge1" class="edge">
 <title>proc~hybrd1&#45;&gt;proc~hybrd</title>
-<path fill="none" stroke="#000000" d="M54.4,-138C62.39,-138 71.31,-138 79.82,-138"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-141.5 89.92,-138 79.92,-134.5 79.92,-141.5"/>
-</g>
-<!-- proc~enorm -->
-<g id="proc~~hybrd1~~CallsGraph_node3" class="node">
-<title>proc~enorm</title>
-<g id="a_proc~~hybrd1~~CallsGraph_node3"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-192 270,-192 270,-168 324,-168 324,-192"/>
-<text text-anchor="middle" x="297" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~enorm -->
-<g id="proc~~hybrd1~~CallsGraph_edge2" class="edge">
-<title>proc~hybrd&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M120.97,-150.27C127.3,-173.35 144.52,-222.74 180,-243 200.84,-254.9 211.86,-252.27 234,-243 254.59,-234.38 271.8,-215.21 282.82,-200.27"/>
-<polygon fill="#000000" stroke="#000000" points="285.69,-202.27 288.57,-192.08 279.96,-198.25 285.69,-202.27"/>
+<path fill="none" stroke="#000000" d="M54.4,-134C62.39,-134 71.31,-134 79.82,-134"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-137.5 89.92,-134 79.92,-130.5 79.92,-137.5"/>
 </g>
 <!-- proc~r1updt -->
-<g id="proc~~hybrd1~~CallsGraph_node4" class="node">
+<g id="proc~~hybrd1~~CallsGraph_node3" class="node">
 <title>proc~r1updt</title>
-<g id="a_proc~~hybrd1~~CallsGraph_node4"><a xlink:href=".././proc/r1updt.html" xlink:title="r1updt">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-234 180,-234 180,-210 234,-210 234,-234"/>
-<text text-anchor="middle" x="207" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1updt</text>
+<g id="a_proc~~hybrd1~~CallsGraph_node3"><a xlink:href=".././proc/r1updt.html" xlink:title="r1updt">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-272 180,-272 180,-248 234,-248 234,-272"/>
+<text text-anchor="middle" x="207" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1updt</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd&#45;&gt;proc~r1updt -->
-<g id="proc~~hybrd1~~CallsGraph_edge3" class="edge">
+<g id="proc~~hybrd1~~CallsGraph_edge2" class="edge">
 <title>proc~hybrd&#45;&gt;proc~r1updt</title>
-<path fill="none" stroke="#000000" d="M129.04,-150.01C141.15,-163 161.35,-184.1 180,-201 180.82,-201.74 181.66,-202.49 182.51,-203.23"/>
-<polygon fill="#000000" stroke="#000000" points="180.46,-206.08 190.36,-209.85 184.97,-200.73 180.46,-206.08"/>
+<path fill="none" stroke="#000000" d="M123.44,-146.24C132.97,-166.82 154.12,-209.04 180,-239 180.6,-239.69 181.22,-240.38 181.86,-241.06"/>
+<polygon fill="#000000" stroke="#000000" points="179.55,-243.68 189.25,-247.95 184.32,-238.57 179.55,-243.68"/>
+</g>
+<!-- proc~qform -->
+<g id="proc~~hybrd1~~CallsGraph_node4" class="node">
+<title>proc~qform</title>
+<g id="a_proc~~hybrd1~~CallsGraph_node4"><a xlink:href=".././proc/qform.html" xlink:title="qform">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-230 180,-230 180,-206 234,-206 234,-230"/>
+<text text-anchor="middle" x="207" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qform</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~qform -->
+<g id="proc~~hybrd1~~CallsGraph_edge3" class="edge">
+<title>proc~hybrd&#45;&gt;proc~qform</title>
+<path fill="none" stroke="#000000" d="M129.04,-146.01C141.15,-159 161.35,-180.1 180,-197 180.82,-197.74 181.66,-198.49 182.51,-199.23"/>
+<polygon fill="#000000" stroke="#000000" points="180.46,-202.08 190.36,-205.85 184.97,-196.73 180.46,-202.08"/>
 </g>
 <!-- proc~qrfac -->
 <g id="proc~~hybrd1~~CallsGraph_node5" class="node">
 <title>proc~qrfac</title>
 <g id="a_proc~~hybrd1~~CallsGraph_node5"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-192 180,-192 180,-168 234,-168 234,-192"/>
-<text text-anchor="middle" x="207" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-188 180,-188 180,-164 234,-164 234,-188"/>
+<text text-anchor="middle" x="207" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd&#45;&gt;proc~qrfac -->
 <g id="proc~~hybrd1~~CallsGraph_edge4" class="edge">
 <title>proc~hybrd&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M143.45,-150.15C152.21,-154.33 162.17,-159.08 171.52,-163.54"/>
-<polygon fill="#000000" stroke="#000000" points="170.07,-166.73 180.6,-167.88 173.09,-160.41 170.07,-166.73"/>
+<path fill="none" stroke="#000000" d="M143.45,-146.15C152.21,-150.33 162.17,-155.08 171.52,-159.54"/>
+<polygon fill="#000000" stroke="#000000" points="170.07,-162.73 180.6,-163.88 173.09,-156.41 170.07,-162.73"/>
 </g>
 <!-- proc~dogleg -->
 <g id="proc~~hybrd1~~CallsGraph_node6" class="node">
 <title>proc~dogleg</title>
 <g id="a_proc~~hybrd1~~CallsGraph_node6"><a xlink:href=".././proc/dogleg.html" xlink:title="dogleg">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-150 180,-150 180,-126 234,-126 234,-150"/>
-<text text-anchor="middle" x="207" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-146 180,-146 180,-122 234,-122 234,-146"/>
+<text text-anchor="middle" x="207" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd&#45;&gt;proc~dogleg -->
 <g id="proc~~hybrd1~~CallsGraph_edge5" class="edge">
 <title>proc~hybrd&#45;&gt;proc~dogleg</title>
-<path fill="none" stroke="#000000" d="M144.4,-138C152.39,-138 161.31,-138 169.82,-138"/>
-<polygon fill="#000000" stroke="#000000" points="169.92,-141.5 179.92,-138 169.92,-134.5 169.92,-141.5"/>
+<path fill="none" stroke="#000000" d="M144.4,-134C152.39,-134 161.31,-134 169.82,-134"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-137.5 179.92,-134 169.92,-130.5 169.92,-137.5"/>
 </g>
 <!-- proc~fdjac1 -->
 <g id="proc~~hybrd1~~CallsGraph_node7" class="node">
 <title>proc~fdjac1</title>
 <g id="a_proc~~hybrd1~~CallsGraph_node7"><a xlink:href=".././proc/fdjac1.html" xlink:title="fdjac1">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-108 180,-108 180,-84 234,-84 234,-108"/>
-<text text-anchor="middle" x="207" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fdjac1</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-104 180,-104 180,-80 234,-80 234,-104"/>
+<text text-anchor="middle" x="207" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fdjac1</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd&#45;&gt;proc~fdjac1 -->
 <g id="proc~~hybrd1~~CallsGraph_edge6" class="edge">
 <title>proc~hybrd&#45;&gt;proc~fdjac1</title>
-<path fill="none" stroke="#000000" d="M143.45,-125.85C152.21,-121.67 162.17,-116.92 171.52,-112.46"/>
-<polygon fill="#000000" stroke="#000000" points="173.09,-115.59 180.6,-108.12 170.07,-109.27 173.09,-115.59"/>
+<path fill="none" stroke="#000000" d="M143.45,-121.85C152.21,-117.67 162.17,-112.92 171.52,-108.46"/>
+<polygon fill="#000000" stroke="#000000" points="173.09,-111.59 180.6,-104.12 170.07,-105.27 173.09,-111.59"/>
+</g>
+<!-- proc~enorm -->
+<g id="proc~~hybrd1~~CallsGraph_node8" class="node">
+<title>proc~enorm</title>
+<g id="a_proc~~hybrd1~~CallsGraph_node8"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-146 270,-146 270,-122 324,-122 324,-146"/>
+<text text-anchor="middle" x="297" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~enorm -->
+<g id="proc~~hybrd1~~CallsGraph_edge7" class="edge">
+<title>proc~hybrd&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M125.43,-121.92C135.58,-106.71 155.37,-81.32 180,-71 202.14,-61.73 211.86,-61.73 234,-71 254.59,-79.62 271.8,-98.79 282.82,-113.73"/>
+<polygon fill="#000000" stroke="#000000" points="279.96,-115.75 288.57,-121.92 285.69,-111.73 279.96,-115.75"/>
 </g>
 <!-- proc~r1mpyq -->
-<g id="proc~~hybrd1~~CallsGraph_node8" class="node">
+<g id="proc~~hybrd1~~CallsGraph_node9" class="node">
 <title>proc~r1mpyq</title>
-<g id="a_proc~~hybrd1~~CallsGraph_node8"><a xlink:href=".././proc/r1mpyq.html" xlink:title="r1mpyq">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
-<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1mpyq</text>
+<g id="a_proc~~hybrd1~~CallsGraph_node9"><a xlink:href=".././proc/r1mpyq.html" xlink:title="r1mpyq">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
+<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1mpyq</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd&#45;&gt;proc~r1mpyq -->
-<g id="proc~~hybrd1~~CallsGraph_edge7" class="edge">
-<title>proc~hybrd&#45;&gt;proc~r1mpyq</title>
-<path fill="none" stroke="#000000" d="M129.04,-125.99C141.15,-113 161.35,-91.9 180,-75 180.82,-74.26 181.66,-73.51 182.51,-72.77"/>
-<polygon fill="#000000" stroke="#000000" points="184.97,-75.27 190.36,-66.15 180.46,-69.92 184.97,-75.27"/>
-</g>
-<!-- proc~qform -->
-<g id="proc~~hybrd1~~CallsGraph_node9" class="node">
-<title>proc~qform</title>
-<g id="a_proc~~hybrd1~~CallsGraph_node9"><a xlink:href=".././proc/qform.html" xlink:title="qform">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
-<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qform</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~qform -->
 <g id="proc~~hybrd1~~CallsGraph_edge8" class="edge">
-<title>proc~hybrd&#45;&gt;proc~qform</title>
-<path fill="none" stroke="#000000" d="M123.44,-125.76C132.97,-105.18 154.12,-62.96 180,-33 180.6,-32.31 181.22,-31.62 181.86,-30.94"/>
-<polygon fill="#000000" stroke="#000000" points="184.32,-33.43 189.25,-24.05 179.55,-28.32 184.32,-33.43"/>
+<title>proc~hybrd&#45;&gt;proc~r1mpyq</title>
+<path fill="none" stroke="#000000" d="M124.68,-121.92C135.31,-103.16 157.19,-66.25 180,-38 181.68,-35.91 183.52,-33.81 185.4,-31.76"/>
+<polygon fill="#000000" stroke="#000000" points="188.29,-33.8 192.74,-24.19 183.27,-28.93 188.29,-33.8"/>
 </g>
 <!-- proc~qrfac&#45;&gt;proc~enorm -->
 <g id="proc~~hybrd1~~CallsGraph_edge9" class="edge">
 <title>proc~qrfac&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M234.4,-180C242.39,-180 251.31,-180 259.82,-180"/>
-<polygon fill="#000000" stroke="#000000" points="259.92,-183.5 269.92,-180 259.92,-176.5 259.92,-183.5"/>
+<path fill="none" stroke="#000000" d="M233.45,-163.85C242.21,-159.67 252.17,-154.92 261.52,-150.46"/>
+<polygon fill="#000000" stroke="#000000" points="263.09,-153.59 270.6,-146.12 260.07,-147.27 263.09,-153.59"/>
 </g>
 <!-- proc~dogleg&#45;&gt;proc~enorm -->
 <g id="proc~~hybrd1~~CallsGraph_edge10" class="edge">
 <title>proc~dogleg&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M233.45,-150.15C242.21,-154.33 252.17,-159.08 261.52,-163.54"/>
-<polygon fill="#000000" stroke="#000000" points="260.07,-166.73 270.6,-167.88 263.09,-160.41 260.07,-166.73"/>
+<path fill="none" stroke="#000000" d="M234.4,-134C242.39,-134 251.31,-134 259.82,-134"/>
+<polygon fill="#000000" stroke="#000000" points="259.92,-137.5 269.92,-134 259.92,-130.5 259.92,-137.5"/>
 </g>
 </g>
 </svg>
@@ -602,138 +440,116 @@ value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
     </div></div></div></div>
       </div>
     </div>
-     
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/hybrd1.html#src">hybrd1</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-index">index</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-j~6">j</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-lr~2">lr</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-maxfev~2">maxfev</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-ml~2">ml</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-mode~2">mode</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-mu~2">mu</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-nfev~2">nfev</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-nprint~2">nprint</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-epsfcn~2">epsfcn</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-xtol~2">xtol</a>
+      <a class="list-group-item" href="../proc/hybrd1.html#variable-factor~3">factor</a>
+    </div>
   </div>
 </div>
-
-
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">hybrd1</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">Tol</span><span class="p">,</span><span class="w"> </span><span class="n">Info</span><span class="p">,</span><span class="w"> </span><span class="n">Wa</span><span class="p">,</span><span class="w"> </span><span class="n">Lwa</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">        </span><span class="k">implicit none</span>
-
-<span class="k">        procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">fcn</span><span class="w">      </span><span class="c">!! user-supplied subroutine which calculates the functions</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w">        </span><span class="c">!! a positive integer input variable set to the number</span>
-<span class="w">                                                    </span><span class="c">!! of functions and variables.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">info</span><span class="w">     </span><span class="c">!! an integer output variable. if the user has</span>
-<span class="w">                                                    </span><span class="c">!! terminated execution, info is set to the (negative)</span>
-<span class="w">                                                    </span><span class="c">!! value of `iflag`. see description of `fcn`. otherwise,</span>
-<span class="w">                                                    </span><span class="c">!! `info` is set as follows:</span>
-<span class="w">                                                    </span><span class="c">!!</span>
-<span class="w">                                                    </span><span class="c">!!  * ***info = 0*** improper input parameters.</span>
-<span class="w">                                                    </span><span class="c">!!  * ***info = 1*** algorithm estimates that the relative error</span>
-<span class="w">                                                    </span><span class="c">!!  between `x` and the solution is at most `tol`.</span>
-<span class="w">                                                    </span><span class="c">!!  * ***info = 2*** number of calls to `fcn` has reached or exceeded</span>
-<span class="w">                                                    </span><span class="c">!!  `200*(n+1)`.</span>
-<span class="w">                                                    </span><span class="c">!!  * ***info = 3*** `tol` is too small. no further improvement in</span>
-<span class="w">                                                    </span><span class="c">!!  the approximate solution `x` is possible.</span>
-<span class="w">                                                    </span><span class="c">!!  * ***info = 4*** iteration is not making good progress.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">tol</span><span class="w">      </span><span class="c">!! a nonnegative input variable. termination occurs</span>
-<span class="w">                                                    </span><span class="c">!! when the algorithm estimates that the relative error</span>
-<span class="w">                                                    </span><span class="c">!! between `x` and the solution is at most `tol`.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w">        </span><span class="c">!! an array of length `n`. on input `x` must contain</span>
-<span class="w">                                                    </span><span class="c">!! an initial estimate of the solution vector. on output `x`</span>
-<span class="w">                                                    </span><span class="c">!! contains the final estimate of the solution vector.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">fvec</span><span class="w">     </span><span class="c">!! an output array of length `n` which contains</span>
-<span class="w">                                                    </span><span class="c">!! the functions evaluated at the output `x`.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Lwa</span><span class="w"> </span><span class="c">!! a positive integer input variable not less than</span>
-<span class="w">                              </span><span class="c">!! (n*(3*n+13))/2.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="n">Lwa</span><span class="p">)</span><span class="w"> </span><span class="c">!! a work array of length lwa.</span>
-
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">lr</span><span class="p">,</span><span class="w"> </span><span class="n">maxfev</span><span class="p">,</span><span class="w"> </span><span class="n">ml</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">nfev</span><span class="p">,</span><span class="w"> </span><span class="n">nprint</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">epsfcn</span><span class="p">,</span><span class="w"> </span><span class="n">xtol</span><span class="w"></span>
-
-<span class="w">        </span><span class="kt">reaL</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="mf">0.0_wp</span><span class="w"></span>
-
-<span class="w">        </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! check the input parameters for errors.</span>
-
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Tol</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Lwa</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">13</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-<span class="w">            </span><span class="c">! call hybrd.</span>
-<span class="w">            </span><span class="n">maxfev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">200</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">xtol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Tol</span><span class="w"></span>
-<span class="w">            </span><span class="n">ml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="n">epsfcn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">            </span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                </span><span class="n">Wa</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span>
-<span class="k">            </span><span class="n">nprint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">lr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="w"></span>
-<span class="w">            </span><span class="nb">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lr</span><span class="w"></span>
-<span class="w">            </span><span class="k">call </span><span class="n">hybrd</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">xtol</span><span class="p">,</span><span class="w"> </span><span class="n">maxfev</span><span class="p">,</span><span class="w"> </span><span class="n">ml</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">epsfcn</span><span class="p">,</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                       </span><span class="n">factor</span><span class="p">,</span><span class="w"> </span><span class="n">nprint</span><span class="p">,</span><span class="w"> </span><span class="n">Info</span><span class="p">,</span><span class="w"> </span><span class="n">nfev</span><span class="p">,</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="nb">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">lr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                       </span><span class="n">Wa</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Wa</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Info</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span>
-
-<span class="k">    end subroutine </span><span class="n">hybrd1</span><span class="w"></span>
-</pre></div>
+    <section>    
+      <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-index"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>index</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-j~6"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>j</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-lr~2"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>lr</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-maxfev~2"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>maxfev</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ml~2"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>ml</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-mode~2"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>mode</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-mu~2"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>mu</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nfev~2"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nfev</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nprint~2"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>nprint</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-epsfcn~2"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>epsfcn</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-xtol~2"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>xtol</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-factor~3"></span>real(kind=wp),</td>
+<td>public,</td>  <td>parameter</td><td>::</td>
+  <td><strong>factor</strong></td><td> =</td><td>100.0_wp</td><td></td>
+</tr>
+</tbody>
+</table>
 
     </section>
     <br>
     
     
+
+    
+    
+
+
+    
+    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -741,14 +557,12 @@ value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>minpack was developed by Jacob Williams<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -776,14 +590,11 @@ value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     <script src="../tipuesearch/tipuesearch_content.js"></script>
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
-    
     
   </body>
 </html>

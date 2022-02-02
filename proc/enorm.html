@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="Modernized Minpack">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,10 +14,7 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
     <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,54 +43,25 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-               
-        
-        
+              
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-
-
-
-          </ul>
-        
+                                       </ul>
         <form action="../search.html" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
@@ -104,51 +70,29 @@
         <button type="submit" class="btn btn-default">Submit</button>
 -->
         </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>enorm
       <small>Function</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 2.2% of total for procedures.">41 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/minpack.f90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/minpack.f90.html'>minpack.f90</a></li>
-    
      <li><a href='../module/minpack_module.html'>minpack_module</a></li>
-    
-  
      <li class="active">enorm</li>
   </ol>
 </div>
@@ -164,57 +108,35 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/enorm.html#src">enorm</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/enorm.html#variable-i">i</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-agiant">agiant</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-s1">s1</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-s2">s2</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-s3">s3</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-xabs">xabs</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-x1max">x1max</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-x3max">x3max</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-rdwarf">rdwarf</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-rgiant">rgiant</a>
+    </div>
   </div>
 </div>
-
-
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-public pure function enorm(n, x)
+    <h2>public pure function enorm(n, x)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>given an n-vector x, this function calculates the
 euclidean norm of x.</p>
 <p>the euclidean norm is computed by accumulating the sum of
@@ -228,69 +150,29 @@ depend on two constants, rdwarf and rgiant. the main
 restrictions on these constants are that rdwarf<strong>2 not
 underflow and rgiant</strong>2 not overflow. the constants
 given here are suitable for every known computer.</p>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-n~6"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td><p>a positive integer input variable.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-x~6"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>x</strong>(n)</td><td><p>an input array of length n.</p></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
-    
-    
-    
-    
-   <h3>Return Value <small><span class="anchor" id="variable-enorm"></span>real(kind=wp)
-  </small></h3>
-    
-    
+   <h3>Return Value <small><span class="anchor" id="variable-enorm"></span>real(kind=wp)</small></h3>
     
     <br>
-    
-    
-     
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Called by</h3>
@@ -302,253 +184,253 @@ given here are suitable for every known computer.</p>
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~enorm~~CalledByGraph Pages: 1 -->
-<svg id="procenormCalledByGraph" width="332pt" height="286pt"
- viewBox="0.00 0.00 332.00 285.94" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~enorm~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 281.94)">
+<svg id="procenormCalledByGraph" width="332pt" height="280pt"
+ viewBox="0.00 0.00 332.00 279.97" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~enorm~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 275.97)">
 <title>proc~~enorm~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-281.94 328,-281.94 328,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-275.97 328,-275.97 328,4 -4,4"/>
 <!-- proc~enorm -->
 <g id="proc~~enorm~~CalledByGraph_node1" class="node">
 <title>proc~enorm</title>
-<polygon fill="none" stroke="black" points="324,-160 270,-160 270,-136 324,-136 324,-160"/>
-<text text-anchor="middle" x="297" y="-145.6" font-family="Helvetica,sans-Serif" font-size="10.50">enorm</text>
-</g>
-<!-- proc~hybrd -->
-<g id="proc~~enorm~~CalledByGraph_node2" class="node">
-<title>proc~hybrd</title>
-<g id="a_proc~~enorm~~CalledByGraph_node2"><a xlink:href=".././proc/hybrd.html" xlink:title="hybrd">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-261 90,-261 90,-237 144,-237 144,-261"/>
-<text text-anchor="middle" x="117" y="-246.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~enorm -->
-<g id="proc~~enorm~~CalledByGraph_edge8" class="edge">
-<title>proc~hybrd&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M139.75,-261.02C164.39,-272.86 204.88,-286.8 234,-269 269.36,-247.39 285.38,-198.51 291.96,-169.93"/>
-<polygon fill="#000000" stroke="#000000" points="295.4,-170.57 294.04,-160.07 288.55,-169.13 295.4,-170.57"/>
-</g>
-<!-- proc~qrfac -->
-<g id="proc~~enorm~~CalledByGraph_node3" class="node">
-<title>proc~qrfac</title>
-<g id="a_proc~~enorm~~CalledByGraph_node3"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-180 180,-180 180,-156 234,-156 234,-180"/>
-<text text-anchor="middle" x="207" y="-165.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~qrfac -->
-<g id="proc~~enorm~~CalledByGraph_edge14" class="edge">
-<title>proc~hybrd&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M133.59,-236.79C137.06,-233.96 140.7,-230.92 144,-228 158.73,-214.97 174.65,-199.53 186.67,-187.58"/>
-<polygon fill="#000000" stroke="#000000" points="189.36,-189.83 193.96,-180.29 184.41,-184.89 189.36,-189.83"/>
-</g>
-<!-- proc~dogleg -->
-<g id="proc~~enorm~~CalledByGraph_node6" class="node">
-<title>proc~dogleg</title>
-<g id="a_proc~~enorm~~CalledByGraph_node6"><a xlink:href=".././proc/dogleg.html" xlink:title="dogleg">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-260 180,-260 180,-236 234,-236 234,-260"/>
-<text text-anchor="middle" x="207" y="-245.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~dogleg -->
-<g id="proc~~enorm~~CalledByGraph_edge18" class="edge">
-<title>proc~hybrd&#45;&gt;proc~dogleg</title>
-<path fill="none" stroke="#000000" d="M144.4,-248.7C152.39,-248.61 161.31,-248.51 169.82,-248.41"/>
-<polygon fill="#000000" stroke="#000000" points="169.96,-251.91 179.92,-248.3 169.88,-244.91 169.96,-251.91"/>
-</g>
-<!-- proc~qrfac&#45;&gt;proc~enorm -->
-<g id="proc~~enorm~~CalledByGraph_edge2" class="edge">
-<title>proc~qrfac&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M234.4,-162C242.48,-160.16 251.51,-158.11 260.1,-156.16"/>
-<polygon fill="#000000" stroke="#000000" points="260.94,-159.56 269.92,-153.93 259.39,-152.73 260.94,-159.56"/>
-</g>
-<!-- proc~lmstr -->
-<g id="proc~~enorm~~CalledByGraph_node4" class="node">
-<title>proc~lmstr</title>
-<g id="a_proc~~enorm~~CalledByGraph_node4"><a xlink:href=".././proc/lmstr.html" xlink:title="lmstr">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-219 90,-219 90,-195 144,-195 144,-219"/>
-<text text-anchor="middle" x="117" y="-204.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmstr</text>
-</a>
-</g>
-</g>
-<!-- proc~lmstr&#45;&gt;proc~enorm -->
-<g id="proc~~enorm~~CalledByGraph_edge3" class="edge">
-<title>proc~lmstr&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M144.16,-206.13C168.23,-204.59 204.54,-200.4 234,-189 248.19,-183.51 262.47,-174.38 273.74,-166.12"/>
-<polygon fill="#000000" stroke="#000000" points="275.87,-168.89 281.72,-160.06 271.64,-163.32 275.87,-168.89"/>
-</g>
-<!-- proc~lmstr&#45;&gt;proc~qrfac -->
-<g id="proc~~enorm~~CalledByGraph_edge10" class="edge">
-<title>proc~lmstr&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M144.4,-195.3C152.66,-191.64 161.9,-187.54 170.66,-183.66"/>
-<polygon fill="#000000" stroke="#000000" points="172.19,-186.81 179.92,-179.56 169.36,-180.41 172.19,-186.81"/>
-</g>
-<!-- proc~lmdif -->
-<g id="proc~~enorm~~CalledByGraph_node5" class="node">
-<title>proc~lmdif</title>
-<g id="a_proc~~enorm~~CalledByGraph_node5"><a xlink:href=".././proc/lmdif.html" xlink:title="lmdif">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-127 90,-127 90,-103 144,-103 144,-127"/>
-<text text-anchor="middle" x="117" y="-112.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmdif</text>
-</a>
-</g>
-</g>
-<!-- proc~lmdif&#45;&gt;proc~enorm -->
-<g id="proc~~enorm~~CalledByGraph_edge4" class="edge">
-<title>proc~lmdif&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M144.26,-119.87C174.85,-125.54 225.55,-134.94 259.84,-141.3"/>
-<polygon fill="#000000" stroke="#000000" points="259.45,-144.78 269.92,-143.16 260.72,-137.9 259.45,-144.78"/>
-</g>
-<!-- proc~lmdif&#45;&gt;proc~qrfac -->
-<g id="proc~~enorm~~CalledByGraph_edge11" class="edge">
-<title>proc~lmdif&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M137.97,-127.03C149.48,-133.96 164.15,-142.79 176.92,-150.48"/>
-<polygon fill="#000000" stroke="#000000" points="175.43,-153.68 185.81,-155.84 179.05,-147.68 175.43,-153.68"/>
-</g>
-<!-- proc~dogleg&#45;&gt;proc~enorm -->
-<g id="proc~~enorm~~CalledByGraph_edge5" class="edge">
-<title>proc~dogleg&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M220.66,-235.79C224.97,-231.51 229.78,-226.61 234,-222 250.18,-204.33 267.62,-183.32 279.87,-168.21"/>
-<polygon fill="#000000" stroke="#000000" points="282.89,-170.05 286.43,-160.07 277.43,-165.66 282.89,-170.05"/>
+<polygon fill="none" stroke="black" points="324,-153 270,-153 270,-129 324,-129 324,-153"/>
+<text text-anchor="middle" x="297" y="-138.6" font-family="Helvetica,sans-Serif" font-size="10.50">enorm</text>
 </g>
 <!-- proc~hybrj -->
-<g id="proc~~enorm~~CalledByGraph_node7" class="node">
+<g id="proc~~enorm~~CalledByGraph_node2" class="node">
 <title>proc~hybrj</title>
-<g id="a_proc~~enorm~~CalledByGraph_node7"><a xlink:href=".././proc/hybrj.html" xlink:title="hybrj">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-177 90,-177 90,-153 144,-153 144,-177"/>
-<text text-anchor="middle" x="117" y="-162.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj</text>
+<g id="a_proc~~enorm~~CalledByGraph_node2"><a xlink:href=".././proc/hybrj.html" xlink:title="hybrj">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-174 90,-174 90,-150 144,-150 144,-174"/>
+<text text-anchor="middle" x="117" y="-159.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrj&#45;&gt;proc~enorm -->
-<g id="proc~~enorm~~CalledByGraph_edge6" class="edge">
+<g id="proc~~enorm~~CalledByGraph_edge1" class="edge">
 <title>proc~hybrj&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M144.19,-155.62C155.11,-152.17 168.02,-148.7 180,-147 206.45,-143.24 236.65,-143.64 259.6,-144.91"/>
-<polygon fill="#000000" stroke="#000000" points="259.39,-148.4 269.59,-145.54 259.83,-141.42 259.39,-148.4"/>
+<path fill="none" stroke="#000000" d="M144.22,-173.75C168.01,-182.77 203.87,-192.25 234,-183 249.05,-178.38 263.74,-168.73 275.04,-159.84"/>
+<polygon fill="#000000" stroke="#000000" points="277.49,-162.36 282.97,-153.29 273.03,-156.96 277.49,-162.36"/>
 </g>
-<!-- proc~hybrj&#45;&gt;proc~qrfac -->
-<g id="proc~~enorm~~CalledByGraph_edge12" class="edge">
-<title>proc~hybrj&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M144.4,-165.9C152.39,-166.17 161.31,-166.48 169.82,-166.77"/>
-<polygon fill="#000000" stroke="#000000" points="169.81,-170.27 179.92,-167.11 170.04,-163.27 169.81,-170.27"/>
-</g>
-<!-- proc~hybrj&#45;&gt;proc~dogleg -->
-<g id="proc~~enorm~~CalledByGraph_edge17" class="edge">
-<title>proc~hybrj&#45;&gt;proc~dogleg</title>
-<path fill="none" stroke="#000000" d="M133.62,-177.17C137.1,-180 140.72,-183.05 144,-186 159.19,-199.66 175.48,-216.03 187.55,-228.51"/>
-<polygon fill="#000000" stroke="#000000" points="185.03,-230.94 194.48,-235.73 190.08,-226.09 185.03,-230.94"/>
-</g>
-<!-- proc~lmder -->
-<g id="proc~~enorm~~CalledByGraph_node8" class="node">
-<title>proc~lmder</title>
-<g id="a_proc~~enorm~~CalledByGraph_node8"><a xlink:href=".././proc/lmder.html" xlink:title="lmder">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-71 90,-71 90,-47 144,-47 144,-71"/>
-<text text-anchor="middle" x="117" y="-56.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmder</text>
+<!-- proc~qrfac -->
+<g id="proc~~enorm~~CalledByGraph_node4" class="node">
+<title>proc~qrfac</title>
+<g id="a_proc~~enorm~~CalledByGraph_node4"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-132 180,-132 180,-108 234,-108 234,-132"/>
+<text text-anchor="middle" x="207" y="-117.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
 </a>
 </g>
 </g>
-<!-- proc~lmder&#45;&gt;proc~enorm -->
-<g id="proc~~enorm~~CalledByGraph_edge7" class="edge">
-<title>proc~lmder&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M142.01,-71C173.06,-86.53 227.32,-113.66 262.44,-131.22"/>
-<polygon fill="#000000" stroke="#000000" points="261.3,-134.56 271.81,-135.9 264.43,-128.3 261.3,-134.56"/>
+<!-- proc~hybrj&#45;&gt;proc~qrfac -->
+<g id="proc~~enorm~~CalledByGraph_edge10" class="edge">
+<title>proc~hybrj&#45;&gt;proc~qrfac</title>
+<path fill="none" stroke="#000000" d="M143.45,-149.85C152.21,-145.67 162.17,-140.92 171.52,-136.46"/>
+<polygon fill="#000000" stroke="#000000" points="173.09,-139.59 180.6,-132.12 170.07,-133.27 173.09,-139.59"/>
 </g>
-<!-- proc~lmder&#45;&gt;proc~qrfac -->
-<g id="proc~~enorm~~CalledByGraph_edge13" class="edge">
-<title>proc~lmder&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M127.75,-71.08C142.75,-89.66 171.65,-125.45 189.82,-147.95"/>
-<polygon fill="#000000" stroke="#000000" points="187.2,-150.28 196.2,-155.86 192.64,-145.89 187.2,-150.28"/>
+<!-- proc~dogleg -->
+<g id="proc~~enorm~~CalledByGraph_node5" class="node">
+<title>proc~dogleg</title>
+<g id="a_proc~~enorm~~CalledByGraph_node5"><a xlink:href=".././proc/dogleg.html" xlink:title="dogleg">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-174 180,-174 180,-150 234,-150 234,-174"/>
+<text text-anchor="middle" x="207" y="-159.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrj&#45;&gt;proc~dogleg -->
+<g id="proc~~enorm~~CalledByGraph_edge16" class="edge">
+<title>proc~hybrj&#45;&gt;proc~dogleg</title>
+<path fill="none" stroke="#000000" d="M144.4,-162C152.39,-162 161.31,-162 169.82,-162"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-165.5 179.92,-162 169.92,-158.5 169.92,-165.5"/>
 </g>
 <!-- proc~lmpar -->
-<g id="proc~~enorm~~CalledByGraph_node9" class="node">
+<g id="proc~~enorm~~CalledByGraph_node3" class="node">
 <title>proc~lmpar</title>
-<g id="a_proc~~enorm~~CalledByGraph_node9"><a xlink:href=".././proc/lmpar.html" xlink:title="lmpar">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
-<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmpar</text>
+<g id="a_proc~~enorm~~CalledByGraph_node3"><a xlink:href=".././proc/lmpar.html" xlink:title="lmpar">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-254 180,-254 180,-230 234,-230 234,-254"/>
+<text text-anchor="middle" x="207" y="-239.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmpar</text>
 </a>
 </g>
 </g>
 <!-- proc~lmpar&#45;&gt;proc~enorm -->
-<g id="proc~~enorm~~CalledByGraph_edge1" class="edge">
+<g id="proc~~enorm~~CalledByGraph_edge2" class="edge">
 <title>proc~lmpar&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M221.43,-24.05C225.71,-28.24 230.29,-33.12 234,-38 255.71,-66.59 275.01,-103.62 286.11,-126.59"/>
-<polygon fill="#000000" stroke="#000000" points="283.03,-128.25 290.48,-135.79 289.35,-125.25 283.03,-128.25"/>
+<path fill="none" stroke="#000000" d="M220.68,-229.8C224.99,-225.52 229.79,-220.63 234,-216 250.25,-198.14 267.68,-176.84 279.91,-161.51"/>
+<polygon fill="#000000" stroke="#000000" points="282.99,-163.26 286.46,-153.25 277.51,-158.91 282.99,-163.26"/>
 </g>
-<!-- proc~lmder1 -->
-<g id="proc~~enorm~~CalledByGraph_node10" class="node">
-<title>proc~lmder1</title>
-<g id="a_proc~~enorm~~CalledByGraph_node10"><a xlink:href=".././proc/lmder1.html" xlink:title="lmder1">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-71 0,-71 0,-47 54,-47 54,-71"/>
-<text text-anchor="middle" x="27" y="-56.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmder1</text>
+<!-- proc~qrfac&#45;&gt;proc~enorm -->
+<g id="proc~~enorm~~CalledByGraph_edge3" class="edge">
+<title>proc~qrfac&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M234.4,-126.3C242.48,-128.23 251.51,-130.38 260.1,-132.43"/>
+<polygon fill="#000000" stroke="#000000" points="259.38,-135.86 269.92,-134.78 261,-129.05 259.38,-135.86"/>
+</g>
+<!-- proc~dogleg&#45;&gt;proc~enorm -->
+<g id="proc~~enorm~~CalledByGraph_edge5" class="edge">
+<title>proc~dogleg&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M234.4,-155.7C242.48,-153.77 251.51,-151.62 260.1,-149.57"/>
+<polygon fill="#000000" stroke="#000000" points="261,-152.95 269.92,-147.22 259.38,-146.14 261,-152.95"/>
+</g>
+<!-- proc~lmder -->
+<g id="proc~~enorm~~CalledByGraph_node6" class="node">
+<title>proc~lmder</title>
+<g id="a_proc~~enorm~~CalledByGraph_node6"><a xlink:href=".././proc/lmder.html" xlink:title="lmder">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-255 90,-255 90,-231 144,-231 144,-255"/>
+<text text-anchor="middle" x="117" y="-240.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmder</text>
 </a>
 </g>
 </g>
-<!-- proc~lmder1&#45;&gt;proc~lmder -->
-<g id="proc~~enorm~~CalledByGraph_edge20" class="edge">
-<title>proc~lmder1&#45;&gt;proc~lmder</title>
-<path fill="none" stroke="#000000" d="M54.4,-59C62.39,-59 71.31,-59 79.82,-59"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-62.5 89.92,-59 79.92,-55.5 79.92,-62.5"/>
+<!-- proc~lmder&#45;&gt;proc~enorm -->
+<g id="proc~~enorm~~CalledByGraph_edge4" class="edge">
+<title>proc~lmder&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M139.76,-255.04C164.41,-266.9 204.91,-280.85 234,-263 269.55,-241.19 285.5,-191.91 292.01,-163.1"/>
+<polygon fill="#000000" stroke="#000000" points="295.47,-163.66 294.07,-153.16 288.62,-162.25 295.47,-163.66"/>
 </g>
-<!-- proc~lmstr1 -->
-<g id="proc~~enorm~~CalledByGraph_node11" class="node">
-<title>proc~lmstr1</title>
-<g id="a_proc~~enorm~~CalledByGraph_node11"><a xlink:href=".././proc/lmstr1.html" xlink:title="lmstr1">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-219 0,-219 0,-195 54,-195 54,-219"/>
-<text text-anchor="middle" x="27" y="-204.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmstr1</text>
+<!-- proc~lmder&#45;&gt;proc~qrfac -->
+<g id="proc~~enorm~~CalledByGraph_edge11" class="edge">
+<title>proc~lmder&#45;&gt;proc~qrfac</title>
+<path fill="none" stroke="#000000" d="M123.68,-230.8C133.39,-210.71 154.62,-170.01 180,-141 180.6,-140.31 181.23,-139.63 181.87,-138.95"/>
+<polygon fill="#000000" stroke="#000000" points="184.33,-141.45 189.28,-132.08 179.57,-136.32 184.33,-141.45"/>
+</g>
+<!-- proc~lmdif -->
+<g id="proc~~enorm~~CalledByGraph_node7" class="node">
+<title>proc~lmdif</title>
+<g id="a_proc~~enorm~~CalledByGraph_node7"><a xlink:href=".././proc/lmdif.html" xlink:title="lmdif">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-82 90,-82 90,-58 144,-58 144,-82"/>
+<text text-anchor="middle" x="117" y="-67.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmdif</text>
 </a>
 </g>
 </g>
-<!-- proc~lmstr1&#45;&gt;proc~lmstr -->
+<!-- proc~lmdif&#45;&gt;proc~enorm -->
+<g id="proc~~enorm~~CalledByGraph_edge6" class="edge">
+<title>proc~lmdif&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M144.42,-71.41C168.67,-73.53 205.1,-78.81 234,-92 250.02,-99.31 265.57,-111.61 277.08,-122.06"/>
+<polygon fill="#000000" stroke="#000000" points="274.69,-124.61 284.37,-128.91 279.48,-119.51 274.69,-124.61"/>
+</g>
+<!-- proc~lmdif&#45;&gt;proc~qrfac -->
+<g id="proc~~enorm~~CalledByGraph_edge12" class="edge">
+<title>proc~lmdif&#45;&gt;proc~qrfac</title>
+<path fill="none" stroke="#000000" d="M139.3,-82.1C150.25,-88.32 163.77,-96.01 175.77,-102.83"/>
+<polygon fill="#000000" stroke="#000000" points="174.17,-105.94 184.59,-107.83 177.62,-99.85 174.17,-105.94"/>
+</g>
+<!-- proc~hybrd -->
+<g id="proc~~enorm~~CalledByGraph_node8" class="node">
+<title>proc~hybrd</title>
+<g id="a_proc~~enorm~~CalledByGraph_node8"><a xlink:href=".././proc/hybrd.html" xlink:title="hybrd">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-132 90,-132 90,-108 144,-108 144,-132"/>
+<text text-anchor="middle" x="117" y="-117.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~enorm -->
+<g id="proc~~enorm~~CalledByGraph_edge7" class="edge">
+<title>proc~hybrd&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M144.22,-108.25C168.01,-99.23 203.87,-89.75 234,-99 249.05,-103.62 263.74,-113.27 275.04,-122.16"/>
+<polygon fill="#000000" stroke="#000000" points="273.03,-125.04 282.97,-128.71 277.49,-119.64 273.03,-125.04"/>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~qrfac -->
+<g id="proc~~enorm~~CalledByGraph_edge13" class="edge">
+<title>proc~hybrd&#45;&gt;proc~qrfac</title>
+<path fill="none" stroke="#000000" d="M144.4,-120C152.39,-120 161.31,-120 169.82,-120"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-123.5 179.92,-120 169.92,-116.5 169.92,-123.5"/>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~dogleg -->
 <g id="proc~~enorm~~CalledByGraph_edge15" class="edge">
-<title>proc~lmstr1&#45;&gt;proc~lmstr</title>
-<path fill="none" stroke="#000000" d="M54.4,-207C62.39,-207 71.31,-207 79.82,-207"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-210.5 89.92,-207 79.92,-203.5 79.92,-210.5"/>
+<title>proc~hybrd&#45;&gt;proc~dogleg</title>
+<path fill="none" stroke="#000000" d="M143.45,-132.15C152.21,-136.33 162.17,-141.08 171.52,-145.54"/>
+<polygon fill="#000000" stroke="#000000" points="170.07,-148.73 180.6,-149.88 173.09,-142.41 170.07,-148.73"/>
+</g>
+<!-- proc~lmstr -->
+<g id="proc~~enorm~~CalledByGraph_node9" class="node">
+<title>proc~lmstr</title>
+<g id="a_proc~~enorm~~CalledByGraph_node9"><a xlink:href=".././proc/lmstr.html" xlink:title="lmstr">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmstr</text>
+</a>
+</g>
+</g>
+<!-- proc~lmstr&#45;&gt;proc~enorm -->
+<g id="proc~~enorm~~CalledByGraph_edge8" class="edge">
+<title>proc~lmstr&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M144.41,-22.72C168.98,-33.39 205.91,-51.3 234,-73 251.97,-86.88 269.09,-106.31 280.77,-120.84"/>
+<polygon fill="#000000" stroke="#000000" points="278.06,-123.05 286.99,-128.76 283.56,-118.73 278.06,-123.05"/>
+</g>
+<!-- proc~lmstr&#45;&gt;proc~qrfac -->
+<g id="proc~~enorm~~CalledByGraph_edge14" class="edge">
+<title>proc~lmstr&#45;&gt;proc~qrfac</title>
+<path fill="none" stroke="#000000" d="M128.09,-24.39C143.15,-42.86 171.63,-77.82 189.67,-99.96"/>
+<polygon fill="#000000" stroke="#000000" points="186.99,-102.21 196.02,-107.76 192.42,-97.79 186.99,-102.21"/>
+</g>
+<!-- proc~hybrj1 -->
+<g id="proc~~enorm~~CalledByGraph_node10" class="node">
+<title>proc~hybrj1</title>
+<g id="a_proc~~enorm~~CalledByGraph_node10"><a xlink:href=".././proc/hybrj1.html" xlink:title="hybrj1">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-174 0,-174 0,-150 54,-150 54,-174"/>
+<text text-anchor="middle" x="27" y="-159.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj1</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrj1&#45;&gt;proc~hybrj -->
+<g id="proc~~enorm~~CalledByGraph_edge9" class="edge">
+<title>proc~hybrj1&#45;&gt;proc~hybrj</title>
+<path fill="none" stroke="#000000" d="M54.4,-162C62.39,-162 71.31,-162 79.82,-162"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-165.5 89.92,-162 79.92,-158.5 79.92,-165.5"/>
+</g>
+<!-- proc~lmdif1 -->
+<g id="proc~~enorm~~CalledByGraph_node11" class="node">
+<title>proc~lmdif1</title>
+<g id="a_proc~~enorm~~CalledByGraph_node11"><a xlink:href=".././proc/lmdif1.html" xlink:title="lmdif1">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-82 0,-82 0,-58 54,-58 54,-82"/>
+<text text-anchor="middle" x="27" y="-67.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmdif1</text>
+</a>
+</g>
+</g>
+<!-- proc~lmdif1&#45;&gt;proc~lmdif -->
+<g id="proc~~enorm~~CalledByGraph_edge18" class="edge">
+<title>proc~lmdif1&#45;&gt;proc~lmdif</title>
+<path fill="none" stroke="#000000" d="M54.4,-70C62.39,-70 71.31,-70 79.82,-70"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-73.5 89.92,-70 79.92,-66.5 79.92,-73.5"/>
 </g>
 <!-- proc~hybrd1 -->
 <g id="proc~~enorm~~CalledByGraph_node12" class="node">
 <title>proc~hybrd1</title>
 <g id="a_proc~~enorm~~CalledByGraph_node12"><a xlink:href=".././proc/hybrd1.html" xlink:title="hybrd1">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-261 0,-261 0,-237 54,-237 54,-261"/>
-<text text-anchor="middle" x="27" y="-246.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd1</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-132 0,-132 0,-108 54,-108 54,-132"/>
+<text text-anchor="middle" x="27" y="-117.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd1</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd1&#45;&gt;proc~hybrd -->
-<g id="proc~~enorm~~CalledByGraph_edge9" class="edge">
-<title>proc~hybrd1&#45;&gt;proc~hybrd</title>
-<path fill="none" stroke="#000000" d="M54.4,-249C62.39,-249 71.31,-249 79.82,-249"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-252.5 89.92,-249 79.92,-245.5 79.92,-252.5"/>
-</g>
-<!-- proc~hybrj1 -->
-<g id="proc~~enorm~~CalledByGraph_node13" class="node">
-<title>proc~hybrj1</title>
-<g id="a_proc~~enorm~~CalledByGraph_node13"><a xlink:href=".././proc/hybrj1.html" xlink:title="hybrj1">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-177 0,-177 0,-153 54,-153 54,-177"/>
-<text text-anchor="middle" x="27" y="-162.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj1</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrj1&#45;&gt;proc~hybrj -->
 <g id="proc~~enorm~~CalledByGraph_edge19" class="edge">
-<title>proc~hybrj1&#45;&gt;proc~hybrj</title>
-<path fill="none" stroke="#000000" d="M54.4,-165C62.39,-165 71.31,-165 79.82,-165"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-168.5 89.92,-165 79.92,-161.5 79.92,-168.5"/>
+<title>proc~hybrd1&#45;&gt;proc~hybrd</title>
+<path fill="none" stroke="#000000" d="M54.4,-120C62.39,-120 71.31,-120 79.82,-120"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-123.5 89.92,-120 79.92,-116.5 79.92,-123.5"/>
 </g>
-<!-- proc~lmdif1 -->
-<g id="proc~~enorm~~CalledByGraph_node14" class="node">
-<title>proc~lmdif1</title>
-<g id="a_proc~~enorm~~CalledByGraph_node14"><a xlink:href=".././proc/lmdif1.html" xlink:title="lmdif1">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-127 0,-127 0,-103 54,-103 54,-127"/>
-<text text-anchor="middle" x="27" y="-112.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmdif1</text>
+<!-- proc~lmstr1 -->
+<g id="proc~~enorm~~CalledByGraph_node13" class="node">
+<title>proc~lmstr1</title>
+<g id="a_proc~~enorm~~CalledByGraph_node13"><a xlink:href=".././proc/lmstr1.html" xlink:title="lmstr1">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmstr1</text>
 </a>
 </g>
 </g>
-<!-- proc~lmdif1&#45;&gt;proc~lmdif -->
-<g id="proc~~enorm~~CalledByGraph_edge16" class="edge">
-<title>proc~lmdif1&#45;&gt;proc~lmdif</title>
-<path fill="none" stroke="#000000" d="M54.4,-115C62.39,-115 71.31,-115 79.82,-115"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-118.5 89.92,-115 79.92,-111.5 79.92,-118.5"/>
+<!-- proc~lmstr1&#45;&gt;proc~lmstr -->
+<g id="proc~~enorm~~CalledByGraph_edge20" class="edge">
+<title>proc~lmstr1&#45;&gt;proc~lmstr</title>
+<path fill="none" stroke="#000000" d="M54.4,-12C62.39,-12 71.31,-12 79.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-15.5 89.92,-12 79.92,-8.5 79.92,-15.5"/>
+</g>
+<!-- proc~lmder1 -->
+<g id="proc~~enorm~~CalledByGraph_node14" class="node">
+<title>proc~lmder1</title>
+<g id="a_proc~~enorm~~CalledByGraph_node14"><a xlink:href=".././proc/lmder1.html" xlink:title="lmder1">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-255 0,-255 0,-231 54,-231 54,-255"/>
+<text text-anchor="middle" x="27" y="-240.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lmder1</text>
+</a>
+</g>
+</g>
+<!-- proc~lmder1&#45;&gt;proc~lmder -->
+<g id="proc~~enorm~~CalledByGraph_edge17" class="edge">
+<title>proc~lmder1&#45;&gt;proc~lmder</title>
+<path fill="none" stroke="#000000" d="M54.4,-243C62.39,-243 71.31,-243 79.82,-243"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-246.5 89.92,-243 79.92,-239.5 79.92,-246.5"/>
 </g>
 </g>
 </svg>
@@ -613,128 +495,104 @@ given here are suitable for every known computer.</p>
     </div></div></div></div>
       </div>
     </div>
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/enorm.html#src">enorm</a>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../proc/enorm.html#variable-i">i</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-agiant">agiant</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-s1">s1</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-s2">s2</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-s3">s3</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-xabs">xabs</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-x1max">x1max</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-x3max">x3max</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-rdwarf">rdwarf</a>
+      <a class="list-group-item" href="../proc/enorm.html#variable-rgiant">rgiant</a>
+    </div>
   </div>
 </div>
-
-
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="k">function </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">        </span><span class="k">implicit none</span>
-
-<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c">!! a positive integer input variable.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">!! an input array of length n.</span>
-
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">agiant</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="n">xabs</span><span class="p">,</span><span class="w"> </span><span class="n">x1max</span><span class="p">,</span><span class="w"> </span><span class="n">x3max</span><span class="w"></span>
-
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rdwarf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.834e-20_wp</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rgiant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.304e19_wp</span><span class="w"></span>
-
-<span class="w">        </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">        </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">        </span><span class="n">s3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">        </span><span class="n">x1max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">        </span><span class="n">x3max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">        </span><span class="n">agiant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rgiant</span><span class="o">/</span><span class="kt">real</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">wp</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">            </span><span class="n">xabs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">xabs</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">rdwarf</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">xabs</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">agiant</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-<span class="w">                </span><span class="c">! sum for intermediate components.</span>
-<span class="w">                </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">xabs</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
-<span class="w">            </span><span class="n">elseif</span><span class="w"> </span><span class="p">(</span><span class="n">xabs</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">rdwarf</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-<span class="w">                </span><span class="c">! sum for small components.</span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">xabs</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">x3max</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="n">xabs</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">s3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">xabs</span><span class="o">/</span><span class="n">x3max</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
-<span class="w">                </span><span class="k">else</span>
-<span class="k">                    </span><span class="n">s3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s3</span><span class="o">*</span><span class="p">(</span><span class="n">x3max</span><span class="o">/</span><span class="n">xabs</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
-<span class="w">                    </span><span class="n">x3max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xabs</span><span class="w"></span>
-<span class="w">                </span><span class="k">end if</span><span class="w"></span>
-<span class="w">                </span><span class="c">! sum for large components.</span>
-<span class="w">            </span><span class="n">elseif</span><span class="w"> </span><span class="p">(</span><span class="n">xabs</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">x1max</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">xabs</span><span class="o">/</span><span class="n">x1max</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
-<span class="w">            </span><span class="k">else</span>
-<span class="k">                </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="o">*</span><span class="p">(</span><span class="n">x1max</span><span class="o">/</span><span class="n">xabs</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
-<span class="w">                </span><span class="n">x1max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xabs</span><span class="w"></span>
-<span class="w">            </span><span class="k">end if</span>
-<span class="k">        end do</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! calculation of norm.</span>
-
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">enorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x1max</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">s1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">s2</span><span class="o">/</span><span class="n">x1max</span><span class="p">)</span><span class="o">/</span><span class="n">x1max</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">elseif</span><span class="w"> </span><span class="p">(</span><span class="n">s2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">enorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x3max</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">s3</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">else</span>
-<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">s2</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">x3max</span><span class="p">)</span><span class="w"> </span><span class="n">enorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">s2</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">x3max</span><span class="o">/</span><span class="n">s2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x3max</span><span class="o">*</span><span class="n">s3</span><span class="p">)))</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x3max</span><span class="p">)</span><span class="w"> </span><span class="n">enorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">x3max</span><span class="o">*</span><span class="p">((</span><span class="n">s2</span><span class="o">/</span><span class="n">x3max</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">x3max</span><span class="o">*</span><span class="n">s3</span><span class="p">)))</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span>
-
-<span class="k">    end function </span><span class="n">enorm</span><span class="w"></span>
-</pre></div>
+    <section>    
+      <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-i"></span>integer,</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>i</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-agiant"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>agiant</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-s1"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>s1</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-s2"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>s2</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-s3"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>s3</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-xabs"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>xabs</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-x1max"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>x1max</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-x3max"></span>real(kind=wp),</td>
+<td>public</td>  <td></td><td>::</td>
+  <td><strong>x3max</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-rdwarf"></span>real(kind=wp),</td>
+<td>public,</td>  <td>parameter</td><td>::</td>
+  <td><strong>rdwarf</strong></td><td> =</td><td>3.834e-20_wp</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-rgiant"></span>real(kind=wp),</td>
+<td>public,</td>  <td>parameter</td><td>::</td>
+  <td><strong>rgiant</strong></td><td> =</td><td>1.304e19_wp</td><td></td>
+</tr>
+</tbody>
+</table>
 
     </section>
     <br>
     
     
+
+    
+    
+
+
+    
+    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -742,14 +600,12 @@ given here are suitable for every known computer.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>minpack was developed by Jacob Williams<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -777,14 +633,11 @@ given here are suitable for every known computer.</p>
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     <script src="../tipuesearch/tipuesearch_content.js"></script>
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
-    
     
   </body>
 </html>
