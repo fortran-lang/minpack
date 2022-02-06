@@ -97,7 +97,7 @@ module minpack_module
                                        !! the value of iflag should not be changed by fcn unless
                                        !! the user wants to terminate execution of lmstr.
                                        !! in this case set iflag to a negative integer.
-            real(wp), intent(in) :: x(n) !! independant variable vector
+            real(wp), intent(in) :: x(n) !! independent variable vector
             real(wp), intent(inout) :: fvec(m) !! value of function at `x`
             real(wp), intent(inout) :: fjrow(n) !! jacobian row
         end subroutine fcn_lmstr
