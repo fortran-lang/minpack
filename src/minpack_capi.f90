@@ -14,7 +14,7 @@ module minpack_capi
         & minpack_fcn_lmstr
 
     abstract interface
-        subroutine minpack_func(n, x, fvec, iflag, udata)
+        subroutine minpack_func(n, x, fvec, iflag, udata) bind(c)
             import :: c_int, c_double, c_ptr
             implicit none
             integer(c_int), value :: n
@@ -24,7 +24,7 @@ module minpack_capi
             type(c_ptr), value :: udata
         end subroutine minpack_func
 
-        subroutine minpack_func2(m, n, x, fvec, iflag, udata)
+        subroutine minpack_func2(m, n, x, fvec, iflag, udata) bind(c)
             import :: c_int, c_double, c_ptr
             implicit none
             integer(c_int), value :: m
@@ -35,7 +35,7 @@ module minpack_capi
             type(c_ptr), value :: udata
         end subroutine minpack_func2
 
-        subroutine minpack_fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag, udata)
+        subroutine minpack_fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag, udata) bind(c)
             import :: c_int, c_double, c_ptr
             implicit none
             integer(c_int), value :: n
@@ -47,7 +47,7 @@ module minpack_capi
             type(c_ptr), value :: udata
         end subroutine minpack_fcn_hybrj
 
-        subroutine minpack_fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag, udata)
+        subroutine minpack_fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag, udata) bind(c)
             import :: c_int, c_double, c_ptr
             implicit none
             integer(c_int), value :: m
@@ -60,7 +60,7 @@ module minpack_capi
             type(c_ptr), value :: udata
         end subroutine minpack_fcn_lmder
 
-        subroutine minpack_fcn_lmstr(m, n, x, fvec, fjrow, iflag, udata)
+        subroutine minpack_fcn_lmstr(m, n, x, fvec, fjrow, iflag, udata) bind(c)
             import :: c_int, c_double, c_ptr
             implicit none
             integer(c_int), value :: m
