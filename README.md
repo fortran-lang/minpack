@@ -47,6 +47,17 @@ version to use as the community maintained fortran-lang version and decided to
 use the latter repository, which now became the fortran-lang version. We have
 or are in the process of porting improvements from the former repository.
 
+### Contributors
+
+Many people have contributed to Minpack over the years:
+
+* Jorge J. Moré, Burton S. Garbow, Kenneth E.  Hillstrom and other contributors
+  as listed on page 8 of the [User Guide for MINPACK-1](http://cds.cern.ch/record/126569/files/CM-P00068642.pdf).
+* Ondřej Čertík
+* Carlos Une
+* Zuo Zhihua
+* Jacob Williams
+* Sebastian Ehlert
 
 ### See also
 
