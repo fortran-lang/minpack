@@ -43,7 +43,7 @@ end module
 
 
 program example_lmder1
-use minpack, only: enorm, lmder1, chkder
+use minpack_module, only: enorm, lmder1, chkder
 use testmod_der1, only: dp, fcn
 implicit none
 

@@ -32,7 +32,7 @@ end module
 
 
 program example_lmdif1
-use minpack, only: enorm, lmdif1
+use minpack_module, only: enorm, lmdif1
 use testmod_dif1, only: dp, fcn
 implicit none
 

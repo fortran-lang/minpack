@@ -5,7 +5,7 @@
 !>                                 -x(8) + (3-2*x(9))*x(9) = -1
 program example_hybrd
 
-    use minpack, only: hybrd, enorm, dpmpar
+    use minpack_module, only: hybrd, enorm, dpmpar
     implicit none
     integer j, n, maxfev, ml, mu, mode, nprint, info, nfev, ldfjac, lr, nwrite
     double precision xtol, epsfcn, factor, fnorm

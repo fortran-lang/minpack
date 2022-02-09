@@ -12,7 +12,7 @@ module find_fit_module
 ! This module contains a general function find_fit() for a nonlinear least
 ! squares fitting. The function can fit any nonlinear expression to any data.
 
-use minpack, only: lmdif1
+use minpack_module, only: lmdif1
 use types, only: dp
 implicit none
 private
