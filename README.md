@@ -44,7 +44,7 @@ translated all files from fixed form to free form and other modernizations.
 
 We have discussed at https://github.com/fortran-lang/minpack/issues/8 which
 version to use as the community maintained fortran-lang version and decided to
-use the latter repository, which now became the fortran-lang version. We have
+use the latter repository, which became the fortran-lang version. We have
 or are in the process of porting improvements from the former repository.
 
 ### Contributors
