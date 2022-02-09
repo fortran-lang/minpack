@@ -39,7 +39,7 @@ MINPACK-1](http://cds.cern.ch/record/126569/files/CM-P00068642.pdf).
 Since 2012 Ondřej Čertík has maintained a GitHub repository for minpack with
 many contributions from Carlos Une and Zuo Zhihua.
 
-In 2021 Jacob Williams started a new minpack repository at github and
+In 2021 Jacob Williams started a new minpack repository at GitHub and
 translated all files from fixed form to free form and other modernizations.
 
 We have discussed at https://github.com/fortran-lang/minpack/issues/8 which
