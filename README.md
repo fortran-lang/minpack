@@ -30,6 +30,35 @@ Further updates are planned...
 
 The Minpack source code and related files and documentation are distributed under a permissive free software [license](https://github.com/fortran-lang/minpack/blob/HEAD/LICENSE.txt) (BSD-style).
 
+### History
+
+Minpack has been developed in 1980 by Jorge J. Moré, Burton S. Garbow, Kenneth
+E.  Hillstrom and other contributors as listed on page 8 of the [User Guide for
+MINPACK-1](http://cds.cern.ch/record/126569/files/CM-P00068642.pdf).
+
+Since 2012 Ondřej Čertík has maintained a GitHub repository for minpack with
+many contributions from Carlos Une and Zuo Zhihua.
+
+In 2021 Jacob Williams started a new minpack repository at GitHub and
+translated all files from fixed form to free form and other modernizations.
+
+We have discussed at https://github.com/fortran-lang/minpack/issues/8 which
+version to use as the community maintained fortran-lang version and decided to
+use the latter repository, which became the fortran-lang version. We have
+been porting improvements from the former repository over to the new fortran-lang repository.
+
+### Contributors
+
+Many people have contributed to Minpack over the years:
+
+* Jorge J. Moré, Burton S. Garbow, Kenneth E.  Hillstrom and other contributors
+  as listed on page 8 of the [User Guide for MINPACK-1](http://cds.cern.ch/record/126569/files/CM-P00068642.pdf).
+* Ondřej Čertík
+* Carlos Une
+* Zuo Zhihua
+* Jacob Williams
+* Sebastian Ehlert
+
 ### See also
 
   * [nlesolver-fortran](https://github.com/jacobwilliams/nlesolver-fortran)
