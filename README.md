@@ -36,7 +36,7 @@ Minpack has been developed in 1980 by Jorge J. Moré, Burton S. Garbow, Kenneth
 E.  Hillstrom and other contributors as listed on page 8 of the [User Guide for
 MINPACK-1](http://cds.cern.ch/record/126569/files/CM-P00068642.pdf).
 
-Since 2012 Ondřej Čertík has maintained a github repository for minpack with
+Since 2012 Ondřej Čertík has maintained a GitHub repository for minpack with
 many contributions from Carlos Une and Zuo Zhihua.
 
 In 2021 Jacob Williams started a new minpack repository at github and
