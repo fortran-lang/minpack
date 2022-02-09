@@ -46,3 +46,28 @@ main = "test_lmdif.f90"
 name = "test_lmstr"
 source-dir = "test"
 main = "test_lmstr.f90"
+
+[[example]]
+name = "example_hybrd"
+source-dir = "examples"
+main = "example_hybrd.f90"
+
+[[example]]
+name = "example_hybrd1"
+source-dir = "examples"
+main = "example_hybrd1.f90"
+
+[[example]]
+name = "example_lmder1"
+source-dir = "examples"
+main = "example_lmder1.f90"
+
+[[example]]
+name = "example_lmdif1"
+source-dir = "examples"
+main = "example_lmdif1.f90"
+
+[[example]]
+name = "example_primes"
+source-dir = "examples"
+main = "example_primes.f90"
