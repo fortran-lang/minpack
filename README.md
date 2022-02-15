@@ -29,18 +29,12 @@ Decision tree for systems of nonlinear equations
 ```mermaid
 flowchart TB
 	start[Is the Jacobian matrix available?]
-	middle1[Is flexibility required?]
-	middle2[Is flexibility required?]
-	start--Yes-->middle1
-	start--No-->middle2
-	b1[HYBRJ]
-	b2[HYBRJ1]
-	b3[HYBRD]
-	b4[HYBRD1]
-	middle1---Yes--->b1
-	middle1---No--->b2
-	middle2---Yes--->b3
-	middle2---No--->b4
+	start--Yes-->middle1[Is flexibility required?]
+	start--No-->middle2[Is flexibility required?]
+	middle1--Yes-->b1[HYBRJ]
+	middle1--No-->b2[HYBRJ1]
+	middle2--Yes-->b3[HYBRD]
+	middle2--No-->b4[HYBRD1]
 ```
 
 ### Documentation
