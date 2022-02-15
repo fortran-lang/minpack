@@ -284,7 +284,7 @@ contains
         end subroutine wrap_fcn
     end subroutine minpack_lmdif
 
-    subroutine minpack_lmdif1(fcn, m, n, x, Fvec, Tol, Info, Iwa, Wa, Lwa, udata) &
+    subroutine minpack_lmdif1(fcn, m, n, x, fvec, tol, info, iwa, wa, lwa, udata) &
             & bind(c)
         type(c_funptr) :: fcn
         integer(c_int), value :: m
@@ -294,7 +294,7 @@ contains
         integer(c_int), intent(inout) :: iwa(n)
         real(c_double), value :: tol
         real(c_double), intent(inout) :: x(n)
-        real(c_double), intent(out) :: fvec(m)
+        real(c_double), intent(inout) :: fvec(m)
         real(c_double), intent(inout) :: wa(lwa)
         type(c_ptr), value :: udata
 

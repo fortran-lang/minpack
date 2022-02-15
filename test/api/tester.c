@@ -13,7 +13,7 @@
             )(x, __VA_ARGS__)
 
 static inline bool
-check_int(int expected, int actual, const char *msg)
+check_int(int actual, int expected, const char *msg)
 {
     if (expected == actual) {
         return true;
@@ -23,7 +23,7 @@ check_int(int expected, int actual, const char *msg)
 }
 
 static inline bool
-check_double(double expected, double actual, double tol, const char *msg)
+check_double(double actual, double expected, double tol, const char *msg)
 {
     if (fabs(expected - actual) < tol) {
         return true;
@@ -88,14 +88,81 @@ test_hybrd1 (void)
     return 0;
 }
 
+void
+trial_lmder_fcn(int m, int n, const double* x, double* fvec, double* fjac,
+                int ldfjac, int* iflag, void* data) {
+    assert(!!data);
+    double* y = (double*)data;
+    assert(m == 15);
+    assert(n == 3);
+
+    if (*iflag == 1) {
+        for (int i = 0; i < m; i++) {
+            double tmp1 = i + 1;
+            double tmp2 = 16 - i - 1;
+            double tmp3 = i >= 8 ? tmp2 : tmp1;
+            fvec[i] = y[i] - (x[0] + tmp1/(x[1]*tmp2 + x[2]*tmp3));
+        }
+    } else if (*iflag == 2) {
+        assert(ldfjac == m);
+        for (int i = 0; i < m; i++) {
+            double tmp1 = i + 1;
+            double tmp2 = 16 - i - 1;
+            double tmp3 = i >= 8 ? tmp2 : tmp1;
+            double tmp4 = pow(x[1]*tmp2 + x[2]*tmp3, 2);
+            fjac[i] = -1.0;
+            fjac[i + ldfjac] = tmp1*tmp2/tmp4;
+            fjac[i + 2*ldfjac] = tmp1*tmp3/tmp4;
+        }
+    }
+}
+
+static int
+test_lmder1 (void)
+{
+    const double y[15] = {1.4e-1, 1.8e-1, 2.2e-1, 2.5e-1, 2.9e-1, 3.2e-1, 3.5e-1, 3.9e-1,
+        3.7e-1, 5.8e-1, 7.3e-1, 9.6e-1, 1.34e0, 2.1e0, 4.39e0};
+    const int m = 15, n = 3;
+    int info = 0;
+    double x[3] = {1.0, 1.0, 1.0}, xp[n];
+    double fvec[m], fvecp[m], err[m];
+    double fjac[m*n];
+    int ipvt[n];
+    double wa[5*n+m];
+    double tol = sqrt(minpack_dpmpar(1));
+
+    minpack_chkder(m, n, x, fvec, fjac, m, xp, fvecp, 1, err);
+    info = 1;
+    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, y);
+    info = 2;
+    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, y);
+    info = 1;
+    trial_lmder_fcn(m, n, xp, fvecp, fjac, m, &info, y);
+    minpack_chkder(m, n, x, fvec, fjac, m, xp, fvecp, 2, err);
+
+    for (int i = 0; i < 15; i++) {
+        if (!check(err[i], 1.0, tol, "Unexpected derivatives")) return 1;
+    }
+
+    minpack_lmder1(trial_lmder_fcn, m, n, x, fvec, fjac, m, tol, &info, ipvt, wa, 30, y);
+    if (!check(info, 1, "Unexpected info value")) return 1;
+    if (!check(x[0], 0.8241058e-1, 100*tol, "Unexpected x[0]")) return 1;
+    if (!check(x[1], 0.1133037e+1, 100*tol, "Unexpected x[1]")) return 1;
+    if (!check(x[2], 0.2343695e+1, 100*tol, "Unexpected x[2]")) return 1;
+    if (!check(enorm(m, fvec), 0.9063596e-1, tol, "Unexpected residual")) return 1;
+
+    return 0;
+}
+
 int
 main (void) {
     int stat = 0;
 
     stat += test_hybrd1 ();
+    stat += test_lmder1 ();
 
     if (stat > 0) {
-        fprintf(stderr, "[FAIL] %d tests failed\n", stat);
+        fprintf(stderr, "[FAIL] %d test(s) failed\n", stat);
     } else {
         fprintf(stderr, "[PASS] all tests passed\n");
     }
