@@ -22,9 +22,9 @@ This version is a modernization of the original Fortran 77 code. This is a work 
 
 Further updates are planned...
 
-### Decision tree
+### Decision trees
 
-Decision tree for systems of nonlinear equations
+#### Decision tree for systems of nonlinear equations
 
 ```mermaid
 flowchart TB
@@ -37,7 +37,7 @@ flowchart TB
 	middle2--No-->b4[HYBRD1]
 ```
 
-Decision tree for nonlinear least squares porblems
+#### Decision tree for nonlinear least squares problems
 
 ```mermaid
 flowchart TB
