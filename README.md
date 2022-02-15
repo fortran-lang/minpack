@@ -40,7 +40,7 @@ flowchart TB
 	middle1---Yes--->b1
 	middle1---No--->b2
 	middle2---Yes--->b3
-	middle2---No--->b3
+	middle2---No--->b4
 ```
 
 ### Documentation
