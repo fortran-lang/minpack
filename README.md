@@ -31,10 +31,10 @@ flowchart TB
 	start[Is the Jacobian matrix available?]
 	start--Yes-->middle1[Is flexibility required?]
 	start--No-->middle2[Is flexibility required?]
-	middle1--Yes-->b1[HYBRJ]
-	middle1--No-->b2[HYBRJ1]
-	middle2--Yes-->b3[HYBRD]
-	middle2--No-->b4[HYBRD1]
+	middle1--Yes-->b1[hybrj]
+	middle1--No-->b2[hybrj1]
+	middle2--Yes-->b3[hybrd]
+	middle2--No-->b4[hybrd1]
 ```
 
 #### Decision tree for nonlinear least squares problems
@@ -46,12 +46,12 @@ flowchart TB
 	start--No-->m2[Is flexibility required?]
 	m1--Yes-->ml1[Is flexibility required?]
 	m1--No-->ml2[Is flexibility required?]
-	ml1--Yes-->b1[LMSTR]
-	ml1--No-->b2[LMSTR1]
-	ml2--Yes-->b3[LMDER]
-	ml2--No-->b4[LMDER1]
-	m2--Yes-->mr1[LMDIF]
-	m2--No-->mr2[LMDIF1]
+	ml1--Yes-->b1[lmstr]
+	ml1--No-->b2[lmstr1]
+	ml2--Yes-->b3[lmder]
+	ml2--No-->b4[lmder1]
+	m2--Yes-->mr1[lmdif]
+	m2--No-->mr2[lmdif1]
 ```
 
 ### Documentation
