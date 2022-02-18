@@ -160,7 +160,7 @@
 !     SUBPROGRAMS CALLED
 !
 !       FORTRAN-SUPPLIED ... atan,cos,exp,DMIN1,sin,sqrt,
-!                            MAX0,MIN0
+!                            max,min
 !
 !     ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
@@ -414,8 +414,8 @@
             do j = 1 , n
                Fjac(k,j) = zero
             enddo
-            k1 = max0(1,k-ml)
-            k2 = min0(k+mu,n)
+            k1 = max(1,k-ml)
+            k2 = min(k+mu,n)
             do j = k1 , k2
                if ( j/=k ) Fjac(k,j) = -(one+two*x(j))
             enddo
@@ -627,7 +627,7 @@
 !     SUBPROGRAMS CALLED
 !
 !       FORTRAN-SUPPLIED ... atan,cos,exp,sign,sin,sqrt,
-!                            MAX0,MIN0
+!                            max,min
 !
 !     ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
@@ -835,8 +835,8 @@
          ml = 5
          mu = 1
          do k = 1 , n
-            k1 = max0(1,k-ml)
-            k2 = min0(k+mu,n)
+            k1 = max(1,k-ml)
+            k2 = min(k+mu,n)
             temp = zero
             do j = k1 , k2
                if ( j/=k ) temp = temp + x(j)*(one+x(j))
