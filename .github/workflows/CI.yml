@@ -50,6 +50,9 @@ jobs:
     - name: Run test
       run: fpm test
 
+    - name: Run examples
+      run: fpm run --example --all
+
   Docs:
     runs-on: ${{ matrix.os }}
     strategy:
