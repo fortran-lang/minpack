@@ -31,10 +31,10 @@ flowchart TB
 	start[Is the Jacobian matrix available?]
 	start--Yes-->middle1[Is flexibility required?]
 	start--No-->middle2[Is flexibility required?]
-	middle1--Yes-->b1[hybrj]
-	middle1--No-->b2[hybrj1]
-	middle2--Yes-->b3[hybrd]
-	middle2--No-->b4[hybrd1]
+	middle1--Yes-->b1[<a href='https://fortran-lang.github.io/minpack/proc/hybrj.html'>hybrj</a>]
+	middle1--No-->b2[<a href='https://fortran-lang.github.io/minpack/proc/hybrj1.html'>hybrj1</a>]
+	middle2--Yes-->b3[<a href='https://fortran-lang.github.io/minpack/proc/hybrd.html'>hybrd</a>]
+	middle2--No-->b4[<a href='https://fortran-lang.github.io/minpack/proc/hybrd1.html'>hybrd1</a>]
 ```
 
 #### Decision tree for nonlinear least squares problems
@@ -46,12 +46,12 @@ flowchart TB
 	start--No-->m2[Is flexibility required?]
 	m1--Yes-->ml1[Is flexibility required?]
 	m1--No-->ml2[Is flexibility required?]
-	ml1--Yes-->b1[lmstr]
-	ml1--No-->b2[lmstr1]
-	ml2--Yes-->b3[lmder]
-	ml2--No-->b4[lmder1]
-	m2--Yes-->mr1[lmdif]
-	m2--No-->mr2[lmdif1]
+	ml1--Yes-->b1[<a href='https://fortran-lang.github.io/minpack/proc/lmstr.html'>lmstr</a/>]
+	ml1--No-->b2[<a href='https://fortran-lang.github.io/minpack/proc/lmstr1.html'>lmstr1</a/>]
+	ml2--Yes-->b3[<a href='https://fortran-lang.github.io/minpack/proc/lmder.html'>lmder</a/>]
+	ml2--No-->b4[<a href='https://fortran-lang.github.io/minpack/proc/lmder1.html'>lmder1</a/>]
+	m2--Yes-->mr1[<a href='https://fortran-lang.github.io/minpack/proc/lmdif.html'>lmdif</a/>]
+	m2--No-->mr2[<a href='https://fortran-lang.github.io/minpack/proc/lmdif1.html'>lmdif1</a/>]
 ```
 
 ### Documentation
