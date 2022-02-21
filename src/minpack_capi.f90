@@ -87,7 +87,7 @@ contains
             & factor, nprint, info, nfev, fjac, ldfjac, r, lr, qtf, wa1, wa2, wa3, wa4, &
             & udata) &
             & bind(c)
-        type(c_funptr), value :: fcn
+        procedure(minpack_func) :: fcn
         integer(c_int), value :: n
         integer(c_int), value :: maxfev
         integer(c_int), value :: ml
@@ -113,9 +113,6 @@ contains
         real(c_double), intent(inout) :: wa4(n)
         type(c_ptr), value :: udata
 
-        procedure(minpack_func), pointer :: fcn_
-        call c_f_procpointer(fcn, fcn_)
-
         call hybrd(wrap_fcn, n, x, fvec, xtol, maxfev, ml, mu, epsfcn, diag, mode, &
             & factor, nprint, info, nfev, fjac, ldfjac, r, lr, qtf, wa1, wa2, wa3, wa4)
 
@@ -126,13 +123,13 @@ contains
             real(wp), intent(out) :: fvec(n)
             integer, intent(inout) :: iflag
 
-            call fcn_(n, x, fvec, iflag, udata)
+            call fcn(n, x, fvec, iflag, udata)
         end subroutine wrap_fcn
     end subroutine minpack_hybrd
 
     subroutine minpack_hybrd1(fcn, n, x, Fvec, Tol, Info, Wa, Lwa, udata) &
           & bind(c)
-        type(c_funptr), value :: fcn
+        procedure(minpack_func) :: fcn
         integer(c_int), value :: n
         integer(c_int), intent(out) :: info
         real(c_double), value :: tol
@@ -141,9 +138,6 @@ contains
         integer(c_int), value :: Lwa
         real(c_double), intent(inout) :: Wa(Lwa)
         type(c_ptr), value :: udata
-
-        procedure(minpack_func), pointer :: fcn_
-        call c_f_procpointer(fcn, fcn_)
 
         call hybrd1(wrap_fcn, n, x, fvec, tol, info, Wa, Lwa)
 
@@ -154,14 +148,14 @@ contains
             real(wp), intent(out) :: fvec(n)
             integer, intent(inout) :: iflag
 
-            call fcn_(n, x, fvec, iflag, udata)
+            call fcn(n, x, fvec, iflag, udata)
         end subroutine wrap_fcn
     end subroutine minpack_hybrd1
 
     subroutine minpack_hybrj(fcn, n, x, fvec, fjac, ldfjac, xtol, maxfev, diag, mode, &
             & factor, nprint, info, nfev, njev, r, lr, qtf, wa1, wa2, wa3, wa4, udata) &
             & bind(c)
-        type(c_funptr), value :: fcn
+        procedure(minpack_fcn_hybrj) :: fcn
         integer(c_int), value :: n
         integer(c_int), value :: ldfjac
         integer(c_int), value :: maxfev
@@ -185,9 +179,6 @@ contains
         real(c_double), intent(inout) :: wa4(n)
         type(c_ptr), value :: udata
 
-        procedure(minpack_fcn_hybrj), pointer :: fcn_
-        call c_f_procpointer(fcn, fcn_)
-
         call hybrj(wrap_fcn, n, x, fvec, fjac, ldfjac, xtol, maxfev, diag, mode, &
             & factor, nprint, info, nfev, njev, r, lr, qtf, wa1, wa2, wa3, wa4)
 
@@ -200,13 +191,13 @@ contains
             real(wp), intent(out) :: fjac(ldfjac, n)
             integer, intent(inout) :: iflag
 
-            call fcn_(n, x, fvec, fjac, ldfjac, iflag, udata)
+            call fcn(n, x, fvec, fjac, ldfjac, iflag, udata)
         end subroutine wrap_fcn
     end subroutine minpack_hybrj
 
     subroutine minpack_hybrj1(fcn, n, x, fvec, fjac, ldfjac, tol, info, wa, lwa, udata) &
             & bind(c)
-        type(c_funptr), value :: fcn
+        procedure(minpack_fcn_hybrj) :: fcn
         integer(c_int), value :: n
         integer(c_int), value :: ldfjac
         integer(c_int), intent(out) :: info
@@ -217,9 +208,6 @@ contains
         real(c_double), intent(out) :: fjac(ldfjac, n)
         real(c_double), intent(inout) :: wa(lwa)
         type(c_ptr), value :: udata
-
-        procedure(minpack_fcn_hybrj), pointer :: fcn_
-        call c_f_procpointer(fcn, fcn_)
 
         call hybrj1(wrap_fcn, n, x, fvec, fjac, ldfjac, tol, info, wa, lwa)
 
@@ -232,7 +220,7 @@ contains
             real(wp), intent(out) :: fjac(ldfjac, n)
             integer, intent(inout) :: iflag
 
-            call fcn_(n, x, fvec, fjac, ldfjac, iflag, udata)
+            call fcn(n, x, fvec, fjac, ldfjac, iflag, udata)
         end subroutine wrap_fcn
     end subroutine minpack_hybrj1
 
@@ -240,7 +228,7 @@ contains
             & mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, wa1, wa2, wa3, wa4, &
             & udata) &
             & bind(c)
-        type(c_funptr), value :: fcn
+        procedure(minpack_func2) :: fcn
         integer(c_int), value :: m
         integer(c_int), value :: n
         integer(c_int), value :: maxfev
@@ -266,9 +254,6 @@ contains
         real(c_double), intent(inout) :: wa4(m)
         type(c_ptr), value :: udata
 
-        procedure(minpack_func2), pointer :: fcn_
-        call c_f_procpointer(fcn, fcn_)
-
         call lmdif(wrap_fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, diag, &
             & mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, wa1, wa2, wa3, wa4)
 
@@ -280,13 +265,13 @@ contains
             real(wp), intent(out) :: fvec(m)
             integer, intent(inout) :: iflag
 
-            call fcn_(m, n, x, fvec, iflag, udata)
+            call fcn(m, n, x, fvec, iflag, udata)
         end subroutine wrap_fcn
     end subroutine minpack_lmdif
 
     subroutine minpack_lmdif1(fcn, m, n, x, fvec, tol, info, iwa, wa, lwa, udata) &
             & bind(c)
-        type(c_funptr) :: fcn
+        procedure(minpack_func2) :: fcn
         integer(c_int), value :: m
         integer(c_int), value :: n
         integer(c_int), intent(out) :: info
@@ -298,9 +283,6 @@ contains
         real(c_double), intent(inout) :: wa(lwa)
         type(c_ptr), value :: udata
 
-        procedure(minpack_func2), pointer :: fcn_
-        call c_f_procpointer(fcn, fcn_)
-
         call lmdif1(wrap_fcn, m, n, x, fvec, tol, info, iwa, wa, lwa)
 
     contains
@@ -311,7 +293,7 @@ contains
             real(wp), intent(out) :: fvec(m)
             integer, intent(inout) :: iflag
 
-            call fcn_(m, n, x, fvec, iflag, udata)
+            call fcn(m, n, x, fvec, iflag, udata)
         end subroutine wrap_fcn
     end subroutine minpack_lmdif1
 
@@ -319,7 +301,7 @@ contains
             & diag, mode, factor, nprint, info, nfev, njev, ipvt, qtf, wa1, wa2, wa3, wa4, &
             & udata) &
             & bind(c)
-        type(c_funptr), value :: fcn
+        procedure(minpack_fcn_lmder) :: fcn
         integer(c_int), value :: m
         integer(c_int), value :: n
         integer(c_int), value :: ldfjac
@@ -344,9 +326,6 @@ contains
         real(c_double), intent(inout) :: wa3(n)
         real(c_double), intent(inout) :: wa4(m)
         type(c_ptr), value :: udata
-
-        procedure(minpack_fcn_lmder), pointer :: fcn_
-        call c_f_procpointer(fcn, fcn_)
 
         call lmder(wrap_fcn, m, n, x, fvec, fjac, ldfjac, ftol, xtol, gtol, maxfev, &
             & diag, mode, factor, nprint, info, nfev, njev, ipvt, qtf, wa1, wa2, wa3, wa4)
@@ -361,14 +340,14 @@ contains
             real(wp), intent(inout) :: fvec(m)
             real(wp), intent(inout) :: fjac(ldfjac, n)
 
-            call fcn_(m, n, x, fvec, fjac, ldfjac, iflag, udata)
+            call fcn(m, n, x, fvec, fjac, ldfjac, iflag, udata)
         end subroutine wrap_fcn
     end subroutine minpack_lmder
 
     subroutine minpack_lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, Lwa, &
             & udata) &
             & bind(c)
-        type(c_funptr), value :: fcn
+        procedure(minpack_fcn_lmder) :: fcn
         integer(c_int), value :: m
         integer(c_int), value :: n
         integer(c_int), value :: ldfjac
@@ -382,9 +361,6 @@ contains
         real(c_double), intent(inout) :: wa(lwa)
         type(c_ptr), value :: udata
 
-        procedure(minpack_fcn_lmder), pointer :: fcn_
-        call c_f_procpointer(fcn, fcn_)
-
         call lmder1(wrap_fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, Lwa)
 
     contains
@@ -397,7 +373,7 @@ contains
             real(wp), intent(inout) :: fvec(m)
             real(wp), intent(inout) :: fjac(ldfjac, n)
 
-            call fcn_(m, n, x, fvec, fjac, ldfjac, iflag, udata)
+            call fcn(m, n, x, fvec, fjac, ldfjac, iflag, udata)
         end subroutine wrap_fcn
     end subroutine minpack_lmder1
 
@@ -405,7 +381,7 @@ contains
             & diag, mode, factor, nprint, info, nfev, njev, ipvt, qtf, wa1, wa2, wa3, wa4, &
             & udata) &
             & bind(c)
-        type(c_funptr), value :: fcn
+        procedure(minpack_fcn_lmstr) :: fcn
         integer(c_int), value :: m
         integer(c_int), value :: n
         integer(c_int), value :: ldfjac
@@ -431,9 +407,6 @@ contains
         real(c_double), intent(inout) :: wa4(m)
         type(c_ptr), value :: udata
 
-        procedure(minpack_fcn_lmstr), pointer :: fcn_
-        call c_f_procpointer(fcn, fcn_)
-
         call lmstr(wrap_fcn, m, n, x, fvec, fjac, ldfjac, ftol, xtol, gtol, maxfev, &
             & diag, mode, factor, nprint, info, nfev, njev, ipvt, qtf, wa1, wa2, wa3, wa4)
     contains
@@ -445,14 +418,14 @@ contains
             real(wp), intent(inout) :: fvec(m)
             real(wp), intent(inout) :: fjrow(n)
 
-            call fcn_(m, n, x, fvec, fjrow, iflag, udata)
+            call fcn(m, n, x, fvec, fjrow, iflag, udata)
         end subroutine wrap_fcn
     end subroutine minpack_lmstr
 
     subroutine minpack_lmstr1(fcn, m, n, x, fvec, fjac, ldfjac, tol, info, ipvt, wa, lwa, &
             & udata) &
             & bind(c)
-        type(c_funptr), value :: fcn
+        procedure(minpack_fcn_lmstr) :: fcn
         integer(c_int), value :: m
         integer(c_int), value :: n
         integer(c_int), value :: ldfjac
@@ -466,9 +439,6 @@ contains
         real(c_double), intent(inout) :: wa(lwa)
         type(c_ptr), value :: udata
 
-        procedure(minpack_fcn_lmstr), pointer :: fcn_
-        call c_f_procpointer(fcn, fcn_)
-
         call lmstr1(wrap_fcn, m, n, x, fvec, fjac, ldfjac, tol, info, ipvt, wa, lwa)
     contains
         subroutine wrap_fcn(m, n, x, fvec, fjrow, iflag)
@@ -479,7 +449,7 @@ contains
             real(wp), intent(inout) :: fvec(m)
             real(wp), intent(inout) :: fjrow(n)
 
-            call fcn_(m, n, x, fvec, fjrow, iflag, udata)
+            call fcn(m, n, x, fvec, fjrow, iflag, udata)
         end subroutine wrap_fcn
     end subroutine minpack_lmstr1
 

@@ -4,39 +4,8 @@
 #include <math.h>
 #include <assert.h>
 
+#include "testsuite.h"
 #include "minpack.h"
-
-#define check(x, ...) \
-    _Generic((x), \
-        int: check_int, \
-     double: check_double \
-            )(x, __VA_ARGS__)
-
-static inline bool
-check_int(int actual, int expected, const char *msg)
-{
-    if (expected == actual) {
-        return true;
-    }
-    fprintf(stderr, "FAIL: %s: expected %d, got %d\n", msg, expected, actual);
-    return false;
-}
-
-static inline bool
-check_double(double actual, double expected, double tol, const char *msg)
-{
-    if (fabs(expected - actual) < tol) {
-        return true;
-    }
-    fprintf(stderr, "FAIL: %s: expected %g, got %g\n", msg, expected, actual);
-    return false;
-}
-
-static inline bool
-is_close(double a, double b, double tol)
-{
-    return fabs(a - b) < tol;
-}
 
 static double
 enorm(const int n, const double* x)
@@ -60,15 +29,15 @@ trial_hybrd_fcn(int n, const double* x, double* fvec, int* iflag, void* udata) {
     }
 }
 
-static int
+int
 test_hybrd1 (void)
 {
     int n = 9;
     int info = 0;
     int lwa = 180;
-    double x[9] = {-1.0};
-    double fvec[9] = {0.0};
-    double wa[180] = {0.0};
+    double x[9] = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0};
+    double fvec[9];
+    double wa[180];
     double tol = sqrt(minpack_dpmpar(1));
     double reference[9] = {
         -0.5706545, -0.6816283, -0.7017325,
@@ -78,6 +47,37 @@ test_hybrd1 (void)
     minpack_hybrd1(trial_hybrd_fcn, n, x, fvec, tol, &info, wa, lwa, NULL);
 
     if (!check(info, 1, "Unexpected info value")) return 1;
+
+    if (!check(enorm(n, fvec), 0.0, tol, "Unexpected residual")) return 1;
+
+    for(int i = 0; i < 9; i++) {
+        if (!check(x[i], reference[i], 10*tol, "Unexpected solution")) return 1;
+    }
+
+    return 0;
+}
+
+int
+test_hybrd (void)
+{
+    int n = 9;
+    int info = 0, nfev = 0;
+    double x[9] = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0};
+    double diag[9] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+    double fvec[9];
+    double fjac[9*9];
+    double r[45], qtf[9], wa1[9], wa2[9], wa3[9], wa4[9];
+    double tol = sqrt(minpack_dpmpar(1));
+    double reference[9] = {
+        -0.5706545, -0.6816283, -0.7017325,
+        -0.7042129, -0.7013690, -0.6918656,
+        -0.6657920, -0.5960342, -0.4164121};
+
+    minpack_hybrd(trial_hybrd_fcn, n, x, fvec, tol, 2000, 1, 1, 0.0, diag, 2, 100.0, 0,
+            &info, &nfev, fjac, 9, r, 45, qtf, wa1, wa2, wa3, wa4, NULL);
+
+    if (!check(info, 1, "Unexpected info value")) return 1;
+    if (!check(nfev, 14, "Unexpected number of function calls")) return 1;
 
     if (!check(enorm(n, fvec), 0.0, tol, "Unexpected residual")) return 1;
 
@@ -117,7 +117,7 @@ trial_lmder_fcn(int m, int n, const double* x, double* fvec, double* fjac,
     }
 }
 
-static int
+int
 test_lmder1 (void)
 {
     const double y[15] = {1.4e-1, 1.8e-1, 2.2e-1, 2.5e-1, 2.9e-1, 3.2e-1, 3.5e-1, 3.9e-1,
@@ -154,12 +154,53 @@ test_lmder1 (void)
     return 0;
 }
 
+void
+trial_lmdif_fcn(int m, int n, const double* x, double* fvec, int* iflag, void* data) {
+    assert(!!data);
+    double* y = (double*)data;
+    assert(m == 15);
+    assert(n == 3);
+    if (*iflag == 0) return;
+
+    for (int i = 0; i < m; i++) {
+        double tmp1 = i + 1;
+        double tmp2 = 16 - i - 1;
+        double tmp3 = i >= 8 ? tmp2 : tmp1;
+        fvec[i] = y[i] - (x[0] + tmp1/(x[1]*tmp2 + x[2]*tmp3));
+    }
+}
+
+int
+test_lmdif1 (void)
+{
+    const int m = 15, n = 3;
+    double y[15] = {1.4e-1, 1.8e-1, 2.2e-1, 2.5e-1, 2.9e-1, 3.2e-1, 3.5e-1, 3.9e-1,
+        3.7e-1, 5.8e-1, 7.3e-1, 9.6e-1, 1.34e0, 2.1e0, 4.39e0};
+    double x[3] = {1.0, 1.0, 1.0}, fvec[15];
+    int info = 0;
+    double tol = sqrt(minpack_dpmpar(1));
+    int ipvt[n];
+    int lwa = m*n + 5*n + m;
+    double wa[lwa];
+
+    minpack_lmdif1(trial_lmdif_fcn, 15, 3, x, fvec, tol, &info, ipvt, wa, lwa, y);
+    if (!check(info, 1, "Unexpected info value")) return 1;
+    if (!check(x[0], 0.8241058e-1, 100*tol, "Unexpected x[0]")) return 1;
+    if (!check(x[1], 0.1133037e+1, 100*tol, "Unexpected x[1]")) return 1;
+    if (!check(x[2], 0.2343695e+1, 100*tol, "Unexpected x[2]")) return 1;
+    if (!check(enorm(m, fvec), 0.9063596e-1, tol, "Unexpected residual")) return 1;
+
+    return 0;
+}
+
 int
 main (void) {
     int stat = 0;
 
-    stat += test_hybrd1 ();
-    stat += test_lmder1 ();
+    stat += run("hybrd1", test_hybrd1);
+    stat += run("hybrd ", test_hybrd);
+    stat += run("lmder1", test_lmder1);
+    stat += run("lmdif1", test_lmdif1);
 
     if (stat > 0) {
         fprintf(stderr, "[FAIL] %d test(s) failed\n", stat);
