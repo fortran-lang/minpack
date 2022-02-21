@@ -89,6 +89,83 @@ test_hybrd (void)
 }
 
 void
+trial_hybrj_fcn(int n, const double* x, double* fvec, double* fjac, int ldfjac,
+        int* iflag, void* udata) {
+    if (*iflag == 1) {
+        trial_hybrd_fcn(n, x, fvec, iflag, udata);
+    } else {
+        for(int k = 0; k < n; k++) {
+            for(int j = 0; j < n; j++) {
+                fjac[k*ldfjac + j] = 0.0;
+            }
+            fjac[k*ldfjac + k] = 3.0 - 4.0*x[k];
+            if (k != 0) fjac[k*ldfjac + k - 1] = -1.0;
+            if (k != n-1) fjac[k*ldfjac + k + 1] = -2.0;
+        }
+        
+    }
+}
+
+int
+test_hybrj1 (void)
+{
+    int n = 9;
+    int info = 0;
+    int lwa = 180;
+    double x[9] = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0};
+    double fvec[9], fjac[9*9];
+    double wa[180];
+    double tol = sqrt(minpack_dpmpar(1));
+    double reference[9] = {
+        -0.5706545, -0.6816283, -0.7017325,
+        -0.7042129, -0.7013690, -0.6918656,
+        -0.6657920, -0.5960342, -0.4164121};
+
+    minpack_hybrj1(trial_hybrj_fcn, n, x, fvec, fjac, n, tol, &info, wa, lwa, NULL);
+
+    if (!check(info, 1, "Unexpected info value")) return 1;
+
+    if (!check(enorm(n, fvec), 0.0, tol, "Unexpected residual")) return 1;
+
+    for(int i = 0; i < 9; i++) {
+        if (!check(x[i], reference[i], 10*tol, "Unexpected solution")) return 1;
+    }
+
+    return 0;
+}
+
+int
+test_hybrj (void)
+{
+    int n = 9;
+    int info = 0, nfev = 0, njev = 0;
+    double x[9] = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0};
+    double diag[9] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+    double fvec[9], fjac[9*9];
+    double r[45], qtf[9], wa1[9], wa2[9], wa3[9], wa4[9];
+    double tol = sqrt(minpack_dpmpar(1));
+    double reference[9] = {
+        -0.5706545, -0.6816283, -0.7017325,
+        -0.7042129, -0.7013690, -0.6918656,
+        -0.6657920, -0.5960342, -0.4164121};
+
+    minpack_hybrj(trial_hybrj_fcn, n, x, fvec, fjac, n, tol, 2000, diag, 2, 100.0, 0,
+            &info, &nfev, &njev, r, 45, qtf, wa1, wa2, wa3, wa4, NULL);
+
+    if (!check(info, 1, "Unexpected info value")) return 1;
+    if (!check(nfev, 15, "Unexpected number of function evaluations")) return 1;
+    if (!check(njev, 1, "Unexpected number of jacobian evaluations")) return 1;
+
+    if (!check(enorm(n, fvec), 0.0, tol, "Unexpected residual")) return 1;
+
+    for(int i = 0; i < 9; i++) {
+        if (!check(x[i], reference[i], 10*tol, "Unexpected solution")) return 1;
+    }
+
+    return 0;
+}
+
+void
 trial_lmder_fcn(int m, int n, const double* x, double* fvec, double* fjac,
                 int ldfjac, int* iflag, void* data) {
     assert(!!data);
@@ -260,6 +337,8 @@ main (void) {
 
     stat += run("hybrd1", test_hybrd1);
     stat += run("hybrd ", test_hybrd);
+    stat += run("hybrj1", test_hybrj1);
+    stat += run("hybrj ", test_hybrj);
     stat += run("lmder1", test_lmder1);
     stat += run("lmder ", test_lmder);
     stat += run("lmdif1", test_lmdif1);
