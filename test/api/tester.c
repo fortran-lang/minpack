@@ -331,6 +331,65 @@ test_lmdif (void)
     return 0;
 }
 
+void
+trial_lmstr_fcn(int m, int n, const double* x, double* fvec, double* fjrow, int* iflag,
+        void* udata) {
+    if (*iflag == 1) {
+        fvec[0] = 10.0 * (x[1] - x[0] * x[0]);
+        fvec[1] = 1.0 - x[0];
+    } else {
+        if (*iflag == 2) {
+            fjrow[0] = -20.0 * x[0];
+            fjrow[1] = 10.0;
+        } else {
+            fjrow[0] = -1.0;
+            fjrow[1] = 0.0;
+        }
+    }
+}
+
+int
+test_lmstr1 (void)
+{
+    const int m = 2, n = 2;
+    double x[2] = {-1.2, 1.0}, fvec[2], fjac[2*2];
+    int info = 0;
+    double tol = sqrt(minpack_dpmpar(1));
+    int ipvt[n];
+    int lwa = m*n + 5*n + m;
+    double wa[lwa];
+
+    minpack_lmstr1(trial_lmstr_fcn, 2, 2, x, fvec, fjac, 2, tol, &info, ipvt, wa, lwa, NULL);
+    if (!check(info, 4, "Unexpected info value")) return 1;
+    if (!check(x[0], 1.0, 100*tol, "Unexpected x[0]")) return 1;
+    if (!check(x[1], 1.0, 100*tol, "Unexpected x[1]")) return 1;
+    if (!check(enorm(m, fvec), 0.0, tol, "Unexpected residual")) return 1;
+
+    return 0;
+}
+
+int
+test_lmstr (void)
+{
+    const int m = 2, n = 2;
+    double x[2] = {-1.2, 1.0}, fvec[2], fjac[2*2], diag[2];
+    int info = 0, nfev = 0, njev = 0;
+    double tol = sqrt(minpack_dpmpar(1));
+    int ipvt[n];
+    double qtf[n], wa1[n], wa2[n], wa3[n], wa4[m];
+
+    minpack_lmstr(trial_lmstr_fcn, 2, 2, x, fvec, fjac, 2, tol, tol, 0.0, 2000, diag, 1,
+            100.0, 0, &info, &nfev, &njev, ipvt, qtf, wa1, wa2, wa3, wa4, NULL);
+    if (!check(info, 4, "Unexpected info value")) return 1;
+    if (!check(nfev, 21, "Unexpected number of function evaluations")) return 1;
+    if (!check(njev, 16, "Unexpected number of jacobian evaluations")) return 1;
+    if (!check(x[0], 1.0, 100*tol, "Unexpected x[0]")) return 1;
+    if (!check(x[1], 1.0, 100*tol, "Unexpected x[1]")) return 1;
+    if (!check(enorm(m, fvec), 0.0, tol, "Unexpected residual")) return 1;
+
+    return 0;
+}
+
 int
 main (void) {
     int stat = 0;
@@ -343,6 +402,8 @@ main (void) {
     stat += run("lmder ", test_lmder);
     stat += run("lmdif1", test_lmdif1);
     stat += run("lmdif ", test_lmdif);
+    stat += run("lmstr1", test_lmstr1);
+    stat += run("lmstr ", test_lmstr);
 
     if (stat > 0) {
         fprintf(stderr, "[FAIL] %d test(s) failed\n", stat);
