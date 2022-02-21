@@ -154,6 +154,44 @@ test_lmder1 (void)
     return 0;
 }
 
+int
+test_lmder (void)
+{
+    const double y[15] = {1.4e-1, 1.8e-1, 2.2e-1, 2.5e-1, 2.9e-1, 3.2e-1, 3.5e-1, 3.9e-1,
+        3.7e-1, 5.8e-1, 7.3e-1, 9.6e-1, 1.34e0, 2.1e0, 4.39e0};
+    const int m = 15, n = 3;
+    int info = 0, nfev = 0, njev = 0;
+    double x[3] = {1.0, 1.0, 1.0}, xp[n];
+    double fvec[m], fvecp[m], err[m];
+    double fjac[m*n];
+    int ipvt[n];
+    double diag[n], qtf[n], wa1[n], wa2[n], wa3[n], wa4[m];
+    double tol = sqrt(minpack_dpmpar(1));
+
+    minpack_chkder(m, n, x, fvec, fjac, m, xp, fvecp, 1, err);
+    info = 1;
+    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, y);
+    info = 2;
+    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, y);
+    info = 1;
+    trial_lmder_fcn(m, n, xp, fvecp, fjac, m, &info, y);
+    minpack_chkder(m, n, x, fvec, fjac, m, xp, fvecp, 2, err);
+
+    for (int i = 0; i < 15; i++) {
+        if (!check(err[i], 1.0, tol, "Unexpected derivatives")) return 1;
+    }
+
+    minpack_lmder(trial_lmder_fcn, m, n, x, fvec, fjac, m, tol, tol, 0.0, 2000, diag, 1,
+            100.0, 0, &info, &nfev, &njev, ipvt, qtf, wa1, wa2, wa3, wa4, y);
+    if (!check(info, 1, "Unexpected info value")) return 1;
+    if (!check(x[0], 0.8241058e-1, 100*tol, "Unexpected x[0]")) return 1;
+    if (!check(x[1], 0.1133037e+1, 100*tol, "Unexpected x[1]")) return 1;
+    if (!check(x[2], 0.2343695e+1, 100*tol, "Unexpected x[2]")) return 1;
+    if (!check(enorm(m, fvec), 0.9063596e-1, tol, "Unexpected residual")) return 1;
+
+    return 0;
+}
+
 void
 trial_lmdif_fcn(int m, int n, const double* x, double* fvec, int* iflag, void* data) {
     assert(!!data);
@@ -194,13 +232,38 @@ test_lmdif1 (void)
 }
 
 int
+test_lmdif (void)
+{
+    const int m = 15, n = 3;
+    double y[15] = {1.4e-1, 1.8e-1, 2.2e-1, 2.5e-1, 2.9e-1, 3.2e-1, 3.5e-1, 3.9e-1,
+        3.7e-1, 5.8e-1, 7.3e-1, 9.6e-1, 1.34e0, 2.1e0, 4.39e0};
+    double x[3] = {1.0, 1.0, 1.0}, fvec[15];
+    int info = 0, nfev = 0;
+    double tol = sqrt(minpack_dpmpar(1));
+    int ipvt[n];
+    double fjac[m*n], diag[n], qtf[n], wa1[n], wa2[n], wa3[n], wa4[m];
+
+    minpack_lmdif(trial_lmdif_fcn, 15, 3, x, fvec, tol, tol, 0.0, 2000, 0.0, diag, 1,
+            100.0, 0, &info, &nfev, fjac, 15, ipvt, qtf, wa1, wa2, wa3, wa4, y);
+    if (!check(info, 1, "Unexpected info value")) return 1;
+    if (!check(x[0], 0.8241058e-1, 100*tol, "Unexpected x[0]")) return 1;
+    if (!check(x[1], 0.1133037e+1, 100*tol, "Unexpected x[1]")) return 1;
+    if (!check(x[2], 0.2343695e+1, 100*tol, "Unexpected x[2]")) return 1;
+    if (!check(enorm(m, fvec), 0.9063596e-1, tol, "Unexpected residual")) return 1;
+
+    return 0;
+}
+
+int
 main (void) {
     int stat = 0;
 
     stat += run("hybrd1", test_hybrd1);
     stat += run("hybrd ", test_hybrd);
     stat += run("lmder1", test_lmder1);
+    stat += run("lmder ", test_lmder);
     stat += run("lmdif1", test_lmdif1);
+    stat += run("lmdif ", test_lmdif);
 
     if (stat > 0) {
         fprintf(stderr, "[FAIL] %d test(s) failed\n", stat);
