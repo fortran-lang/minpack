@@ -1,0 +1,10 @@
+name: docs
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - matplotlib-base
+  - ford
+  - graphviz
+  - gfortran
