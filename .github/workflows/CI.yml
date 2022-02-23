@@ -42,7 +42,7 @@ jobs:
     - name: Setup Fortran Package Manager
       uses: fortran-lang/setup-fpm@v3
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        fpm-version: 'v0.3.0'
 
     - name: Compile
       run: fpm build --profile release
