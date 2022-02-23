@@ -97,9 +97,9 @@ module minpack_module
                                        !! the value of iflag should not be changed by fcn unless
                                        !! the user wants to terminate execution of lmstr.
                                        !! in this case set iflag to a negative integer.
-            real(wp) :: x(n) !! independant variable vector
-            real(wp) :: fvec(m) !! value of function at `x`
-            real(wp) :: fjrow(n) !! jacobian row
+            real(wp), intent(in) :: x(n) !! independent variable vector
+            real(wp), intent(inout) :: fvec(m) !! value of function at `x`
+            real(wp), intent(inout) :: fjrow(n) !! jacobian row
         end subroutine fcn_lmstr
 
     end interface
@@ -2725,10 +2725,10 @@ contains
                                           !! multiplicative scale factors for the variables.
         real(wp), intent(out) :: Qtf(n) !! an output array of length n which contains
                                        !! the first n elements of the vector (q transpose)*fvec.
-        real(wp) :: Wa1(n) !! work array of length n.
-        real(wp) :: Wa2(n) !! work array of length n.
-        real(wp) :: Wa3(n) !! work array of length n.
-        real(wp) :: Wa4(m) !! work array of length m.
+        real(wp), intent(inout) :: Wa1(n) !! work array of length n.
+        real(wp), intent(inout) :: Wa2(n) !! work array of length n.
+        real(wp), intent(inout) :: Wa3(n) !! work array of length n.
+        real(wp), intent(inout) :: Wa4(m) !! work array of length m.
 
         integer :: i, iflag, iter, j, l
         real(wp) :: actred, delta, dirder, fnorm, &

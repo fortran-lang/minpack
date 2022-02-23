@@ -49,7 +49,7 @@
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+            <li><a href="../lists/files.html">Source Files</a></li>
             <li><a href="../lists/modules.html">Modules</a></li>
             <li><a href="../lists/procedures.html">Procedures</a></li>
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
@@ -57,7 +57,7 @@
             </ul>
         
             </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
@@ -86,7 +86,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.7% of total for procedures.">31 statements</a>
+    title=" 1.4% of total for procedures.">31 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/minpack.f90"> Source File</a></li>
   </ul>
@@ -158,14 +158,14 @@ approximation.</p>
   <td><strong>fcn</strong></td><td><p>user-supplied subroutine which calculates the functions</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-n~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-n~17"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td><p>a positive integer input variable set to the number
 of functions and variables.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-x~12"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-x~17"></span>real(kind=wp),</td>
 <td>intent(inout),</td>
   <td></td>  <td>dimension(n)</td><td>::</td>
   <td><strong>x</strong></td><td><p>an array of length <code>n</code>. on input <code>x</code> must contain
@@ -173,7 +173,7 @@ an initial estimate of the solution vector. on output <code>x</code>
 contains the final estimate of the solution vector.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-fvec~7"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-fvec~12"></span>real(kind=wp),</td>
 <td>intent(out),</td>
   <td></td>  <td>dimension(n)</td><td>::</td>
   <td><strong>fvec</strong></td><td><p>an output array of length <code>n</code> which contains
@@ -242,23 +242,23 @@ value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
 <!-- proc~hybrd1 -->
 <g id="proc~~hybrd1~~CallsGraph_node1" class="node">
 <title>proc~hybrd1</title>
-<polygon fill="none" stroke="black" points="54,-150 0,-150 0,-126 54,-126 54,-150"/>
-<text text-anchor="middle" x="27" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50">hybrd1</text>
+<polygon fill="none" stroke="black" points="54,-148 0,-148 0,-124 54,-124 54,-148"/>
+<text text-anchor="middle" x="27" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50">hybrd1</text>
 </g>
 <!-- proc~hybrd -->
 <g id="proc~~hybrd1~~CallsGraph_node2" class="node">
 <title>proc~hybrd</title>
 <g id="a_proc~~hybrd1~~CallsGraph_node2"><a xlink:href=".././proc/hybrd.html" xlink:title="hybrd">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-150 90,-150 90,-126 144,-126 144,-150"/>
-<text text-anchor="middle" x="117" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-148 90,-148 90,-124 144,-124 144,-148"/>
+<text text-anchor="middle" x="117" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd1&#45;&gt;proc~hybrd -->
 <g id="proc~~hybrd1~~CallsGraph_edge1" class="edge">
 <title>proc~hybrd1&#45;&gt;proc~hybrd</title>
-<path fill="none" stroke="#000000" d="M54.4,-138C62.39,-138 71.31,-138 79.82,-138"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-141.5 89.92,-138 79.92,-134.5 79.92,-141.5"/>
+<path fill="none" stroke="#000000" d="M54.4,-136C62.39,-136 71.31,-136 79.82,-136"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-139.5 89.92,-136 79.92,-132.5 79.92,-139.5"/>
 </g>
 <!-- proc~r1mpyq -->
 <g id="proc~~hybrd1~~CallsGraph_node3" class="node">
@@ -272,110 +272,210 @@ value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
 <!-- proc~hybrd&#45;&gt;proc~r1mpyq -->
 <g id="proc~~hybrd1~~CallsGraph_edge2" class="edge">
 <title>proc~hybrd&#45;&gt;proc~r1mpyq</title>
-<path fill="none" stroke="#000000" d="M123.71,-150.08C133.46,-169.96 154.74,-210.25 180,-239 180.6,-239.69 181.23,-240.37 181.88,-241.04"/>
-<polygon fill="#000000" stroke="#000000" points="179.57,-243.68 189.29,-247.91 184.33,-238.55 179.57,-243.68"/>
-</g>
-<!-- proc~fdjac1 -->
-<g id="proc~~hybrd1~~CallsGraph_node4" class="node">
-<title>proc~fdjac1</title>
-<g id="a_proc~~hybrd1~~CallsGraph_node4"><a xlink:href=".././proc/fdjac1.html" xlink:title="fdjac1">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-230 180,-230 180,-206 234,-206 234,-230"/>
-<text text-anchor="middle" x="207" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fdjac1</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~fdjac1 -->
-<g id="proc~~hybrd1~~CallsGraph_edge3" class="edge">
-<title>proc~hybrd&#45;&gt;proc~fdjac1</title>
-<path fill="none" stroke="#000000" d="M131.37,-150.15C145.66,-163.15 168.53,-183.93 185.18,-199.08"/>
-<polygon fill="#000000" stroke="#000000" points="183.04,-201.86 192.8,-206 187.75,-196.68 183.04,-201.86"/>
-</g>
-<!-- proc~enorm -->
-<g id="proc~~hybrd1~~CallsGraph_node5" class="node">
-<title>proc~enorm</title>
-<g id="a_proc~~hybrd1~~CallsGraph_node5"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-150 270,-150 270,-126 324,-126 324,-150"/>
-<text text-anchor="middle" x="297" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~enorm -->
-<g id="proc~~hybrd1~~CallsGraph_edge4" class="edge">
-<title>proc~hybrd&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M144.06,-148.94C154.96,-152.96 167.89,-157 180,-159 203.68,-162.9 210.32,-162.9 234,-159 242.7,-157.57 251.83,-155.07 260.32,-152.29"/>
-<polygon fill="#000000" stroke="#000000" points="261.64,-155.54 269.94,-148.94 259.34,-148.93 261.64,-155.54"/>
-</g>
-<!-- proc~dogleg -->
-<g id="proc~~hybrd1~~CallsGraph_node6" class="node">
-<title>proc~dogleg</title>
-<g id="a_proc~~hybrd1~~CallsGraph_node6"><a xlink:href=".././proc/dogleg.html" xlink:title="dogleg">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-150 180,-150 180,-126 234,-126 234,-150"/>
-<text text-anchor="middle" x="207" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~dogleg -->
-<g id="proc~~hybrd1~~CallsGraph_edge5" class="edge">
-<title>proc~hybrd&#45;&gt;proc~dogleg</title>
-<path fill="none" stroke="#000000" d="M144.4,-138C152.39,-138 161.31,-138 169.82,-138"/>
-<polygon fill="#000000" stroke="#000000" points="169.92,-141.5 179.92,-138 169.92,-134.5 169.92,-141.5"/>
-</g>
-<!-- proc~qform -->
-<g id="proc~~hybrd1~~CallsGraph_node7" class="node">
-<title>proc~qform</title>
-<g id="a_proc~~hybrd1~~CallsGraph_node7"><a xlink:href=".././proc/qform.html" xlink:title="qform">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-108 180,-108 180,-84 234,-84 234,-108"/>
-<text text-anchor="middle" x="207" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qform</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~qform -->
-<g id="proc~~hybrd1~~CallsGraph_edge8" class="edge">
-<title>proc~hybrd&#45;&gt;proc~qform</title>
-<path fill="none" stroke="#000000" d="M143.45,-125.85C152.21,-121.67 162.17,-116.92 171.52,-112.46"/>
-<polygon fill="#000000" stroke="#000000" points="173.09,-115.59 180.6,-108.12 170.07,-109.27 173.09,-115.59"/>
+<path fill="none" stroke="#000000" d="M123.5,-148C133.1,-168.18 154.36,-209.57 180,-239 180.6,-239.69 181.23,-240.37 181.87,-241.05"/>
+<polygon fill="#000000" stroke="#000000" points="179.56,-243.68 189.27,-247.93 184.33,-238.56 179.56,-243.68"/>
 </g>
 <!-- proc~qrfac -->
-<g id="proc~~hybrd1~~CallsGraph_node8" class="node">
+<g id="proc~~hybrd1~~CallsGraph_node4" class="node">
 <title>proc~qrfac</title>
-<g id="a_proc~~hybrd1~~CallsGraph_node8"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
-<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
+<g id="a_proc~~hybrd1~~CallsGraph_node4"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-230 180,-230 180,-206 234,-206 234,-230"/>
+<text text-anchor="middle" x="207" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd&#45;&gt;proc~qrfac -->
-<g id="proc~~hybrd1~~CallsGraph_edge6" class="edge">
+<g id="proc~~hybrd1~~CallsGraph_edge3" class="edge">
 <title>proc~hybrd&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M129.04,-125.99C141.15,-113 161.35,-91.9 180,-75 180.82,-74.26 181.66,-73.51 182.51,-72.77"/>
-<polygon fill="#000000" stroke="#000000" points="184.97,-75.27 190.36,-66.15 180.46,-69.92 184.97,-75.27"/>
+<path fill="none" stroke="#000000" d="M129.55,-148.05C141.77,-160.61 161.74,-180.72 180,-197 180.82,-197.73 181.67,-198.47 182.52,-199.22"/>
+<polygon fill="#000000" stroke="#000000" points="180.48,-202.07 190.39,-205.81 184.97,-196.7 180.48,-202.07"/>
 </g>
 <!-- proc~r1updt -->
-<g id="proc~~hybrd1~~CallsGraph_node9" class="node">
+<g id="proc~~hybrd1~~CallsGraph_node5" class="node">
 <title>proc~r1updt</title>
-<g id="a_proc~~hybrd1~~CallsGraph_node9"><a xlink:href=".././proc/r1updt.html" xlink:title="r1updt">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
-<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1updt</text>
+<g id="a_proc~~hybrd1~~CallsGraph_node5"><a xlink:href=".././proc/r1updt.html" xlink:title="r1updt">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-188 180,-188 180,-164 234,-164 234,-188"/>
+<text text-anchor="middle" x="207" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1updt</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd&#45;&gt;proc~r1updt -->
-<g id="proc~~hybrd1~~CallsGraph_edge7" class="edge">
+<g id="proc~~hybrd1~~CallsGraph_edge4" class="edge">
 <title>proc~hybrd&#45;&gt;proc~r1updt</title>
-<path fill="none" stroke="#000000" d="M123.44,-125.76C132.97,-105.18 154.12,-62.96 180,-33 180.6,-32.31 181.22,-31.62 181.86,-30.94"/>
-<polygon fill="#000000" stroke="#000000" points="184.32,-33.43 189.25,-24.05 179.55,-28.32 184.32,-33.43"/>
+<path fill="none" stroke="#000000" d="M144.4,-148C152.66,-151.75 161.9,-155.95 170.66,-159.94"/>
+<polygon fill="#000000" stroke="#000000" points="169.37,-163.19 179.92,-164.14 172.26,-156.82 169.37,-163.19"/>
 </g>
-<!-- proc~dogleg&#45;&gt;proc~enorm -->
-<g id="proc~~hybrd1~~CallsGraph_edge9" class="edge">
-<title>proc~dogleg&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M234.4,-138C242.39,-138 251.31,-138 259.82,-138"/>
-<polygon fill="#000000" stroke="#000000" points="259.92,-141.5 269.92,-138 259.92,-134.5 259.92,-141.5"/>
+<!-- proc~enorm -->
+<g id="proc~~hybrd1~~CallsGraph_node6" class="node">
+<title>proc~enorm</title>
+<g id="a_proc~~hybrd1~~CallsGraph_node6"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-148 270,-148 270,-124 324,-124 324,-148"/>
+<text text-anchor="middle" x="297" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~enorm -->
+<g id="proc~~hybrd1~~CallsGraph_edge5" class="edge">
+<title>proc~hybrd&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M144.26,-136C174.85,-136 225.55,-136 259.84,-136"/>
+<polygon fill="#000000" stroke="#000000" points="259.92,-139.5 269.92,-136 259.92,-132.5 259.92,-139.5"/>
+</g>
+<!-- proc~dogleg -->
+<g id="proc~~hybrd1~~CallsGraph_node7" class="node">
+<title>proc~dogleg</title>
+<g id="a_proc~~hybrd1~~CallsGraph_node7"><a xlink:href=".././proc/dogleg.html" xlink:title="dogleg">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-108 180,-108 180,-84 234,-84 234,-108"/>
+<text text-anchor="middle" x="207" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~dogleg -->
+<g id="proc~~hybrd1~~CallsGraph_edge6" class="edge">
+<title>proc~hybrd&#45;&gt;proc~dogleg</title>
+<path fill="none" stroke="#000000" d="M144.4,-124C152.66,-120.25 161.9,-116.05 170.66,-112.06"/>
+<polygon fill="#000000" stroke="#000000" points="172.26,-115.18 179.92,-107.86 169.37,-108.81 172.26,-115.18"/>
+</g>
+<!-- proc~qform -->
+<g id="proc~~hybrd1~~CallsGraph_node8" class="node">
+<title>proc~qform</title>
+<g id="a_proc~~hybrd1~~CallsGraph_node8"><a xlink:href=".././proc/qform.html" xlink:title="qform">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
+<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qform</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~qform -->
+<g id="proc~~hybrd1~~CallsGraph_edge7" class="edge">
+<title>proc~hybrd&#45;&gt;proc~qform</title>
+<path fill="none" stroke="#000000" d="M129.55,-123.95C141.77,-111.39 161.74,-91.28 180,-75 180.82,-74.27 181.67,-73.53 182.52,-72.78"/>
+<polygon fill="#000000" stroke="#000000" points="184.97,-75.3 190.39,-66.19 180.48,-69.93 184.97,-75.3"/>
+</g>
+<!-- proc~fdjac1 -->
+<g id="proc~~hybrd1~~CallsGraph_node9" class="node">
+<title>proc~fdjac1</title>
+<g id="a_proc~~hybrd1~~CallsGraph_node9"><a xlink:href=".././proc/fdjac1.html" xlink:title="fdjac1">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
+<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fdjac1</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~fdjac1 -->
+<g id="proc~~hybrd1~~CallsGraph_edge8" class="edge">
+<title>proc~hybrd&#45;&gt;proc~fdjac1</title>
+<path fill="none" stroke="#000000" d="M123.5,-124C133.1,-103.82 154.36,-62.43 180,-33 180.6,-32.31 181.23,-31.63 181.87,-30.95"/>
+<polygon fill="#000000" stroke="#000000" points="184.33,-33.44 189.27,-24.07 179.56,-28.32 184.33,-33.44"/>
 </g>
 <!-- proc~qrfac&#45;&gt;proc~enorm -->
-<g id="proc~~hybrd1~~CallsGraph_edge10" class="edge">
+<g id="proc~~hybrd1~~CallsGraph_edge9" class="edge">
 <title>proc~qrfac&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M223.64,-66.15C227.11,-68.98 230.73,-72.04 234,-75 249.44,-89 265.95,-105.87 278.04,-118.64"/>
-<polygon fill="#000000" stroke="#000000" points="275.56,-121.1 284.96,-125.99 280.66,-116.3 275.56,-121.1"/>
+<path fill="none" stroke="#000000" d="M223.61,-205.81C227.08,-202.98 230.71,-199.94 234,-197 248.98,-183.64 265.11,-167.72 277.17,-155.49"/>
+<polygon fill="#000000" stroke="#000000" points="279.95,-157.64 284.45,-148.05 274.95,-152.75 279.95,-157.64"/>
+</g>
+<!-- proc~dogleg&#45;&gt;proc~enorm -->
+<g id="proc~~hybrd1~~CallsGraph_edge10" class="edge">
+<title>proc~dogleg&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M234.4,-108C242.66,-111.75 251.9,-115.95 260.66,-119.94"/>
+<polygon fill="#000000" stroke="#000000" points="259.37,-123.19 269.92,-124.14 262.26,-116.82 259.37,-123.19"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="597pt" height="32pt"
+ viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
+<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
+<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
+<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Called by</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~hybrd1~~CalledByGraph Pages: 1 -->
+<svg id="prochybrd1CalledByGraph" width="199pt" height="32pt"
+ viewBox="0.00 0.00 199.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~hybrd1~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~hybrd1~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 195,-28 195,4 -4,4"/>
+<!-- proc~hybrd1 -->
+<g id="proc~~hybrd1~~CalledByGraph_node1" class="node">
+<title>proc~hybrd1</title>
+<polygon fill="none" stroke="black" points="191,-24 137,-24 137,0 191,0 191,-24"/>
+<text text-anchor="middle" x="164" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">hybrd1</text>
+</g>
+<!-- proc~minpack_hybrd1 -->
+<g id="proc~~hybrd1~~CalledByGraph_node2" class="node">
+<title>proc~minpack_hybrd1</title>
+<g id="a_proc~~hybrd1~~CalledByGraph_node2"><a xlink:href=".././proc/minpack_hybrd1.html" xlink:title="minpack_hybrd1">
+<polygon fill="#d9534f" stroke="#d9534f" points="101,-24 0,-24 0,0 101,0 101,-24"/>
+<text text-anchor="middle" x="50.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">minpack_hybrd1</text>
+</a>
+</g>
+</g>
+<!-- proc~minpack_hybrd1&#45;&gt;proc~hybrd1 -->
+<g id="proc~~hybrd1~~CalledByGraph_edge1" class="edge">
+<title>proc~minpack_hybrd1&#45;&gt;proc~hybrd1</title>
+<path fill="none" stroke="#000000" d="M101.05,-12C109.72,-12 118.6,-12 126.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="126.82,-15.5 136.82,-12 126.82,-8.5 126.82,-15.5"/>
 </g>
 </g>
 </svg>

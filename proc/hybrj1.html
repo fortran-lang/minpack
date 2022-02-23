@@ -49,7 +49,7 @@
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+            <li><a href="../lists/files.html">Source Files</a></li>
             <li><a href="../lists/modules.html">Modules</a></li>
             <li><a href="../lists/procedures.html">Procedures</a></li>
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
@@ -57,7 +57,7 @@
             </ul>
         
             </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/minpack.f90.html">Source File</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
@@ -86,7 +86,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.6% of total for procedures.">29 statements</a>
+    title=" 1.3% of total for procedures.">29 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/minpack.f90"> Source File</a></li>
   </ul>
@@ -155,14 +155,14 @@ and the jacobian.</p>
 calculates the functions and the jacobian</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-n~14"></span>integer,</td>
+  <td><span class="anchor" id="variable-n~19"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td><p>a positive integer input variable set to the number
 of functions and variables.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-x~14"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-x~19"></span>real(kind=wp),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>x</strong>(n)</td><td><p>an array of length n. on input x must contain
@@ -254,23 +254,23 @@ info is set as follows:</p>
 <!-- proc~hybrj1 -->
 <g id="proc~~hybrj1~~CallsGraph_node1" class="node">
 <title>proc~hybrj1</title>
-<polygon fill="none" stroke="black" points="54,-129 0,-129 0,-105 54,-105 54,-129"/>
-<text text-anchor="middle" x="27" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">hybrj1</text>
+<polygon fill="none" stroke="black" points="54,-126 0,-126 0,-102 54,-102 54,-126"/>
+<text text-anchor="middle" x="27" y="-111.6" font-family="Helvetica,sans-Serif" font-size="10.50">hybrj1</text>
 </g>
 <!-- proc~hybrj -->
 <g id="proc~~hybrj1~~CallsGraph_node2" class="node">
 <title>proc~hybrj</title>
 <g id="a_proc~~hybrj1~~CallsGraph_node2"><a xlink:href=".././proc/hybrj.html" xlink:title="hybrj">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-129 90,-129 90,-105 144,-105 144,-129"/>
-<text text-anchor="middle" x="117" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-126 90,-126 90,-102 144,-102 144,-126"/>
+<text text-anchor="middle" x="117" y="-111.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrj1&#45;&gt;proc~hybrj -->
 <g id="proc~~hybrj1~~CallsGraph_edge1" class="edge">
 <title>proc~hybrj1&#45;&gt;proc~hybrj</title>
-<path fill="none" stroke="#000000" d="M54.4,-117C62.39,-117 71.31,-117 79.82,-117"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-120.5 89.92,-117 79.92,-113.5 79.92,-120.5"/>
+<path fill="none" stroke="#000000" d="M54.4,-114C62.39,-114 71.31,-114 79.82,-114"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-117.5 89.92,-114 79.92,-110.5 79.92,-117.5"/>
 </g>
 <!-- proc~r1mpyq -->
 <g id="proc~~hybrj1~~CallsGraph_node3" class="node">
@@ -284,95 +284,195 @@ info is set as follows:</p>
 <!-- proc~hybrj&#45;&gt;proc~r1mpyq -->
 <g id="proc~~hybrj1~~CallsGraph_edge2" class="edge">
 <title>proc~hybrj&#45;&gt;proc~r1mpyq</title>
-<path fill="none" stroke="#000000" d="M127.54,-129.25C139.43,-144.35 160.56,-170.63 180,-192 181.97,-194.17 184.08,-196.4 186.2,-198.59"/>
-<polygon fill="#000000" stroke="#000000" points="183.8,-201.15 193.32,-205.8 188.78,-196.23 183.8,-201.15"/>
-</g>
-<!-- proc~enorm -->
-<g id="proc~~hybrj1~~CallsGraph_node4" class="node">
-<title>proc~enorm</title>
-<g id="a_proc~~hybrj1~~CallsGraph_node4"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-150 270,-150 270,-126 324,-126 324,-150"/>
-<text text-anchor="middle" x="297" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrj&#45;&gt;proc~enorm -->
-<g id="proc~~hybrj1~~CallsGraph_edge3" class="edge">
-<title>proc~hybrj&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M131.03,-129.29C142.79,-139.48 161.11,-153.2 180,-159 206.37,-167.09 237.11,-160.84 260.33,-153.11"/>
-<polygon fill="#000000" stroke="#000000" points="261.53,-156.4 269.78,-149.75 259.18,-149.81 261.53,-156.4"/>
-</g>
-<!-- proc~dogleg -->
-<g id="proc~~hybrj1~~CallsGraph_node5" class="node">
-<title>proc~dogleg</title>
-<g id="a_proc~~hybrj1~~CallsGraph_node5"><a xlink:href=".././proc/dogleg.html" xlink:title="dogleg">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-150 180,-150 180,-126 234,-126 234,-150"/>
-<text text-anchor="middle" x="207" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrj&#45;&gt;proc~dogleg -->
-<g id="proc~~hybrj1~~CallsGraph_edge4" class="edge">
-<title>proc~hybrj&#45;&gt;proc~dogleg</title>
-<path fill="none" stroke="#000000" d="M144.4,-123.3C152.48,-125.23 161.51,-127.38 170.1,-129.43"/>
-<polygon fill="#000000" stroke="#000000" points="169.38,-132.86 179.92,-131.78 171,-126.05 169.38,-132.86"/>
+<path fill="none" stroke="#000000" d="M125.76,-126.28C136.73,-143.17 157.92,-174.07 180,-197 180.65,-197.68 181.32,-198.35 182.01,-199.02"/>
+<polygon fill="#000000" stroke="#000000" points="179.98,-201.9 189.78,-205.94 184.64,-196.67 179.98,-201.9"/>
 </g>
 <!-- proc~qrfac -->
-<g id="proc~~hybrj1~~CallsGraph_node6" class="node">
+<g id="proc~~hybrj1~~CallsGraph_node4" class="node">
 <title>proc~qrfac</title>
-<g id="a_proc~~hybrj1~~CallsGraph_node6"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-108 180,-108 180,-84 234,-84 234,-108"/>
-<text text-anchor="middle" x="207" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
+<g id="a_proc~~hybrj1~~CallsGraph_node4"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-188 180,-188 180,-164 234,-164 234,-188"/>
+<text text-anchor="middle" x="207" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrj&#45;&gt;proc~qrfac -->
-<g id="proc~~hybrj1~~CallsGraph_edge6" class="edge">
+<g id="proc~~hybrj1~~CallsGraph_edge3" class="edge">
 <title>proc~hybrj&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M144.4,-110.7C152.48,-108.77 161.51,-106.62 170.1,-104.57"/>
-<polygon fill="#000000" stroke="#000000" points="171,-107.95 179.92,-102.22 169.38,-101.14 171,-107.95"/>
-</g>
-<!-- proc~qform -->
-<g id="proc~~hybrj1~~CallsGraph_node7" class="node">
-<title>proc~qform</title>
-<g id="a_proc~~hybrj1~~CallsGraph_node7"><a xlink:href=".././proc/qform.html" xlink:title="qform">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
-<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qform</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrj&#45;&gt;proc~qform -->
-<g id="proc~~hybrj1~~CallsGraph_edge5" class="edge">
-<title>proc~hybrj&#45;&gt;proc~qform</title>
-<path fill="none" stroke="#000000" d="M134.97,-104.85C147.99,-95.53 166.18,-82.51 180.89,-71.98"/>
-<polygon fill="#000000" stroke="#000000" points="182.99,-74.78 189.08,-66.11 178.92,-69.09 182.99,-74.78"/>
+<path fill="none" stroke="#000000" d="M135.39,-126.25C148.24,-135.31 165.96,-147.79 180.43,-157.99"/>
+<polygon fill="#000000" stroke="#000000" points="178.76,-161.09 188.95,-163.99 182.79,-155.37 178.76,-161.09"/>
 </g>
 <!-- proc~r1updt -->
-<g id="proc~~hybrj1~~CallsGraph_node8" class="node">
+<g id="proc~~hybrj1~~CallsGraph_node5" class="node">
 <title>proc~r1updt</title>
-<g id="a_proc~~hybrj1~~CallsGraph_node8"><a xlink:href=".././proc/r1updt.html" xlink:title="r1updt">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
-<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1updt</text>
+<g id="a_proc~~hybrj1~~CallsGraph_node5"><a xlink:href=".././proc/r1updt.html" xlink:title="r1updt">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-146 180,-146 180,-122 234,-122 234,-146"/>
+<text text-anchor="middle" x="207" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1updt</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrj&#45;&gt;proc~r1updt -->
-<g id="proc~~hybrj1~~CallsGraph_edge7" class="edge">
+<g id="proc~~hybrj1~~CallsGraph_edge4" class="edge">
 <title>proc~hybrj&#45;&gt;proc~r1updt</title>
-<path fill="none" stroke="#000000" d="M125.55,-104.85C136.43,-87.81 157.69,-56.31 180,-33 180.65,-32.32 181.32,-31.64 182.01,-30.97"/>
-<polygon fill="#000000" stroke="#000000" points="184.64,-33.32 189.76,-24.05 179.97,-28.1 184.64,-33.32"/>
+<path fill="none" stroke="#000000" d="M144.4,-120C152.48,-121.84 161.51,-123.89 170.1,-125.84"/>
+<polygon fill="#000000" stroke="#000000" points="169.39,-129.27 179.92,-128.07 170.94,-122.44 169.39,-129.27"/>
 </g>
-<!-- proc~dogleg&#45;&gt;proc~enorm -->
-<g id="proc~~hybrj1~~CallsGraph_edge8" class="edge">
-<title>proc~dogleg&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M234.4,-138C242.39,-138 251.31,-138 259.82,-138"/>
-<polygon fill="#000000" stroke="#000000" points="259.92,-141.5 269.92,-138 259.92,-134.5 259.92,-141.5"/>
+<!-- proc~enorm -->
+<g id="proc~~hybrj1~~CallsGraph_node6" class="node">
+<title>proc~enorm</title>
+<g id="a_proc~~hybrj1~~CallsGraph_node6"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="324,-106 270,-106 270,-82 324,-82 324,-106"/>
+<text text-anchor="middle" x="297" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrj&#45;&gt;proc~enorm -->
+<g id="proc~~hybrj1~~CallsGraph_edge5" class="edge">
+<title>proc~hybrj&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M144.26,-111.05C174.85,-107.61 225.55,-101.92 259.84,-98.06"/>
+<polygon fill="#000000" stroke="#000000" points="260.37,-101.53 269.92,-96.93 259.59,-94.57 260.37,-101.53"/>
+</g>
+<!-- proc~dogleg -->
+<g id="proc~~hybrj1~~CallsGraph_node7" class="node">
+<title>proc~dogleg</title>
+<g id="a_proc~~hybrj1~~CallsGraph_node7"><a xlink:href=".././proc/dogleg.html" xlink:title="dogleg">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
+<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrj&#45;&gt;proc~dogleg -->
+<g id="proc~~hybrj1~~CallsGraph_edge6" class="edge">
+<title>proc~hybrj&#45;&gt;proc~dogleg</title>
+<path fill="none" stroke="#000000" d="M135.81,-101.86C148.45,-93.24 165.63,-81.52 179.83,-71.84"/>
+<polygon fill="#000000" stroke="#000000" points="181.93,-74.65 188.22,-66.12 177.98,-68.87 181.93,-74.65"/>
+</g>
+<!-- proc~qform -->
+<g id="proc~~hybrj1~~CallsGraph_node8" class="node">
+<title>proc~qform</title>
+<g id="a_proc~~hybrj1~~CallsGraph_node8"><a xlink:href=".././proc/qform.html" xlink:title="qform">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
+<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qform</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrj&#45;&gt;proc~qform -->
+<g id="proc~~hybrj1~~CallsGraph_edge7" class="edge">
+<title>proc~hybrj&#45;&gt;proc~qform</title>
+<path fill="none" stroke="#000000" d="M126.01,-101.75C137.1,-85.24 158.25,-55.33 180,-33 180.66,-32.33 181.33,-31.66 182.02,-30.99"/>
+<polygon fill="#000000" stroke="#000000" points="184.65,-33.34 189.8,-24.09 180,-28.1 184.65,-33.34"/>
 </g>
 <!-- proc~qrfac&#45;&gt;proc~enorm -->
-<g id="proc~~hybrj1~~CallsGraph_edge9" class="edge">
+<g id="proc~~hybrj1~~CallsGraph_edge8" class="edge">
 <title>proc~qrfac&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M233.45,-108.15C242.21,-112.33 252.17,-117.08 261.52,-121.54"/>
-<polygon fill="#000000" stroke="#000000" points="260.07,-124.73 270.6,-125.88 263.09,-118.41 260.07,-124.73"/>
+<path fill="none" stroke="#000000" d="M223.61,-163.81C227.08,-160.98 230.71,-157.94 234,-155 248.98,-141.64 265.11,-125.72 277.17,-113.49"/>
+<polygon fill="#000000" stroke="#000000" points="279.95,-115.64 284.45,-106.05 274.95,-110.75 279.95,-115.64"/>
+</g>
+<!-- proc~dogleg&#45;&gt;proc~enorm -->
+<g id="proc~~hybrj1~~CallsGraph_edge9" class="edge">
+<title>proc~dogleg&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M234.4,-66C242.66,-69.75 251.9,-73.95 260.66,-77.94"/>
+<polygon fill="#000000" stroke="#000000" points="259.37,-81.19 269.92,-82.14 262.26,-74.82 259.37,-81.19"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="597pt" height="32pt"
+ viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
+<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
+<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
+<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Called by</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~hybrj1~~CalledByGraph Pages: 1 -->
+<svg id="prochybrj1CalledByGraph" width="195pt" height="32pt"
+ viewBox="0.00 0.00 195.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~hybrj1~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~hybrj1~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 191,-28 191,4 -4,4"/>
+<!-- proc~hybrj1 -->
+<g id="proc~~hybrj1~~CalledByGraph_node1" class="node">
+<title>proc~hybrj1</title>
+<polygon fill="none" stroke="black" points="187,-24 133,-24 133,0 187,0 187,-24"/>
+<text text-anchor="middle" x="160" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">hybrj1</text>
+</g>
+<!-- proc~minpack_hybrj1 -->
+<g id="proc~~hybrj1~~CalledByGraph_node2" class="node">
+<title>proc~minpack_hybrj1</title>
+<g id="a_proc~~hybrj1~~CalledByGraph_node2"><a xlink:href=".././proc/minpack_hybrj1.html" xlink:title="minpack_hybrj1">
+<polygon fill="#d9534f" stroke="#d9534f" points="97,-24 0,-24 0,0 97,0 97,-24"/>
+<text text-anchor="middle" x="48.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">minpack_hybrj1</text>
+</a>
+</g>
+</g>
+<!-- proc~minpack_hybrj1&#45;&gt;proc~hybrj1 -->
+<g id="proc~~hybrj1~~CalledByGraph_edge1" class="edge">
+<title>proc~minpack_hybrj1&#45;&gt;proc~hybrj1</title>
+<path fill="none" stroke="#000000" d="M97.21,-12C105.71,-12 114.43,-12 122.55,-12"/>
+<polygon fill="#000000" stroke="#000000" points="122.8,-15.5 132.8,-12 122.8,-8.5 122.8,-15.5"/>
 </g>
 </g>
 </svg>
