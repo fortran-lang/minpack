@@ -19,9 +19,9 @@
 !
 !       USER-SUPPLIED ...... FCN
 !
-!       MINPACK-SUPPLIED ... DPMPAR,ENORM,HYBRJ1,INITPT,VECFCN
+!       MINPACK-SUPPLIED ... DPMPAR,HYBRJ1,INITPT,VECFCN
 !
-!       FORTRAN-SUPPLIED ... sqrt
+!       FORTRAN-SUPPLIED ... sqrt,norm2
 !
 !     ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
@@ -66,13 +66,13 @@
             ic = ic + 1
             call initpt(n,x,NPRob,factor)
             call vecfcn(n,x,fvec,NPRob)
-            fnorm1 = enorm(n,fvec)
+            fnorm1 = norm2(fvec(1:n))
             write (nwrite,99005) NPRob , n
 99005       format (////5x,' PROBLEM',i5,5x,' DIMENSION',i5,5x//)
             NFEv = 0
             NJEv = 0
             call hybrj1(fcn,n,x,fvec,fjac,ldfjac,tol,info,wa,lwa)
-            fnorm2 = enorm(n,fvec)
+            fnorm2 = norm2(fvec(1:n))
             np(ic) = NPRob
             na(ic) = n
             nf(ic) = NFEv
