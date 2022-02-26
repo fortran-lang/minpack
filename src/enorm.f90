@@ -16,7 +16,7 @@
 !  given here are suitable for every known computer.
 
     pure real(wp) function enorm(n, x)
-
+        use iso_fortran_env, only: wp => real64
         implicit none
 
         integer, intent(in) :: n !! a positive integer input variable.
