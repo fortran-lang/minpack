@@ -33,7 +33,7 @@ end module
 
 
 program example_lmdif1
-use minpack_module, only: enorm, lmdif1
+use minpack_module, only: lmdif1
 use testmod_dif1, only: dp, fcn
 implicit none
 
@@ -53,7 +53,7 @@ m = size(fvec)
 n = size(x)
 allocate(wa(m*n + 5*n + m))
 call lmdif1(fcn, size(fvec), size(x), x, fvec, tol, info, iwa, wa, size(wa))
-print 1000, enorm(size(fvec), fvec), info, x
+print 1000, norm2(fvec), info, x
 1000 format(5x, 'FINAL L2 NORM OF THE RESIDUALS', d15.7 // &
             5x, 'EXIT PARAMETER', 16x, i10              // &
             5x, 'FINAL APPROXIMATE SOLUTION'            // &
