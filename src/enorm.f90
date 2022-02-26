@@ -15,57 +15,59 @@
 !  underflow and rgiant**2 not overflow. the constants
 !  given here are suitable for every known computer.
 
-    pure real(wp) function enorm(n, x)
-        use iso_fortran_env, only: wp => real64
-        implicit none
+pure real(wp) function enorm(n, x)
+    use, intrinsic :: iso_fortran_env, only: wp => real64
+    implicit none
 
-        integer, intent(in) :: n !! a positive integer input variable.
-        real(wp), intent(in) :: x(n) !! an input array of length n.
+    integer, intent(in) :: n !! a positive integer input variable.
+    real(wp), intent(in) :: x(n) !! an input array of length n.
 
-        integer :: i
-        real(wp) :: agiant, s1, s2, s3, xabs, x1max, x3max
+    integer :: i
+    real(wp) :: agiant, s1, s2, s3, xabs, x1max, x3max
 
-        real(wp), parameter :: rdwarf = 3.834e-20_wp
-        real(wp), parameter :: rgiant = 1.304e19_wp
+    real(wp), parameter :: rdwarf = 3.834e-20_wp
+    real(wp), parameter :: rgiant = 1.304e19_wp
+    real(wp), parameter :: one = 1.0_wp
+    real(wp), parameter :: zero = 0.0_wp
 
-        s1 = zero
-        s2 = zero
-        s3 = zero
-        x1max = zero
-        x3max = zero
-        agiant = rgiant/real(n, wp)
-        do i = 1, n
-            xabs = abs(x(i))
-            if (xabs > rdwarf .and. xabs < agiant) then
-                ! sum for intermediate components.
-                s2 = s2 + xabs**2
-            elseif (xabs <= rdwarf) then
-                ! sum for small components.
-                if (xabs <= x3max) then
-                    if (xabs /= zero) s3 = s3 + (xabs/x3max)**2
-                else
-                    s3 = one + s3*(x3max/xabs)**2
-                    x3max = xabs
-                end if
-                ! sum for large components.
-            elseif (xabs <= x1max) then
-                s1 = s1 + (xabs/x1max)**2
+    s1 = zero
+    s2 = zero
+    s3 = zero
+    x1max = zero
+    x3max = zero
+    agiant = rgiant/real(n, wp)
+    do i = 1, n
+        xabs = abs(x(i))
+        if (xabs > rdwarf .and. xabs < agiant) then
+            ! sum for intermediate components.
+            s2 = s2 + xabs**2
+        elseif (xabs <= rdwarf) then
+            ! sum for small components.
+            if (xabs <= x3max) then
+                if (xabs /= zero) s3 = s3 + (xabs/x3max)**2
             else
-                s1 = one + s1*(x1max/xabs)**2
-                x1max = xabs
+                s3 = one + s3*(x3max/xabs)**2
+                x3max = xabs
             end if
-        end do
-
-        ! calculation of norm.
-
-        if (s1 /= zero) then
-            enorm = x1max*sqrt(s1 + (s2/x1max)/x1max)
-        elseif (s2 == zero) then
-            enorm = x3max*sqrt(s3)
+            ! sum for large components.
+        elseif (xabs <= x1max) then
+            s1 = s1 + (xabs/x1max)**2
         else
-            if (s2 >= x3max) enorm = sqrt(s2*(one + (x3max/s2)*(x3max*s3)))
-            if (s2 < x3max) enorm = sqrt(x3max*((s2/x3max) + (x3max*s3)))
+            s1 = one + s1*(x1max/xabs)**2
+            x1max = xabs
         end if
+    end do
 
-    end function enorm
+    ! calculation of norm.
+
+    if (s1 /= zero) then
+        enorm = x1max*sqrt(s1 + (s2/x1max)/x1max)
+    elseif (s2 == zero) then
+        enorm = x3max*sqrt(s3)
+    else
+        if (s2 >= x3max) enorm = sqrt(s2*(one + (x3max/s2)*(x3max*s3)))
+        if (s2 < x3max) enorm = sqrt(x3max*((s2/x3max) + (x3max*s3)))
+    end if
+
+end function enorm
 !*****************************************************************************************
