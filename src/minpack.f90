@@ -97,9 +97,9 @@ module minpack_module
                                        !! the value of iflag should not be changed by fcn unless
                                        !! the user wants to terminate execution of lmstr.
                                        !! in this case set iflag to a negative integer.
-            real(wp) :: x(n) !! independant variable vector
-            real(wp) :: fvec(m) !! value of function at `x`
-            real(wp) :: fjrow(n) !! jacobian row
+            real(wp), intent(in) :: x(n) !! independant variable vector
+            real(wp), intent(out) :: fvec(m) !! value of function at `x`
+            real(wp), intent(out) :: fjrow(n) !! jacobian row
         end subroutine fcn_lmstr
 
     end interface
@@ -703,7 +703,7 @@ contains
         ! determine the number of calls to fcn needed to compute
         ! the jacobian matrix.
 
-        msum = min0(Ml + Mu + 1, n)
+        msum = min(Ml + Mu + 1, n)
 
         ! initialize iteration counter and monitors.
 
@@ -3125,7 +3125,7 @@ contains
 
         ! zero out upper triangle of q in the first min(m,n) columns.
 
-        minmn = min0(m, n)
+        minmn = min(m, n)
         if (minmn >= 2) then
             do j = 2, minmn
                 jm1 = j - 1
@@ -3240,7 +3240,7 @@ contains
 
         ! reduce a to r with householder transformations.
 
-        minmn = min0(m, n)
+        minmn = min(m, n)
         do j = 1, minmn
             if (Pivot) then
 
