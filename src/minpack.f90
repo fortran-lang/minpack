@@ -2725,10 +2725,10 @@ contains
                                           !! multiplicative scale factors for the variables.
         real(wp), intent(out) :: Qtf(n) !! an output array of length n which contains
                                        !! the first n elements of the vector (q transpose)*fvec.
-        real(wp) :: Wa1(n) !! work array of length n.
-        real(wp) :: Wa2(n) !! work array of length n.
-        real(wp) :: Wa3(n) !! work array of length n.
-        real(wp) :: Wa4(m) !! work array of length m.
+        real(wp), intent(inout) :: Wa1(n) !! work array of length n.
+        real(wp), intent(inout) :: Wa2(n) !! work array of length n.
+        real(wp), intent(inout) :: Wa3(n) !! work array of length n.
+        real(wp), intent(inout) :: Wa4(m) !! work array of length m.
 
         integer :: i, iflag, iter, j, l
         real(wp) :: actred, delta, dirder, fnorm, &

@@ -71,3 +71,8 @@ main = "example_lmdif1.f90"
 name = "example_primes"
 source-dir = "examples"
 main = "example_primes.f90"
+
+# [[test]]
+# name = "c-test"
+# source-dir = "test/api"
+# main = "tester.c"

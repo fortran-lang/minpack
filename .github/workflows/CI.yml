@@ -7,9 +7,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        build: [fpm, meson]
         os: [ubuntu-latest, macos-latest, windows-latest]
         gcc: [10] # Version of GFortran we want to use.
-
+    defaults:
+      run:
+        shell: ${{ contains(matrix.os, 'windows') && 'powershell' || 'bash -l {0}' }}
+    env:
+      FC: gfortran
+      CC: gcc
+      FPM_FC: gfortran
+      FPM_CC: gcc
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -21,6 +29,7 @@ jobs:
       run: |
         brew install gcc@${{ matrix.gcc }}
         ln -s /usr/local/bin/gfortran-${{ matrix.gcc }} /usr/local/bin/gfortran
+        ln -s /usr/local/bin/gcc-${{ matrix.gcc }} /usr/local/bin/gcc
 
     - name: Install GFortran (Linux)
       if: ${{ contains(matrix.os, 'ubuntu') }}
@@ -36,35 +45,50 @@ jobs:
         Invoke-WebRequest -Uri ${{ env.DOWNLOAD }} -OutFile mingw-w64.zip
         Expand-Archive mingw-w64.zip
         echo "$pwd\mingw-w64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      shell: pwsh
       env:
         DOWNLOAD: "https://github.com/brechtsanders/winlibs_mingw/releases/download/10.3.0-12.0.0-9.0.0-r2/winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.zip"
 
-    - name: Setup Fortran Package Manager
-      uses: fortran-lang/setup-fpm@v3
+    - name: Install dependencies
+      uses: mamba-org/provision-with-micromamba@main
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        environment-file: config/ci/${{ matrix.build }}-env.yaml
 
-    - name: Compile
+    - name: Compile (fpm)
+      if: ${{ matrix.build == 'fpm' }}
       run: fpm build --profile release
 
-    - name: Run test
+    - name: Run test (fpm)
+      if: ${{ matrix.build == 'fpm' }}
       run: fpm test
 
-    - name: Run examples
+    - name: Run examples (fpm)
+      if: ${{ matrix.build == 'fpm' }}
       run: fpm run --example --all
 
-  Docs:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-        gcc_v: [9] # Version of GFortran we want to use.
-        python-version: [3.7]
-    env:
-      FC: gfortran-${{ matrix.gcc_v }}
-      GCC_V: ${{ matrix.gcc_v }}
+    - name: Setup build (meson)
+      if: ${{ matrix.build == 'meson' }}
+      run: >-
+        meson setup _build
+        --prefix=${{ contains(matrix.os, 'windows') && '$pwd\_dist' || '$PWD/_dist' }}
 
+    - name: Compile project (meson)
+      if: ${{ matrix.build == 'meson' }}
+      run: meson compile -C _build
+
+    - name: Run testsuite (meson)
+      if: ${{ matrix.build == 'meson' }}
+      run: meson test -C _build --no-rebuild --print-errorlogs
+
+    - name: Install project (meson)
+      if: ${{ matrix.build == 'meson' }}
+      run: meson install -C _build --no-rebuild
+
+  Docs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
     - id: deploy-on-push
       run:
@@ -77,30 +101,10 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v1 # Use pip to install latest CMake, & FORD/Jin2For, etc.
+    - name: Install dependencies
+      uses: mamba-org/provision-with-micromamba@main
       with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Setup Graphviz
-      uses: ts-graphviz/setup-graphviz@v1
-
-    - name: Install Python dependencies
-      if: ${{ contains( matrix.os, 'ubuntu') }}
-      run: |
-        python -m pip install --upgrade pip
-        pip install numpy matplotlib ford
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-    - name: Install GFortran Linux
-      if: ${{ contains( matrix.os, 'ubuntu') }}
-      run: |
-        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-        sudo apt-get update
-        sudo apt-get install -y gcc-${GCC_V} gfortran-${GCC_V}
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
-        --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
-        --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
+        environment-file: config/ci/docs-env.yaml
 
     - name: Build documentation
       run: ford ./minpack.md
