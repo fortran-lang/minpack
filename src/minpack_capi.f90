@@ -415,8 +415,8 @@ contains
             integer, intent(in) :: n
             integer, intent(inout) :: iflag
             real(wp), intent(in) :: x(n)
-            real(wp), intent(inout) :: fvec(m)
-            real(wp), intent(inout) :: fjrow(n)
+            real(wp), intent(out) :: fvec(m)
+            real(wp), intent(out) :: fjrow(n)
 
             call fcn(m, n, x, fvec, fjrow, iflag, udata)
         end subroutine wrap_fcn
