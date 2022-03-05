@@ -112,19 +112,28 @@ subroutine fcn(m, n, x, Fvec, Fjrow, Iflag)
     integer,parameter :: Ldfjac = 65
 
     integer :: j
-    real(wp) :: temp(Ldfjac, 40)
+    real(wp), save :: temp(Ldfjac, 40)
+        !! this array is filled when FCN is called with IFLAG=2.
+        !! When FCN is called with IFLAG=2,3,..., the argument array
+        !! FJROW is filled with a row of TEMP. This will work only if
+        !! TEMP is given the SAVE attribute, which was not done in
+        !! the original code.
 
     select case (Iflag)
     case(1)
         call ssqfcn(m, n, x, Fvec, NPRob)
         NFEv = NFEv + 1
-    case default
+        return
+    case(2)
+        ! populate the temp array
         call ssqjac(m, n, x, temp, Ldfjac, NPRob)
         NJEv = NJEv + 1
-        do j = 1, n
-            Fjrow(j) = temp(Iflag - 1, j)
-        end do
     end select
+
+    ! for iflag = 2,3,... get the row from temp
+    do j = 1, n
+        Fjrow(j) = temp(Iflag - 1, j)
+    end do
 
 end subroutine fcn
 !*****************************************************************************************
