@@ -210,18 +210,18 @@ test_lmder1 (void)
 
     minpack_chkder(m, n, x, fvec, fjac, m, xp, fvecp, 1, err);
     info = 1;
-    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, y);
+    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, (void*)y);
     info = 2;
-    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, y);
+    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, (void*)y);
     info = 1;
-    trial_lmder_fcn(m, n, xp, fvecp, fjac, m, &info, y);
+    trial_lmder_fcn(m, n, xp, fvecp, fjac, m, &info, (void*)y);
     minpack_chkder(m, n, x, fvec, fjac, m, xp, fvecp, 2, err);
 
     for (int i = 0; i < 15; i++) {
         if (!check(err[i], 1.0, tol, "Unexpected derivatives")) return 1;
     }
 
-    minpack_lmder1(trial_lmder_fcn, m, n, x, fvec, fjac, m, tol, &info, ipvt, wa, 30, y);
+    minpack_lmder1(trial_lmder_fcn, m, n, x, fvec, fjac, m, tol, &info, ipvt, wa, 30, (void*)y);
     if (!check(info, 1, "Unexpected info value")) return 1;
     if (!check(x[0], 0.8241058e-1, 100*tol, "Unexpected x[0]")) return 1;
     if (!check(x[1], 0.1133037e+1, 100*tol, "Unexpected x[1]")) return 1;
@@ -247,11 +247,11 @@ test_lmder (void)
 
     minpack_chkder(m, n, x, fvec, fjac, m, xp, fvecp, 1, err);
     info = 1;
-    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, y);
+    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, (void*)y);
     info = 2;
-    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, y);
+    trial_lmder_fcn(m, n, x, fvec, fjac, m, &info, (void*)y);
     info = 1;
-    trial_lmder_fcn(m, n, xp, fvecp, fjac, m, &info, y);
+    trial_lmder_fcn(m, n, xp, fvecp, fjac, m, &info, (void*)y);
     minpack_chkder(m, n, x, fvec, fjac, m, xp, fvecp, 2, err);
 
     for (int i = 0; i < 15; i++) {
@@ -259,7 +259,7 @@ test_lmder (void)
     }
 
     minpack_lmder(trial_lmder_fcn, m, n, x, fvec, fjac, m, tol, tol, 0.0, 2000, diag, 1,
-            100.0, 0, &info, &nfev, &njev, ipvt, qtf, wa1, wa2, wa3, wa4, y);
+            100.0, 0, &info, &nfev, &njev, ipvt, qtf, wa1, wa2, wa3, wa4, (void*)y);
     if (!check(info, 1, "Unexpected info value")) return 1;
     if (!check(x[0], 0.8241058e-1, 100*tol, "Unexpected x[0]")) return 1;
     if (!check(x[1], 0.1133037e+1, 100*tol, "Unexpected x[1]")) return 1;
@@ -298,7 +298,7 @@ test_lmdif1 (void)
     int lwa = m*n + 5*n + m;
     double wa[lwa];
 
-    minpack_lmdif1(trial_lmdif_fcn, 15, 3, x, fvec, tol, &info, ipvt, wa, lwa, y);
+    minpack_lmdif1(trial_lmdif_fcn, 15, 3, x, fvec, tol, &info, ipvt, wa, lwa, (void*)y);
     if (!check(info, 1, "Unexpected info value")) return 1;
     if (!check(x[0], 0.8241058e-1, 100*tol, "Unexpected x[0]")) return 1;
     if (!check(x[1], 0.1133037e+1, 100*tol, "Unexpected x[1]")) return 1;
@@ -321,7 +321,7 @@ test_lmdif (void)
     double fjac[m*n], diag[n], qtf[n], wa1[n], wa2[n], wa3[n], wa4[m];
 
     minpack_lmdif(trial_lmdif_fcn, 15, 3, x, fvec, tol, tol, 0.0, 2000, 0.0, diag, 1,
-            100.0, 0, &info, &nfev, fjac, 15, ipvt, qtf, wa1, wa2, wa3, wa4, y);
+            100.0, 0, &info, &nfev, fjac, 15, ipvt, qtf, wa1, wa2, wa3, wa4, (void*)y);
     if (!check(info, 1, "Unexpected info value")) return 1;
     if (!check(x[0], 0.8241058e-1, 100*tol, "Unexpected x[0]")) return 1;
     if (!check(x[1], 0.1133037e+1, 100*tol, "Unexpected x[1]")) return 1;

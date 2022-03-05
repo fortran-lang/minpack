@@ -19,6 +19,16 @@ typedef void (*minpack_func)(
     int* /* iflag */,
     void* /* udata */);
 
+#ifdef MINPACK_CFFI
+extern "Python" void MINPACK_CALL
+func(
+    int /* n */,
+    const double* /* x */,
+    double* /* fvec */,
+    int* /* iflag */,
+    void* /* udata */);
+#endif
+
 /*
  * the purpose of hybrd is to find a zero of a system of
  * n nonlinear functions in n variables by a modification
@@ -84,6 +94,18 @@ typedef void (*minpack_fcn_hybrj)(
     int* /* iflag */,
     void* /* udata */);
 
+#ifdef MINPACK_CFFI
+extern "Python" void MINPACK_CALL
+fcn_hybrj(
+    int /* n */,
+    const double* /* x */,
+    double* /* fvec */,
+    double* /* fjac */,
+    int /* ldfjac */,
+    int* /* iflag */,
+    void* /* udata */);
+#endif
+
 /*
  * the purpose of hybrj is to find a zero of a system of
  * n nonlinear functions in n variables by a modification
@@ -147,6 +169,19 @@ typedef void (*minpack_fcn_lmder)(
     int /* ldfjac */,
     int* /* iflag */,
     void* /* udata */);
+
+#ifdef MINPACK_CFFI
+extern "Python" void MINPACK_CALL
+fcn_lmder(
+    int /* m */,
+    int /* n */,
+    const double* /* x */,
+    double* /* fvec */,
+    double* /* fjac */,
+    int /* ldfjac */,
+    int* /* iflag */,
+    void* /* udata */);
+#endif
 
 /*
  * the purpose of lmder is to minimize the sum of the squares of
@@ -213,6 +248,17 @@ typedef void (*minpack_func2)(
     int* /* iflag */,
     void* /* udata */);
 
+#ifdef MINPACK_CFFI
+extern "Python" void MINPACK_CALL
+func2(
+    int /* m */,
+    int /* n */,
+    const double* /* x */,
+    double* /* fvec */,
+    int* /* iflag */,
+    void* /* udata */);
+#endif
+
 /*
  * the purpose of lmdif is to minimize the sum of the squares of
  * m nonlinear functions in n variables by a modification of
@@ -278,6 +324,18 @@ typedef void (*minpack_fcn_lmstr)(
     double* /* fjrow */,
     int* /* iflag */,
     void* /* udata */);
+
+#ifdef MINPACK_CFFI
+extern "Python" void MINPACK_CALL
+fcn_lmstr(
+    int /* m */,
+    int /* n */,
+    const double* /* x */,
+    double* /* fvec */,
+    double* /* fjrow */,
+    int* /* iflag */,
+    void* /* udata */);
+#endif
 
 /*
  * the purpose of lmstr is to minimize the sum of the squares of

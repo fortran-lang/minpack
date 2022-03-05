@@ -1,0 +1,12 @@
+option(
+  'python',
+  type: 'boolean',
+  value: false,
+  description: 'Build Python extension module',
+)
+option(
+  'python_version',
+  type: 'string',
+  value: 'python3',
+  description: 'Python version to link against.',
+)
