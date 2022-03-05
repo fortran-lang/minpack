@@ -153,6 +153,8 @@ program test
         real(wp) :: h, prod, sum, sum1, sum2, temp, temp1, &
                     temp2, ti, tj, tk, tpi
 
+        fvec(1:n) = zero
+
         ! PROBLEM SELECTOR.
 
         select case (Nprob)
@@ -364,6 +366,8 @@ program test
         real(wp), parameter :: one = 1.0_wp
         real(wp), parameter :: three = 3.0_wp
         real(wp), parameter :: c1 = 1.2_wp
+
+        x(1:n) = zero
 
         ! selection of initial point.
 

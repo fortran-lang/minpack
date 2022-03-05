@@ -135,6 +135,8 @@ program test_chkder
         real(wp) :: h, prod, sum, sum1, sum2, temp, temp1, temp2, &
                     temp3, temp4, ti, tj, tk
 
+        Fjac(1:n,1:n) = zero
+
         ! jacobian routine selector.
 
         select case (nprob)
@@ -398,6 +400,8 @@ program test_chkder
         integer :: ivar, j
         real(wp) :: h, tj
 
+        x(1:n) = zero
+
         ! selection of initial point.
 
         select case (Nprob)
@@ -524,6 +528,8 @@ program test_chkder
         integer :: i, iev, ivar, j, k, k1, k2, kp1, ml, mu
         real(wp) :: h, prod, sum, sum1, sum2, temp, temp1, &
                     temp2, ti, tj, tk
+
+        Fvec(1:n) = zero
 
         ! problem selector.
 

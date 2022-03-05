@@ -109,6 +109,8 @@ program test_hybrj
         case(2)
             call vecjac(n, x, Fjac, Ldfjac, NPRob)
             NJEv = NJEv + 1
+        case default
+            error stop 'invalid iflag value'
         end select
 
     end subroutine fcn
@@ -166,6 +168,8 @@ program test_hybrj
         integer :: i, j, k, k1, k2, ml, mu
         real(wp) :: h, prod, sum, sum1, sum2, temp, temp1, temp2, &
                     temp3, temp4, ti, tj, tk, tpi
+
+        Fjac(1:n,1:n) = zero
 
         ! jacobian routine selector.
 
@@ -422,6 +426,8 @@ program test_hybrj
         real(wp),parameter :: three = 3.0_wp
         real(wp),parameter :: c1 = 1.2_wp
 
+        x(1:n) = zero
+
         ! selection of initial point.
 
         select case (nprob)
@@ -549,6 +555,8 @@ program test_hybrj
         integer :: i, iev, j, k, k1, k2, kp1, ml, mu
         real(wp) :: h, prod, sum, sum1, sum2, temp, temp1, &
                     temp2, ti, tj, tk
+
+        Fvec(1:n) = zero
 
         ! problem selector.
 

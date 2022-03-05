@@ -102,11 +102,14 @@ program test
 
         call ssqfcn(m, n, x, Fvec, NPRob)
 
-        if (Iflag == 1) then
+        select case (Iflag)
+        case(1)
             NFEv = NFEv + 1
-        else if (Iflag == 2) then
+        case(2)
             NJEv = NJEv + 1
-        end if
+        case default
+            error stop 'invalid iflag value'
+        end select
 
     end subroutine fcn
 !*****************************************************************************************
@@ -127,14 +130,14 @@ program test
 !>
 !  This subroutine defines the functions of eighteen nonlinear
 !  least squares problems. the allowable values of (m,n) for
-!  functions 1,2 and 3 are variable but with m .ge. n.
+!  functions 1,2 and 3 are variable but with m >= n.
 !  for functions 4,5,6,7,8,9 and 10 the values of (m,n) are
 !  (2,2),(3,3),(4,4),(2,2),(15,3),(11,4) and (16,3), respectively.
 !  function 11 (watson) has m = 31 with n usually 6 or 9.
 !  however, any n, n = 2,...,31, is permitted.
 !  functions 12,13 and 14 have n = 3,2 and 4, respectively, but
-!  allow any m .ge. n, with the usual choices being 10,10 and 20.
-!  function 15 (chebyquad) allows m and n variable with m .ge. n.
+!  allow any m >= n, with the usual choices being 10,10 and 20.
+!  function 15 (chebyquad) allows m and n variable with m >= n.
 !  function 16 (brown) allows n variable with m = n.
 !  for functions 17 and 18, the values of (m,n) are
 !  (33,5) and (65,11), respectively.
@@ -197,6 +200,8 @@ program test
 
         integer :: i, iev, ivar, j, nm1
         real(wp) :: div, dx, prod, sum, s1, s2, temp, ti, tmp1, tmp2, tmp3, tmp4, tpi
+
+        Fvec(1:m) = zero
 
         ! function routine selector.
 
@@ -435,6 +440,8 @@ program test
 
         integer :: ivar, j
         real(wp) :: h
+
+        x(1:n) = zero
 
         ! selection of initial point.
 

@@ -88,11 +88,11 @@ contains
 
 !*****************************************************************************************
 !>
-!  THE CALLING SEQUENCE OF FCN SHOULD BE IDENTICAL TO THE
-!  CALLING SEQUENCE OF THE FUNCTION SUBROUTINE IN THE NONLINEAR
-!  LEAST-SQUARES SOLVER. FCN SHOULD ONLY CALL THE TESTING
-!  FUNCTION AND JACOBIAN SUBROUTINES SSQFCN AND SSQJAC WITH
-!  THE APPROPRIATE VALUE OF PROBLEM NUMBER (NPROB).
+!  The calling sequence of fcn should be identical to the
+!  calling sequence of the function subroutine in the nonlinear
+!  least-squares solver. fcn should only call the testing
+!  function and jacobian subroutines ssqfcn and ssqjac with
+!  the appropriate value of problem number (nprob).
 
     subroutine fcn(m, n, x, Fvec, Fjac, Ldfjac, Iflag)
 
@@ -692,19 +692,19 @@ contains
 
 !*****************************************************************************************
 !>
-!  THIS SUBROUTINE DEFINES THE FUNCTIONS OF EIGHTEEN NONLINEAR
-!  LEAST SQUARES PROBLEMS. THE ALLOWABLE VALUES OF (M,N) FOR
-!  FUNCTIONS 1,2 AND 3 ARE VARIABLE BUT WITH M .GE. N.
-!  FOR FUNCTIONS 4,5,6,7,8,9 AND 10 THE VALUES OF (M,N) ARE
-!  (2,2),(3,3),(4,4),(2,2),(15,3),(11,4) AND (16,3), RESPECTIVELY.
-!  FUNCTION 11 (WATSON) HAS M = 31 WITH N USUALLY 6 OR 9.
-!  HOWEVER, ANY N, N = 2,...,31, IS PERMITTED.
-!  FUNCTIONS 12,13 AND 14 HAVE N = 3,2 AND 4, RESPECTIVELY, BUT
-!  ALLOW ANY M .GE. N, WITH THE USUAL CHOICES BEING 10,10 AND 20.
-!  FUNCTION 15 (CHEBYQUAD) ALLOWS M AND N VARIABLE WITH M .GE. N.
-!  FUNCTION 16 (BROWN) ALLOWS N VARIABLE WITH M = N.
-!  FOR FUNCTIONS 17 AND 18, THE VALUES OF (M,N) ARE
-!  (33,5) AND (65,11), RESPECTIVELY.
+!  This subroutine defines the functions of eighteen nonlinear
+!  least squares problems. the allowable values of (m,n) for
+!  functions 1,2 and 3 are variable but with m >= n.
+!  for functions 4,5,6,7,8,9 and 10 the values of (m,n) are
+!  (2,2),(3,3),(4,4),(2,2),(15,3),(11,4) and (16,3), respectively.
+!  function 11 (watson) has m = 31 with n usually 6 or 9.
+!  however, any n, n = 2,...,31, is permitted.
+!  functions 12,13 and 14 have n = 3,2 and 4, respectively, but
+!  allow any m >= n, with the usual choices being 10,10 and 20.
+!  function 15 (chebyquad) allows m and n variable with m >= n.
+!  function 16 (brown) allows n variable with m = n.
+!  for functions 17 and 18, the values of (m,n) are
+!  (33,5) and (65,11), respectively.
 
     subroutine ssqfcn(m, n, x, Fvec, Nprob)
 
@@ -770,7 +770,7 @@ contains
              2.92e-1_wp, 1.62e-1_wp, 9.8e-2_wp, 5.4e-2_wp ]
 
         ! initialize:
-        fvec = zero
+        fvec(1:m) = zero
 
         ! FUNCTION ROUTINE SELECTOR.
 

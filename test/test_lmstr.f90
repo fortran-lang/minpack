@@ -19,15 +19,14 @@ program test
     integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv,  &
                NPRob, ntries
     integer :: iwa(40), ma(60), na(60), nf(60), nj(60), np(60), nx(60)
-    real(wp) :: factor, fnorm1, fnorm2, one, ten, tol
+    real(wp) :: factor, fnorm1, fnorm2, tol
     real(wp) :: fjac(40, 40), fnm(60), fvec(65), wa(265), x(40)
 
     integer, dimension(18), parameter :: m_array = [20, 20, 20, 2, 3, 4, 2, 15, 11, 16, 31, 10, 10, 20, 20, 10, 33, 65]
     integer, dimension(18), parameter :: n_array = [10, 10, 10, 2, 3, 4, 2, 3, 4, 3, 9, 3, 2, 4, 10, 10, 5, 11]
 
-    common/refnum/NPRob, NFEv, NJEv
-
-    data one, ten/1.0d0, 1.0d1/
+    real(wp),parameter :: one = 1.0_wp
+    real(wp),parameter :: ten = 10.0_wp
 
     tol = sqrt(dpmpar(1))
     ldfjac = 40
@@ -92,7 +91,7 @@ program test
 !  The calling sequence of fcn should be identical to the
 !  calling sequence of the function subroutine in the nonlinear
 !  least squares solver. if iflag = 1, fcn should only call the
-!  testing function subroutine ssqfcn. if iflag = i, i .ge. 2,
+!  testing function subroutine ssqfcn. if iflag = i, i >= 2,
 !  fcn should only call subroutine ssqjac to calculate the
 !  (i-1)-st row of the jacobian. (the ssqjac subroutine provided
 !  here for testing purposes calculates the entire jacobian
@@ -110,22 +109,22 @@ subroutine fcn(m, n, x, Fvec, Fjrow, Iflag)
     real(wp),intent(out) :: Fvec(m)
     real(wp),intent(out) :: Fjrow(n)
 
-    integer :: j
-    real(wp) :: temp(65, 40)
+    integer,parameter :: Ldfjac = 65
 
-    if (Iflag == 1) then
+    integer :: j
+    real(wp) :: temp(Ldfjac, 40)
+
+    select case (Iflag)
+    case(1)
         call ssqfcn(m, n, x, Fvec, NPRob)
         NFEv = NFEv + 1
-    else if (Iflag == 2) then
-        call ssqjac(m, n, x, temp, 65, NPRob)
+    case default
+        call ssqjac(m, n, x, temp, Ldfjac, NPRob)
         NJEv = NJEv + 1
-    end if
-
-    if (Iflag /= 1) then
         do j = 1, n
             Fjrow(j) = temp(Iflag - 1, j)
         end do
-    end if
+    end select
 
 end subroutine fcn
 !*****************************************************************************************
@@ -180,6 +179,8 @@ subroutine ssqjac(m, n, x, Fjac, Ldfjac, Nprob)
 
     integer i, ivar, j, k, mm1, nm1
     real(wp) :: div, dx, prod, s2, temp, ti, tmp1, tmp2, tmp3, tmp4, tpi
+
+    Fjac(1:m, 1:n) = zero
 
     ! JACOBIAN ROUTINE SELECTOR.
 
@@ -473,6 +474,8 @@ subroutine initpt(n, x, Nprob, Factor)
     integer :: ivar, j
     real(wp) :: h
 
+    x(1:n) = zero
+
     ! SELECTION OF INITIAL POINT.
 
     select case (Nprob)
@@ -590,14 +593,14 @@ end subroutine initpt
 !>
 !  This subroutine defines the functions of eighteen nonlinear
 !  least squares problems. the allowable values of (m,n) for
-!  functions 1,2 and 3 are variable but with m .ge. n.
+!  functions 1,2 and 3 are variable but with m >= n.
 !  for functions 4,5,6,7,8,9 and 10 the values of (m,n) are
 !  (2,2),(3,3),(4,4),(2,2),(15,3),(11,4) and (16,3), respectively.
 !  function 11 (watson) has m = 31 with n usually 6 or 9.
 !  however, any n, n = 2,...,31, is permitted.
 !  functions 12,13 and 14 have n = 3,2 and 4, respectively, but
-!  allow any m .ge. n, with the usual choices being 10,10 and 20.
-!  function 15 (chebyquad) allows m and n variable with m .ge. n.
+!  allow any m >= n, with the usual choices being 10,10 and 20.
+!  function 15 (chebyquad) allows m and n variable with m >= n.
 !  function 16 (brown) allows n variable with m = n.
 !  for functions 17 and 18, the values of (m,n) are
 !  (33,5) and (65,11), respectively.
@@ -661,6 +664,8 @@ subroutine ssqfcn(m, n, x, Fvec, Nprob)
     integer :: i, iev, ivar, j, nm1
     real(wp) :: div, dx, prod, sum, s1, s2, temp, &
                 ti, tmp1, tmp2, tmp3, tmp4, tpi
+
+    Fvec(1:m) = zero
 
     ! FUNCTION ROUTINE SELECTOR.
 
