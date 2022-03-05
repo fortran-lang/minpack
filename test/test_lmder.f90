@@ -21,7 +21,7 @@ program test
 
     implicit none
 
-    integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv, NPRob, ntries
+    integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv, NPRob, ntries, icase
     integer :: iwa(40), ma(60), na(60), nf(60), nj(60), np(60), nx(60)
     real(wp) :: factor, fnorm1, fnorm2, tol
     real(wp) :: fjac(65, 40), fnm(60), fvec(65), wa(265), x(40)
@@ -30,15 +30,20 @@ program test
     real(wp), parameter :: one = 1.0_wp
     real(wp), parameter :: ten = 10.0_wp
 
+    ! these were from file22 in the original code
+    integer,parameter :: ncases = 28
+    integer,dimension(ncases),parameter :: nprobs  = [1,1,2,2,3,3,4,5,6,7,8,9,10,11,11,11,12,13,14,15,15,15,15,16,16,16,17,18]
+    integer,dimension(ncases),parameter :: ns      = [5,5,5,5,5,5,2,3,4,2,3,4,3,6,9,12,3,2,4,1,8,9,10,10,30,40,5,11]
+    integer,dimension(ncases),parameter :: ms      = [10,50,10,50,10,50,2,3,4,2,15,11,16,31,31,31,10,10,20,8,8,9,10,10,30,40,33,65]
+    integer,dimension(ncases),parameter :: ntriess = [1,1,1,1,1,1,3,3,3,3,3,3,2,3,3,3,1,1,3,3,1,1,1,3,1,1,1,1]
+
     tol = sqrt(dpmpar(1))
     ldfjac = 65
     lwa = 265
     ic = 0
-    n = 40
-    m = 65
-    ntries = 1
-    do NPRob = 1, 20
-    if (NPRob == 20) then
+    do icase = 1, ncases+1
+
+    if (icase == ncases+1) then
         write (nwrite, 99002) ic
 99002   format('1SUMMARY OF ', i3, ' CALLS TO LMDER1'/)
         write (nwrite, 99003)
@@ -50,6 +55,12 @@ program test
         end do
         stop
     else
+
+        nprob = nprobs(icase)
+        n = ns(icase)
+        m = ms(icase)
+        ntries = ntriess(icase)
+
         factor = one
         do k = 1, ntries
             ic = ic + 1
