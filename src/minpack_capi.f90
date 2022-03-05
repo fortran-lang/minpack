@@ -187,8 +187,8 @@ contains
             integer, intent(in) :: n
             real(wp), intent(in) :: x(n)
             integer, intent(in) :: ldfjac
-            real(wp), intent(out) :: fvec(n)
-            real(wp), intent(out) :: fjac(ldfjac, n)
+            real(wp), intent(inout) :: fvec(n)
+            real(wp), intent(inout) :: fjac(ldfjac, n)
             integer, intent(inout) :: iflag
 
             call fcn(n, x, fvec, fjac, ldfjac, iflag, udata)
@@ -216,8 +216,8 @@ contains
             integer, intent(in) :: n
             real(wp), intent(in) :: x(n)
             integer, intent(in) :: ldfjac
-            real(wp), intent(out) :: fvec(n)
-            real(wp), intent(out) :: fjac(ldfjac, n)
+            real(wp), intent(inout) :: fvec(n)
+            real(wp), intent(inout) :: fjac(ldfjac, n)
             integer, intent(inout) :: iflag
 
             call fcn(n, x, fvec, fjac, ldfjac, iflag, udata)
@@ -415,8 +415,8 @@ contains
             integer, intent(in) :: n
             integer, intent(inout) :: iflag
             real(wp), intent(in) :: x(n)
-            real(wp), intent(out) :: fvec(m)
-            real(wp), intent(out) :: fjrow(n)
+            real(wp), intent(inout) :: fvec(m)
+            real(wp), intent(inout) :: fjrow(n)
 
             call fcn(m, n, x, fvec, fjrow, iflag, udata)
         end subroutine wrap_fcn
@@ -446,8 +446,8 @@ contains
             integer, intent(in) :: n
             integer, intent(inout) :: iflag
             real(wp), intent(in) :: x(n)
-            real(wp), intent(out) :: fvec(m)
-            real(wp), intent(out) :: fjrow(n)
+            real(wp), intent(inout) :: fvec(m)
+            real(wp), intent(inout) :: fjrow(n)
 
             call fcn(m, n, x, fvec, fjrow, iflag, udata)
         end subroutine wrap_fcn

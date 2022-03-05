@@ -106,8 +106,8 @@ subroutine fcn(m, n, x, Fvec, Fjrow, Iflag)
     integer,intent(in) :: n
     integer,intent(inout) :: Iflag
     real(wp),intent(in) :: x(n)
-    real(wp),intent(out) :: Fvec(m)
-    real(wp),intent(out) :: Fjrow(n)
+    real(wp),intent(inout) :: Fvec(m)
+    real(wp),intent(inout) :: Fjrow(n)
 
     integer,parameter :: Ldfjac = 65
 

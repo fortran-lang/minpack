@@ -99,8 +99,8 @@ program test_hybrj
         integer,intent(in) :: Ldfjac
         integer,intent(inout) :: Iflag
         real(wp),intent(in) :: x(n)
-        real(wp),intent(out) :: Fvec(n)
-        real(wp),intent(out) :: Fjac(Ldfjac, n)
+        real(wp),intent(inout) :: Fvec(n)
+        real(wp),intent(inout) :: Fjac(Ldfjac, n)
 
         select case (iflag)
         case (1)
