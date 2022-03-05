@@ -16,28 +16,28 @@
 program test_chkder
 
     use minpack_module
+    use file23_module
     use iso_fortran_env, only: nwrite => output_unit
 
     implicit none
 
-    integer :: i, ldfjac, lnp, mode, n, nprob
+    integer :: i, ldfjac, lnp, mode, n, nprob, icase
     real(wp) :: cp
-    integer :: na(14), np(14)
-    real(wp) :: diff(10), err(10), errmax(14), errmin(14), &
-                fjac(10, 10), fvec1(10), fvec2(10), x1(10), &
-                x2(10)
+    integer,dimension(ncases) :: na, np
+    real(wp),dimension(ncases) :: errmax, errmin
+    real(wp),dimension(:),allocatable :: diff, err, fvec1, fvec2, x1, x2
+    real(wp),dimension(:,:),allocatable :: fjac
 
-    logical, parameter :: a(14) = [.false., .false., .false., .true., .false., .false., .false., &
-                                   .true., .false., .false., .false., .false., .true., .false.]
+    logical,dimension(ncases),parameter :: a = &
+            [.false., .false., .false., .true., .false., .false., .false., &
+             .true., .false., .false., .false., .false., .true., .false.]
     real(wp), parameter :: one = 1.0_wp
 
-    ldfjac = 10
-    n = 10
     cp = 1.23e-1_wp
 
-    do nprob = 1, 15
+    do icase = 1, ncases+1
 
-    if (nprob == 15) then
+    if (icase == ncases+1) then
         write (nwrite, '(a,i3,a/)') '1SUMMARY OF ', lnp, ' TESTS OF CHKDER'
         write (nwrite, '(a/)') ' NPROB   N    STATUS     ERRMIN         ERRMAX'
         do i = 1, lnp
@@ -45,6 +45,25 @@ program test_chkder
         end do
         stop
     else
+        nprob = nprobs(icase)
+        n = ns(icase)
+        ldfjac = n
+
+        if (allocated(diff)) deallocate(diff)
+        if (allocated(err)) deallocate(err)
+        if (allocated(fjac)) deallocate(fjac)
+        if (allocated(fvec1)) deallocate(fvec1)
+        if (allocated(fvec2)) deallocate(fvec2)
+        if (allocated(x1)) deallocate(x1)
+        if (allocated(x2)) deallocate(x2)
+        allocate(diff(n))
+        allocate(err(n))
+        allocate(fjac(n, n))
+        allocate(fvec1(n))
+        allocate(fvec2(n))
+        allocate(x1(n))
+        allocate(x2(n))
+
         call initpt(n, x1, nprob, one)
         do i = 1, n
             x1(i) = x1(i) + cp

@@ -12,18 +12,16 @@
 
 program test
     use minpack_module
+    use file22_module
     use iso_fortran_env, only: nwrite => output_unit
 
     implicit none
 
     integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv,  &
-               NPRob, ntries
+               NPRob, ntries, icase
     integer :: iwa(40), ma(60), na(60), nf(60), nj(60), np(60), nx(60)
     real(wp) :: factor, fnorm1, fnorm2, tol
     real(wp) :: fjac(40, 40), fnm(60), fvec(65), wa(265), x(40)
-
-    integer, dimension(18), parameter :: m_array = [20, 20, 20, 2, 3, 4, 2, 15, 11, 16, 31, 10, 10, 20, 20, 10, 33, 65]
-    integer, dimension(18), parameter :: n_array = [10, 10, 10, 2, 3, 4, 2, 3, 4, 3, 9, 3, 2, 4, 10, 10, 5, 11]
 
     real(wp),parameter :: one = 1.0_wp
     real(wp),parameter :: ten = 10.0_wp
@@ -32,11 +30,9 @@ program test
     ldfjac = 40
     lwa = 265
     ic = 0
-    ntries = 1
-    do NPRob = 1, 19
-!  100  read (nread,99001) NPRob , n , m , ntries
-! 99001 format (4i5)
-        if (NPRob == 19) then
+    do icase = 1, ncases+1
+
+        if (icase == ncases+1) then
             write (nwrite, 99002) ic
 99002       format('1SUMMARY OF ', i3, ' CALLS TO LMSTR1'/)
             write (nwrite, 99003)
@@ -48,8 +44,10 @@ program test
             end do
             stop
         else
-            n = n_array(NPRob)
-            m = m_array(NPRob)
+            nprob = nprobs(icase)
+            n = ns(icase)
+            m = ms(icase)
+            ntries = ntriess(icase)
             factor = one
             do k = 1, ntries
                 ic = ic + 1

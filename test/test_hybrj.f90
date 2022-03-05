@@ -17,28 +17,26 @@
 program test_hybrj
 
     use minpack_module
+    use file15_module
     use iso_fortran_env, only: nwrite => output_unit
 
     implicit none
 
-    integer :: i, ic, info, k, ldfjac, lwa, n, NFEv, NJEv, &
-               NPRob, ntries
+    integer :: i, ic, info, k, n, NFEv, NJEv, NPRob, ntries, icase, lwa, ldfjac
     integer :: na(60), nf(60), nj(60), np(60), nx(60)
+    real(wp) :: fnm(60)
     real(wp) :: factor, fnorm1, fnorm2
-    real(wp) :: fnm(60), fjac(40, 40), fvec(40), wa(1060), x(40)
+    real(wp),allocatable :: fjac(:,:), fvec(:), wa(:), x(:)
 
     real(wp), parameter :: one = 1.0_wp
     real(wp), parameter :: ten = 10.0_wp
     real(wp), parameter :: tol = sqrt(dpmpar(1))
 
-    ldfjac = 40
-    lwa = 1060
     ic = 0
-    n = 5
-    ntries = 1
 
-    do NPRob = 1, 16
-    if (NPRob == 16) then
+    do icase = 1, ncases+1
+
+    if (icase == ncases+1) then
         write (nwrite, 99002) ic
 99002   format('1SUMMARY OF ', i3, ' CALLS TO HYBRJ1'/)
         write (nwrite, 99003)
@@ -50,6 +48,21 @@ program test_hybrj
         end do
         stop
     else
+        nprob = nprobs(icase)
+        n = ns(icase)
+        ldfjac = n
+        lwa = (n*(n+13))/2
+        ntries = ntriess(icase)
+
+        if (allocated(fjac)) deallocate(fjac)
+        if (allocated(fvec)) deallocate(fvec)
+        if (allocated(wa)) deallocate(wa)
+        if (allocated(x)) deallocate(x)
+        allocate(fjac(n,n))
+        allocate(fvec(n))
+        allocate(wa(lwa))
+        allocate(x(n))
+
         factor = one
         do k = 1, ntries
             ic = ic + 1

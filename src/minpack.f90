@@ -3515,10 +3515,13 @@ contains
         if (nm1 >= 1) then
             do nmj = 1, nm1
                 j = n - nmj
-                if (abs(v(j)) > one) cos = one/v(j)
-                if (abs(v(j)) > one) sin = sqrt(one - cos**2)
-                if (abs(v(j)) <= one) sin = v(j)
-                if (abs(v(j)) <= one) cos = sqrt(one - sin**2)
+                if (abs(v(j)) > one) then
+                    cos = one/v(j)
+                    sin = sqrt(one - cos**2)
+                else
+                    sin = v(j)
+                    cos = sqrt(one - sin**2)
+                end if
                 do i = 1, m
                     temp = cos*a(i, j) - sin*a(i, n)
                     a(i, n) = sin*a(i, j) + cos*a(i, n)

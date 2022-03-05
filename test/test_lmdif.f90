@@ -13,28 +13,27 @@
 
 program test
     use minpack_module
+    use file22_module
     use iso_fortran_env, only: nwrite => output_unit
 
     implicit none
 
-    integer :: i, ic, info, k, lwa, m, n, NFEv, NJEv, NPRob, &
-               ntries
+    integer :: i, ic, info, k, m, n, NFEv, NJEv, NPRob, &
+               ntries, icase
     integer :: iwa(40), ma(60), na(60), nf(60), nj(60), np(60), &
                nx(60)
     real(wp) :: factor, fnorm1, fnorm2, tol
     real(wp) :: fnm(60), fvec(65), wa(2865), x(40)
 
+    integer,parameter :: lwa = 2865
     real(wp),parameter :: one = 1.0_wp
     real(wp),parameter :: ten = 10.0_wp
 
     tol = sqrt(dpmpar(1))
-    lwa = 2865
     ic = 0
-    n = 40
-    m = 65
-    ntries = 1
-    do NPRob = 1, 20
-    if (NPRob == 20) then
+    do icase = 1, ncases+1
+
+    if (icase == ncases+1) then
         write (nwrite, 99002) ic
 99002   format('1SUMMARY OF ', i3, ' CALLS TO LMDIF1'/)
         write (nwrite, 99003)
@@ -46,6 +45,11 @@ program test
         end do
         stop
     else
+        nprob = nprobs(icase)
+        n = ns(icase)
+        m = ms(icase)
+        ntries = ntriess(icase)
+
         factor = one
         do k = 1, ntries
             ic = ic + 1

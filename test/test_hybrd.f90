@@ -18,27 +18,26 @@
 program test
 
     use minpack_module
+    use file15_module
     use iso_fortran_env, only: output_unit
 
     implicit none
 
-    integer :: i, ic, info, k, lwa, n, NFEv, NPRob, &
-               ntries, icase
+    integer :: i, ic, info, k, lwa, n, NFEv, NPRob, ntries, icase
     integer :: na(60), nf(60), np(60), nx(60)
+    real(wp) :: fnm(60)
     real(wp) :: factor, fnorm1, fnorm2, tol
-    real(wp) :: fnm(60), fvec(40), wa(2660), x(40)
+    real(wp),allocatable :: fvec(:), wa(:), x(:)
 
     integer, parameter :: nwrite = output_unit ! logical output unit
     real(wp), parameter :: one = 1.0_wp
     real(wp), parameter :: ten = 10.0_wp
 
     tol = sqrt(dpmpar(1))
-    lwa = 2660
     ic = 0
-    n = 5
-    ntries = 1
-    do NPRob = 1, 16
-        if (NPRob == 16) then
+    do icase = 1, ncases+1
+
+        if (icase == ncases+1) then
             write (nwrite, 99002) ic
 99002       format('1SUMMARY OF ', i3, ' CALLS TO HYBRD1'/)
             write (nwrite, 99003)
@@ -49,6 +48,18 @@ program test
             end do
             stop
         else
+            nprob = nprobs(icase)
+            n = ns(icase)
+            lwa = (n*(3*n+13))/2
+            ntries = ntriess(icase)
+
+            if (allocated(fvec)) deallocate(fvec)
+            if (allocated(wa)) deallocate(wa)
+            if (allocated(x)) deallocate(x)
+            allocate(fvec(n))
+            allocate(wa(lwa))
+            allocate(x(n))
+
             factor = one
             do k = 1, ntries
                 ic = ic + 1
@@ -65,13 +76,12 @@ program test
                 nf(ic) = NFEv
                 nx(ic) = info
                 fnm(ic) = fnorm2
-                write (nwrite, 99006) fnorm1, fnorm2, NFEv, info,        &
-                                   & (x(i), i=1, n)
-99006           format(5x, ' INITIAL L2 NORM OF THE RESIDUALS', d15.7//5x,   &
-                                 &' FINAL L2 NORM OF THE RESIDUALS  ', d15.7//5x,      &
-                                 &' NUMBER OF FUNCTION EVALUATIONS  ', i10//5x,        &
-                                 &' EXIT PARAMETER', 18x, i10//5x,                      &
-                                 &' FINAL APPROXIMATE SOLUTION'//(5x, 5d15.7))
+                write (nwrite, 99006) fnorm1, fnorm2, NFEv, info, (x(i), i=1, n)
+99006           format(5x, ' INITIAL L2 NORM OF THE RESIDUALS', d15.7//5x, &
+                           ' FINAL L2 NORM OF THE RESIDUALS  ', d15.7//5x, &
+                           ' NUMBER OF FUNCTION EVALUATIONS  ', i10//5x,   &
+                           ' EXIT PARAMETER', 18x, i10//5x,                &
+                           ' FINAL APPROXIMATE SOLUTION'//(5x, 5d15.7))
                 factor = ten*factor
             end do
         end if
