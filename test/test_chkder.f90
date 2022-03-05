@@ -16,10 +16,14 @@
 program test_chkder
 
     use minpack_module
-    use file23_module
     use iso_fortran_env, only: nwrite => output_unit
 
     implicit none
+
+    ! originally from file23
+    integer,parameter :: ncases = 14
+    integer,dimension(ncases),parameter :: nprobs  = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+    integer,dimension(ncases),parameter :: ns      = [2,4,2,4,3,9,7,10,10,10,10,10,10,10]
 
     integer :: i, ldfjac, lnp, mode, n, nprob, icase
     real(wp) :: cp
