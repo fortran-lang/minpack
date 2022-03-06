@@ -428,7 +428,7 @@ program test
         real(wp),parameter :: seven  = 7.0_wp
         real(wp),parameter :: ten    = 10.0_wp
         real(wp),parameter :: twenty = 20.0_wp
-        real(wp),parameter :: twntf  = 20.5_wp
+        real(wp),parameter :: twntf  = 25.0_wp
 
         real(wp),parameter :: c1  = 1.2_wp
         real(wp),parameter :: c2  = 2.5e-1_wp
