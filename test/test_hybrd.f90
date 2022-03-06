@@ -31,25 +31,22 @@ program test
     integer :: i, ic, info, k, lwa, n, NFEv, NPRob, ntries, icase
     integer :: na(60), nf(60), np(60), nx(60)
     real(wp) :: fnm(60)
-    real(wp) :: factor, fnorm1, fnorm2, tol
+    real(wp) :: factor, fnorm1, fnorm2
     real(wp),allocatable :: fvec(:), wa(:), x(:)
 
-    integer, parameter :: nwrite = output_unit ! logical output unit
+    integer, parameter :: nwrite = output_unit !! logical output unit
     real(wp), parameter :: one = 1.0_wp
     real(wp), parameter :: ten = 10.0_wp
+    real(wp), parameter :: tol = sqrt(dpmpar(1))
 
-    tol = sqrt(dpmpar(1))
     ic = 0
     do icase = 1, ncases+1
 
         if (icase == ncases+1) then
-            write (nwrite, 99002) ic
-99002       format('1SUMMARY OF ', i3, ' CALLS TO HYBRD1'/)
-            write (nwrite, 99003)
-99003       format(' NPROB   N    NFEV  INFO  FINAL L2 NORM'/)
+            write (nwrite, '(A,I3,A/)') '1SUMMARY OF ', ic, ' CALLS TO HYBRD1'
+            write (nwrite, '(A/)')      ' NPROB   N    NFEV  INFO  FINAL L2 NORM'
             do i = 1, ic
-                write (nwrite, 99004) np(i), na(i), nf(i), nx(i), fnm(i)
-99004           format(i4, i6, i7, i6, 1x, d15.7)
+                write (nwrite, '(i4, i6, i7, i6, 1x, d15.7)') np(i), na(i), nf(i), nx(i), fnm(i)
             end do
             stop
         else
@@ -71,8 +68,7 @@ program test
                 call initpt(n, x, NPRob, factor)
                 call vecfcn(n, x, fvec, NPRob)
                 fnorm1 = enorm(n, fvec)
-                write (nwrite, 99005) NPRob, n
-99005           format(////5x, ' PROBLEM', i5, 5x, ' DIMENSION', i5, 5x//)
+                write (nwrite, '(////5x,A,I5,5X,A,I5,5X//)') ' PROBLEM', NPRob, ' DIMENSION', n
                 NFEv = 0
                 call hybrd1(fcn, n, x, fvec, tol, info, wa, lwa)
                 fnorm2 = enorm(n, fvec)
@@ -81,12 +77,12 @@ program test
                 nf(ic) = NFEv
                 nx(ic) = info
                 fnm(ic) = fnorm2
-                write (nwrite, 99006) fnorm1, fnorm2, NFEv, info, (x(i), i=1, n)
-99006           format(5x, ' INITIAL L2 NORM OF THE RESIDUALS', d15.7//5x, &
-                           ' FINAL L2 NORM OF THE RESIDUALS  ', d15.7//5x, &
-                           ' NUMBER OF FUNCTION EVALUATIONS  ', i10//5x,   &
-                           ' EXIT PARAMETER', 18x, i10//5x,                &
-                           ' FINAL APPROXIMATE SOLUTION'//(5x, 5d15.7))
+                write (nwrite, '(5X,A,D15.7//5X,A,D15.7//5X,A,I10//5X,A,18X,I10//5X,A//,*(5X,5D15.7/))') &
+                       ' INITIAL L2 NORM OF THE RESIDUALS', fnorm1, &
+                       ' FINAL L2 NORM OF THE RESIDUALS  ', fnorm2, &
+                       ' NUMBER OF FUNCTION EVALUATIONS  ', NFEv,   &
+                       ' EXIT PARAMETER', info, &
+                       ' FINAL APPROXIMATE SOLUTION', x(1:n)
                 factor = ten*factor
             end do
         end if

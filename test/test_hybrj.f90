@@ -40,63 +40,56 @@ program test_hybrj
     ic = 0
 
     do icase = 1, ncases+1
+        if (icase == ncases+1) then
+            write (nwrite, '(A,I3,A/)') '1SUMMARY OF ', ic, ' CALLS TO HYBRJ1'
+            write (nwrite, '(A/)')      ' NPROB   N    NFEV   NJEV  INFO  FINAL L2 NORM'
+            do i = 1, ic
+                write (nwrite, '(I4,I6,2I7,I6,1X,D15.7)') np(i), na(i), nf(i), nj(i), nx(i), fnm(i)
+            end do
+            stop
+        else
+            nprob = nprobs(icase)
+            n = ns(icase)
+            ldfjac = n
+            lwa = (n*(n+13))/2
+            ntries = ntriess(icase)
 
-    if (icase == ncases+1) then
-        write (nwrite, 99002) ic
-99002   format('1SUMMARY OF ', i3, ' CALLS TO HYBRJ1'/)
-        write (nwrite, 99003)
-99003   format(' NPROB   N    NFEV   NJEV  INFO  FINAL L2 NORM'/)
-        do i = 1, ic
-            write (nwrite, 99004) np(i), na(i), nf(i), nj(i), nx(i),&
-                               & fnm(i)
-99004       format(i4, i6, 2i7, i6, 1x, d15.7)
-        end do
-        stop
-    else
-        nprob = nprobs(icase)
-        n = ns(icase)
-        ldfjac = n
-        lwa = (n*(n+13))/2
-        ntries = ntriess(icase)
+            if (allocated(fjac)) deallocate(fjac)
+            if (allocated(fvec)) deallocate(fvec)
+            if (allocated(wa)) deallocate(wa)
+            if (allocated(x)) deallocate(x)
+            allocate(fjac(n,n))
+            allocate(fvec(n))
+            allocate(wa(lwa))
+            allocate(x(n))
 
-        if (allocated(fjac)) deallocate(fjac)
-        if (allocated(fvec)) deallocate(fvec)
-        if (allocated(wa)) deallocate(wa)
-        if (allocated(x)) deallocate(x)
-        allocate(fjac(n,n))
-        allocate(fvec(n))
-        allocate(wa(lwa))
-        allocate(x(n))
-
-        factor = one
-        do k = 1, ntries
-            ic = ic + 1
-            call initpt(n, x, NPRob, factor)
-            call vecfcn(n, x, fvec, NPRob)
-            fnorm1 = enorm(n, fvec)
-            write (nwrite, 99005) NPRob, n
-99005       format(////5x, ' PROBLEM', i5, 5x, ' DIMENSION', i5, 5x//)
-            NFEv = 0
-            NJEv = 0
-            call hybrj1(fcn, n, x, fvec, fjac, ldfjac, tol, info, wa, lwa)
-            fnorm2 = enorm(n, fvec)
-            np(ic) = NPRob
-            na(ic) = n
-            nf(ic) = NFEv
-            nj(ic) = NJEv
-            nx(ic) = info
-            fnm(ic) = fnorm2
-            write (nwrite, 99006) fnorm1, fnorm2, NFEv, NJEv, info, &
-                               & (x(i), i=1, n)
-99006       format(5x, ' INITIAL L2 NORM OF THE RESIDUALS', d15.7//5x,   &
-                       ' FINAL L2 NORM OF THE RESIDUALS  ', d15.7//5x,   &
-                       ' NUMBER OF FUNCTION EVALUATIONS  ', i10//5x,     &
-                       ' NUMBER OF JACOBIAN EVALUATIONS  ', i10//5x,     &
-                       ' EXIT PARAMETER', 18x, i10//5x,                  &
-                       ' FINAL APPROXIMATE SOLUTION'//(5x, 5d15.7))
-            factor = ten*factor
-        end do
-    end if
+            factor = one
+            do k = 1, ntries
+                ic = ic + 1
+                call initpt(n, x, NPRob, factor)
+                call vecfcn(n, x, fvec, NPRob)
+                fnorm1 = enorm(n, fvec)
+                write (nwrite, '(////5X,A,I5,5X,A,I5,5X//)') ' PROBLEM', NPRob, ' DIMENSION', n
+                NFEv = 0
+                NJEv = 0
+                call hybrj1(fcn, n, x, fvec, fjac, ldfjac, tol, info, wa, lwa)
+                fnorm2 = enorm(n, fvec)
+                np(ic) = NPRob
+                na(ic) = n
+                nf(ic) = NFEv
+                nj(ic) = NJEv
+                nx(ic) = info
+                fnm(ic) = fnorm2
+                write (nwrite, '(5X,A,D15.7//5X,A,D15.7//5X,A,I10//5X,A,I10//5X,A,18X,I10//5X,A//*(5X,5D15.7/))') &
+                        ' INITIAL L2 NORM OF THE RESIDUALS', fnorm1, &
+                        ' FINAL L2 NORM OF THE RESIDUALS  ', fnorm2, &
+                        ' NUMBER OF FUNCTION EVALUATIONS  ', NFEv,   &
+                        ' NUMBER OF JACOBIAN EVALUATIONS  ', NJEv,   &
+                        ' EXIT PARAMETER', info, &
+                        ' FINAL APPROXIMATE SOLUTION', x(1:n)
+                factor = ten*factor
+            end do
+        end if
     end do
 
     contains

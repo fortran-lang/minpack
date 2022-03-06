@@ -41,60 +41,60 @@ program test_chkder
 
     do icase = 1, ncases+1
 
-    if (icase == ncases+1) then
-        write (nwrite, '(a,i3,a/)') '1SUMMARY OF ', lnp, ' TESTS OF CHKDER'
-        write (nwrite, '(a/)') ' NPROB   N    STATUS     ERRMIN         ERRMAX'
-        do i = 1, lnp
-            write (nwrite, '(i4, i6, 6x, l1, 3x, 2d15.7)') np(i), na(i), a(i), errmin(i), errmax(i)
-        end do
-        stop
-    else
-        nprob = nprobs(icase)
-        n = ns(icase)
-        ldfjac = n
+        if (icase == ncases+1) then
+            write (nwrite, '(a,i3,a/)') '1SUMMARY OF ', lnp, ' TESTS OF CHKDER'
+            write (nwrite, '(a/)')      ' NPROB   N    STATUS     ERRMIN         ERRMAX'
+            do i = 1, lnp
+                write (nwrite, '(i4, i6, 6x, l1, 3x, 2d15.7)') np(i), na(i), a(i), errmin(i), errmax(i)
+            end do
+            stop
+        else
+            nprob = nprobs(icase)
+            n = ns(icase)
+            ldfjac = n
 
-        if (allocated(diff)) deallocate(diff)
-        if (allocated(err)) deallocate(err)
-        if (allocated(fjac)) deallocate(fjac)
-        if (allocated(fvec1)) deallocate(fvec1)
-        if (allocated(fvec2)) deallocate(fvec2)
-        if (allocated(x1)) deallocate(x1)
-        if (allocated(x2)) deallocate(x2)
-        allocate(diff(n))
-        allocate(err(n))
-        allocate(fjac(n, n))
-        allocate(fvec1(n))
-        allocate(fvec2(n))
-        allocate(x1(n))
-        allocate(x2(n))
+            if (allocated(diff)) deallocate(diff)
+            if (allocated(err)) deallocate(err)
+            if (allocated(fjac)) deallocate(fjac)
+            if (allocated(fvec1)) deallocate(fvec1)
+            if (allocated(fvec2)) deallocate(fvec2)
+            if (allocated(x1)) deallocate(x1)
+            if (allocated(x2)) deallocate(x2)
+            allocate(diff(n))
+            allocate(err(n))
+            allocate(fjac(n, n))
+            allocate(fvec1(n))
+            allocate(fvec2(n))
+            allocate(x1(n))
+            allocate(x2(n))
 
-        call initpt(n, x1, nprob, one)
-        do i = 1, n
-            x1(i) = x1(i) + cp
-            cp = -cp
-        end do
-        write (nwrite, '(///5x, a, i5, 5x, a, i5, 2x, a, l1)') ' PROBLEM', nprob, ' WITH DIMENSION', n, ' IS  ', a(nprob)
-        mode = 1
-        call chkder(n, n, x1, fvec1, fjac, ldfjac, x2, fvec2, mode, err)
-        mode = 2
-        call vecfcn(n, x1, fvec1, nprob)
-        call errjac(n, x1, fjac, ldfjac, nprob)
-        call vecfcn(n, x2, fvec2, nprob)
-        call chkder(n, n, x1, fvec1, fjac, ldfjac, x2, fvec2, mode, err)
-        errmin(nprob) = err(1)
-        errmax(nprob) = err(1)
-        do i = 1, n
-            diff(i) = fvec2(i) - fvec1(i)
-            if (errmin(nprob) > err(i)) errmin(nprob) = err(i)
-            if (errmax(nprob) < err(i)) errmax(nprob) = err(i)
-        end do
-        np(nprob) = nprob
-        lnp = nprob
-        na(nprob) = n
-        write (nwrite, '(//5x, a//(5x, 5d15.7))') ' FIRST FUNCTION VECTOR   ', (fvec1(i), i=1, n)
-        write (nwrite, '(//5x, a//(5x, 5d15.7))') ' FUNCTION DIFFERENCE VECTOR', (diff(i), i=1, n)
-        write (nwrite, '(//5x, a//(5x, 5d15.7))') ' ERROR VECTOR', (err(i), i=1, n)
-    end if
+            call initpt(n, x1, nprob, one)
+            do i = 1, n
+                x1(i) = x1(i) + cp
+                cp = -cp
+            end do
+            write (nwrite, '(///5x, a, i5, 5x, a, i5, 2x, a, l1)') ' PROBLEM', nprob, ' WITH DIMENSION', n, ' IS  ', a(nprob)
+            mode = 1
+            call chkder(n, n, x1, fvec1, fjac, ldfjac, x2, fvec2, mode, err)
+            mode = 2
+            call vecfcn(n, x1, fvec1, nprob)
+            call errjac(n, x1, fjac, ldfjac, nprob)
+            call vecfcn(n, x2, fvec2, nprob)
+            call chkder(n, n, x1, fvec1, fjac, ldfjac, x2, fvec2, mode, err)
+            errmin(nprob) = err(1)
+            errmax(nprob) = err(1)
+            do i = 1, n
+                diff(i) = fvec2(i) - fvec1(i)
+                if (errmin(nprob) > err(i)) errmin(nprob) = err(i)
+                if (errmax(nprob) < err(i)) errmax(nprob) = err(i)
+            end do
+            np(nprob) = nprob
+            lnp = nprob
+            na(nprob) = n
+            write (nwrite, '(//5x, a//(5x, 5d15.7))') ' FIRST FUNCTION VECTOR   ', (fvec1(i), i=1, n)
+            write (nwrite, '(//5x, a//(5x, 5d15.7))') ' FUNCTION DIFFERENCE VECTOR', (diff(i), i=1, n)
+            write (nwrite, '(//5x, a//(5x, 5d15.7))') ' ERROR VECTOR', (err(i), i=1, n)
+        end if
 
     end do
 
