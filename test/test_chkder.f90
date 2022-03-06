@@ -154,7 +154,7 @@ program test_chkder
         real(wp),parameter :: c9 = 2.9e1_wp
         real(wp),parameter :: tpi = eight*atan(one)
 
-        integer :: i, ivar, j, k, k1, k2, ml, mu
+        integer :: i, j, k, k1, k2, ml, mu
         real(wp) :: h, prod, sum, sum1, sum2, temp, temp1, temp2, &
                     temp3, temp4, ti, tj, tk
 
@@ -420,7 +420,7 @@ program test_chkder
         real(wp) :: three = 3.0_wp
         real(wp) :: c1 = 1.2_wp
 
-        integer :: ivar, j
+        integer :: j
         real(wp) :: h, tj
 
         x(1:n) = zero
@@ -548,7 +548,7 @@ program test_chkder
         real(wp),parameter :: c9 = 2.9e1_wp
         real(wp),parameter :: tpi = eight*atan(one)
 
-        integer :: i, iev, ivar, j, k, k1, k2, kp1, ml, mu
+        integer :: i, iev, j, k, k1, k2, kp1, ml, mu
         real(wp) :: h, prod, sum, sum1, sum2, temp, temp1, &
                     temp2, ti, tj, tk
 
