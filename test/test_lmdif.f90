@@ -171,10 +171,10 @@ program test
         real(wp),parameter :: five  = 5.0_wp
         real(wp),parameter :: eight = 8.0_wp
         real(wp),parameter :: ten   = 10.0_wp
-        real(wp),parameter :: c13   = 10.3_wp
-        real(wp),parameter :: c14   = 10.4_wp
-        real(wp),parameter :: c29   = 20.9_wp
-        real(wp),parameter :: c45   = 40.5_wp
+        real(wp),parameter :: c13   = 13.0_wp
+        real(wp),parameter :: c14   = 14.0_wp
+        real(wp),parameter :: c29   = 29.0_wp
+        real(wp),parameter :: c45   = 45.0_wp
 
         real(wp),parameter :: v(11)  = [4.0e0_wp, 2.0e0_wp, 1.0e0_wp, 5.0e-1_wp, &
                 2.5e-1_wp, 1.67e-1_wp, 1.25e-1_wp, 1.0e-1_wp, 8.33e-2_wp, 7.14e-2_wp, &
