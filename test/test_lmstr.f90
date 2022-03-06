@@ -23,18 +23,22 @@ program test
     integer,dimension(ncases),parameter :: ms      = [10,50,10,50,10,50,2,3,4,2,15,11,16,31,31,31,10,10,20,8,8,9,10,10,30,40,33,65]
     integer,dimension(ncases),parameter :: ntriess = [1,1,1,1,1,1,3,3,3,3,3,3,2,3,3,3,1,1,3,3,1,1,1,3,1,1,1,1]
 
+    integer,dimension(:),allocatable :: iwa
+    real(wp),dimension(:),allocatable :: wa
+    real(wp),dimension(:,:),allocatable :: fjac
+    real(wp),dimension(:),allocatable :: fvec
+    real(wp),dimension(:),allocatable :: x
+
     integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv,  &
                NPRob, ntries, icase
-    integer :: iwa(40), ma(60), na(60), nf(60), nj(60), np(60), nx(60)
+    integer :: ma(60), na(60), nf(60), nj(60), np(60), nx(60)
+    real(wp) :: fnm(60)
     real(wp) :: factor, fnorm1, fnorm2, tol
-    real(wp) :: fjac(40, 40), fnm(60), fvec(65), wa(265), x(40)
 
     real(wp),parameter :: one = 1.0_wp
     real(wp),parameter :: ten = 10.0_wp
 
     tol = sqrt(dpmpar(1))
-    ldfjac = 40
-    lwa = 265
     ic = 0
     do icase = 1, ncases+1
 
@@ -53,6 +57,15 @@ program test
             nprob = nprobs(icase)
             n = ns(icase)
             m = ms(icase)
+            lwa = 5*n+m
+            ldfjac = n
+
+            if (allocated(iwa)) deallocate(iwa);    allocate(iwa(n))
+            if (allocated(wa)) deallocate(wa);      allocate(wa(lwa))
+            if (allocated(fjac)) deallocate(fjac);  allocate(fjac(n,n))
+            if (allocated(fvec)) deallocate(fvec);  allocate(fvec(m))
+            if (allocated(x)) deallocate(x);        allocate(x(n))
+
             ntries = ntriess(icase)
             factor = one
             do k = 1, ntries
@@ -190,7 +203,7 @@ subroutine ssqjac(m, n, x, Fjac, Ldfjac, Nprob)
     real(wp),parameter :: v(11) = [4.0_wp, 2.0_wp, 1.0_wp, 5.0e-1_wp, 2.5e-1_wp, 1.67e-1_wp, &
                                    1.25e-1_wp, 1.0e-1_wp, 8.33e-2_wp, 7.14e-2_wp, 6.25e-2_wp]
 
-    integer i, ivar, j, k, mm1, nm1
+    integer :: i, ivar, j, k, mm1, nm1
     real(wp) :: div, dx, prod, s2, temp, ti, tmp1, tmp2, tmp3, tmp4, tpi
 
     Fjac(1:m, 1:n) = zero
