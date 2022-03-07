@@ -9,10 +9,6 @@
 !  Interface subroutine fcn is necessary to take into account the
 !  Forms of calling sequences used by the function and jacobian
 !  Subroutines in the various nonlinear least-squares solvers.
-!
-!### Reference
-!  * ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
-!    BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
 
 program test
 
@@ -29,69 +25,73 @@ program test
     integer,dimension(ncases),parameter :: ntriess = [1,1,1,1,1,1,3,3,3,3,3,3,2,3,3,3,1,1,3,3,1,1,1,3,1,1,1,1]
 
     integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv, NPRob, ntries, icase
-    integer :: iwa(40), ma(60), na(60), nf(60), nj(60), np(60), nx(60)
-    real(wp) :: factor, fnorm1, fnorm2, tol
-    real(wp) :: fjac(65, 40), fnm(60), fvec(65), wa(265), x(40)
+    real(wp) :: factor, fnorm1, fnorm2
+    integer :: ma(60), na(60), nf(60), nj(60), np(60), nx(60)
+    real(wp) :: fnm(60)
+    integer,dimension(:),allocatable :: iwa
+    real(wp),dimension(:),allocatable :: fvec, wa, x
+    real(wp),dimension(:,:),allocatable :: fjac
 
     integer, parameter :: nwrite = output_unit ! logical output unit
     real(wp), parameter :: one = 1.0_wp
     real(wp), parameter :: ten = 10.0_wp
+    real(wp), parameter :: tol = sqrt(dpmpar(1))
 
-    tol = sqrt(dpmpar(1))
-    ldfjac = 65
-    lwa = 265
     ic = 0
     do icase = 1, ncases+1
 
-    if (icase == ncases+1) then
-        write (nwrite, 99002) ic
-99002   format('1SUMMARY OF ', i3, ' CALLS TO LMDER1'/)
-        write (nwrite, 99003)
-99003   format(' NPROB   N    M   NFEV  NJEV  INFO  FINAL L2 NORM'/)
-        do i = 1, ic
-            write (nwrite, 99004) np(i), na(i), ma(i), nf(i), nj(i),&
-                               & nx(i), fnm(i)
-99004       format(3i5, 3i6, 1x, d15.7)
-        end do
-        stop
-    else
+        if (icase == ncases+1) then
+            write (nwrite, '(A,I3,A/)') '1SUMMARY OF ', ic, ' CALLS TO LMDER1'
+            write (nwrite, '(A/)')      ' NPROB   N    M   NFEV  NJEV  INFO  FINAL L2 NORM'
+            do i = 1, ic
+                write (nwrite, '(3I5,3I6,1X,D15.7)') np(i), na(i), ma(i), nf(i), nj(i), nx(i), fnm(i)
+            end do
+            stop
+        else
 
-        nprob = nprobs(icase)
-        n = ns(icase)
-        m = ms(icase)
-        ntries = ntriess(icase)
+            nprob = nprobs(icase)
+            n = ns(icase)
+            m = ms(icase)
+            lwa = 5*n+m
+            ldfjac = m
 
-        factor = one
-        do k = 1, ntries
-            ic = ic + 1
-            call initpt(n, x, NPRob, factor)
-            call ssqfcn(m, n, x, fvec, NPRob)
-            fnorm1 = enorm(m, fvec)
-            write (nwrite, 99005) NPRob, n, m
-99005       format(////5x, ' PROBLEM', i5, 5x, ' DIMENSIONS', 2i5, 5x//)
-            NFEv = 0
-            NJEv = 0
-            call lmder1(fcn, m, n, x, fvec, fjac, ldfjac, tol, info, iwa, wa, lwa)
-            call ssqfcn(m, n, x, fvec, NPRob)
-            fnorm2 = enorm(m, fvec)
-            np(ic) = NPRob
-            na(ic) = n
-            ma(ic) = m
-            nf(ic) = NFEv
-            nj(ic) = NJEv
-            nx(ic) = info
-            fnm(ic) = fnorm2
-            write (nwrite, 99006) fnorm1, fnorm2, NFEv, NJEv, info, &
-                               & (x(i), i=1, n)
-99006       format(5x, ' INITIAL L2 NORM OF THE RESIDUALS', d15.7//5x, &
-                   ' FINAL L2 NORM OF THE RESIDUALS  ', d15.7//5x, &
-                   ' NUMBER OF FUNCTION EVALUATIONS  ', i10//5x, &
-                   ' NUMBER OF JACOBIAN EVALUATIONS  ', i10//5x, &
-                   ' EXIT PARAMETER', 18x, i10//5x, &
-                   ' FINAL APPROXIMATE SOLUTION'//(5x, 5d15.7))
-            factor = ten*factor
-        end do
-    end if
+            if (allocated(fjac)) deallocate(fjac); allocate(fjac(m,n))
+            if (allocated(fvec)) deallocate(fvec); allocate(fvec(m))
+            if (allocated(wa))   deallocate(wa);   allocate(wa(lwa))
+            if (allocated(x))    deallocate(x);    allocate(x(n))
+            if (allocated(iwa))  deallocate(iwa);  allocate(iwa(n))
+
+            ntries = ntriess(icase)
+
+            factor = one
+            do k = 1, ntries
+                ic = ic + 1
+                call initpt(n, x, NPRob, factor)
+                call ssqfcn(m, n, x, fvec, NPRob)
+                fnorm1 = enorm(m, fvec)
+                write (nwrite, '(////5X,A,I5,5X,A,2I5,5X//)') ' PROBLEM', NPRob, ' DIMENSIONS', n, m
+                NFEv = 0
+                NJEv = 0
+                call lmder1(fcn, m, n, x, fvec, fjac, ldfjac, tol, info, iwa, wa, lwa)
+                call ssqfcn(m, n, x, fvec, NPRob)
+                fnorm2 = enorm(m, fvec)
+                np(ic) = NPRob
+                na(ic) = n
+                ma(ic) = m
+                nf(ic) = NFEv
+                nj(ic) = NJEv
+                nx(ic) = info
+                fnm(ic) = fnorm2
+                write (nwrite, '(5X,A,D15.7//5X,A,D15.7//5X,A,I10//5X,A,I10//5X,A,18X,I10//5X,A//,*(5X,5D15.7/))') &
+                            ' INITIAL L2 NORM OF THE RESIDUALS', fnorm1, &
+                            ' FINAL L2 NORM OF THE RESIDUALS  ', fnorm2, &
+                            ' NUMBER OF FUNCTION EVALUATIONS  ', NFEv, &
+                            ' NUMBER OF JACOBIAN EVALUATIONS  ', NJEv, &
+                            ' EXIT PARAMETER', info, &
+                            ' FINAL APPROXIMATE SOLUTION',x(1:n)
+                factor = ten*factor
+            end do
+        end if
     end do
 
 contains

@@ -9,10 +9,6 @@
 !  is necessary to take into account the forms of calling
 !  sequences used by the function and jacobian subroutines in
 !  the various nonlinear equation solvers.
-!
-!### Author
-!  * Argonne national laboratory. minpack project. march 1980.
-!    burton s. garbow, kenneth e. hillstrom, jorge j. more
 
 program test_hybrj
 

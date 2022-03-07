@@ -28,29 +28,24 @@ program test
     real(wp),dimension(:,:),allocatable :: fjac
     real(wp),dimension(:),allocatable :: fvec
     real(wp),dimension(:),allocatable :: x
-
     integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv,  &
                NPRob, ntries, icase
     integer :: ma(60), na(60), nf(60), nj(60), np(60), nx(60)
     real(wp) :: fnm(60)
-    real(wp) :: factor, fnorm1, fnorm2, tol
+    real(wp) :: factor, fnorm1, fnorm2
 
     real(wp),parameter :: one = 1.0_wp
     real(wp),parameter :: ten = 10.0_wp
+    real(wp),parameter :: tol = sqrt(dpmpar(1))
 
-    tol = sqrt(dpmpar(1))
     ic = 0
     do icase = 1, ncases+1
 
         if (icase == ncases+1) then
-            write (nwrite, 99002) ic
-99002       format('1SUMMARY OF ', i3, ' CALLS TO LMSTR1'/)
-            write (nwrite, 99003)
-99003       format(' NPROB   N    M   NFEV  NJEV  INFO  FINAL L2 NORM'/)
+            write (nwrite, '(A,I3,A/)') '1SUMMARY OF ', ic, ' CALLS TO LMSTR1'
+            write (nwrite, '(A/)')      ' NPROB   N    M   NFEV  NJEV  INFO  FINAL L2 NORM'
             do i = 1, ic
-                write (nwrite, 99004) np(i), na(i), ma(i), nf(i), nj(i),&
-                                   & nx(i), fnm(i)
-99004           format(3i5, 3i6, 1x, d15.7)
+                write (nwrite, '(3I5, 3I6, 1X, D15.7)') np(i), na(i), ma(i), nf(i), nj(i), nx(i), fnm(i)
             end do
             stop
         else
@@ -59,7 +54,6 @@ program test
             m = ms(icase)
             lwa = 5*n+m
             ldfjac = n
-
             if (allocated(iwa)) deallocate(iwa);    allocate(iwa(n))
             if (allocated(wa)) deallocate(wa);      allocate(wa(lwa))
             if (allocated(fjac)) deallocate(fjac);  allocate(fjac(n,n))
@@ -73,8 +67,7 @@ program test
                 call initpt(n, x, NPRob, factor)
                 call ssqfcn(m, n, x, fvec, NPRob)
                 fnorm1 = enorm(m, fvec)
-                write (nwrite, 99005) NPRob, n, m
-99005           format(////5x, ' PROBLEM', i5, 5x, ' DIMENSIONS', 2i5, 5x//)
+                write (nwrite, '(////5X,A,I5,5X,A,2I5,5X//)') ' PROBLEM', NPRob, ' DIMENSIONS', n, m
                 NFEv = 0
                 NJEv = 0
                 call lmstr1(fcn, m, n, x, fvec, fjac, ldfjac, tol, info, iwa, wa, lwa)
@@ -87,14 +80,13 @@ program test
                 nj(ic) = NJEv
                 nx(ic) = info
                 fnm(ic) = fnorm2
-                write (nwrite, 99006) fnorm1, fnorm2, NFEv, NJEv, info, &
-                                   & (x(i), i=1, n)
-99006           format(5x, ' INITIAL L2 NORM OF THE RESIDUALS', d15.7//5x,   &
-                             &' FINAL L2 NORM OF THE RESIDUALS  ', d15.7//5x,      &
-                             &' NUMBER OF FUNCTION EVALUATIONS  ', i10//5x,        &
-                             &' NUMBER OF JACOBIAN EVALUATIONS  ', i10//5x,        &
-                             &' EXIT PARAMETER', 18x, i10//5x,                      &
-                             &' FINAL APPROXIMATE SOLUTION'//(5x, 5d15.7))
+                write (nwrite, '(5x,a,d15.7//5x,a,d15.7//5x,a,i10//5x,a,i10//5x,a,18x,i10//5x,a//*(5x,5d15.7/))') &
+                        ' INITIAL L2 NORM OF THE RESIDUALS', fnorm1, &
+                        ' FINAL L2 NORM OF THE RESIDUALS  ', fnorm2, &
+                        ' NUMBER OF FUNCTION EVALUATIONS  ', NFEv,   &
+                        ' NUMBER OF JACOBIAN EVALUATIONS  ', NJEv,   &
+                        ' EXIT PARAMETER', info, &
+                        ' FINAL APPROXIMATE SOLUTION', x(1:n)
                 factor = ten*factor
             end do
         end if

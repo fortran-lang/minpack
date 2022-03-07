@@ -8,10 +8,6 @@
 !  the tests are true(t), i.e. there are no inconsistencies. the
 !  driver reads in data, calls chkder and prints out information
 !  required by and received from chkder.
-!
-!### Reference
-!  * ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
-!    BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
 
 program test_chkder
 
