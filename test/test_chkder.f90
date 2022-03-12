@@ -32,7 +32,7 @@ program test_chkder
             [.false., .false., .false., .true., .false., .false., .false., &
              .true., .false., .false., .false., .false., .true., .false.]
     real(wp), parameter :: one = 1.0_wp
-    real(wp), parameter :: solution_tol = 1.0e-6_wp !! reltol for matching previously generated solutions
+    real(wp), parameter :: solution_tol = 1.0e-4_wp !! reltol for matching previously generated solutions
 
     cp = 1.23e-1_wp
 
