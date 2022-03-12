@@ -66,33 +66,9 @@ jobs:
       if: ${{ matrix.build == 'fpm' }}
       run: fpm build --profile release
 
-    - name: Run chkder test (fpm)
+    - name: Run test (fpm)
       if: ${{ matrix.build == 'fpm' }}
-      run: fpm test test_chkder
-
-    - name: Run hybrd test (fpm)
-      if: ${{ matrix.build == 'fpm' }}
-      run: fpm test test_hybrd
-
-    - name: Run hybrj test (fpm)
-      if: ${{ matrix.build == 'fpm' }}
-      run: fpm test test_hybrj
-
-    - name: Run lmdif test (fpm)
-      if: ${{ matrix.build == 'fpm' }}
-      run: fpm test test_lmdif
-
-    - name: Run lmstr test (fpm)
-      if: ${{ matrix.build == 'fpm' }}
-      run: fpm test test_lmstr
-
-    - name: Run examples (fpm)
-      if: ${{ matrix.build == 'fpm' }}
-      run: fpm run --example --all
-
-    - name: Run lmder test (fpm)
-      if: ${{ matrix.build == 'fpm' }}
-      run: fpm test test_lmder
+      run: fpm test
 
     - name: Setup build (meson)
       if: ${{ matrix.build == 'meson' }}
