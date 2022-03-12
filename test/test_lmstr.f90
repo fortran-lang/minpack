@@ -10,7 +10,8 @@
 !  forms of calling sequences used by the function and jacobian
 !  subroutines in the various nonlinear least-squares solvers.
 
-program test
+program test_lmstr
+
     use minpack_module
     use iso_fortran_env, only: nwrite => output_unit
 
@@ -1029,5 +1030,5 @@ end subroutine ssqfcn
 !*****************************************************************************************
 
 !*****************************************************************************************
-    end program test
+    end program test_lmstr
 !*****************************************************************************************

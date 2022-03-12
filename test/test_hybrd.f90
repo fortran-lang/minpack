@@ -1,4 +1,3 @@
-
 !*****************************************************************************************
 !>
 !  This program tests codes for the solution of n nonlinear
@@ -11,7 +10,7 @@
 !  sequences used by the function subroutines in the various
 !  nonlinear equation solvers.
 
-program test
+program test_hybrd
 
     use minpack_module
     use iso_fortran_env, only: output_unit
@@ -663,5 +662,5 @@ program test
 !*****************************************************************************************
 
 !*****************************************************************************************
-end program test
+end program test_hybrd
 !*****************************************************************************************

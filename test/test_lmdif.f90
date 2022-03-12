@@ -1,4 +1,3 @@
-
 !*****************************************************************************************
 !>
 !  This program tests codes for the least-squares solution of
@@ -11,7 +10,8 @@
 !  forms of calling sequences used by the function and jacobian
 !  subroutines in the various nonlinear least-squares solvers.
 
-program test
+program test_lmdif
+
     use minpack_module
     use iso_fortran_env, only: nwrite => output_unit
 
@@ -721,5 +721,5 @@ program test
 !*****************************************************************************************
 
 !*****************************************************************************************
-    end program test
+    end program test_lmdif
 !*****************************************************************************************

@@ -10,7 +10,7 @@
 !  Forms of calling sequences used by the function and jacobian
 !  Subroutines in the various nonlinear least-squares solvers.
 
-program test
+program test_lmder
 
     use minpack_module
     use iso_fortran_env, only: output_unit
@@ -24,7 +24,11 @@ program test
     integer,dimension(ncases),parameter :: ms      = [10,50,10,50,10,50,2,3,4,2,15,11,16,31,31,31,10,10,20,8,8,9,10,10,30,40,33,65]
     integer,dimension(ncases),parameter :: ntriess = [1,1,1,1,1,1,3,3,3,3,3,3,2,3,3,3,1,1,3,3,1,1,1,3,1,1,1,1]
 
-    integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv, NPRob, ntries, icase
+    integer,dimension(*),parameter :: info_original = [3,3,1,1,1,1,4,2,2,2,2,2,4,4,4,1,1,1,1,1,1,&
+                                                       1,1,5,2,5,1,1,1,3,1,3,3,3,2,2,1,1,1,1,4,1,&
+                                                       1,1,2,1,2,2,2,2,2,1,1] !! original `info` from the original minpack
+
+    integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv, NPRob, ntries, icase, iunit
     real(wp) :: factor, fnorm1, fnorm2
     integer :: ma(60), na(60), nf(60), nj(60), np(60), nx(60)
     real(wp) :: fnm(60)
@@ -93,7 +97,8 @@ program test
                 factor = ten*factor
 
                 ! compare with previously generated solutions:
-                if (any(abs( solution(ic) - x)>tol .and. &
+                if (    info_original(ic)<5 .and. &   ! ignore any where the original minpack failed
+                        any(abs( solution(ic) - x)>tol .and. &
                         abs((solution(ic) - x)/(solution(ic))) > solution_reltol)) then
                     write(nwrite,'(A)') 'Failed case'
                     write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
@@ -1162,5 +1167,5 @@ contains
 !*****************************************************************************************
 
 !*****************************************************************************************
-    end program test
+    end program test_lmder
 !*****************************************************************************************
