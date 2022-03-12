@@ -114,7 +114,7 @@ program test_hybrd
         implicit none
 
         integer, intent(in) :: n !! the number of variables.
-        real(wp), intent(in) :: x(n) !! independant variable vector
+        real(wp), intent(in) :: x(n) !! independent variable vector
         real(wp), intent(out) :: fvec(n) !! value of function at `x`
         integer, intent(inout) :: iflag !! set to <0 to terminate execution
 
