@@ -8,6 +8,7 @@ project(
     'buildtype=debugoptimized',
   ],
 )
+has_cc = add_languages('c', required: get_option('python'), native: false)
 
 minpack_lib = library(
   meson.project_name(),
@@ -59,3 +60,7 @@ subdir('examples')
 
 # add the testsuite
 subdir('test')
+
+if get_option('python')
+  subdir('python/minpack')
+endif

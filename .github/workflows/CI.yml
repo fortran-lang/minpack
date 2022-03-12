@@ -24,6 +24,14 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Cache GFortran install
+      if: ${{ contains(matrix.os, 'windows') }}
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: ./mingw-w64
+        key: gcc-${{ matrix.gcc }}-${{ matrix.os }}
+
     - name: Install GFortran (MacOS)
       if: ${{ contains(matrix.os, 'macos') }}
       run: |
@@ -40,7 +48,7 @@ jobs:
           --slave /usr/bin/gcov gcov /usr/bin/gcov-${{ matrix.gcc }}
 
     - name: Install GFortran (Windows)
-      if: ${{ contains(matrix.os, 'windows') }}
+      if: ${{ contains(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true' }}
       run: |
         Invoke-WebRequest -Uri ${{ env.DOWNLOAD }} -OutFile mingw-w64.zip
         Expand-Archive mingw-w64.zip
@@ -70,6 +78,7 @@ jobs:
       if: ${{ matrix.build == 'meson' }}
       run: >-
         meson setup _build
+        --libdir=lib
         --prefix=${{ contains(matrix.os, 'windows') && '$pwd\_dist' || '$PWD/_dist' }}
 
     - name: Compile project (meson)
@@ -83,6 +92,146 @@ jobs:
     - name: Install project (meson)
       if: ${{ matrix.build == 'meson' }}
       run: meson install -C _build --no-rebuild
+
+    - name: Create package (Unix)
+      if: ${{ matrix.build == 'meson' && ! contains(matrix.os, 'windows') }}
+      run: |
+        tar cvf ${{ env.OUTPUT }} _dist
+        xz -T0 ${{ env.OUTPUT }}
+        echo "MINPACK_OUTPUT=${{ env.OUTPUT }}.xz" >> $GITHUB_ENV
+      env:
+        OUTPUT: minpack-${{ matrix.os }}.tar
+
+    - name: Create package (Windows)
+      if: ${{ matrix.build == 'meson' && contains(matrix.os, 'windows') }}
+      run: |
+        tar cvf ${{ env.OUTPUT }} _dist
+        xz -T0 ${{ env.OUTPUT }}
+        echo "MINPACK_OUTPUT=${{ env.OUTPUT }}.xz" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      env:
+        OUTPUT: minpack-${{ matrix.os }}.tar
+
+    - name: Upload package
+      if: ${{ matrix.build == 'meson' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.MINPACK_OUTPUT }}
+        path: ${{ env.MINPACK_OUTPUT }}
+
+
+  Python:
+    needs:
+      - Build
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: ${{ contains(matrix.os, 'windows') && 'powershell' || 'bash -l {0}' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        build: [meson]
+        os: [ubuntu-latest, macos-latest]
+        gcc: [10]
+        python: ['3.7', '3.8', '3.9']
+
+        # Additional test for setuptools build
+        include:
+        - build: setuptools
+          os: ubuntu-latest
+          gcc: 10
+          python: '3.9'
+
+    env:
+      FC: gfortran
+      CC: gcc
+      MINPACK_OUTPUT: minpack-${{ matrix.os }}.tar.xz
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Cache GFortran install
+      if: ${{ contains(matrix.os, 'windows') }}
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: ./mingw-w64
+        key: gcc-${{ matrix.gcc }}-${{ matrix.os }}
+
+    - name: Install dependencies
+      uses: mamba-org/provision-with-micromamba@main
+      with:
+        environment-file: config/ci/python-env.yaml
+        extra-specs: |
+          python=${{ matrix.python }}
+
+    - name: Install GFortran (MacOS)
+      if: ${{ contains(matrix.os, 'macos') }}
+      run: |
+        brew install gcc@${{ matrix.gcc }}
+        ln -s /usr/local/bin/gfortran-${{ matrix.gcc }} /usr/local/bin/gfortran
+        ln -s /usr/local/bin/gcc-${{ matrix.gcc }} /usr/local/bin/gcc
+
+    - name: Install GFortran (Linux)
+      if: ${{ contains(matrix.os, 'ubuntu') }}
+      run: |
+        sudo update-alternatives \
+          --install /usr/bin/gcc gcc /usr/bin/gcc-${{ matrix.gcc }} 100 \
+          --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${{ matrix.gcc }} \
+          --slave /usr/bin/gcov gcov /usr/bin/gcov-${{ matrix.gcc }}
+
+    - name: Install GFortran (Windows)
+      if: ${{ contains(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true' }}
+      run: |
+        Invoke-WebRequest -Uri ${{ env.DOWNLOAD }} -OutFile mingw-w64.zip
+        Expand-Archive mingw-w64.zip
+        echo "$pwd\mingw-w64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      shell: pwsh
+      env:
+        DOWNLOAD: "https://github.com/brechtsanders/winlibs_mingw/releases/download/10.3.0-12.0.0-9.0.0-r2/winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.zip"
+
+    - name: Download package
+      uses: actions/download-artifact@v2
+      with:
+        name: ${{ env.MINPACK_OUTPUT }}
+
+    - name: Unpack package (Unix)
+      if: ${{ ! contains(matrix.os, 'windows') }}
+      run: |
+        tar xvf ${{ env.MINPACK_OUTPUT }}
+        echo "MINPACK_PREFIX=$PWD/_dist" >> $GITHUB_ENV
+
+    - name: Unpack package (Windows)
+      if: ${{ contains(matrix.os, 'windows') }}
+      run: |
+        tar xvf ${{ env.MINPACK_OUTPUT }}
+        echo "MINPACK_OUTPUT=${{ env.OUTPUT }}.xz" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+    - name: Install Python extension module (pip)
+      if: ${{ matrix.build == 'setuptools' }}
+      run: pip3 install . -vv
+      working-directory: python
+      env:
+        PKG_CONFIG_PATH: ${{ env.PKG_CONFIG_PATH }}:${{ env.MINPACK_PREFIX }}/lib/pkgconfig
+        LD_RUNPATH_SEARCH_PATH: ${{ env.MINPACK_PREFIX }}/lib
+
+    - name: Install Python extension module (meson)
+      if: ${{ matrix.build == 'meson' }}
+      run: |
+        set -ex
+        meson setup _build --prefix=$CONDA_PREFIX --libdir=lib
+        meson compile -C _build
+        meson install -C _build
+      working-directory: python
+      env:
+        PKG_CONFIG_PATH: ${{ env.PKG_CONFIG_PATH }}:${{ env.MINPACK_PREFIX }}/lib/pkgconfig
+
+    - name: Test Python API
+      run: pytest --doctest-modules --pyargs minpack --cov=minpack -vv
+      env:
+        LD_LIBRARY_PATH: ${{ env.LD_LIBRARY_PATH }}:${{ env.MINPACK_PREFIX }}/lib
+        DYLD_LIBRARY_PATH: ${{ env.DYLD_LIBRARY_PATH }}:${{ env.MINPACK_PREFIX }}/lib
+
 
   Docs:
     runs-on: ubuntu-latest

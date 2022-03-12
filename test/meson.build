@@ -19,7 +19,7 @@ foreach t : tests
   )
 endforeach
 
-if add_languages('c', required: false, native: false)
+if has_cc
   test(
     'c-api',
     executable(
