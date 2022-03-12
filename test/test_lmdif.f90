@@ -38,7 +38,7 @@ program test_lmdif
     real(wp),parameter :: one = 1.0_wp
     real(wp),parameter :: ten = 10.0_wp
     real(wp),parameter :: tol = sqrt(dpmpar(1))
-    real(wp), parameter :: solution_reltol = 1.0e-4_wp !! reltol for matching previously generated solutions
+    real(wp), parameter :: solution_reltol = 1.0e-3_wp !! reltol for matching previously generated solutions
 
     ic = 0
     do icase = 1, ncases+1
