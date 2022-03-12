@@ -28,10 +28,10 @@ program test_hybrd
                                                         1,1,1,1,1,1,1,1,1]
 
     integer :: i, ic, info, k, lwa, n, NFEv, NPRob, ntries, icase
-    integer :: na(55), nf(55), np(55), nx(55)
-    real(wp) :: fnm(55)
+    integer,dimension(55) :: na, nf, np, nx
+    real(wp),dimension(55) :: fnm
     real(wp) :: factor, fnorm1, fnorm2
-    real(wp),allocatable :: fvec(:), wa(:), x(:)
+    real(wp),dimension(:),allocatable :: fvec, wa, x
 
     integer, parameter :: nwrite = output_unit !! logical output unit
     real(wp), parameter :: one = 1.0_wp
@@ -84,22 +84,48 @@ program test_hybrd
                                ' EXIT PARAMETER', info, &
                                ' FINAL APPROXIMATE SOLUTION', x(1:n)
                 factor = ten*factor
-
-                ! compare with previously generated solutions:
-                if (info_original(ic)<5 .and. &   ! ignore any where the original minpack failed
-                    any(abs( solution(ic) - x)>tol .and. &
-                    abs((solution(ic) - x)/(solution(ic))) > solution_reltol)) then
-                    write(nwrite,'(A)') 'Failed case'
-                    write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
-                    write(nwrite, '(/5x, a//(5x, 5d15.7))')  'Computed x: ', x
-                    error stop
-                end if
-
+                call compare_solutions(ic, x, solution_reltol, tol)
             end do
         end if
     end do
 
     contains
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Compare with previously generated solutions.
+
+    subroutine compare_solutions(ic, x, reltol, abstol)
+
+    implicit none
+
+    integer,intent(in) :: ic !! problem number (index is `solution` vector)
+    real(wp),dimension(:),intent(in) :: x !! computed `x` vector from the method
+    real(wp),intent(in) :: reltol !! relative tolerance for `x` to pass
+    real(wp),intent(in) :: abstol !! absolute tolerance for `x` to pass
+
+    real(wp),dimension(size(x)) :: diff, absdiff, reldiff
+
+    if (info_original(ic)<5) then    ! ignore any where the original minpack failed
+        diff = solution(ic) - x
+        absdiff = abs(diff)
+        if (any(absdiff>abstol)) then ! first do an absolute diff
+            ! also do a rel diff if the abs diff fails (also protect for divide by zero)
+            reldiff = absdiff
+            where (solution(ic) /= 0.0_wp) reldiff = absdiff / abs(solution(ic))
+            if (any(reldiff > reltol)) then
+                write(nwrite,'(A)') 'Failed case'
+                write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'Computed x: ', x
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'absdiff: ', absdiff
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'reldiff: ', reldiff
+                error stop ! test failed
+            end if
+        end if
+    end if
+
+    end subroutine compare_solutions
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -388,14 +414,20 @@ program test_hybrd
             Fvec(4) = c6*temp2 + c4*(x(4) - one) + c5*(x(2) - one)
         case (5)
             ! HELICAL VALLEY FUNCTION.
+            write(*,*) '1'
             tpi = eight*atan(one)
-            temp1 = sign(c7, x(2))
-            if (x(1) > zero) temp1 = atan(x(2)/x(1))/tpi
-            if (x(1) < zero) temp1 = atan(x(2)/x(1))/tpi + c8
+            if (x(1) > zero) then
+                temp1 = atan(x(2)/x(1))/tpi
+            else if (x(1) < zero) then
+                temp1 = atan(x(2)/x(1))/tpi + c8
+            else
+                temp1 = sign(c7, x(2)) ! does this ever happen?
+            end if
             temp2 = sqrt(x(1)**2 + x(2)**2)
             Fvec(1) = ten*(x(3) - ten*temp1)
             Fvec(2) = ten*(temp2 - one)
             Fvec(3) = x(3)
+            write(*,*) '2'
         case (6)
             ! WATSON FUNCTION.
             do k = 1, n

@@ -35,6 +35,8 @@ program test_chkder
     real(wp), parameter :: tol = sqrt(dpmpar(1)) !! abstol for matching previously generated solutions
     real(wp), parameter :: solution_reltol = 1.0e-4_wp !! reltol for matching previously generated solutions
 
+    integer,dimension(ncases),parameter :: info_original = 1 ! not used here
+
     cp = 1.23e-1_wp
 
     do icase = 1, ncases+1
@@ -92,21 +94,49 @@ program test_chkder
             write (nwrite, '(//5x, a//(5x, 5d15.7))') ' FIRST FUNCTION VECTOR   ', (fvec1(i), i=1, n)
             write (nwrite, '(//5x, a//(5x, 5d15.7))') ' FUNCTION DIFFERENCE VECTOR', (diff(i), i=1, n)
             write (nwrite, '(//5x, a//(5x, 5d15.7))') ' ERROR VECTOR', (err(i), i=1, n)
-
-            ! compare with previously generated solutions:
-            if (any(abs(solution(nprob) - diff)>tol .and. &
-                    abs((solution(nprob) - diff)/(solution(nprob))) > solution_reltol)) then
-                write(nwrite,'(A)') 'Failed case'
-                write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected diff: ', solution(nprob)
-                write(nwrite, '(/5x, a//(5x, 5d15.7))') 'Computed diff: ', diff
-                error stop
-            end if
+            call compare_solutions(nprob, diff, solution_reltol, tol)
 
         end if
 
     end do
 
     contains
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Compare with previously generated solutions.
+
+    subroutine compare_solutions(ic, x, reltol, abstol)
+
+    implicit none
+
+    integer,intent(in) :: ic !! problem number (index is `solution` vector)
+    real(wp),dimension(:),intent(in) :: x !! computed `x` vector from the method
+    real(wp),intent(in) :: reltol !! relative tolerance for `x` to pass
+    real(wp),intent(in) :: abstol !! absolute tolerance for `x` to pass
+
+    real(wp),dimension(size(x)) :: diff, absdiff, reldiff
+
+    if (info_original(ic)<5) then    ! ignore any where the original minpack failed
+        diff = solution(ic) - x
+        absdiff = abs(diff)
+        if (any(absdiff>abstol)) then ! first do an absolute diff
+            ! also do a rel diff if the abs diff fails (also protect for divide by zero)
+            reldiff = absdiff
+            where (solution(ic) /= 0.0_wp) reldiff = absdiff / abs(solution(ic))
+            if (any(reldiff > reltol)) then
+                write(nwrite,'(A)') 'Failed case'
+                write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'Computed x: ', x
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'absdiff: ', absdiff
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'reldiff: ', reldiff
+                error stop ! test failed
+            end if
+        end if
+    end if
+
+    end subroutine compare_solutions
 !*****************************************************************************************
 
 !*****************************************************************************************

@@ -89,22 +89,49 @@ program test_hybrj
                                ' EXIT PARAMETER', info, &
                                ' FINAL APPROXIMATE SOLUTION', x(1:n)
                 factor = ten*factor
-
-                ! compare with previously generated solutions:
-                if (info_original(ic)<5 .and. &   ! ignore any where the original minpack failed
-                    any(abs( solution(ic) - x)>tol .and. &
-                    abs((solution(ic) - x)/(solution(ic))) > solution_reltol)) then
-                    write(nwrite,'(A)') 'Failed case'
-                    write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
-                    write(nwrite, '(/5x, a//(5x, 5d15.7))')  'Computed x: ', x
-                    error stop
-                end if
+                call compare_solutions(ic, x, solution_reltol, tol)
 
             end do
         end if
     end do
 
     contains
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Compare with previously generated solutions.
+
+    subroutine compare_solutions(ic, x, reltol, abstol)
+
+    implicit none
+
+    integer,intent(in) :: ic !! problem number (index is `solution` vector)
+    real(wp),dimension(:),intent(in) :: x !! computed `x` vector from the method
+    real(wp),intent(in) :: reltol !! relative tolerance for `x` to pass
+    real(wp),intent(in) :: abstol !! absolute tolerance for `x` to pass
+
+    real(wp),dimension(size(x)) :: diff, absdiff, reldiff
+
+    if (info_original(ic)<5) then    ! ignore any where the original minpack failed
+        diff = solution(ic) - x
+        absdiff = abs(diff)
+        if (any(absdiff>abstol)) then ! first do an absolute diff
+            ! also do a rel diff if the abs diff fails (also protect for divide by zero)
+            reldiff = absdiff
+            where (solution(ic) /= 0.0_wp) reldiff = absdiff / abs(solution(ic))
+            if (any(reldiff > reltol)) then
+                write(nwrite,'(A)') 'Failed case'
+                write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'Computed x: ', x
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'absdiff: ', absdiff
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'reldiff: ', reldiff
+                error stop ! test failed
+            end if
+        end if
+    end if
+
+    end subroutine compare_solutions
 !*****************************************************************************************
 
 !*****************************************************************************************
