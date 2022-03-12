@@ -97,9 +97,9 @@ program test_lmder
                 factor = ten*factor
 
                 ! compare with previously generated solutions:
-                if (    info_original(ic)<5 .and. &   ! ignore any where the original minpack failed
-                        any(abs( solution(ic) - x)>tol .and. &
-                        abs((solution(ic) - x)/(solution(ic))) > solution_reltol)) then
+                if (info_original(ic)<5 .and. &   ! ignore any where the original minpack failed
+                    any(abs( solution(ic) - x)>tol .and. &
+                    abs((solution(ic) - x)/(solution(ic))) > solution_reltol)) then
                     write(nwrite,'(A)') 'Failed case'
                     write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
                     write(nwrite, '(/5x, a//(5x, 5d15.7))')  'Computed x: ', x
