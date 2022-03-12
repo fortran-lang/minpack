@@ -37,6 +37,7 @@ program test
     real(wp),parameter :: one = 1.0_wp
     real(wp),parameter :: ten = 10.0_wp
     real(wp),parameter :: tol = sqrt(dpmpar(1))
+    real(wp), parameter :: solution_abstol = 1.0e-5_wp !! abstol for matching previously generated solutions
     real(wp), parameter :: solution_reltol = 1.0e-4_wp !! reltol for matching previously generated solutions
 
     ic = 0
@@ -91,7 +92,7 @@ program test
                 factor = ten*factor
 
                 ! compare with previously generated solutions:
-                if (any(abs(solution(ic) - x)>tol) .and. &
+                if (any(abs(solution(ic) - x)>solution_abstol) .and. &
                     any(abs((solution(ic) - x)/(solution(ic))) > solution_reltol)) then
                     write(nwrite,'(A)') 'Failed case'
                     write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
