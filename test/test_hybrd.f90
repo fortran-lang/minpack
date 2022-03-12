@@ -414,7 +414,6 @@ program test_hybrd
             Fvec(4) = c6*temp2 + c4*(x(4) - one) + c5*(x(2) - one)
         case (5)
             ! HELICAL VALLEY FUNCTION.
-            write(*,*) '1'
             tpi = eight*atan(one)
             if (x(1) > zero) then
                 temp1 = atan(x(2)/x(1))/tpi
@@ -427,7 +426,6 @@ program test_hybrd
             Fvec(1) = ten*(x(3) - ten*temp1)
             Fvec(2) = ten*(temp2 - one)
             Fvec(3) = x(3)
-            write(*,*) '2'
         case (6)
             ! WATSON FUNCTION.
             do k = 1, n
