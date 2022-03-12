@@ -8,13 +8,25 @@ project(
     'buildtype=debugoptimized',
   ],
 )
-has_cc = add_languages('c', required: get_option('python'), native: false)
+fc_nested_functions = meson.get_compiler('fortran').run(
+  'call a(); contains; subroutine a(); print "(a)", "Nested functions supported"; end; end',
+).returncode() == 0
+if fc_nested_functions
+  has_cc = add_languages('c', required: get_option('python'), native: false)
+else
+  has_cc = false
+  if get_option('python')
+    error('Cannot compile Python API, Fortran compiler does not support nested functions')
+  else
+    warning('Fortran compiler does not support nested functions, C API is disabled')
+  endif
+endif
 
 minpack_lib = library(
   meson.project_name(),
   sources: files(
     'src/minpack.f90',
-    'src/minpack_capi.f90',
+    fc_nested_functions ? 'src/minpack_capi.f90' :,
   ),
   install: true,
 )
@@ -38,9 +50,11 @@ install_data(
   install_dir: get_option('datadir')/'licenses'/meson.project_name()
 )
 
-install_headers(
-  minpack_header,
-)
+if fc_nested_functions
+  install_headers(
+    minpack_header,
+  )
+endif
 
 module_id = meson.project_name()
 meson.add_install_script(

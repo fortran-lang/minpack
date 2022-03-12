@@ -10,6 +10,13 @@ jobs:
         build: [fpm, meson]
         os: [ubuntu-latest, macos-latest, windows-latest]
         gcc: [10] # Version of GFortran we want to use.
+        build-type: [debug]
+        include:
+          - build: meson
+            os: ubuntu-latest
+            gcc: 10
+            build-type: coverage
+
     defaults:
       run:
         shell: ${{ contains(matrix.os, 'windows') && 'powershell' || 'bash -l {0}' }}
@@ -61,6 +68,8 @@ jobs:
       uses: mamba-org/provision-with-micromamba@main
       with:
         environment-file: config/ci/${{ matrix.build }}-env.yaml
+        extra-specs: |
+          ${{ matrix.build-type == 'coverage' && 'gcovr' || '' }}
 
     - name: Compile (fpm)
       if: ${{ matrix.build == 'fpm' }}
@@ -80,6 +89,7 @@ jobs:
         meson setup _build
         --libdir=lib
         --prefix=${{ contains(matrix.os, 'windows') && '$pwd\_dist' || '$PWD/_dist' }}
+        ${{ matrix.build-type == 'coverage' && '-Db_coverage=true' || '' }}
 
     - name: Compile project (meson)
       if: ${{ matrix.build == 'meson' }}
@@ -87,7 +97,9 @@ jobs:
 
     - name: Run testsuite (meson)
       if: ${{ matrix.build == 'meson' }}
-      run: meson test -C _build --no-rebuild --print-errorlogs
+      run: |
+        meson test -C _build --no-rebuild --print-errorlogs
+        ${{ matrix.build-type == 'coverage' && 'ninja -C _build coverage' || '' }}
 
     - name: Install project (meson)
       if: ${{ matrix.build == 'meson' }}
@@ -112,11 +124,15 @@ jobs:
         OUTPUT: minpack-${{ matrix.os }}.tar
 
     - name: Upload package
-      if: ${{ matrix.build == 'meson' }}
+      if: ${{ matrix.build == 'meson' && matrix.build-type != 'coverage' }}
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.MINPACK_OUTPUT }}
         path: ${{ env.MINPACK_OUTPUT }}
+
+    - name: Upload coverage report
+      if: ${{ matrix.build-type == 'coverage' }}
+      uses: codecov/codecov-action@v2
 
 
   Python:
@@ -231,6 +247,9 @@ jobs:
       env:
         LD_LIBRARY_PATH: ${{ env.LD_LIBRARY_PATH }}:${{ env.MINPACK_PREFIX }}/lib
         DYLD_LIBRARY_PATH: ${{ env.DYLD_LIBRARY_PATH }}:${{ env.MINPACK_PREFIX }}/lib
+
+    - name: Upload coverage report
+      uses: codecov/codecov-action@v2
 
 
   Docs:
