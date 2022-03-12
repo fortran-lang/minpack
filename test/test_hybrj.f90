@@ -87,8 +87,8 @@ program test_hybrj
                 factor = ten*factor
 
                 ! compare with previously generated solutions:
-                if (any(abs(solution(ic) - x)>tol) .and. &
-                    any(abs((solution(ic) - x)/(solution(ic))) > solution_reltol)) then
+                if (any(abs( solution(ic) - x)>tol .and. &
+                        abs((solution(ic) - x)/(solution(ic))) > solution_reltol)) then
                     write(nwrite,'(A)') 'Failed case'
                     write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
                     write(nwrite, '(/5x, a//(5x, 5d15.7))')  'Computed x: ', x

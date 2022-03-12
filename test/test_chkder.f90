@@ -94,8 +94,8 @@ program test_chkder
             write (nwrite, '(//5x, a//(5x, 5d15.7))') ' ERROR VECTOR', (err(i), i=1, n)
 
             ! compare with previously generated solutions:
-                if (any(abs(solution(nprob) - diff)>tol) .and. &
-                    any(abs((solution(nprob) - diff)/(solution(nprob))) > solution_reltol)) then
+            if (any(abs(solution(nprob) - diff)>tol .and. &
+                    abs((solution(nprob) - diff)/(solution(nprob))) > solution_reltol)) then
                 write(nwrite,'(A)') 'Failed case'
                 write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected diff: ', solution(nprob)
                 write(nwrite, '(/5x, a//(5x, 5d15.7))') 'Computed diff: ', diff
