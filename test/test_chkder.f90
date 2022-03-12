@@ -32,7 +32,7 @@ program test_chkder
             [.false., .false., .false., .true., .false., .false., .false., &
              .true., .false., .false., .false., .false., .true., .false.]
     real(wp), parameter :: one = 1.0_wp
-    real(wp), parameter :: solution_tol = 1.0e-4_wp !! reltol for matching previously generated solutions
+    real(wp), parameter :: solution_reltol = 1.0e-4_wp !! reltol for matching previously generated solutions
 
     cp = 1.23e-1_wp
 
@@ -93,7 +93,7 @@ program test_chkder
             write (nwrite, '(//5x, a//(5x, 5d15.7))') ' ERROR VECTOR', (err(i), i=1, n)
 
             ! compare with previously generated solutions:
-            if (any(abs((solution(nprob) - diff)/(solution(nprob))) > solution_tol)) then
+            if (any(abs((solution(nprob) - diff)/(solution(nprob))) > solution_reltol)) then
                 write(nwrite,'(A)') 'Failed case'
                 write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected diff: ', solution(nprob)
                 write(nwrite, '(/5x, a//(5x, 5d15.7))') 'Computed diff: ', diff
