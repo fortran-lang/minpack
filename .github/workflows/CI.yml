@@ -71,8 +71,8 @@ jobs:
       run: fpm test
 
     - name: Run examples (fpm)
-       if: ${{ matrix.build == 'fpm' }}
-       run: fpm run --example --all
+      if: ${{ matrix.build == 'fpm' }}
+      run: fpm run --example --all
 
     - name: Setup build (meson)
       if: ${{ matrix.build == 'meson' }}
