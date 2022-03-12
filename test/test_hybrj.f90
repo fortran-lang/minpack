@@ -23,6 +23,10 @@ program test_hybrj
     integer,dimension(ncases),parameter :: ns      = [2,4,2,4,3,6,9,5,6,7,8,9,10,30,40,10,1,10,10,10,10,10]
     integer,dimension(ncases),parameter :: ntriess = [3,3,2,3,3,2,2,3,3,3,1,1,3,1,1,3,3,3,3,3,3,3]
 
+    integer,dimension(55),parameter :: info_original = [1,1,1,4,4,4,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,&
+                                                        1,1,1,4,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,&
+                                                        1,1,1,1,1,1,1,1,1]
+
     integer :: i, ic, info, k, n, NFEv, NJEv, NPRob, ntries, icase, lwa, ldfjac
     integer :: na(55), nf(55), nj(55), np(55), nx(55)
     real(wp) :: fnm(55)
@@ -87,8 +91,9 @@ program test_hybrj
                 factor = ten*factor
 
                 ! compare with previously generated solutions:
-                if (any(abs( solution(ic) - x)>tol .and. &
-                        abs((solution(ic) - x)/(solution(ic))) > solution_reltol)) then
+                if (info_original(ic)<5 .and. &   ! ignore any where the original minpack failed
+                    any(abs( solution(ic) - x)>tol .and. &
+                    abs((solution(ic) - x)/(solution(ic))) > solution_reltol)) then
                     write(nwrite,'(A)') 'Failed case'
                     write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
                     write(nwrite, '(/5x, a//(5x, 5d15.7))')  'Computed x: ', x
