@@ -12,7 +12,7 @@
 
 program test_hybrd
 
-    use minpack_module
+    use minpack_module, only: wp, dpmpar, enorm, hybrd1
     use iso_fortran_env, only: output_unit
 
     implicit none

@@ -12,7 +12,7 @@
 
 program test_hybrj
 
-    use minpack_module
+    use minpack_module, only: wp, dpmpar, enorm, hybrj1
     use iso_fortran_env, only: nwrite => output_unit
 
     implicit none
