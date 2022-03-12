@@ -70,10 +70,6 @@ jobs:
       if: ${{ matrix.build == 'fpm' }}
       run: fpm test test_hybrj
 
-    - name: Run lmder test (fpm)
-      if: ${{ matrix.build == 'fpm' }}
-      run: fpm test test_lmder
-
     - name: Run lmdif test (fpm)
       if: ${{ matrix.build == 'fpm' }}
       run: fpm test test_lmdif
@@ -85,6 +81,10 @@ jobs:
     - name: Run examples (fpm)
       if: ${{ matrix.build == 'fpm' }}
       run: fpm run --example --all
+
+    - name: Run lmder test (fpm)
+      if: ${{ matrix.build == 'fpm' }}
+      run: fpm test test_lmder
 
     - name: Setup build (meson)
       if: ${{ matrix.build == 'meson' }}
