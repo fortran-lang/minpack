@@ -6,7 +6,7 @@
 !>                              -x(8) + (3-2*x(9))*x(9) = -1
 program example_hybrd1
 
-    use minpack_module, only: hybrd1, dpmpar, enorm
+    use minpack_module, only: hybrd1, dpmpar
     implicit none
     integer j, n, info, lwa, nwrite
     double precision tol, fnorm
@@ -30,7 +30,7 @@ program example_hybrd1
     tol = dsqrt(dpmpar(1))
 
     call hybrd1(fcn, n, x, fvec, tol, info, wa, lwa)
-    fnorm = enorm(n, fvec)
+    fnorm = norm2(fvec)
     write (nwrite, 1000) fnorm, info, (x(j), j=1, n)
 
 1000 format(5x, "FINAL L2 NORM OF THE RESIDUALS", d15.7// &

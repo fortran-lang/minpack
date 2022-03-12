@@ -279,7 +279,7 @@ contains
             Wa1(j) = zero
             Wa2(j) = Diag(j)*x(j)
         end do
-        qnorm = enorm(n, Wa2)
+        qnorm = norm2(Wa2)
         if (qnorm > Delta) then
 
             ! the gauss-newton direction is not acceptable.
@@ -298,7 +298,7 @@ contains
             ! calculate the norm of the scaled gradient and test for
             ! the special case in which the scaled gradient is zero.
 
-            gnorm = enorm(n, Wa1)
+            gnorm = norm2(Wa1)
             sgnorm = zero
             alpha = Delta/qnorm
             if (gnorm /= zero) then
@@ -318,7 +318,7 @@ contains
                     end do
                     Wa2(j) = sum
                 end do
-                temp = enorm(n, Wa2)
+                temp = norm2(Wa2)
                 sgnorm = (gnorm/temp)/temp
 
                 ! test whether the scaled gradient direction is acceptable.
@@ -330,7 +330,7 @@ contains
                     ! finally, calculate the point along the dogleg
                     ! at which the quadratic is minimized.
 
-                    bnorm = enorm(n, Qtb)
+                    bnorm = norm2(Qtb)
                     temp = (bnorm/gnorm)*(bnorm/qnorm)*(sgnorm/Delta)
                     temp = temp - (Delta/qnorm)*(sgnorm/Delta)**2 + &
                            sqrt((temp - (Delta/qnorm))**2 + &
@@ -349,78 +349,6 @@ contains
         end if
 
     end subroutine dogleg
-!*****************************************************************************************
-
-!*****************************************************************************************
-!>
-!  given an n-vector x, this function calculates the
-!  euclidean norm of x.
-!
-!  the euclidean norm is computed by accumulating the sum of
-!  squares in three different sums. the sums of squares for the
-!  small and large components are scaled so that no overflows
-!  occur. non-destructive underflows are permitted. underflows
-!  and overflows do not occur in the computation of the unscaled
-!  sum of squares for the intermediate components.
-!  the definitions of small, intermediate and large components
-!  depend on two constants, rdwarf and rgiant. the main
-!  restrictions on these constants are that rdwarf**2 not
-!  underflow and rgiant**2 not overflow. the constants
-!  given here are suitable for every known computer.
-
-    pure real(wp) function enorm(n, x)
-
-        implicit none
-
-        integer, intent(in) :: n !! a positive integer input variable.
-        real(wp), intent(in) :: x(n) !! an input array of length n.
-
-        integer :: i
-        real(wp) :: agiant, s1, s2, s3, xabs, x1max, x3max
-
-        real(wp), parameter :: rdwarf = 3.834e-20_wp
-        real(wp), parameter :: rgiant = 1.304e19_wp
-
-        s1 = zero
-        s2 = zero
-        s3 = zero
-        x1max = zero
-        x3max = zero
-        agiant = rgiant/real(n, wp)
-        do i = 1, n
-            xabs = abs(x(i))
-            if (xabs > rdwarf .and. xabs < agiant) then
-                ! sum for intermediate components.
-                s2 = s2 + xabs**2
-            elseif (xabs <= rdwarf) then
-                ! sum for small components.
-                if (xabs <= x3max) then
-                    if (xabs /= zero) s3 = s3 + (xabs/x3max)**2
-                else
-                    s3 = one + s3*(x3max/xabs)**2
-                    x3max = xabs
-                end if
-                ! sum for large components.
-            elseif (xabs <= x1max) then
-                s1 = s1 + (xabs/x1max)**2
-            else
-                s1 = one + s1*(x1max/xabs)**2
-                x1max = xabs
-            end if
-        end do
-
-        ! calculation of norm.
-
-        if (s1 /= zero) then
-            enorm = x1max*sqrt(s1 + (s2/x1max)/x1max)
-        elseif (s2 == zero) then
-            enorm = x3max*sqrt(s3)
-        else
-            if (s2 >= x3max) enorm = sqrt(s2*(one + (x3max/s2)*(x3max*s3)))
-            if (s2 < x3max) enorm = sqrt(x3max*((s2/x3max) + (x3max*s3)))
-        end if
-
-    end function enorm
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -698,7 +626,7 @@ contains
         call fcn(n, x, Fvec, iflag)
         Nfev = 1
         if (iflag < 0) goto 300
-        fnorm = enorm(n, Fvec)
+        fnorm = norm2(Fvec)
 
         ! determine the number of calls to fcn needed to compute
         ! the jacobian matrix.
@@ -743,7 +671,7 @@ contains
             do j = 1, n
                 Wa3(j) = Diag(j)*x(j)
             end do
-            xnorm = enorm(n, Wa3)
+            xnorm = norm2(Wa3)
             delta = Factor*xnorm
             if (delta == zero) delta = Factor
         end if
@@ -815,7 +743,7 @@ contains
             Wa2(j) = x(j) + Wa1(j)
             Wa3(j) = Diag(j)*Wa1(j)
         end do
-        pnorm = enorm(n, Wa3)
+        pnorm = norm2(Wa3)
 
         ! on the first iteration, adjust the initial step bound.
 
@@ -827,7 +755,7 @@ contains
         call fcn(n, Wa2, Wa4, iflag)
         Nfev = Nfev + 1
         if (iflag >= 0) then
-            fnorm1 = enorm(n, Wa4)
+            fnorm1 = norm2(Wa4)
 
             ! compute the scaled actual reduction.
 
@@ -845,7 +773,7 @@ contains
                 end do
                 Wa3(i) = Qtf(i) + sum
             end do
-            temp = enorm(n, Wa3)
+            temp = norm2(Wa3)
             prered = zero
             if (temp < fnorm) prered = one - (temp/fnorm)**2
 
@@ -877,7 +805,7 @@ contains
                     Wa2(j) = Diag(j)*x(j)
                     Fvec(j) = Wa4(j)
                 end do
-                xnorm = enorm(n, Wa2)
+                xnorm = norm2(Wa2)
                 fnorm = fnorm1
                 iter = iter + 1
             end if
@@ -1140,7 +1068,7 @@ contains
         call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
         Nfev = 1
         if (iflag < 0) goto 300
-        fnorm = enorm(n, Fvec)
+        fnorm = norm2(Fvec)
 
         ! initialize iteration counter and monitors.
 
@@ -1182,7 +1110,7 @@ contains
             do j = 1, n
                 Wa3(j) = Diag(j)*x(j)
             end do
-            xnorm = enorm(n, Wa3)
+            xnorm = norm2(Wa3)
             delta = Factor*xnorm
             if (delta == zero) delta = Factor
         end if
@@ -1255,7 +1183,7 @@ contains
             Wa2(j) = x(j) + Wa1(j)
             Wa3(j) = Diag(j)*Wa1(j)
         end do
-        pnorm = enorm(n, Wa3)
+        pnorm = norm2(Wa3)
 
         ! on the first iteration, adjust the initial step bound.
 
@@ -1267,7 +1195,7 @@ contains
         call fcn(n, Wa2, Wa4, Fjac, Ldfjac, iflag)
         Nfev = Nfev + 1
         if (iflag >= 0) then
-            fnorm1 = enorm(n, Wa4)
+            fnorm1 = norm2(Wa4)
 
             ! compute the scaled actual reduction.
 
@@ -1285,7 +1213,7 @@ contains
                 end do
                 Wa3(i) = Qtf(i) + sum
             end do
-            temp = enorm(n, Wa3)
+            temp = norm2(Wa3)
             prered = zero
             if (temp < fnorm) prered = one - (temp/fnorm)**2
 
@@ -1319,7 +1247,7 @@ contains
                     Wa2(j) = Diag(j)*x(j)
                     Fvec(j) = Wa4(j)
                 end do
-                xnorm = enorm(n, Wa2)
+                xnorm = norm2(Wa2)
                 fnorm = fnorm1
                 iter = iter + 1
             end if
@@ -1611,7 +1539,7 @@ contains
             call fcn(m, n, x, Fvec, Fjac, Ldfjac, iflag)
             Nfev = 1
             if (iflag >= 0) then
-                fnorm = enorm(m, Fvec)
+                fnorm = norm2(Fvec)
 
                 ! initialize levenberg-marquardt parameter and iteration counter.
 
@@ -1657,7 +1585,7 @@ contains
                         do j = 1, n
                             Wa3(j) = Diag(j)*x(j)
                         end do
-                        xnorm = enorm(n, Wa3)
+                        xnorm = norm2(Wa3)
                         delta = Factor*xnorm
                         if (delta == zero) delta = Factor
                     end if
@@ -1725,7 +1653,7 @@ contains
                             Wa2(j) = x(j) + Wa1(j)
                             Wa3(j) = Diag(j)*Wa1(j)
                         end do
-                        pnorm = enorm(n, Wa3)
+                        pnorm = norm2(Wa3)
 
                         ! on the first iteration, adjust the initial step bound.
 
@@ -1737,7 +1665,7 @@ contains
                         call fcn(m, n, Wa2, Wa4, Fjac, Ldfjac, iflag)
                         Nfev = Nfev + 1
                         if (iflag >= 0) then
-                            fnorm1 = enorm(m, Wa4)
+                            fnorm1 = norm2(Wa4)
 
                             ! compute the scaled actual reduction.
 
@@ -1755,7 +1683,7 @@ contains
                                     Wa3(i) = Wa3(i) + Fjac(i, j)*temp
                                 end do
                             end do
-                            temp1 = enorm(n, Wa3)/fnorm
+                            temp1 = norm2(Wa3)/fnorm
                             temp2 = (sqrt(par)*pnorm)/fnorm
                             prered = temp1**2 + temp2**2/p5
                             dirder = -(temp1**2 + temp2**2)
@@ -1790,7 +1718,7 @@ contains
                                 do i = 1, m
                                     Fvec(i) = Wa4(i)
                                 end do
-                                xnorm = enorm(n, Wa2)
+                                xnorm = norm2(Wa2)
                                 fnorm = fnorm1
                                 iter = iter + 1
                             end if
@@ -2080,7 +2008,7 @@ contains
             call fcn(m, n, x, Fvec, iflag)
             Nfev = 1
             if (iflag >= 0) then
-                fnorm = enorm(m, Fvec)
+                fnorm = norm2(Fvec)
 
                 ! initialize levenberg-marquardt parameter and iteration counter.
 
@@ -2126,7 +2054,7 @@ contains
                         do j = 1, n
                             Wa3(j) = Diag(j)*x(j)
                         end do
-                        xnorm = enorm(n, Wa3)
+                        xnorm = norm2(Wa3)
                         delta = Factor*xnorm
                         if (delta == zero) delta = Factor
                     end if
@@ -2195,7 +2123,7 @@ contains
                             Wa2(j) = x(j) + Wa1(j)
                             Wa3(j) = Diag(j)*Wa1(j)
                         end do
-                        pnorm = enorm(n, Wa3)
+                        pnorm = norm2(Wa3)
 
                         ! on the first iteration, adjust the initial step bound.
 
@@ -2207,7 +2135,7 @@ contains
                         call fcn(m, n, Wa2, Wa4, iflag)
                         Nfev = Nfev + 1
                         if (iflag >= 0) then
-                            fnorm1 = enorm(m, Wa4)
+                            fnorm1 = norm2(Wa4)
 
                             ! compute the scaled actual reduction.
 
@@ -2225,7 +2153,7 @@ contains
                                     Wa3(i) = Wa3(i) + Fjac(i, j)*temp
                                 end do
                             end do
-                            temp1 = enorm(n, Wa3)/fnorm
+                            temp1 = norm2(Wa3)/fnorm
                             temp2 = (sqrt(par)*pnorm)/fnorm
                             prered = temp1**2 + temp2**2/p5
                             dirder = -(temp1**2 + temp2**2)
@@ -2263,7 +2191,7 @@ contains
                                 do i = 1, m
                                     Fvec(i) = Wa4(i)
                                 end do
-                                xnorm = enorm(n, Wa2)
+                                xnorm = norm2(Wa2)
                                 fnorm = fnorm1
                                 iter = iter + 1
                             end if
@@ -2500,7 +2428,7 @@ contains
         do j = 1, n
             Wa2(j) = Diag(j)*x(j)
         end do
-        dxnorm = enorm(n, Wa2)
+        dxnorm = norm2(Wa2)
         fp = dxnorm - Delta
         if (fp <= p1*Delta) then
             ! termination.
@@ -2527,7 +2455,7 @@ contains
                     end if
                     Wa1(j) = (Wa1(j) - sum)/r(j, j)
                 end do
-                temp = enorm(n, Wa1)
+                temp = norm2(Wa1)
                 parl = ((fp/Delta)/temp)/temp
             end if
 
@@ -2541,7 +2469,7 @@ contains
                 l = Ipvt(j)
                 Wa1(j) = sum/Diag(l)
             end do
-            gnorm = enorm(n, Wa1)
+            gnorm = norm2(Wa1)
             paru = gnorm/Delta
             if (paru == zero) paru = dwarf/min(Delta, p1)
 
@@ -2567,7 +2495,7 @@ contains
             do j = 1, n
                 Wa2(j) = Diag(j)*x(j)
             end do
-            dxnorm = enorm(n, Wa2)
+            dxnorm = norm2(Wa2)
             temp = fp
             fp = dxnorm - Delta
 
@@ -2596,7 +2524,7 @@ contains
                         end do
                     end if
                 end do
-                temp = enorm(n, Wa1)
+                temp = norm2(Wa1)
                 parc = ((fp/Delta)/temp)/temp
 
                 ! depending on the sign of the function, update parl or paru.
@@ -2765,7 +2693,7 @@ contains
         call fcn(m, n, x, Fvec, Wa3, iflag)
         Nfev = 1
         if (iflag < 0) goto 200
-        fnorm = enorm(m, Fvec)
+        fnorm = norm2(Fvec)
 
         ! initialize levenberg-marquardt parameter and iteration counter.
 
@@ -2810,7 +2738,7 @@ contains
         do j = 1, n
             if (Fjac(j, j) == zero) sing = .true.
             Ipvt(j) = j
-            Wa2(j) = enorm(j, Fjac(1, j))
+            Wa2(j) = norm2(Fjac(1:j, j))
         end do
         if (sing) then
             call qrfac(n, n, Fjac, Ldfjac, .true., Ipvt, n, Wa1, Wa2, Wa3)
@@ -2846,7 +2774,7 @@ contains
             do j = 1, n
                 Wa3(j) = Diag(j)*x(j)
             end do
-            xnorm = enorm(n, Wa3)
+            xnorm = norm2(Wa3)
             delta = Factor*xnorm
             if (delta == zero) delta = Factor
         end if
@@ -2893,7 +2821,7 @@ contains
                 Wa2(j) = x(j) + Wa1(j)
                 Wa3(j) = Diag(j)*Wa1(j)
             end do
-            pnorm = enorm(n, Wa3)
+            pnorm = norm2(Wa3)
 
             ! on the first iteration, adjust the initial step bound.
 
@@ -2905,7 +2833,7 @@ contains
             call fcn(m, n, Wa2, Wa4, Wa3, iflag)
             Nfev = Nfev + 1
             if (iflag >= 0) then
-                fnorm1 = enorm(m, Wa4)
+                fnorm1 = norm2(Wa4)
 
                 ! compute the scaled actual reduction.
 
@@ -2923,7 +2851,7 @@ contains
                         Wa3(i) = Wa3(i) + Fjac(i, j)*temp
                     end do
                 end do
-                temp1 = enorm(n, Wa3)/fnorm
+                temp1 = norm2(Wa3)/fnorm
                 temp2 = (sqrt(par)*pnorm)/fnorm
                 prered = temp1**2 + temp2**2/p5
                 dirder = -(temp1**2 + temp2**2)
@@ -2960,7 +2888,7 @@ contains
                     do i = 1, m
                         Fvec(i) = Wa4(i)
                     end do
-                    xnorm = enorm(n, Wa2)
+                    xnorm = norm2(Wa2)
                     fnorm = fnorm1
                     iter = iter + 1
                 end if
@@ -3232,7 +3160,7 @@ contains
         ! compute the initial column norms and initialize several arrays.
 
         do j = 1, n
-            Acnorm(j) = enorm(m, a(1, j))
+            Acnorm(j) = norm2(a(1:m, j))
             Rdiag(j) = Acnorm(j)
             Wa(j) = Rdiag(j)
             if (Pivot) Ipvt(j) = j
@@ -3267,7 +3195,7 @@ contains
             ! compute the householder transformation to reduce the
             ! j-th column of a to a multiple of the j-th unit vector.
 
-            ajnorm = enorm(m - j + 1, a(j, j))
+            ajnorm = norm2(a(j:m, j))
             if (ajnorm /= zero) then
                 if (a(j, j) < zero) ajnorm = -ajnorm
                 do i = j, m
@@ -3293,7 +3221,7 @@ contains
                             temp = a(j, k)/Rdiag(k)
                             Rdiag(k) = Rdiag(k)*sqrt(max(zero, one - temp**2))
                             if (p05*(Rdiag(k)/Wa(k))**2 <= epsmch) then
-                                Rdiag(k) = enorm(m - j, a(jp1, k))
+                                Rdiag(k) = norm2(a(jp1:m, k))
                                 Wa(k) = Rdiag(k)
                             end if
                         end if

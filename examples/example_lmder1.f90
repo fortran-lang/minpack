@@ -44,7 +44,7 @@ end module
 
 
 program example_lmder1
-use minpack_module, only: enorm, lmder1, chkder
+use minpack_module, only: lmder1, chkder
 use testmod_der1, only: dp, fcn
 implicit none
 
@@ -65,7 +65,7 @@ tol = sqrt(epsilon(1._dp))
 allocate(wa(5*size(x) + size(fvec)))
 call lmder1(fcn, size(fvec), size(x), x, fvec, fjac, size(fjac, 1), tol, &
     info, ipvt, wa, size(wa))
-print 1000, enorm(size(fvec), fvec), info, x
+print 1000, norm2(fvec), info, x
 1000 format(5x, 'FINAL L2 NORM OF THE RESIDUALS', d15.7 // &
             5x, 'EXIT PARAMETER', 16x, i10              // &
             5x, 'FINAL APPROXIMATE SOLUTION'            // &

@@ -5,7 +5,7 @@
 !>                                 -x(8) + (3-2*x(9))*x(9) = -1
 program example_hybrd
 
-    use minpack_module, only: hybrd, enorm, dpmpar
+    use minpack_module, only: hybrd, dpmpar
     implicit none
     integer j, n, maxfev, ml, mu, mode, nprint, info, nfev, ldfjac, lr, nwrite
     double precision xtol, epsfcn, factor, fnorm
@@ -44,7 +44,7 @@ program example_hybrd
     call hybrd(fcn, n, x, fvec, xtol, maxfev, ml, mu, epsfcn, diag, &
                mode, factor, nprint, info, nfev, fjac, ldfjac, &
                r, lr, qtf, wa1, wa2, wa3, wa4)
-    fnorm = enorm(n, fvec)
+    fnorm = norm2(fvec)
     write (nwrite, 1000) fnorm, nfev, info, (x(j), j=1, n)
 
 1000 format(5x, "FINAL L2 NORM OF THE RESIDUALS", d15.7// &

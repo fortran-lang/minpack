@@ -19,9 +19,9 @@
 !
 !       USER-SUPPLIED ...... FCN
 !
-!       MINPACK-SUPPLIED ... DPMPAR,ENORM,INITPT,LMDIF1,SSQFCN
+!       MINPACK-SUPPLIED ... DPMPAR,INITPT,LMDIF1,SSQFCN
 !
-!       FORTRAN-SUPPLIED ... sqrt
+!       FORTRAN-SUPPLIED ... sqrt,norm2
 !
 !     ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
 !     BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
@@ -66,14 +66,14 @@
             ic = ic + 1
             call initpt(n,x,NPRob,factor)
             call ssqfcn(m,n,x,fvec,NPRob)
-            fnorm1 = enorm(m,fvec)
+            fnorm1 = norm2(fvec(1:m))
             write (nwrite,99005) NPRob , n , m
 99005       format (////5x,' PROBLEM',i5,5x,' DIMENSIONS',2i5,5x//)
             NFEv = 0
             NJEv = 0
             call lmdif1(fcn,m,n,x,fvec,tol,info,iwa,wa,lwa)
             call ssqfcn(m,n,x,fvec,NPRob)
-            fnorm2 = enorm(m,fvec)
+            fnorm2 = norm2(fvec(1:m))
             np(ic) = NPRob
             na(ic) = n
             ma(ic) = m
