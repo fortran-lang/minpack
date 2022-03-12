@@ -1,0 +1,14 @@
+name: python
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - pip
+  - pkgconfig
+  - pytest
+  - pytest-cov
+  - coverage
+  - cffi
+  - numpy
+  - meson
+  - ninja
