@@ -31,8 +31,8 @@ program test_lmstr
     real(wp),dimension(:),allocatable :: x
     integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv,  &
                NPRob, ntries, icase
-    integer :: ma(60), na(60), nf(60), nj(60), np(60), nx(60)
-    real(wp) :: fnm(60)
+    integer :: ma(53), na(53), nf(53), nj(53), np(53), nx(53)
+    real(wp) :: fnm(53)
     real(wp) :: factor, fnorm1, fnorm2
 
     real(wp),parameter :: one = 1.0_wp

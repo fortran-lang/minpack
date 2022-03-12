@@ -24,8 +24,8 @@ program test_hybrd
     integer,dimension(ncases),parameter :: ntriess = [3,3,2,3,3,2,2,3,3,3,1,1,3,1,1,3,3,3,3,3,3,3]
 
     integer :: i, ic, info, k, lwa, n, NFEv, NPRob, ntries, icase
-    integer :: na(60), nf(60), np(60), nx(60)
-    real(wp) :: fnm(60)
+    integer :: na(55), nf(55), np(55), nx(55)
+    real(wp) :: fnm(55)
     real(wp) :: factor, fnorm1, fnorm2
     real(wp),allocatable :: fvec(:), wa(:), x(:)
 

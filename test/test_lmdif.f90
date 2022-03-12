@@ -24,14 +24,14 @@ program test_lmdif
     integer,dimension(ncases),parameter :: ms      = [10,50,10,50,10,50,2,3,4,2,15,11,16,31,31,31,10,10,20,8,8,9,10,10,30,40,33,65]
     integer,dimension(ncases),parameter :: ntriess = [1,1,1,1,1,1,3,3,3,3,3,3,2,3,3,3,1,1,3,3,1,1,1,3,1,1,1,1]
 
-    integer,dimension(*),parameter :: info_original = [1,1,1,1,1,1,2,2,2,2,2,2,5,5,5,1,1,1,1,1,1,1,1,5,1,4,&
-                                                       1,1,1,1,2,2,2,2,2,2,1,5,1,5,1,1,1,1,2,1,1,2,1,2,2,1,1]
-                                                       !! original `info` from the original minpack
+    integer,dimension(53),parameter :: info_original = [1,1,1,1,1,1,2,2,2,2,2,2,5,5,5,1,1,1,1,1,1,1,1,5,1,4,&
+                                                        1,1,1,1,2,2,2,2,2,2,1,5,1,5,1,1,1,1,2,1,1,2,1,2,2,1,1]
+                                                        !! original `info` from the original minpack
 
     integer :: i, ic, info, k, m, n, NFEv, NJEv, NPRob, ntries, icase, lwa
     real(wp) :: factor, fnorm1, fnorm2
-    integer :: ma(60), na(60), nf(60), nj(60), np(60), nx(60)
-    real(wp) :: fnm(60)
+    integer :: ma(53), na(53), nf(53), nj(53), np(53), nx(53)
+    real(wp) :: fnm(53)
     integer,dimension(:),allocatable :: iwa
     real(wp),dimension(:),allocatable :: fvec, wa, x
 
