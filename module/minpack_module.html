@@ -86,7 +86,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="83.0% of total for modules and submodules.">1909 statements</a>
+    title="83.0% of total for modules and submodules.">1912 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/minpack.f90"> Source File</a></li>
   </ul>
@@ -515,7 +515,7 @@
   <td><span class="anchor" ></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>x</strong>(n)</td><td><p>independant variable vector</p></td>
+  <td><strong>x</strong>(n)</td><td><p>independent variable vector</p></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>real(kind=wp),</td>
@@ -563,7 +563,7 @@
   <td><span class="anchor" ></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>x</strong>(n)</td><td><p>independant variable vector</p></td>
+  <td><strong>x</strong>(n)</td><td><p>independent variable vector</p></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>real(kind=wp),</td>
@@ -607,17 +607,17 @@ in this case set iflag to a negative integer.</p></td>
   <td><span class="anchor" ></span>real(kind=wp),</td>
 <td>intent(in),</td>
   <td></td>  <td>dimension(n)</td><td>::</td>
-  <td><strong>x</strong></td><td><p>independant variable vector</p></td>
+  <td><strong>x</strong></td><td><p>independent variable vector</p></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out),</td>
+<td>intent(inout),</td>
   <td></td>  <td>dimension(n)</td><td>::</td>
   <td><strong>fvec</strong></td><td><p>value of function at <code>x</code></p></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out),</td>
+<td>intent(inout),</td>
   <td></td>  <td>dimension(ldfjac, n)</td><td>::</td>
   <td><strong>fjac</strong></td><td><p>jacobian matrix at <code>x</code></p></td>
 </tr>
@@ -673,7 +673,7 @@ in this case set iflag to a negative integer.</p></td>
   <td><span class="anchor" ></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>x</strong>(n)</td><td><p>independant variable vector</p></td>
+  <td><strong>x</strong>(n)</td><td><p>independent variable vector</p></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>real(kind=wp),</td>
