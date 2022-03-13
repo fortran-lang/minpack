@@ -6,11 +6,11 @@
 !>                              -x(8) + (3-2*x(9))*x(9) = -1
 program example_hybrd1
 
-    use minpack_module, only: hybrd1, dpmpar, enorm
+    use minpack_module, only: wp, hybrd1, dpmpar, enorm
     implicit none
     integer j, n, info, lwa, nwrite
-    double precision tol, fnorm
-    double precision x(9), fvec(9), wa(180)
+    real(wp) tol, fnorm
+    real(wp) x(9), fvec(9), wa(180)
 
     !> Logical output unit is assumed to be number 6.
     data nwrite/6/
@@ -59,11 +59,11 @@ contains
         implicit none
         integer, intent(in) :: n
         integer, intent(inout) :: iflag
-        double precision, intent(in) :: x(n)
-        double precision, intent(out) :: fvec(n)
+        real(wp), intent(in) :: x(n)
+        real(wp), intent(out) :: fvec(n)
 
         integer k
-        double precision one, temp, temp1, temp2, three, two, zero
+        real(wp) one, temp, temp1, temp2, three, two, zero
         data zero, one, two, three/0.0d0, 1.0d0, 2.0d0, 3.0d0/
 
         do k = 1, n
