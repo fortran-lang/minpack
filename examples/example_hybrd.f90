@@ -19,7 +19,7 @@ program example_hybrd
     real(wp) :: x(n), fvec(n), diag(n), fjac(n, n), r(lr), qtf(n), &
                 wa1(n), wa2(n), wa3(n), wa4(n)
 
-    xtol = dsqrt(dpmpar(1))  ! square root of the machine precision.
+    xtol = sqrt(dpmpar(1))  ! square root of the machine precision.
     maxfev = 2000
     ml = 1
     mu = 1
