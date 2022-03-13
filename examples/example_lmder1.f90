@@ -23,7 +23,7 @@ if (iflag == 1) then
         tmp1 = i
         tmp2 = 16 - i
         tmp3 = tmp1
-        if (i .gt. 8) tmp3 = tmp2
+        if (i > 8) tmp3 = tmp2
         fvec(i) = y(i) - (x(1) + tmp1/(x(2)*tmp2 + x(3)*tmp3))
     end do
 else
@@ -31,7 +31,7 @@ else
         tmp1 = i
         tmp2 = 16 - i
         tmp3 = tmp1
-        if (i .gt. 8) tmp3 = tmp2
+        if (i > 8) tmp3 = tmp2
         tmp4 = (x(2)*tmp2 + x(3)*tmp3)**2
         fjac(i,1) = -1.D0
         fjac(i,2) = tmp1*tmp2/tmp4

@@ -24,7 +24,7 @@ do i = 1, 15
     tmp1 = i
     tmp2 = 16 - i
     tmp3 = tmp1
-    if (i .gt. 8) tmp3 = tmp2
+    if (i > 8) tmp3 = tmp2
     fvec(i) = y(i) - (x(1) + tmp1/(x(2)*tmp2 + x(3)*tmp3))
 end do
 end subroutine

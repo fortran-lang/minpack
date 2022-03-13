@@ -27,7 +27,7 @@ module minpack_module
             import :: wp
             implicit none
             integer, intent(in) :: n !! the number of variables.
-            real(wp), intent(in) :: x(n) !! independant variable vector
+            real(wp), intent(in) :: x(n) !! independent variable vector
             real(wp), intent(out) :: fvec(n) !! value of function at `x`
             integer, intent(inout) :: iflag !! set to <0 to terminate execution
         end subroutine func
@@ -38,7 +38,7 @@ module minpack_module
             implicit none
             integer, intent(in) :: m !! the number of functions.
             integer, intent(in) :: n !! the number of variables.
-            real(wp), intent(in) :: x(n) !! independant variable vector
+            real(wp), intent(in) :: x(n) !! independent variable vector
             real(wp), intent(out) :: fvec(m) !! value of function at `x`
             integer, intent(inout) :: iflag !! the value of iflag should not be changed unless
                                            !! the user wants to terminate execution of lmdif.
@@ -49,19 +49,19 @@ module minpack_module
             !! user-supplied subroutine for [[hybrj]] and [[hybrj1]]
             import :: wp
             implicit none
-            integer, intent(in)                       :: n !! the number of variables.
-            real(wp), dimension(n), intent(in)         :: x !! independant variable vector
-            integer, intent(in)                       :: ldfjac !! leading dimension of the array fjac.
-            real(wp), dimension(n), intent(out)        :: fvec !! value of function at `x`
-            real(wp), dimension(ldfjac, n), intent(out) :: fjac !! jacobian matrix at `x`
-            integer, intent(inout)                    :: iflag !! if iflag = 1 calculate the functions at x and
-                                                              !! return this vector in fvec. do not alter fjac.
-                                                              !! if iflag = 2 calculate the jacobian at x and
-                                                              !! return this matrix in fjac. do not alter fvec.
-                                                              !!
-                                                              !! the value of iflag should not be changed by fcn unless
-                                                              !! the user wants to terminate execution of hybrj.
-                                                              !! in this case set iflag to a negative integer.
+            integer, intent(in) :: n !! the number of variables.
+            real(wp), dimension(n), intent(in) :: x !! independent variable vector
+            integer, intent(in) :: ldfjac !! leading dimension of the array fjac.
+            real(wp), dimension(n), intent(inout) :: fvec !! value of function at `x`
+            real(wp), dimension(ldfjac, n), intent(inout) :: fjac !! jacobian matrix at `x`
+            integer, intent(inout) :: iflag !! if iflag = 1 calculate the functions at x and
+                                            !! return this vector in fvec. do not alter fjac.
+                                            !! if iflag = 2 calculate the jacobian at x and
+                                            !! return this matrix in fjac. do not alter fvec.
+                                            !!
+                                            !! the value of iflag should not be changed by fcn unless
+                                            !! the user wants to terminate execution of hybrj.
+                                            !! in this case set iflag to a negative integer.
         end subroutine fcn_hybrj
 
         subroutine fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag)
@@ -79,7 +79,7 @@ module minpack_module
                                            !! the value of iflag should not be changed by fcn unless
                                            !! the user wants to terminate execution of lmder.
                                            !! in this case set iflag to a negative integer.
-            real(wp), intent(in) :: x(n) !! independant variable vector
+            real(wp), intent(in) :: x(n) !! independent variable vector
             real(wp), intent(inout) :: fvec(m) !! value of function at `x`
             real(wp), intent(inout) :: fjac(ldfjac, n) !! jacobian matrix at `x`
         end subroutine fcn_lmder
@@ -703,7 +703,7 @@ contains
         ! determine the number of calls to fcn needed to compute
         ! the jacobian matrix.
 
-        msum = min0(Ml + Mu + 1, n)
+        msum = min(Ml + Mu + 1, n)
 
         ! initialize iteration counter and monitors.
 
@@ -3125,7 +3125,7 @@ contains
 
         ! zero out upper triangle of q in the first min(m,n) columns.
 
-        minmn = min0(m, n)
+        minmn = min(m, n)
         if (minmn >= 2) then
             do j = 2, minmn
                 jm1 = j - 1
@@ -3240,7 +3240,7 @@ contains
 
         ! reduce a to r with householder transformations.
 
-        minmn = min0(m, n)
+        minmn = min(m, n)
         do j = 1, minmn
             if (Pivot) then
 
@@ -3515,10 +3515,13 @@ contains
         if (nm1 >= 1) then
             do nmj = 1, nm1
                 j = n - nmj
-                if (abs(v(j)) > one) cos = one/v(j)
-                if (abs(v(j)) > one) sin = sqrt(one - cos**2)
-                if (abs(v(j)) <= one) sin = v(j)
-                if (abs(v(j)) <= one) cos = sqrt(one - sin**2)
+                if (abs(v(j)) > one) then
+                    cos = one/v(j)
+                    sin = sqrt(one - cos**2)
+                else
+                    sin = v(j)
+                    cos = sqrt(one - sin**2)
+                end if
                 do i = 1, m
                     temp = cos*a(i, j) - sin*a(i, n)
                     a(i, n) = sin*a(i, j) + cos*a(i, n)

@@ -9,78 +9,95 @@
 !  Interface subroutine fcn is necessary to take into account the
 !  Forms of calling sequences used by the function and jacobian
 !  Subroutines in the various nonlinear least-squares solvers.
-!
-!### Reference
-!  * ARGONNE NATIONAL LABORATORY. MINPACK PROJECT. MARCH 1980.
-!    BURTON S. GARBOW, KENNETH E. HILLSTROM, JORGE J. MORE
 
-program test
+program test_lmder
 
-    use minpack_module
+    use minpack_module, only: wp, dpmpar, enorm, lmder1
     use iso_fortran_env, only: output_unit
 
     implicit none
 
-    integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv, NPRob, ntries
-    integer :: iwa(40), ma(60), na(60), nf(60), nj(60), np(60), nx(60)
-    real(wp) :: factor, fnorm1, fnorm2, tol
-    real(wp) :: fjac(65, 40), fnm(60), fvec(65), wa(265), x(40)
+    ! originally from file22
+    integer,parameter :: ncases = 28
+    integer,dimension(ncases),parameter :: nprobs  = [1,1,2,2,3,3,4,5,6,7,8,9,10,11,11,11,12,13,14,15,15,15,15,16,16,16,17,18]
+    integer,dimension(ncases),parameter :: ns      = [5,5,5,5,5,5,2,3,4,2,3,4,3,6,9,12,3,2,4,1,8,9,10,10,30,40,5,11]
+    integer,dimension(ncases),parameter :: ms      = [10,50,10,50,10,50,2,3,4,2,15,11,16,31,31,31,10,10,20,8,8,9,10,10,30,40,33,65]
+    integer,dimension(ncases),parameter :: ntriess = [1,1,1,1,1,1,3,3,3,3,3,3,2,3,3,3,1,1,3,3,1,1,1,3,1,1,1,1]
+
+    integer,dimension(53),parameter :: info_original = [3,3,1,1,1,1,4,2,2,2,2,2,4,4,4,1,1,1,1,1,1,&
+                                                        1,1,5,2,5,1,1,1,3,1,3,3,3,2,2,1,1,1,1,4,1,&
+                                                        1,1,2,1,2,2,2,2,2,1,1] !! original `info` from the original minpack
+
+    integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv, NPRob, ntries, icase, iunit
+    real(wp) :: factor, fnorm1, fnorm2
+    integer :: ma(53), na(53), nf(53), nj(53), np(53), nx(53)
+    real(wp) :: fnm(53)
+    integer,dimension(:),allocatable :: iwa
+    real(wp),dimension(:),allocatable :: fvec, wa, x
+    real(wp),dimension(:,:),allocatable :: fjac
 
     integer, parameter :: nwrite = output_unit ! logical output unit
     real(wp), parameter :: one = 1.0_wp
     real(wp), parameter :: ten = 10.0_wp
+    real(wp), parameter :: tol = sqrt(dpmpar(1))
+    real(wp), parameter :: solution_reltol = 1.0e-4_wp !! reltol for matching previously generated solutions
 
-    tol = sqrt(dpmpar(1))
-    ldfjac = 65
-    lwa = 265
     ic = 0
-    n = 40
-    m = 65
-    ntries = 1
-    do NPRob = 1, 20
-    if (NPRob == 20) then
-        write (nwrite, 99002) ic
-99002   format('1SUMMARY OF ', i3, ' CALLS TO LMDER1'/)
-        write (nwrite, 99003)
-99003   format(' NPROB   N    M   NFEV  NJEV  INFO  FINAL L2 NORM'/)
-        do i = 1, ic
-            write (nwrite, 99004) np(i), na(i), ma(i), nf(i), nj(i),&
-                               & nx(i), fnm(i)
-99004       format(3i5, 3i6, 1x, d15.7)
-        end do
-        stop
-    else
-        factor = one
-        do k = 1, ntries
-            ic = ic + 1
-            call initpt(n, x, NPRob, factor)
-            call ssqfcn(m, n, x, fvec, NPRob)
-            fnorm1 = enorm(m, fvec)
-            write (nwrite, 99005) NPRob, n, m
-99005       format(////5x, ' PROBLEM', i5, 5x, ' DIMENSIONS', 2i5, 5x//)
-            NFEv = 0
-            NJEv = 0
-            call lmder1(fcn, m, n, x, fvec, fjac, ldfjac, tol, info, iwa, wa, lwa)
-            call ssqfcn(m, n, x, fvec, NPRob)
-            fnorm2 = enorm(m, fvec)
-            np(ic) = NPRob
-            na(ic) = n
-            ma(ic) = m
-            nf(ic) = NFEv
-            nj(ic) = NJEv
-            nx(ic) = info
-            fnm(ic) = fnorm2
-            write (nwrite, 99006) fnorm1, fnorm2, NFEv, NJEv, info, &
-                               & (x(i), i=1, n)
-99006       format(5x, ' INITIAL L2 NORM OF THE RESIDUALS', d15.7//5x, &
-                   ' FINAL L2 NORM OF THE RESIDUALS  ', d15.7//5x, &
-                   ' NUMBER OF FUNCTION EVALUATIONS  ', i10//5x, &
-                   ' NUMBER OF JACOBIAN EVALUATIONS  ', i10//5x, &
-                   ' EXIT PARAMETER', 18x, i10//5x, &
-                   ' FINAL APPROXIMATE SOLUTION'//(5x, 5d15.7))
-            factor = ten*factor
-        end do
-    end if
+    do icase = 1, ncases+1
+
+        if (icase == ncases+1) then
+            write (nwrite, '(A,I3,A/)') '1SUMMARY OF ', ic, ' CALLS TO LMDER1'
+            write (nwrite, '(A/)')      ' NPROB   N    M   NFEV  NJEV  INFO  FINAL L2 NORM'
+            do i = 1, ic
+                write (nwrite, '(3I5,3I6,1X,D15.7)') np(i), na(i), ma(i), nf(i), nj(i), nx(i), fnm(i)
+            end do
+            stop
+        else
+
+            nprob = nprobs(icase)
+            n = ns(icase)
+            m = ms(icase)
+            lwa = 5*n+m
+            ldfjac = m
+
+            if (allocated(fjac)) deallocate(fjac); allocate(fjac(m,n))
+            if (allocated(fvec)) deallocate(fvec); allocate(fvec(m))
+            if (allocated(wa))   deallocate(wa);   allocate(wa(lwa))
+            if (allocated(x))    deallocate(x);    allocate(x(n))
+            if (allocated(iwa))  deallocate(iwa);  allocate(iwa(n))
+
+            ntries = ntriess(icase)
+
+            factor = one
+            do k = 1, ntries
+                ic = ic + 1
+                call initpt(n, x, NPRob, factor)
+                call ssqfcn(m, n, x, fvec, NPRob)
+                fnorm1 = enorm(m, fvec)
+                write (nwrite, '(////5X,A,I5,5X,A,2I5,5X//)') ' PROBLEM', NPRob, ' DIMENSIONS', n, m
+                NFEv = 0
+                NJEv = 0
+                call lmder1(fcn, m, n, x, fvec, fjac, ldfjac, tol, info, iwa, wa, lwa)
+                call ssqfcn(m, n, x, fvec, NPRob)
+                fnorm2 = enorm(m, fvec)
+                np(ic) = NPRob
+                na(ic) = n
+                ma(ic) = m
+                nf(ic) = NFEv
+                nj(ic) = NJEv
+                nx(ic) = info
+                fnm(ic) = fnorm2
+                write (nwrite, '(5X,A,D15.7//5X,A,D15.7//5X,A,I10//5X,A,I10//5X,A,18X,I10//5X,A//,*(5X,5D15.7/))') &
+                            ' INITIAL L2 NORM OF THE RESIDUALS', fnorm1, &
+                            ' FINAL L2 NORM OF THE RESIDUALS  ', fnorm2, &
+                            ' NUMBER OF FUNCTION EVALUATIONS  ', NFEv, &
+                            ' NUMBER OF JACOBIAN EVALUATIONS  ', NJEv, &
+                            ' EXIT PARAMETER', info, &
+                            ' FINAL APPROXIMATE SOLUTION',x(1:n)
+                factor = ten*factor
+                call compare_solutions(ic, x, solution_reltol, tol)
+            end do
+        end if
     end do
 
 contains
@@ -88,11 +105,47 @@ contains
 
 !*****************************************************************************************
 !>
-!  THE CALLING SEQUENCE OF FCN SHOULD BE IDENTICAL TO THE
-!  CALLING SEQUENCE OF THE FUNCTION SUBROUTINE IN THE NONLINEAR
-!  LEAST-SQUARES SOLVER. FCN SHOULD ONLY CALL THE TESTING
-!  FUNCTION AND JACOBIAN SUBROUTINES SSQFCN AND SSQJAC WITH
-!  THE APPROPRIATE VALUE OF PROBLEM NUMBER (NPROB).
+!  Compare with previously generated solutions.
+
+    subroutine compare_solutions(ic, x, reltol, abstol)
+
+    implicit none
+
+    integer,intent(in) :: ic !! problem number (index is `solution` vector)
+    real(wp),dimension(:),intent(in) :: x !! computed `x` vector from the method
+    real(wp),intent(in) :: reltol !! relative tolerance for `x` to pass
+    real(wp),intent(in) :: abstol !! absolute tolerance for `x` to pass
+
+    real(wp),dimension(size(x)) :: diff, absdiff, reldiff
+
+    if (info_original(ic)<5) then    ! ignore any where the original minpack failed
+        diff = solution(ic) - x
+        absdiff = abs(diff)
+        if (any(absdiff>abstol)) then ! first do an absolute diff
+            ! also do a rel diff if the abs diff fails (also protect for divide by zero)
+            reldiff = absdiff
+            where (solution(ic) /= 0.0_wp) reldiff = absdiff / abs(solution(ic))
+            if (any(reldiff > reltol)) then
+                write(nwrite,'(A)') 'Failed case'
+                write(nwrite, '(//5x, a//(5x, 5d15.7))') 'Expected x: ', solution(ic)
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'Computed x: ', x
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'absdiff: ', absdiff
+                write(nwrite, '(/5x, a//(5x, 5d15.7))')  'reldiff: ', reldiff
+                error stop ! test failed
+            end if
+        end if
+    end if
+
+    end subroutine compare_solutions
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  The calling sequence of fcn should be identical to the
+!  calling sequence of the function subroutine in the nonlinear
+!  least-squares solver. fcn should only call the testing
+!  function and jacobian subroutines ssqfcn and ssqjac with
+!  the appropriate value of problem number (nprob).
 
     subroutine fcn(m, n, x, Fvec, Fjac, Ldfjac, Iflag)
 
@@ -109,7 +162,7 @@ contains
                                        !! the value of iflag should not be changed by fcn unless
                                        !! the user wants to terminate execution of lmder.
                                        !! in this case set iflag to a negative integer.
-        real(wp), intent(in) :: x(n) !! independant variable vector
+        real(wp), intent(in) :: x(n) !! independent variable vector
         real(wp), intent(inout) :: fvec(m) !! value of function at `x`
         real(wp), intent(inout) :: fjac(ldfjac, n) !! jacobian matrix at `x`
 
@@ -137,6 +190,153 @@ contains
         real(wp) :: f
         f = real(i, wp)
     end function dfloat
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Get expected `x` vectors for each case.
+
+    pure function solution(nprob) result(x)
+
+        implicit none
+
+        integer,intent(in) :: nprob
+        real(wp),dimension(:),allocatable :: x
+
+        select case (nprob)
+        case(1); x = [-0.1000000000000000E+01_wp,-0.1000000000000000E+01_wp,-0.1000000000000000E+01_wp,&
+                      -0.1000000000000000E+01_wp,-0.1000000000000000E+01_wp]
+        case(2); x = [-0.9999999999999953E+00_wp,-0.1000000000000005E+01_wp,-0.9999999999999976E+00_wp,&
+                      -0.9999999999999956E+00_wp,-0.9999999999999991E+00_wp]
+        case(3); x = [-0.1677968180239693E+03_wp,-0.8339840901198468E+02_wp,0.2211100430795781E+03_wp,&
+                      -0.4119920450599233E+02_wp,-0.3275936360479385E+02_wp]
+        case(4); x = [-0.2029999900022674E+02_wp,-0.9649999500113370E+01_wp,-0.1652451975264496E+03_wp,&
+                      -0.4324999750056676E+01_wp,0.1105330585100652E+03_wp]
+        case(5); x = [0.1000000000000000E+01_wp,-0.2103615324224772E+03_wp,0.3212042081132130E+02_wp,&
+                      0.8113456824980642E+02_wp,0.1000000000000000E+01_wp]
+        case(6); x = [0.1000000000000000E+01_wp,0.3321494858957815E+03_wp,-0.4396851914289522E+03_wp,&
+                      0.1636968825825863E+03_wp,0.1000000000000000E+01_wp]
+        case(7); x = [0.1000000000000000E+01_wp,0.1000000000000000E+01_wp]
+        case(8); x = [0.1000000000000000E+01_wp,0.1000000000000000E+01_wp]
+        case(9); x = [0.1000000000000000E+01_wp,0.1000000000000000E+01_wp]
+        case(10); x = [0.1000000000000000E+01_wp,-0.6243301596789443E-17_wp,0.0000000000000000E+00_wp]
+        case(11); x = [0.1000000000000000E+01_wp,0.6563910805155555E-20_wp,0.0000000000000000E+00_wp]
+        case(12); x = [0.1000000000000000E+01_wp,-0.1972152263052530E-29_wp,0.0000000000000000E+00_wp]
+        case(13); x = [0.1652117596168394E-16_wp,-0.1652117596168393E-17_wp,0.2643388153869468E-17_wp,&
+                       0.2643388153869468E-17_wp]
+        case(14); x = [0.2016745112510229E-19_wp,-0.2016745112510229E-20_wp,0.3226792180016300E-20_wp,&
+                       0.3226792180016300E-20_wp]
+        case(15); x = [0.3226792180016378E-17_wp,-0.3226792180016378E-18_wp,0.5162867488026213E-18_wp,&
+                       0.5162867488026213E-18_wp]
+        case(16); x = [0.1141248446549937E+02_wp,-0.8968279137315035E+00_wp]
+        case(17); x = [0.1141300466147456E+02_wp,-0.8967960386859591E+00_wp]
+        case(18); x = [0.1141278178578820E+02_wp,-0.8968051074920677E+00_wp]
+        case(19); x = [0.8241057657583339E-01_wp,0.1133036653471504E+01_wp,0.2343694638941154E+01_wp]
+        case(20); x = [0.8406666738183293E+00_wp,-0.1588480332595655E+09_wp,-0.1643786716535352E+09_wp]
+        case(21); x = [0.8406666738676455E+00_wp,-0.1589461672055184E+09_wp,-0.1644649068577712E+09_wp]
+        case(22); x = [0.1928078104762493E+00_wp,0.1912626533540709E+00_wp,0.1230528010469309E+00_wp,&
+                       0.1360532211505167E+00_wp]
+        case(23); x = [0.7286754737686598E+06_wp,-0.1407588031293926E+02_wp,-0.3297779778419661E+08_wp,&
+                       -0.2057159419780170E+08_wp]
+        case(24); x = [0.1927984063846549E+00_wp,0.1914736844615448E+00_wp,0.1230924753714115E+00_wp,&
+                       0.1361509629062244E+00_wp]
+        case(25); x = [0.5609636471026654E-02_wp,0.6181346346286586E+04_wp,0.3452236346241439E+03_wp]
+        case(26); x = [0.1291118238019656E-10_wp,0.3388670577625951E+05_wp,0.9040289597481549E+03_wp]
+        case(27); x = [-0.1572496150837821E-01_wp,0.1012434882329655E+01_wp,-0.2329917223876743E+00_wp,&
+                       0.1260431011028187E+01_wp,-0.1513730313944210E+01_wp,0.9929972729184218E+00_wp]
+        case(28); x = [-0.1572519013866764E-01_wp,0.1012434858601050E+01_wp,-0.2329915458438263E+00_wp,&
+                       0.1260429320891618E+01_wp,-0.1513727767065737E+01_wp,0.9929957342632760E+00_wp]
+        case(29); x = [-0.1572470197125875E-01_wp,0.1012434909256583E+01_wp,-0.2329919227616435E+00_wp,&
+                       0.1260432929295550E+01_wp,-0.1513733204527069E+01_wp,0.9929990192232205E+00_wp]
+        case(30); x = [-0.1530706441663782E-04_wp,0.9997897039345963E+00_wp,0.1476396349113067E-01_wp,&
+                       0.1463423301456550E+00_wp,0.1000821094549679E+01_wp,-0.2617731120708589E+01_wp,&
+                       0.4104403139437982E+01_wp,-0.3143612262365286E+01_wp,0.1052626403788335E+01_wp]
+        case(31); x = [-0.1530713348497491E-04_wp,0.9997897039412341E+00_wp,0.1476396297861486E-01_wp,&
+                       0.1463423348188786E+00_wp,0.1000821073213774E+01_wp,-0.2617731070847226E+01_wp,&
+                       0.4104403076555856E+01_wp,-0.3143612221787109E+01_wp,0.1052626393225985E+01_wp]
+        case(32); x = [-0.1530703652788392E-04_wp,0.9997897039319498E+00_wp,0.1476396369347192E-01_wp,&
+                       0.1463423283001695E+00_wp,0.1000821103001098E+01_wp,-0.2617731140510708E+01_wp,&
+                       0.4104403164468549E+01_wp,-0.3143612278549893E+01_wp,0.1052626408008490E+01_wp]
+        case(33); x = [-0.6638060467011595E-08_wp,0.1000001644117862E+01_wp,-0.5639322103223269E-03_wp,&
+                       0.3478205405036302E+00_wp,-0.1567315040922755E+00_wp,0.1052815177186520E+01_wp,&
+                       -0.3247271153392391E+01_wp,0.7288434897798658E+01_wp,-0.1027184824113737E+02_wp,&
+                       0.9074113646924774E+01_wp,-0.4541375466623413E+01_wp,0.1012011888539188E+01_wp]
+        case(34); x = [-0.6637102237178952E-08_wp,0.1000001644117874E+01_wp,-0.5639322084840861E-03_wp,&
+                       0.3478205404902133E+00_wp,-0.1567315039874129E+00_wp,0.1052815176715104E+01_wp,&
+                       -0.3247271152062481E+01_wp,0.7288434895390663E+01_wp,-0.1027184823833726E+02_wp,&
+                       0.9074113644905919E+01_wp,-0.4541375465802633E+01_wp,0.1012011888395745E+01_wp]
+        case(35); x = [-0.6638060465675741E-08_wp,0.1000001644117862E+01_wp,-0.5639322102727471E-03_wp,&
+                       0.3478205405024820E+00_wp,-0.1567315040810628E+00_wp,0.1052815177127253E+01_wp,&
+                       -0.3247271153204238E+01_wp,0.7288434897423372E+01_wp,-0.1027184824066345E+02_wp,&
+                       0.9074113646557050E+01_wp,-0.4541375466463498E+01_wp,0.1012011888509363E+01_wp]
+        case(36); x = [0.9999999999999999E+00_wp,0.1000000000000000E+02_wp,0.1000000000000000E+01_wp]
+        case(37); x = [0.2578199266367936E+00_wp,0.2578299767645596E+00_wp]
+        case(38); x = [-0.1159125521567487E+02_wp,0.1320248976116189E+02_wp,-0.4035744915102742E+00_wp,&
+                       0.2367363118370096E+00_wp]
+        case(39); x = [-0.1159592742721295E+02_wp,0.1320418669262178E+02_wp,-0.4034173628612446E+00_wp,&
+                       0.2367711433960093E+00_wp]
+        case(40); x = [-0.1159025975515195E+02_wp,0.1320206290836587E+02_wp,-0.4036882104139269E+00_wp,&
+                       0.2366649366417166E+00_wp]
+        case(41); x = [0.5000000000000000E+00_wp]
+        case(42); x = [0.9817314924683995E+00_wp]
+        case(43); x = [0.9817314852933997E+00_wp]
+        case(44); x = [0.4315366485873882E-01_wp,0.1930916378432737E+00_wp,0.2663285938126948E+00_wp,&
+                       0.4999993346289514E+00_wp,0.5000006653710486E+00_wp,0.7336714061873052E+00_wp,&
+                       0.8069083621567262E+00_wp,0.9568463351412612E+00_wp]
+        case(45); x = [0.4420534613578274E-01_wp,0.1994906723098809E+00_wp,0.2356191084710600E+00_wp,&
+                       0.4160469078925979E+00_wp,0.5000000000000001E+00_wp,0.5839530921074019E+00_wp,&
+                       0.7643808915289401E+00_wp,0.8005093276901190E+00_wp,0.9557946538642172E+00_wp]
+        case(46); x = [0.5962026717536065E-01_wp,0.1667087838059440E+00_wp,0.2391710188135143E+00_wp,&
+                       0.3988852903458887E+00_wp,0.3988836678710648E+00_wp,0.6011163321289351E+00_wp,&
+                       0.6011147096541113E+00_wp,0.7608289811864857E+00_wp,0.8332912161940560E+00_wp,&
+                       0.9403797328246394E+00_wp]
+        case(47); x = [0.9794303033498624E+00_wp,0.9794303033498624E+00_wp,0.9794303033498624E+00_wp,&
+                       0.9794303033498624E+00_wp,0.9794303033498624E+00_wp,0.9794303033498624E+00_wp,&
+                       0.9794303033498624E+00_wp,0.9794303033498624E+00_wp,0.9794303033498624E+00_wp,&
+                       0.1205696966501376E+01_wp]
+        case(48); x = [0.9794303033498634E+00_wp,0.9794303033498634E+00_wp,0.9794303033498634E+00_wp,&
+                       0.9794303033498634E+00_wp,0.9794303033498634E+00_wp,0.9794303033498634E+00_wp,&
+                       0.9794303033498634E+00_wp,0.9794303033498634E+00_wp,0.9794303033498634E+00_wp,&
+                       0.1205696966501366E+01_wp]
+        case(49); x = [0.1000000000000002E+01_wp,0.1000000000000002E+01_wp,0.1000000000000002E+01_wp,&
+                       0.1000000000000002E+01_wp,0.1000000000000002E+01_wp,0.1000000000000002E+01_wp,&
+                       0.1000000000000002E+01_wp,0.1000000000000002E+01_wp,0.1000000000000002E+01_wp,&
+                       0.9999999999999840E+00_wp]
+        case(50); x = [0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,&
+                       0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,&
+                       0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,&
+                       0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,&
+                       0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,&
+                       0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,&
+                       0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,&
+                       0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,&
+                       0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,&
+                       0.9977542164428221E+00_wp,0.9977542164428221E+00_wp,0.1067373506715322E+01_wp]
+        case(51); x = [0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,0.1000000000000006E+01_wp,&
+                       0.9999999999997748E+00_wp]
+        case(52); x = [0.3754100492440257E+00_wp,0.1935846545431133E+01_wp,-0.1464686767487213E+01_wp,&
+                       0.1286753391104403E-01_wp,0.2212270118130737E-01_wp]
+        case(53); x = [0.1309976638100963E+01_wp,0.4315524807599996E+00_wp,0.6336612616028594E+00_wp,&
+                       0.5994285609916951E+00_wp,0.7541797682724486E+00_wp,0.9043000823785187E+00_wp,&
+                       0.1365799495210074E+01_wp,0.4823731997481072E+01_wp,0.2398684751048711E+01_wp,&
+                       0.4568875547914517E+01_wp,0.5675342062730520E+01_wp]
+        case default
+            error stop 'invalid case'
+        end select
+
+    end function solution
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -692,19 +892,19 @@ contains
 
 !*****************************************************************************************
 !>
-!  THIS SUBROUTINE DEFINES THE FUNCTIONS OF EIGHTEEN NONLINEAR
-!  LEAST SQUARES PROBLEMS. THE ALLOWABLE VALUES OF (M,N) FOR
-!  FUNCTIONS 1,2 AND 3 ARE VARIABLE BUT WITH M .GE. N.
-!  FOR FUNCTIONS 4,5,6,7,8,9 AND 10 THE VALUES OF (M,N) ARE
-!  (2,2),(3,3),(4,4),(2,2),(15,3),(11,4) AND (16,3), RESPECTIVELY.
-!  FUNCTION 11 (WATSON) HAS M = 31 WITH N USUALLY 6 OR 9.
-!  HOWEVER, ANY N, N = 2,...,31, IS PERMITTED.
-!  FUNCTIONS 12,13 AND 14 HAVE N = 3,2 AND 4, RESPECTIVELY, BUT
-!  ALLOW ANY M .GE. N, WITH THE USUAL CHOICES BEING 10,10 AND 20.
-!  FUNCTION 15 (CHEBYQUAD) ALLOWS M AND N VARIABLE WITH M .GE. N.
-!  FUNCTION 16 (BROWN) ALLOWS N VARIABLE WITH M = N.
-!  FOR FUNCTIONS 17 AND 18, THE VALUES OF (M,N) ARE
-!  (33,5) AND (65,11), RESPECTIVELY.
+!  This subroutine defines the functions of eighteen nonlinear
+!  least squares problems. the allowable values of (m,n) for
+!  functions 1,2 and 3 are variable but with m >= n.
+!  for functions 4,5,6,7,8,9 and 10 the values of (m,n) are
+!  (2,2),(3,3),(4,4),(2,2),(15,3),(11,4) and (16,3), respectively.
+!  function 11 (watson) has m = 31 with n usually 6 or 9.
+!  however, any n, n = 2,...,31, is permitted.
+!  functions 12,13 and 14 have n = 3,2 and 4, respectively, but
+!  allow any m >= n, with the usual choices being 10,10 and 20.
+!  function 15 (chebyquad) allows m and n variable with m >= n.
+!  function 16 (brown) allows n variable with m = n.
+!  for functions 17 and 18, the values of (m,n) are
+!  (33,5) and (65,11), respectively.
 
     subroutine ssqfcn(m, n, x, Fvec, Nprob)
 
@@ -770,7 +970,7 @@ contains
              2.92e-1_wp, 1.62e-1_wp, 9.8e-2_wp, 5.4e-2_wp ]
 
         ! initialize:
-        fvec = zero
+        fvec(1:m) = zero
 
         ! FUNCTION ROUTINE SELECTOR.
 
@@ -993,5 +1193,5 @@ contains
 !*****************************************************************************************
 
 !*****************************************************************************************
-    end program test
+    end program test_lmder
 !*****************************************************************************************
