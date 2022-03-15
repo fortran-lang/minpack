@@ -53,7 +53,7 @@ contains
     integer, intent(inout) :: iflag
     real(wp), intent(in) :: x(n)
     real(wp), intent(out) :: fvec(m)
-    fvec(1) = iflag ! Suppress compiler warning:
+    fvec(1) = iflag ! Suppress compiler warning
     fvec = data_y - expr(data_x, x)
     end subroutine fcn
 
