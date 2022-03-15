@@ -5,52 +5,41 @@
 !>                                 -x(8) + (3-2*x(9))*x(9) = -1
 program example_hybrd
 
-    use minpack_module, only: hybrd, enorm, dpmpar
+    use minpack_module, only: wp, hybrd, enorm, dpmpar
+    use iso_fortran_env, only: nwrite => output_unit
+
     implicit none
-    integer j, n, maxfev, ml, mu, mode, nprint, info, nfev, ldfjac, lr, nwrite
-    double precision xtol, epsfcn, factor, fnorm
-    double precision x(9), fvec(9), diag(9), fjac(9, 9), r(45), qtf(9), &
-        wa1(9), wa2(9), wa3(9), wa4(9)
 
-    !> Logical output unit is assumed to be number 6.
-    data nwrite/6/
+    integer,parameter :: n = 9
+    integer,parameter :: ldfjac = n
+    integer,parameter :: lr = (n*(n+1))/2
 
-    n = 9
+    integer :: maxfev, ml, mu, mode, nprint, info, nfev
+    real(wp) :: epsfcn, factor, fnorm, xtol
+    real(wp) :: x(n), fvec(n), diag(n), fjac(n, n), r(lr), qtf(n), &
+                wa1(n), wa2(n), wa3(n), wa4(n)
 
-    !> The following starting values provide a rough solution.
-    do j = 1, 9
-        x(j) = -1.0d0
-    end do
-
-    ldfjac = 9
-    lr = 45
-
-    !> Set xtol to the square root of the machine precision.
-    !>  unless high precision solutions are required,
-    !>  this is the recommended setting.
-    xtol = dsqrt(dpmpar(1))
-
+    xtol = sqrt(dpmpar(1))  ! square root of the machine precision.
     maxfev = 2000
     ml = 1
     mu = 1
-    epsfcn = 0.0d0
+    epsfcn = 0.0_wp
     mode = 2
-    do j = 1, 9
-        diag(j) = 1.0d0
-    end do
-    factor = 1.0d2
+    factor = 100.0_wp
     nprint = 0
+    diag = 1.0_wp
+    x = -1.0_wp  !  starting values to provide a rough solution.
 
     call hybrd(fcn, n, x, fvec, xtol, maxfev, ml, mu, epsfcn, diag, &
                mode, factor, nprint, info, nfev, fjac, ldfjac, &
                r, lr, qtf, wa1, wa2, wa3, wa4)
     fnorm = enorm(n, fvec)
-    write (nwrite, 1000) fnorm, nfev, info, (x(j), j=1, n)
 
-1000 format(5x, "FINAL L2 NORM OF THE RESIDUALS", d15.7// &
-           5x, "NUMBER OF FUNCTION EVALUATIONS", i10// &
-           5x, "EXIT PARAMETER", 16x, i10// &
-           5x, "FINAL APPROXIMATE SOLUTION"//(5x, 3d15.7))
+    write (nwrite, '(5x,a,d15.7//5x,a,i10//5x,a,16x,i10//5x,a//(5x,3d15.7))') &
+           "FINAL L2 NORM OF THE RESIDUALS", fnorm, &
+           "NUMBER OF FUNCTION EVALUATIONS", nfev, &
+           "EXIT PARAMETER", info, &
+           "FINAL APPROXIMATE SOLUTION", x
 
     !> Results obtained with different compilers or machines
     !>  may be slightly different.
@@ -75,28 +64,29 @@ contains
         implicit none
         integer, intent(in) :: n
         integer, intent(inout) :: iflag
-        double precision, intent(in) :: x(n)
-        double precision, intent(out) :: fvec(n)
+        real(wp), intent(in) :: x(n)
+        real(wp), intent(out) :: fvec(n)
 
-        integer k
-        double precision one, temp, temp1, temp2, three, two, zero
-        data zero, one, two, three/0.0d0, 1.0d0, 2.0d0, 3.0d0/
+        integer :: k !! counter
+        real(wp) :: temp, temp1, temp2
 
-        if (iflag /= 0) go to 5
+        real(wp),parameter :: zero = 0.0_wp
+        real(wp),parameter :: one = 1.0_wp
+        real(wp),parameter :: two = 2.0_wp
+        real(wp),parameter :: three = 3.0_wp
 
-        !! Insert print statements here when nprint is positive.
-
-        return
-5       continue
-        do k = 1, n
-            temp = (three - two*x(k))*x(k)
-            temp1 = zero
-            if (k /= 1) temp1 = x(k - 1)
-            temp2 = zero
-            if (k /= n) temp2 = x(k + 1)
-            fvec(k) = temp - temp1 - two*temp2 + one
-        end do
-        return
+        if (iflag == 0) then
+            !! Insert print statements here when nprint is positive.
+        else
+            do k = 1, n
+                temp = (three - two*x(k))*x(k)
+                temp1 = zero
+                if (k /= 1) temp1 = x(k - 1)
+                temp2 = zero
+                if (k /= n) temp2 = x(k + 1)
+                fvec(k) = temp - temp1 - two*temp2 + one
+            end do
+        end if
 
     end subroutine fcn
 
