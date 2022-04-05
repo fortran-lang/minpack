@@ -441,7 +441,7 @@ contains
                             !! of functions and variables.
         integer, intent(in) :: Ldfjac !! a positive integer input variable not less than n
                                  !! which specifies the leading dimension of the array fjac.
-        integer, intent(out) :: Iflag !! an integer variable which can be used to terminate
+        integer, intent(inout) :: Iflag !! an integer variable which can be used to terminate
                                  !! the execution of fdjac1. see description of [[func]].
         integer, intent(in) :: Ml !! a nonnegative integer input variable which specifies
                              !! the number of subdiagonals within the band of the
@@ -482,7 +482,6 @@ contains
                     if (h == zero) h = eps
                     x(j) = Wa2(j) + h
                 end do
-                Iflag = 1 ! JW added
                 call fcn(n, x, Wa1, Iflag)
                 if (Iflag < 0) return
                 do j = k, n, msum
@@ -502,7 +501,6 @@ contains
                 h = eps*abs(temp)
                 if (h == zero) h = eps
                 x(j) = temp + h
-                Iflag = 1 ! JW added
                 call fcn(n, x, Wa1, Iflag)
                 if (Iflag < 0) return
                 x(j) = temp
@@ -533,7 +531,7 @@ contains
                             !! of variables. n must not exceed m.
         integer, intent(in) :: Ldfjac !! a positive integer input variable not less than m
                                  !! which specifies the leading dimension of the array fjac.
-        integer, intent(out) :: Iflag !! an integer variable which can be used to terminate
+        integer, intent(inout) :: Iflag !! an integer variable which can be used to terminate
                                  !! the execution of fdjac2. see description of [[func2]].
         real(wp), intent(in) :: Epsfcn !! an input variable used in determining a suitable
                                   !! step length for the forward-difference approximation. this
