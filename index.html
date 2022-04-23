@@ -91,7 +91,7 @@
 <p>Modernized Minpack</p>
 <p><img alt="Build Status" src="https://github.com/fortran-lang/minpack/actions/workflows/CI.yml/badge.svg"></p>
 <h3>Description</h3>
-<p>Minpack includes software for solving nonlinear equations and
+<p><em>Minpack</em> includes software for solving nonlinear equations and
 nonlinear least squares problems.  Five algorithmic paths each include
 a core subroutine and an easy-to-use driver.  The algorithms proceed
 either from an analytic specification of the Jacobian matrix or
@@ -99,12 +99,180 @@ directly from the problem functions.  The paths include facilities for
 systems of equations with a banded Jacobian matrix, for least squares
 problems with a large amount of data, and for checking the consistency
 of the Jacobian matrix with the functions.</p>
-<p>This version is a modernization of the original Fortran 77 code. This is a work in progress. Modifications include:
-* Conversion from fixed (<code>.f</code>) to free-form (<code>.f90</code>) source.
-* Modified the tests so they can be automatically run in the <a href="https://github.com/fortran-lang/minpack/actions">CI</a></p>
+<p>This version is a modernization of the original Fortran 77 code.
+Modifications include:</p>
+<ul>
+<li>Conversion from fixed (<code>.f</code>) to free-form (<code>.f90</code>) source.</li>
+<li>Modified the tests so they can be automatically run in the <a href="https://github.com/fortran-lang/minpack/actions">CI</a></li>
+<li>Implementation of C API for all procedures</li>
+<li>Python bindings to the <em>minpack</em> C API</li>
+</ul>
 <p>Further updates are planned...</p>
-<h3>Decision trees</h3>
-<h4>Decision tree for systems of nonlinear equations</h4>
+<h3>Installation</h3>
+<p>To build this project from the source code in this repository you need to have
+a Fortran compiler supporting Fortran 2008 and one of the supported build systems:</p>
+<ul>
+<li><a href="https://fpm.fortran-lang.org">fpm</a> version 0.3.0 or newer</li>
+<li><a href="https://mesonbuild.com">meson</a> version 0.55 or newer, with
+  a build-system backend, <em>i.e.</em> <a href="https://ninja-build.org">ninja</a> version 1.7 or newer</li>
+</ul>
+<p>The project is hosted on GitHub and can be obtained by cloning it with</p>
+<div class="codehilite"><pre><span></span><code>git clone https://github.com/fortran-lang/minpack
+cd minpack
+</code></pre></div>
+
+<h4>Building with fpm</h4>
+<p>Invoke fpm in the project root with</p>
+<div class="codehilite"><pre><span></span><code>fpm build
+</code></pre></div>
+
+<p>To run the testsuite use</p>
+<div class="codehilite"><pre><span></span><code>fpm test
+</code></pre></div>
+
+<p>You can access the <em>minpack</em> program programs using the run subcommand</p>
+<div class="codehilite"><pre><span></span><code>fpm run --example --list
+</code></pre></div>
+
+<p>To use <em>minpack</em> in your project include it as dependency in your package manifest</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[dependencies]</span><span class="w"></span>
+<span class="n">minpack</span><span class="p">.</span><span class="n">git</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://github.com/fortran-lang/minpack&quot;</span><span class="w"></span>
+</code></pre></div>
+
+<h4>Building with meson</h4>
+<p>Optional dependencies are</p>
+<p>Setup a build with</p>
+<div class="codehilite"><pre><span></span><code>meson setup _build
+</code></pre></div>
+
+<p>The following build options can be adjusted:</p>
+<ul>
+<li>the Fortran compiler can be selected by setting the <code>FC</code> environment variable.</li>
+<li>the installation location can be set with the <code>--prefix=/path/to/install</code> option</li>
+<li>
+<p>with the <code>-Dpython=true</code> option the Python bindings can be built</p>
+</li>
+<li>
+<p>Python 3.6  or newer is required with the CFFI package installed</p>
+</li>
+<li>the actual Python version can be selected using <code>-Dpython_version=/path/to/python</code></li>
+</ul>
+<p>To compile and run the projects testsuite use</p>
+<div class="codehilite"><pre><span></span><code>meson test -C _build --print-errorlogs
+</code></pre></div>
+
+<p>If the testsuite passes you can install with</p>
+<div class="codehilite"><pre><span></span><code>meson install -C _build
+</code></pre></div>
+
+<p>This might require administrator access depending on the chosen install prefix.
+<em>Minpack</em> should now be available on your system, you can check by using the <em>pkg-config</em> tool</p>
+<div class="codehilite"><pre><span></span><code>pkg-config --modversion minpack
+</code></pre></div>
+
+<p>To include <em>minpack</em> in your project add the following wrap file to your <em>subprojects</em> directory:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[wrap-git]</span><span class="w"></span>
+<span class="na">directory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">minpack</span><span class="w"></span>
+<span class="na">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">https://github.com/fortran-lang/minpack</span><span class="w"></span>
+<span class="na">revision</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">head</span><span class="w"></span>
+</code></pre></div>
+
+<p>You can retrieve the dependency from the wrap fallback with</p>
+<div class="codehilite"><pre><span></span><code><span class="n">minpack_dep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">dependency</span><span class="p">(</span><span class="s">&#39;minpack&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">fallback</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;minpack&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;minpack_dep&#39;</span><span class="p">])</span><span class="w"></span>
+</code></pre></div>
+
+<p>and add it as dependency to your targets.</p>
+<h4>Supported compilers</h4>
+<p>The following compilers are known to work with <em>minpack</em>.</p>
+<table>
+<thead>
+<tr>
+<th>Compiler</th>
+<th>Version</th>
+<th>Platform</th>
+<th>Architecture</th>
+<th>Minpack version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GCC</td>
+<td>10.2</td>
+<td>Ubuntu 20.04</td>
+<td>x86_64</td>
+<td>latest</td>
+</tr>
+<tr>
+<td>GCC</td>
+<td>10.2</td>
+<td>MacOS 11</td>
+<td>x86_64</td>
+<td>latest</td>
+</tr>
+<tr>
+<td>GCC/MinGW</td>
+<td>10.3</td>
+<td>Windows Server 2022</td>
+<td>x86_64</td>
+<td>latest</td>
+</tr>
+<tr>
+<td>Intel</td>
+<td>2021.5.0</td>
+<td>Manjaro Linux</td>
+<td>x86_64</td>
+<td><a href="https://github.com/fortran-lang/minpack/tree/fa4bcbdc7a926a3607e8ff5397ca356a74c50d5a">fa4bcbd</a></td>
+</tr>
+<tr>
+<td>Intel LLVM</td>
+<td>2022.0.0</td>
+<td>Manjaro Linux</td>
+<td>x86_64</td>
+<td><a href="https://github.com/fortran-lang/minpack/tree/fa4bcbdc7a926a3607e8ff5397ca356a74c50d5a">fa4bcbd</a></td>
+</tr>
+<tr>
+<td>NAG</td>
+<td>7.1</td>
+<td>RHEL</td>
+<td>x86_64</td>
+<td><a href="https://github.com/fortran-lang/minpack/tree/fa4bcbdc7a926a3607e8ff5397ca356a74c50d5a">fa4bcbd</a></td>
+</tr>
+</tbody>
+</table>
+<p>The combinations annotated with <em>latest</em> are tested continuously for this project, for all other results the last commit or tag where this behavior was verified is linked.
+A list of tested compilers which are currently not working or only partially working and the respective issue are listed below.</p>
+<table>
+<thead>
+<tr>
+<th>Compiler</th>
+<th>Version</th>
+<th>Platform</th>
+<th>Architecture</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GCC</td>
+<td>11.1</td>
+<td>MacOS 12</td>
+<td>Arm64</td>
+<td>C-API not supported</td>
+</tr>
+<tr>
+<td>Nvidia HPC SDK</td>
+<td>22.3</td>
+<td>Manjaro Linux</td>
+<td>x86_64</td>
+<td>Unit tests are failing</td>
+</tr>
+</tbody>
+</table>
+<p>Please share your experience with successful and failing builds for compiler/platform/architecture combinations not covered above.</p>
+<h3>Usage</h3>
+<p><em>Minpack</em> provides a series of solves for systems of nonlinear equations and nonlinear least squares problems.
+To select the approriate solver for your problem checkout the diagrams below.</p>
+<p><em>Decision tree for systems of nonlinear equations</em></p>
 <div class="codehilite"><pre><span></span><code>flowchart TB
     start[Is the Jacobian matrix available?]
     start--Yes--&gt;middle1[Is flexibility required?]
@@ -115,7 +283,7 @@ of the Jacobian matrix with the functions.</p>
     middle2--No--&gt;b4[<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;https://fortran-lang.github.io/minpack/proc/hybrd1.html&#39;</span><span class="nt">&gt;</span>hybrd1<span class="nt">&lt;/a&gt;</span>]
 </code></pre></div>
 
-<h4>Decision tree for nonlinear least squares problems</h4>
+<p><em>Decision tree for nonlinear least squares problems</em></p>
 <div class="codehilite"><pre><span></span><code>flowchart TB
     start[Is the Jacobian matrix available?]
     start--Yes--&gt;m1[Is storage limited?]
@@ -130,6 +298,10 @@ of the Jacobian matrix with the functions.</p>
     m2--No--&gt;mr2[<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;https://fortran-lang.github.io/minpack/proc/lmdif1.html&#39;</span><span class="nt">&gt;</span>lmdif1<span class="err">&lt;</span>/a/&gt;]
 </code></pre></div>
 
+<p>In Fortran projects the above procedures can be made available by including the <code>minpack_module</code>.
+Examples can be found in the <a href="./example">example</a> directory.</p>
+<p>To use <em>minpack</em> in non-Fortran projects which are compatible with C checkout the <a href="./include/minpack.h"><code>minpack.h</code></a> header for the available symbols and callback function signatures.
+Python bindings are available and documented in the <a href="./python"><code>python</code></a> subdirectory of this project.</p>
 <h3>Documentation</h3>
 <ul>
 <li>The API documentation for the latest default branch can be found <a href="https://fortran-lang.github.io/minpack/">here</a>.  This is generated by processing the source files with <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>.</li>
