@@ -12,7 +12,8 @@
 
 program test_lmstr
 
-    use minpack_module, only: wp, dpmpar, enorm, lmstr1
+    use minpack_legacy, only : lmstr1
+    use minpack_module, only: wp, dpmpar, enorm
     use iso_fortran_env, only: nwrite => output_unit
 
     implicit none

@@ -1,10 +1,10 @@
 module minpack_capi
-    use, intrinsic :: iso_c_binding, only : c_int, c_double, c_funptr, c_ptr, c_f_procpointer
+    use, intrinsic :: iso_c_binding, only : c_int, c_double, c_null_ptr, c_ptr
     use minpack_module
     implicit none
     private
 
-    public :: minpack_hybrd,minpack_hybrd1, minpack_hybrj, minpack_hybrj1, &
+    public :: minpack_hybrd, minpack_hybrd1, minpack_hybrj, minpack_hybrj1, &
         & minpack_lmdif, minpack_lmdif1, minpack_lmder, minpack_lmder1, &
         & minpack_chkder
 
@@ -73,6 +73,31 @@ module minpack_capi
         end subroutine minpack_fcn_lmstr
     end interface
 
+    type :: hybrd_data
+        procedure(minpack_func), pointer, nopass :: fcn => null()
+        type(c_ptr) :: udata = c_null_ptr
+    end type hybrd_data
+
+    type :: hybrj_data
+        procedure(minpack_fcn_hybrj), pointer, nopass :: fcn => null()
+        type(c_ptr) :: udata = c_null_ptr
+    end type hybrj_data
+
+    type :: lmdif_data
+        procedure(minpack_func2), pointer, nopass :: fcn => null()
+        type(c_ptr) :: udata = c_null_ptr
+    end type lmdif_data
+
+    type :: lmder_data
+        procedure(minpack_fcn_lmder), pointer, nopass :: fcn => null()
+        type(c_ptr) :: udata = c_null_ptr
+    end type lmder_data
+
+    type :: lmstr_data
+        procedure(minpack_fcn_lmstr), pointer, nopass :: fcn => null()
+        type(c_ptr) :: udata = c_null_ptr
+    end type lmstr_data
+
 contains
 
     function minpack_dpmpar(i) result(par) bind(c)
@@ -113,18 +138,13 @@ contains
         real(c_double), intent(inout) :: wa4(n)
         type(c_ptr), value :: udata
 
-        call hybrd(wrap_fcn, n, x, fvec, xtol, maxfev, ml, mu, epsfcn, diag, mode, &
-            & factor, nprint, info, nfev, fjac, ldfjac, r, lr, qtf, wa1, wa2, wa3, wa4)
+        type(hybrd_data) :: wrapper
+        wrapper%fcn => fcn
+        wrapper%udata = udata
 
-    contains
-        subroutine wrap_fcn(n, x, fvec, iflag)
-            integer, intent(in) :: n
-            real(wp), intent(in) :: x(n)
-            real(wp), intent(out) :: fvec(n)
-            integer, intent(inout) :: iflag
-
-            call fcn(n, x, fvec, iflag, udata)
-        end subroutine wrap_fcn
+        call hybrd(wrap_func, n, x, fvec, xtol, maxfev, ml, mu, epsfcn, diag, mode, &
+            & factor, nprint, info, nfev, fjac, ldfjac, r, lr, qtf, wa1, wa2, wa3, wa4, &
+            & wrapper)
     end subroutine minpack_hybrd
 
     subroutine minpack_hybrd1(fcn, n, x, Fvec, Tol, Info, Wa, Lwa, udata) &
@@ -139,18 +159,32 @@ contains
         real(c_double), intent(inout) :: Wa(Lwa)
         type(c_ptr), value :: udata
 
-        call hybrd1(wrap_fcn, n, x, fvec, tol, info, Wa, Lwa)
+        type(hybrd_data) :: wrapper
+        wrapper%fcn => fcn
+        wrapper%udata = udata
 
-    contains
-        subroutine wrap_fcn(n, x, fvec, iflag)
-            integer, intent(in) :: n
-            real(wp), intent(in) :: x(n)
-            real(wp), intent(out) :: fvec(n)
-            integer, intent(inout) :: iflag
-
-            call fcn(n, x, fvec, iflag, udata)
-        end subroutine wrap_fcn
+        call hybrd1(wrap_func, n, x, fvec, tol, info, Wa, Lwa, wrapper)
     end subroutine minpack_hybrd1
+
+    subroutine wrap_func(n, x, fvec, iflag, wrapper)
+        integer, intent(in) :: n
+        real(wp), intent(in) :: x(n)
+        real(wp), intent(out) :: fvec(n)
+        integer, intent(inout) :: iflag
+        class(*), intent(inout), optional :: wrapper
+
+        if (.not.present(wrapper)) then
+            iflag = -1
+            return
+        end if
+
+        select type(wrapper)
+        class is(hybrd_data)
+            call wrapper%fcn(n, x, fvec, iflag, wrapper%udata)
+        class default
+            iflag = -1
+        end select
+    end subroutine wrap_func
 
     subroutine minpack_hybrj(fcn, n, x, fvec, fjac, ldfjac, xtol, maxfev, diag, mode, &
             & factor, nprint, info, nfev, njev, r, lr, qtf, wa1, wa2, wa3, wa4, udata) &
@@ -179,20 +213,12 @@ contains
         real(c_double), intent(inout) :: wa4(n)
         type(c_ptr), value :: udata
 
-        call hybrj(wrap_fcn, n, x, fvec, fjac, ldfjac, xtol, maxfev, diag, mode, &
-            & factor, nprint, info, nfev, njev, r, lr, qtf, wa1, wa2, wa3, wa4)
+        type(hybrj_data) :: wrapper
+        wrapper%fcn => fcn
+        wrapper%udata = udata
 
-    contains
-        subroutine wrap_fcn(n, x, fvec, fjac, ldfjac, iflag)
-            integer, intent(in) :: n
-            real(wp), intent(in) :: x(n)
-            integer, intent(in) :: ldfjac
-            real(wp), intent(inout) :: fvec(n)
-            real(wp), intent(inout) :: fjac(ldfjac, n)
-            integer, intent(inout) :: iflag
-
-            call fcn(n, x, fvec, fjac, ldfjac, iflag, udata)
-        end subroutine wrap_fcn
+        call hybrj(wrap_fcn_hybrj, n, x, fvec, fjac, ldfjac, xtol, maxfev, diag, mode, &
+            & factor, nprint, info, nfev, njev, r, lr, qtf, wa1, wa2, wa3, wa4, wrapper)
     end subroutine minpack_hybrj
 
     subroutine minpack_hybrj1(fcn, n, x, fvec, fjac, ldfjac, tol, info, wa, lwa, udata) &
@@ -209,20 +235,34 @@ contains
         real(c_double), intent(inout) :: wa(lwa)
         type(c_ptr), value :: udata
 
-        call hybrj1(wrap_fcn, n, x, fvec, fjac, ldfjac, tol, info, wa, lwa)
+        type(hybrj_data) :: wrapper
+        wrapper%fcn => fcn
+        wrapper%udata = udata
 
-    contains
-        subroutine wrap_fcn(n, x, fvec, fjac, ldfjac, iflag)
-            integer, intent(in) :: n
-            real(wp), intent(in) :: x(n)
-            integer, intent(in) :: ldfjac
-            real(wp), intent(inout) :: fvec(n)
-            real(wp), intent(inout) :: fjac(ldfjac, n)
-            integer, intent(inout) :: iflag
-
-            call fcn(n, x, fvec, fjac, ldfjac, iflag, udata)
-        end subroutine wrap_fcn
+        call hybrj1(wrap_fcn_hybrj, n, x, fvec, fjac, ldfjac, tol, info, wa, lwa, wrapper)
     end subroutine minpack_hybrj1
+
+    subroutine wrap_fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag, wrapper)
+        integer, intent(in) :: n
+        real(wp), intent(in) :: x(n)
+        integer, intent(in) :: ldfjac
+        real(wp), intent(inout) :: fvec(n)
+        real(wp), intent(inout) :: fjac(ldfjac, n)
+        integer, intent(inout) :: iflag
+        class(*), intent(inout), optional :: wrapper
+
+        if (.not.present(wrapper)) then
+            iflag = -1
+            return
+        end if
+
+        select type(wrapper)
+        class is(hybrj_data)
+            call wrapper%fcn(n, x, fvec, fjac, ldfjac, iflag, wrapper%udata)
+        class default
+            iflag = -1
+        end select
+    end subroutine wrap_fcn_hybrj
 
     subroutine minpack_lmdif(fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, diag, &
             & mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, wa1, wa2, wa3, wa4, &
@@ -254,19 +294,13 @@ contains
         real(c_double), intent(inout) :: wa4(m)
         type(c_ptr), value :: udata
 
-        call lmdif(wrap_fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, diag, &
-            & mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, wa1, wa2, wa3, wa4)
+        type(lmdif_data) :: wrapper
+        wrapper%fcn => fcn
+        wrapper%udata = udata
 
-    contains
-        subroutine wrap_fcn(m, n, x, fvec, iflag)
-            integer, intent(in) :: m
-            integer, intent(in) :: n
-            real(wp), intent(in) :: x(n)
-            real(wp), intent(out) :: fvec(m)
-            integer, intent(inout) :: iflag
-
-            call fcn(m, n, x, fvec, iflag, udata)
-        end subroutine wrap_fcn
+        call lmdif(wrap_func2, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, diag, &
+            & mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, wa1, wa2, wa3, wa4, &
+            & wrapper)
     end subroutine minpack_lmdif
 
     subroutine minpack_lmdif1(fcn, m, n, x, fvec, tol, info, iwa, wa, lwa, udata) &
@@ -283,19 +317,33 @@ contains
         real(c_double), intent(inout) :: wa(lwa)
         type(c_ptr), value :: udata
 
-        call lmdif1(wrap_fcn, m, n, x, fvec, tol, info, iwa, wa, lwa)
+        type(lmdif_data) :: wrapper
+        wrapper%fcn => fcn
+        wrapper%udata = udata
 
-    contains
-        subroutine wrap_fcn(m, n, x, fvec, iflag)
-            integer, intent(in) :: m
-            integer, intent(in) :: n
-            real(wp), intent(in) :: x(n)
-            real(wp), intent(out) :: fvec(m)
-            integer, intent(inout) :: iflag
-
-            call fcn(m, n, x, fvec, iflag, udata)
-        end subroutine wrap_fcn
+        call lmdif1(wrap_func2, m, n, x, fvec, tol, info, iwa, wa, lwa, wrapper)
     end subroutine minpack_lmdif1
+
+    subroutine wrap_func2(m, n, x, fvec, iflag, wrapper)
+        integer, intent(in) :: m
+        integer, intent(in) :: n
+        real(wp), intent(in) :: x(n)
+        real(wp), intent(out) :: fvec(m)
+        integer, intent(inout) :: iflag
+        class(*), intent(inout), optional :: wrapper
+
+        if (.not.present(wrapper)) then
+            iflag = -1
+            return
+        end if
+
+        select type(wrapper)
+        class is(lmdif_data)
+            call wrapper%fcn(m, n, x, fvec, iflag, wrapper%udata)
+        class default
+            iflag = -1
+        end select
+    end subroutine wrap_func2
 
     subroutine minpack_lmder(fcn, m, n, x, fvec, fjac, ldfjac, ftol, xtol, gtol, maxfev, &
             & diag, mode, factor, nprint, info, nfev, njev, ipvt, qtf, wa1, wa2, wa3, wa4, &
@@ -327,21 +375,13 @@ contains
         real(c_double), intent(inout) :: wa4(m)
         type(c_ptr), value :: udata
 
-        call lmder(wrap_fcn, m, n, x, fvec, fjac, ldfjac, ftol, xtol, gtol, maxfev, &
-            & diag, mode, factor, nprint, info, nfev, njev, ipvt, qtf, wa1, wa2, wa3, wa4)
+        type(lmder_data) :: wrapper
+        wrapper%fcn => fcn
+        wrapper%udata = udata
 
-    contains
-        subroutine wrap_fcn(m, n, x, fvec, fjac, ldfjac, iflag)
-            integer, intent(in) :: m
-            integer, intent(in) :: n
-            integer, intent(in) :: ldfjac
-            integer, intent(inout) :: iflag
-            real(wp), intent(in) :: x(n)
-            real(wp), intent(inout) :: fvec(m)
-            real(wp), intent(inout) :: fjac(ldfjac, n)
-
-            call fcn(m, n, x, fvec, fjac, ldfjac, iflag, udata)
-        end subroutine wrap_fcn
+        call lmder(wrap_fcn_lmder, m, n, x, fvec, fjac, ldfjac, ftol, xtol, gtol, maxfev, &
+            & diag, mode, factor, nprint, info, nfev, njev, ipvt, qtf, wa1, wa2, wa3, wa4, &
+            & wrapper)
     end subroutine minpack_lmder
 
     subroutine minpack_lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, Lwa, &
@@ -361,21 +401,36 @@ contains
         real(c_double), intent(inout) :: wa(lwa)
         type(c_ptr), value :: udata
 
-        call lmder1(wrap_fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, Lwa)
+        type(lmder_data) :: wrapper
+        wrapper%fcn => fcn
+        wrapper%udata = udata
 
-    contains
-        subroutine wrap_fcn(m, n, x, fvec, fjac, ldfjac, iflag)
-            integer, intent(in) :: m
-            integer, intent(in) :: n
-            integer, intent(in) :: ldfjac
-            integer, intent(inout) :: iflag
-            real(wp), intent(in) :: x(n)
-            real(wp), intent(inout) :: fvec(m)
-            real(wp), intent(inout) :: fjac(ldfjac, n)
-
-            call fcn(m, n, x, fvec, fjac, ldfjac, iflag, udata)
-        end subroutine wrap_fcn
+        call lmder1(wrap_fcn_lmder, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, Lwa, &
+            & wrapper)
     end subroutine minpack_lmder1
+
+    subroutine wrap_fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag, wrapper)
+        integer, intent(in) :: m
+        integer, intent(in) :: n
+        integer, intent(in) :: ldfjac
+        integer, intent(inout) :: iflag
+        real(wp), intent(in) :: x(n)
+        real(wp), intent(inout) :: fvec(m)
+        real(wp), intent(inout) :: fjac(ldfjac, n)
+        class(*), intent(inout), optional :: wrapper
+
+        if (.not.present(wrapper)) then
+            iflag = -1
+            return
+        end if
+
+        select type(wrapper)
+        class is(lmder_data)
+            call wrapper%fcn(m, n, x, fvec, fjac, ldfjac, iflag, wrapper%udata)
+        class default
+            iflag = -1
+        end select
+    end subroutine wrap_fcn_lmder
 
     subroutine minpack_lmstr(fcn, m, n, x, fvec, fjac, ldfjac, ftol, xtol, gtol, maxfev, &
             & diag, mode, factor, nprint, info, nfev, njev, ipvt, qtf, wa1, wa2, wa3, wa4, &
@@ -407,19 +462,13 @@ contains
         real(c_double), intent(inout) :: wa4(m)
         type(c_ptr), value :: udata
 
-        call lmstr(wrap_fcn, m, n, x, fvec, fjac, ldfjac, ftol, xtol, gtol, maxfev, &
-            & diag, mode, factor, nprint, info, nfev, njev, ipvt, qtf, wa1, wa2, wa3, wa4)
-    contains
-        subroutine wrap_fcn(m, n, x, fvec, fjrow, iflag)
-            integer, intent(in) :: m
-            integer, intent(in) :: n
-            integer, intent(inout) :: iflag
-            real(wp), intent(in) :: x(n)
-            real(wp), intent(inout) :: fvec(m)
-            real(wp), intent(inout) :: fjrow(n)
+        type(lmstr_data) :: wrapper
+        wrapper%fcn => fcn
+        wrapper%udata = udata
 
-            call fcn(m, n, x, fvec, fjrow, iflag, udata)
-        end subroutine wrap_fcn
+        call lmstr(wrap_fcn_lmstr, m, n, x, fvec, fjac, ldfjac, ftol, xtol, gtol, maxfev, &
+            & diag, mode, factor, nprint, info, nfev, njev, ipvt, qtf, wa1, wa2, wa3, wa4, &
+            & wrapper)
     end subroutine minpack_lmstr
 
     subroutine minpack_lmstr1(fcn, m, n, x, fvec, fjac, ldfjac, tol, info, ipvt, wa, lwa, &
@@ -439,19 +488,36 @@ contains
         real(c_double), intent(inout) :: wa(lwa)
         type(c_ptr), value :: udata
 
-        call lmstr1(wrap_fcn, m, n, x, fvec, fjac, ldfjac, tol, info, ipvt, wa, lwa)
-    contains
-        subroutine wrap_fcn(m, n, x, fvec, fjrow, iflag)
-            integer, intent(in) :: m
-            integer, intent(in) :: n
-            integer, intent(inout) :: iflag
-            real(wp), intent(in) :: x(n)
-            real(wp), intent(inout) :: fvec(m)
-            real(wp), intent(inout) :: fjrow(n)
+        type(lmstr_data) :: wrapper
+        wrapper%fcn => fcn
+        wrapper%udata = udata
 
-            call fcn(m, n, x, fvec, fjrow, iflag, udata)
-        end subroutine wrap_fcn
+        call lmstr1(wrap_fcn_lmstr, m, n, x, fvec, fjac, ldfjac, tol, info, ipvt, wa, lwa, &
+            & wrapper)
     end subroutine minpack_lmstr1
+
+    subroutine wrap_fcn_lmstr(m, n, x, fvec, fjrow, iflag, wrapper)
+        integer, intent(in) :: m
+        integer, intent(in) :: n
+        integer, intent(inout) :: iflag
+        real(wp), intent(in) :: x(n)
+        real(wp), intent(inout) :: fvec(m)
+        real(wp), intent(inout) :: fjrow(n)
+
+        class(*), intent(inout), optional :: wrapper
+
+        if (.not.present(wrapper)) then
+            iflag = -1
+            return
+        end if
+
+        select type(wrapper)
+        class is(lmstr_data)
+            call wrapper%fcn(m, n, x, fvec, fjrow, iflag, wrapper%udata)
+        class default
+            iflag = -1
+        end select
+    end subroutine wrap_fcn_lmstr
 
     subroutine minpack_chkder(m, n, x, fvec, fjac, ldfjac, xp, fvecp, mode, err) &
          & bind(c)

@@ -3,7 +3,8 @@ module find_fit_module
 !! This module contains a general function find_fit() for a nonlinear least
 !! squares fitting. The function can fit any nonlinear expression to any data.
 
-use minpack_module, only: wp, lmdif1
+use minpack_legacy, only: lmdif1
+use minpack_module, only: wp
 
 implicit none
 

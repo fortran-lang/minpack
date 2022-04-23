@@ -1,6 +1,7 @@
 program example_lmdif1
 
-use minpack_module, only: wp, enorm, lmdif1
+use minpack_legacy, only: lmdif1
+use minpack_module, only: wp, enorm
 use iso_fortran_env, only: nwrite => output_unit
 
 implicit none

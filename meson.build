@@ -16,6 +16,7 @@ endif
 
 srcs = files(
   'src/minpack.f90',
+  'src/minpack_legacy.f90',
 )
 if get_option('api')
   srcs += files('src/minpack_capi.f90')
