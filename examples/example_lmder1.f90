@@ -56,10 +56,10 @@ subroutine fcn(m, n, x, fvec, fjac, ldfjac, iflag)
 
     integer, intent(in) :: m
     integer, intent(in) :: n
+    integer, intent(in) :: ldfjac
     real(wp), intent(in) :: x(n)
     real(wp), intent(inout) :: fvec(m)
     real(wp), intent(inout) :: fjac(ldfjac, n)
-    integer, intent(in) :: ldfjac
     integer, intent(inout) :: iflag
 
     integer :: i
