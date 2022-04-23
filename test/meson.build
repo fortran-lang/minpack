@@ -19,7 +19,7 @@ foreach t : tests
   )
 endforeach
 
-if has_cc
+if get_option('api')
   test(
     'c-api',
     executable(

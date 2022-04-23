@@ -1,4 +1,10 @@
 option(
+  'api',
+  type: 'boolean',
+  value: true,
+  description: 'Export bindings for the C API',
+)
+option(
   'python',
   type: 'boolean',
   value: false,
