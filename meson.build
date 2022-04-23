@@ -8,8 +8,16 @@ project(
     'buildtype=debugoptimized',
   ],
 )
+
 fc_nested_functions = meson.get_compiler('fortran').run(
-  'call a(); contains; subroutine a(); print "(a)", "Nested functions supported"; end; end',
+  '''
+  call a()
+  contains
+  subroutine a()
+  print "(a)", "Nested functions supported"
+  end
+  end
+  ''',
 ).returncode() == 0
 if fc_nested_functions
   has_cc = add_languages('c', required: get_option('python'), native: false)
@@ -22,12 +30,16 @@ else
   endif
 endif
 
+srcs = files(
+  'src/minpack.f90',
+)
+if fc_nested_functions
+  srcs += files('src/minpack_capi.f90')
+endif
+
 minpack_lib = library(
   meson.project_name(),
-  sources: files(
-    'src/minpack.f90',
-    fc_nested_functions ? 'src/minpack_capi.f90' :,
-  ),
+  sources: srcs,
   install: true,
 )
 
