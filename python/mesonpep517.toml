@@ -1,0 +1,15 @@
+[build-system]
+requires = ["meson-python", "cffi"]
+build-backend = "mesonpy"
+
+[project]
+name = "minpack"
+version = "2.0.0"
+description = "Minpack includes software for solving nonlinear equations and nonlinear least squares problems"
+readme = "README.rst"
+urls.repository = "https://github.com/fortran-lang/minpack"
+dependencies = [
+   "cffi",
+   "numpy",
+]
+requires-python = ">=3.6"

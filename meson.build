@@ -31,6 +31,7 @@ minpack_inc = minpack_lib.private_dir_include()
 minpack_dep = declare_dependency(
   link_with: minpack_lib,
   include_directories: [minpack_inc, include_directories('include')],
+  variables: {'includedir': meson.current_source_dir() / 'include'},
 )
 
 minpack_lic = files(

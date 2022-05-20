@@ -13,8 +13,19 @@ python_dep = python.dependency(required: true)
 # Python's CFFI is horrible in working with preprocessor statements,
 # therefore, we have to preprocess the header before passing it to the ffibuilder
 minpack_pp = configure_file(
-  command: [cc, '-DMINPACK_CFFI=1', '-E', '@INPUT@'],
-  input: minpack_header[0],
+  command: [
+    cc,
+    '-I@0@'.format(
+      minpack_dep.get_variable(
+        pkgconfig: 'includedir',
+        internal: 'includedir',
+      ).split().get(0)
+    ),
+    '-DMINPACK_CFFI=1',
+    '-E',
+    '@INPUT@',
+  ],
+  input: minpack_header,
   output: '@0@.h'.format(ext_module),
   capture: true,
 )
