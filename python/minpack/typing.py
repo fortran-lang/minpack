@@ -4,7 +4,11 @@ Callback signatures for Minpack drivers.
 """
 
 import numpy as np
-from typing import Optional, Protocol
+from typing import Optional
+try:
+    from typing import Protocol
+except ImportError:
+    from typing_extensions import Protocol
 
 
 class CallableHybrd(Protocol):
