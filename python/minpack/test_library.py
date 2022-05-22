@@ -127,7 +127,7 @@ def test_lmder(driver):
         ]
     )
 
-    def fcn(x, fvec, fjac, jacobian: bool) -> None:
+    def fcn(x, fvec, fjac, jacobian: bool, y) -> None:
         if jacobian:
             for i in range(fvec.size):
                 tmp1, tmp2 = i + 1, 16 - i - 1
@@ -151,14 +151,14 @@ def test_lmder(driver):
     fvecp = np.zeros(15, dtype=np.float64)
     err = np.zeros(15, dtype=np.float64)
     minpack.library.chkder(x, fvec, fjac, xp, fvecp, False, err)
-    fcn(x, fvec, fjac, False)
-    fcn(x, fvec, fjac, True)
-    fcn(xp, fvecp, fjac, False)
+    fcn(x, fvec, fjac, False, y=y)
+    fcn(x, fvec, fjac, True, y=y)
+    fcn(xp, fvecp, fjac, False, y=y)
     minpack.library.chkder(x, fvec, fjac, xp, fvecp, True, err)
 
     assert pytest.approx(err) == 15 * [1.0]
 
-    assert driver(fcn, x, fvec, fjac, tol) == 1
+    assert driver(fcn, x, fvec, fjac, tol, y=y) == 1
 
     assert pytest.approx(x, abs=100 * tol) == [0.8241058e-1, 0.1133037e1, 0.2343695e1]
 
@@ -202,7 +202,7 @@ def test_lmdif(driver):
         ]
     )
 
-    def fcn(x, fvec) -> None:
+    def fcn(x, fvec, y) -> None:
         for i in range(fvec.size):
             tmp1, tmp2 = i + 1, 16 - i - 1
             tmp3 = tmp2 if i >= 8 else tmp1
@@ -213,7 +213,7 @@ def test_lmdif(driver):
     fjac = np.zeros((3, 15), dtype=np.float64)
     tol = sqrt(np.finfo(np.float64).eps)
 
-    assert driver(fcn, x, fvec, tol) == 1
+    assert driver(fcn, x, fvec, tol, y=y) == 1
 
     assert pytest.approx(x, abs=100 * tol) == [0.8241058e-1, 0.1133037e1, 0.2343695e1]
 
@@ -260,7 +260,7 @@ def test_lmstr_exception(driver):
     class DummyException(Exception):
         ...
 
-    def fcn(x, fvec, fjac, row) -> None:
+    def fcn(x, fvec, fjrow, row) -> None:
         raise DummyException()
 
     x = np.array([-1.2, 1.0])
