@@ -12,3 +12,4 @@ dependencies:
   - numpy
   - meson
   - ninja
+  - typing-extensions
