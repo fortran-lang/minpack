@@ -28,9 +28,10 @@ class UserData:
     disturbing foreign runtime.
     """
 
-    def __init__(self, fcn):
+    def __init__(self, fcn, **kwargs):
         self.fcn = fcn
         self.exception = None
+        self.kwargs = kwargs
 
 
 @ffi.def_extern()
@@ -46,6 +47,7 @@ def func(n, x, fvec, iflag, data) -> None:
         handle.fcn(
             np.frombuffer(ffi.buffer(x, n * real.itemsize), dtype=real),
             np.frombuffer(ffi.buffer(fvec, n * real.itemsize), dtype=real),
+            **handle.kwargs,
         )
     except BaseException as e:
         iflag[0] = -1
@@ -68,6 +70,7 @@ def fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag, data) -> None:
             np.frombuffer(ffi.buffer(fvec, n * real.itemsize), dtype=real),
             np.reshape(fjac, (n, ldfjac)),
             iflag[0] == 2,
+            **handle.kwargs,
         )
     except BaseException as e:
         iflag[0] = -1
@@ -90,6 +93,7 @@ def fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag, data) -> None:
             np.frombuffer(ffi.buffer(fvec, m * real.itemsize), dtype=real),
             np.reshape(fjac, (n, ldfjac)),
             iflag[0] == 2,
+            **handle.kwargs,
         )
     except BaseException as e:
         iflag[0] = -1
@@ -109,6 +113,7 @@ def func2(m, n, x, fvec, iflag, data) -> None:
         handle.fcn(
             np.frombuffer(ffi.buffer(x, n * real.itemsize), dtype=real),
             np.frombuffer(ffi.buffer(fvec, m * real.itemsize), dtype=real),
+            **handle.kwargs,
         )
     except BaseException as e:
         iflag[0] = -1
@@ -130,6 +135,7 @@ def fcn_lmstr(m, n, x, fvec, fjrow, iflag, data) -> None:
             np.frombuffer(ffi.buffer(fvec, m * real.itemsize), dtype=real),
             np.frombuffer(ffi.buffer(fjrow, n * real.itemsize), dtype=real),
             iflag[0] - 2 if iflag[0] > 1 else None,
+            **handle.kwargs,
         )
     except BaseException as e:
         iflag[0] = -1
@@ -162,8 +168,8 @@ def cffi_callback(func, callback):
     """
 
     @functools.wraps(func)
-    def entry_point(fcn, *args):
-        data = UserData(fcn)
+    def entry_point(fcn, *args, **kwargs):
+        data = UserData(fcn, **kwargs)
         handle = ffi.new_handle(data)
         func(callback, *args, handle)
         if data.exception is not None:
@@ -191,6 +197,7 @@ def hybrd1(
     x: np.ndarray,
     fvec: np.ndarray,
     tol: float = math.sqrt(np.finfo(real).eps),
+    **kwargs,
 ) -> int:
     """
     Find a zero of a system of n nonlinear functions in n variables
@@ -262,6 +269,7 @@ def hybrd1(
         info,
         ffi.cast("double*", wa.ctypes.data),
         lwa,
+        **kwargs,
     )
     ex = info_hy(info[0])
     if ex is not None:
@@ -286,6 +294,7 @@ def hybrd(
     fjac: Optional[np.ndarray] = None,
     r: Optional[np.ndarray] = None,
     qtf: Optional[np.ndarray] = None,
+    **kwargs,
 ) -> int:
     """
     Find a zero of a system of n nonlinear functions in n variables
@@ -353,6 +362,7 @@ def hybrd(
         ffi.cast("double*", wa2.ctypes.data),
         ffi.cast("double*", wa3.ctypes.data),
         ffi.cast("double*", wa4.ctypes.data),
+        **kwargs,
     )
     ex = info_hy(info[0])
     if ex is not None:
@@ -366,6 +376,7 @@ def hybrj1(
     fvec: np.ndarray,
     fjac: np.ndarray,
     tol: float = math.sqrt(np.finfo(real).eps),
+    **kwargs,
 ) -> int:
     """
     Find a zero of a system of n nonlinear functions in n variables
@@ -403,6 +414,7 @@ def hybrj1(
         info,
         ffi.cast("double*", wa.ctypes.data),
         lwa,
+        **kwargs,
     )
     ex = info_hy(info[0])
     if ex is not None:
@@ -424,6 +436,7 @@ def hybrj(
     nprint: int = 0,
     r: Optional[np.ndarray] = None,
     qtf: Optional[np.ndarray] = None,
+    **kwargs,
 ) -> int:
     """
     Find a zero of a system of n nonlinear functions in n variables
@@ -486,6 +499,7 @@ def hybrj(
         ffi.cast("double*", wa2.ctypes.data),
         ffi.cast("double*", wa3.ctypes.data),
         ffi.cast("double*", wa4.ctypes.data),
+        **kwargs,
     )
     ex = info_hy(info[0])
     if ex is not None:
@@ -499,6 +513,7 @@ def lmder1(
     fvec: np.ndarray,
     fjac: np.ndarray,
     tol: float = math.sqrt(np.finfo(real).eps),
+    **kwargs,
 ) -> int:
     """
     Minimize the sum of the squares of m nonlinear functions in n variables
@@ -539,6 +554,7 @@ def lmder1(
         ffi.cast("int*", ipvt.ctypes.data),
         ffi.cast("double*", wa.ctypes.data),
         lwa,
+        **kwargs,
     )
     ex = info_lm(info[0])
     if ex is not None:
@@ -562,6 +578,7 @@ def lmder(
     nprint=0,
     ipvt: Optional[np.ndarray] = None,
     qtf: Optional[np.ndarray] = None,
+    **kwargs,
 ) -> int:
     """
     Minimize the sum of the squares of m nonlinear functions in n variables
@@ -624,6 +641,7 @@ def lmder(
         ffi.cast("double*", wa2.ctypes.data),
         ffi.cast("double*", wa3.ctypes.data),
         ffi.cast("double*", wa4.ctypes.data),
+        **kwargs,
     )
     ex = info_lm(info[0])
     if ex is not None:
@@ -636,6 +654,7 @@ def lmdif1(
     x: np.ndarray,
     fvec: np.ndarray,
     tol: float = math.sqrt(np.finfo(real).eps),
+    **kwargs,
 ) -> int:
     """
     Minimize the sum of the squares of m nonlinear functions in n variables
@@ -709,6 +728,7 @@ def lmdif1(
         ffi.cast("int*", ipvt.ctypes.data),
         ffi.cast("double*", wa.ctypes.data),
         lwa,
+        **kwargs,
     )
     ex = info_lm(info[0])
     if ex is not None:
@@ -733,6 +753,7 @@ def lmdif(
     fjac: Optional[np.ndarray] = None,
     ipvt: Optional[np.ndarray] = None,
     qtf: Optional[np.ndarray] = None,
+    **kwargs,
 ) -> int:
     """
     Minimize the sum of the squares of m nonlinear functions in n variables
@@ -797,6 +818,7 @@ def lmdif(
         ffi.cast("double*", wa2.ctypes.data),
         ffi.cast("double*", wa3.ctypes.data),
         ffi.cast("double*", wa4.ctypes.data),
+        **kwargs,
     )
     ex = info_lm(info[0])
     if ex is not None:
@@ -810,6 +832,7 @@ def lmstr1(
     fvec: np.ndarray,
     fjac: np.ndarray,
     tol: float = math.sqrt(np.finfo(real).eps),
+    **kwargs,
 ) -> int:
     """
     Minimize the sum of the squares of m nonlinear functions in n variables by
@@ -851,6 +874,7 @@ def lmstr1(
         ffi.cast("int*", ipvt.ctypes.data),
         ffi.cast("double*", wa.ctypes.data),
         lwa,
+        **kwargs,
     )
     ex = info_lm(info[0])
     if ex is not None:
@@ -874,6 +898,7 @@ def lmstr(
     nprint=0,
     ipvt: Optional[np.ndarray] = None,
     qtf: Optional[np.ndarray] = None,
+    **kwargs,
 ) -> int:
     """
     Minimize the sum of the squares of m nonlinear functions in n variables by
@@ -937,6 +962,7 @@ def lmstr(
         ffi.cast("double*", wa2.ctypes.data),
         ffi.cast("double*", wa3.ctypes.data),
         ffi.cast("double*", wa4.ctypes.data),
+        **kwargs,
     )
     ex = info_lm(info[0])
     if ex is not None:
