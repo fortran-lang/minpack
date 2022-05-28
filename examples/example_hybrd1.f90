@@ -6,7 +6,8 @@
 !>                              -x(8) + (3-2*x(9))*x(9) = -1
 program example_hybrd1
 
-    use minpack_module, only: wp, hybrd1, dpmpar, enorm
+    use minpack_legacy, only: hybrd1
+    use minpack_module, only: wp, dpmpar, enorm
     use iso_fortran_env, only: nwrite => output_unit
 
     implicit none

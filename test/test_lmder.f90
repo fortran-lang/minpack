@@ -12,7 +12,8 @@
 
 program test_lmder
 
-    use minpack_module, only: wp, dpmpar, enorm, lmder1
+    use minpack_legacy, only: lmder1
+    use minpack_module, only: wp, dpmpar, enorm
     use iso_fortran_env, only: output_unit
 
     implicit none

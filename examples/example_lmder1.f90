@@ -1,6 +1,7 @@
 program example_lmder1
 
-use minpack_module, only: wp, enorm, lmder1, chkder
+use minpack_legacy, only: lmder1, chkder
+use minpack_module, only: wp, enorm
 use iso_fortran_env, only: nwrite => output_unit
 
 implicit none

@@ -22,7 +22,7 @@ module minpack_module
     real(wp), parameter, private :: zero = 0.0_wp
 
     abstract interface
-        subroutine func(n, x, fvec, iflag)
+        subroutine func(n, x, fvec, iflag, user_data)
             !! user-supplied subroutine for [[hybrd]], [[hybrd1]], and [[fdjac1]]
             import :: wp
             implicit none
@@ -30,9 +30,10 @@ module minpack_module
             real(wp), intent(in) :: x(n) !! independent variable vector
             real(wp), intent(out) :: fvec(n) !! value of function at `x`
             integer, intent(inout) :: iflag !! set to <0 to terminate execution
+            class(*), intent(inout), optional :: user_data
         end subroutine func
 
-        subroutine func2(m, n, x, fvec, iflag)
+        subroutine func2(m, n, x, fvec, iflag, user_data)
             !! user-supplied subroutine for [[fdjac2]], [[lmdif]], and [[lmdif1]]
             import :: wp
             implicit none
@@ -43,9 +44,10 @@ module minpack_module
             integer, intent(inout) :: iflag !! the value of iflag should not be changed unless
                                            !! the user wants to terminate execution of lmdif.
                                            !! in this case set iflag to a negative integer.
+            class(*), intent(inout), optional :: user_data
         end subroutine func2
 
-        subroutine fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag)
+        subroutine fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag, user_data)
             !! user-supplied subroutine for [[hybrj]] and [[hybrj1]]
             import :: wp
             implicit none
@@ -62,9 +64,10 @@ module minpack_module
                                             !! the value of iflag should not be changed by fcn unless
                                             !! the user wants to terminate execution of hybrj.
                                             !! in this case set iflag to a negative integer.
+            class(*), intent(inout), optional :: user_data
         end subroutine fcn_hybrj
 
-        subroutine fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag)
+        subroutine fcn_lmder(m, n, x, fvec, fjac, ldfjac, iflag, user_data)
             !! user-supplied subroutine for [[lmder]] and [[lmder1]]
             import :: wp
             implicit none
@@ -82,9 +85,10 @@ module minpack_module
             real(wp), intent(in) :: x(n) !! independent variable vector
             real(wp), intent(inout) :: fvec(m) !! value of function at `x`
             real(wp), intent(inout) :: fjac(ldfjac, n) !! jacobian matrix at `x`
+            class(*), intent(inout), optional :: user_data
         end subroutine fcn_lmder
 
-        subroutine fcn_lmstr(m, n, x, fvec, fjrow, iflag)
+        subroutine fcn_lmstr(m, n, x, fvec, fjrow, iflag, user_data)
             import :: wp
             implicit none
             integer, intent(in) :: m !! the number of functions.
@@ -100,6 +104,7 @@ module minpack_module
             real(wp), intent(in) :: x(n) !! independent variable vector
             real(wp), intent(inout) :: fvec(m) !! value of function at `x`
             real(wp), intent(inout) :: fjrow(n) !! jacobian row
+            class(*), intent(inout), optional :: user_data
         end subroutine fcn_lmstr
 
     end interface
@@ -431,7 +436,8 @@ contains
 !  a banded form, then function evaluations are saved by only
 !  approximating the nonzero terms.
 
-    subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, Wa1, Wa2)
+    subroutine fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, Iflag, Ml, Mu, Epsfcn, Wa1, Wa2, &
+          & user_data)
 
         implicit none
 
@@ -467,6 +473,7 @@ contains
         real(wp), intent(inout) :: Wa2(n) !! work array of length n. if ml + mu + 1 is at
                                      !! least n, then the jacobian is considered dense, and wa2 is
                                      !! not referenced.
+        class(*), intent(inout), optional :: user_data
 
         integer :: i, j, k, msum
         real(wp) :: eps, h, temp
@@ -482,7 +489,7 @@ contains
                     if (h == zero) h = eps
                     x(j) = Wa2(j) + h
                 end do
-                call fcn(n, x, Wa1, Iflag)
+                call fcn(n, x, Wa1, Iflag, user_data)
                 if (Iflag < 0) return
                 do j = k, n, msum
                     x(j) = Wa2(j)
@@ -501,7 +508,7 @@ contains
                 h = eps*abs(temp)
                 if (h == zero) h = eps
                 x(j) = temp + h
-                call fcn(n, x, Wa1, Iflag)
+                call fcn(n, x, Wa1, Iflag, user_data)
                 if (Iflag < 0) return
                 x(j) = temp
                 do i = 1, n
@@ -519,7 +526,7 @@ contains
 !  to the m by n jacobian matrix associated with a specified
 !  problem of m functions in n variables.
 
-    subroutine fdjac2(fcn, m, n, x, Fvec, Fjac, Ldfjac, Iflag, Epsfcn, Wa)
+    subroutine fdjac2(fcn, m, n, x, Fvec, Fjac, Ldfjac, Iflag, Epsfcn, Wa, user_data)
 
         implicit none
 
@@ -546,6 +553,7 @@ contains
         real(wp), intent(out) :: Fjac(Ldfjac, n) !! an output m by n array which contains the
                                             !! approximation to the jacobian matrix evaluated at x.
         real(wp), intent(inout) :: Wa(m) !! a work array of length m.
+        class(*), intent(inout), optional :: user_data
 
         integer :: i, j
         real(wp) :: eps, h, temp
@@ -556,7 +564,7 @@ contains
             h = eps*abs(temp)
             if (h == zero) h = eps
             x(j) = temp + h
-            call fcn(m, n, x, Wa, Iflag)
+            call fcn(m, n, x, Wa, Iflag, user_data)
             if (Iflag < 0) return
             x(j) = temp
             do i = 1, m
@@ -577,7 +585,7 @@ contains
 
     subroutine hybrd(fcn, n, x, Fvec, Xtol, Maxfev, Ml, Mu, Epsfcn, Diag, Mode, &
                      Factor, Nprint, Info, Nfev, Fjac, Ldfjac, r, Lr, Qtf, Wa1, &
-                     Wa2, Wa3, Wa4)
+                     Wa2, Wa3, Wa4, user_data)
 
         implicit none
 
@@ -664,6 +672,7 @@ contains
         real(wp), intent(inout) :: wa2(n)  !! work array
         real(wp), intent(inout) :: wa3(n)  !! work array
         real(wp), intent(inout) :: wa4(n)  !! work array
+        class(*), intent(inout), optional :: user_data
 
         integer :: i, iflag, iter, j, jm1, l, msum, ncfail, ncsuc, nslow1, nslow2
         integer :: iwa(1)
@@ -693,7 +702,7 @@ contains
         ! and calculate its norm.
 
         iflag = 1
-        call fcn(n, x, Fvec, iflag)
+        call fcn(n, x, Fvec, iflag, user_data)
         Nfev = 1
         if (iflag < 0) goto 300
         fnorm = enorm(n, Fvec)
@@ -718,7 +727,7 @@ contains
         ! calculate the jacobian matrix.
 
         iflag = 2
-        call fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, iflag, Ml, Mu, Epsfcn, Wa1, Wa2)
+        call fdjac1(fcn, n, x, Fvec, Fjac, Ldfjac, iflag, Ml, Mu, Epsfcn, Wa1, Wa2, user_data)
         Nfev = Nfev + msum
         if (iflag < 0) goto 300
 
@@ -798,7 +807,7 @@ contains
 
 200     if (Nprint > 0) then
             iflag = 0
-            if (mod(iter - 1, Nprint) == 0) call fcn(n, x, Fvec, iflag)
+            if (mod(iter - 1, Nprint) == 0) call fcn(n, x, Fvec, iflag, user_data)
             if (iflag < 0) goto 300
         end if
 
@@ -822,7 +831,7 @@ contains
         ! evaluate the function at x + p and calculate its norm.
 
         iflag = 1
-        call fcn(n, Wa2, Wa4, iflag)
+        call fcn(n, Wa2, Wa4, iflag, user_data)
         Nfev = Nfev + 1
         if (iflag >= 0) then
             fnorm1 = enorm(n, Wa4)
@@ -939,7 +948,7 @@ contains
 
 300     if (iflag < 0) Info = iflag
         iflag = 0
-        if (Nprint > 0) call fcn(n, x, Fvec, iflag)
+        if (Nprint > 0) call fcn(n, x, Fvec, iflag, user_data)
 
     end subroutine hybrd
 !*****************************************************************************************
@@ -954,7 +963,7 @@ contains
 !  the jacobian is then calculated by a forward-difference
 !  approximation.
 
-    subroutine hybrd1(fcn, n, x, Fvec, Tol, Info, Wa, Lwa)
+    subroutine hybrd1(fcn, n, x, Fvec, Tol, Info, Wa, Lwa, user_data)
 
         implicit none
 
@@ -985,6 +994,7 @@ contains
         integer, intent(in) :: Lwa !! a positive integer input variable not less than
                               !! (n*(3*n+13))/2.
         real(wp), intent(inout) :: Wa(Lwa) !! a work array of length lwa.
+        class(*), intent(inout), optional :: user_data
 
         integer :: index, j, lr, maxfev, ml, mode, mu, nfev, nprint
         real(wp) :: epsfcn, xtol
@@ -1011,7 +1021,8 @@ contains
             index = 6*n + lr
             call hybrd(fcn, n, x, Fvec, xtol, maxfev, ml, mu, epsfcn, Wa(1), mode, &
                        factor, nprint, Info, nfev, Wa(index + 1), n, Wa(6*n + 1), lr, &
-                       Wa(n + 1), Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
+                       Wa(n + 1), Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1), &
+                       user_data)
             if (Info == 5) Info = 4
         end if
 
@@ -1027,7 +1038,7 @@ contains
 
     subroutine hybrj(fcn, n, x, Fvec, Fjac, Ldfjac, Xtol, Maxfev, Diag, Mode, &
                      Factor, Nprint, Info, Nfev, Njev, r, Lr, Qtf, Wa1, Wa2, &
-                     Wa3, Wa4)
+                     Wa3, Wa4, user_data)
 
         implicit none
 
@@ -1105,6 +1116,7 @@ contains
         real(wp), intent(inout) :: Wa2(n) !! work array of length n.
         real(wp), intent(inout) :: Wa3(n) !! work array of length n.
         real(wp), intent(inout) :: Wa4(n) !! work array of length n.
+        class(*), intent(inout), optional :: user_data
 
         integer :: i, iflag, iter, j, jm1, l, ncfail, ncsuc, nslow1, nslow2
         integer :: iwa(1)
@@ -1135,7 +1147,7 @@ contains
         ! and calculate its norm.
 
         iflag = 1
-        call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
+        call fcn(n, x, Fvec, Fjac, Ldfjac, iflag, user_data)
         Nfev = 1
         if (iflag < 0) goto 300
         fnorm = enorm(n, Fvec)
@@ -1155,7 +1167,7 @@ contains
         ! calculate the jacobian matrix.
 
         iflag = 2
-        call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
+        call fcn(n, x, Fvec, Fjac, Ldfjac, iflag, user_data)
         Njev = Njev + 1
         if (iflag < 0) goto 300
 
@@ -1238,7 +1250,7 @@ contains
 200     if (Nprint > 0) then
             iflag = 0
             if (mod(iter - 1, Nprint) == 0) &
-                call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
+                call fcn(n, x, Fvec, Fjac, Ldfjac, iflag, user_data)
             if (iflag < 0) goto 300
         end if
 
@@ -1262,7 +1274,7 @@ contains
         ! evaluate the function at x + p and calculate its norm.
 
         iflag = 1
-        call fcn(n, Wa2, Wa4, Fjac, Ldfjac, iflag)
+        call fcn(n, Wa2, Wa4, Fjac, Ldfjac, iflag, user_data)
         Nfev = Nfev + 1
         if (iflag >= 0) then
             fnorm1 = enorm(n, Wa4)
@@ -1380,7 +1392,7 @@ contains
 
 300     if (iflag < 0) Info = iflag
         iflag = 0
-        if (Nprint > 0) call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
+        if (Nprint > 0) call fcn(n, x, Fvec, Fjac, Ldfjac, iflag, user_data)
 
     end subroutine hybrj
 !*****************************************************************************************
@@ -1394,7 +1406,7 @@ contains
 !  must provide a subroutine which calculates the functions
 !  and the jacobian.
 
-    subroutine hybrj1(fcn, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Wa, Lwa)
+    subroutine hybrj1(fcn, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Wa, Lwa, user_data)
 
         implicit none
 
@@ -1431,6 +1443,7 @@ contains
                                             !! orthogonal matrix q produced by the qr factorization
                                             !! of the final approximate jacobian.
         real(wp), intent(inout) :: Wa(Lwa) !! a work array of length lwa.
+        class(*), intent(inout), optional :: user_data
 
         integer :: j, lr, maxfev, mode, nfev, njev, nprint
         real(wp) :: xtol
@@ -1453,7 +1466,7 @@ contains
             lr = (n*(n + 1))/2
             call hybrj(fcn, n, x, Fvec, Fjac, Ldfjac, xtol, maxfev, Wa(1), mode, &
                        factor, nprint, Info, nfev, njev, Wa(6*n + 1), lr, Wa(n + 1), &
-                       Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
+                       Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1), user_data)
             if (Info == 5) Info = 4
         end if
 
@@ -1469,7 +1482,7 @@ contains
 
     subroutine lmder(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxfev, &
                      Diag, Mode, Factor, Nprint, Info, Nfev, Njev, Ipvt, Qtf, &
-                     Wa1, Wa2, Wa3, Wa4)
+                     Wa1, Wa2, Wa3, Wa4, user_data)
 
         implicit none
 
@@ -1575,6 +1588,7 @@ contains
         real(wp), intent(inout) :: Wa2(n) !! work array of length n.
         real(wp), intent(inout) :: Wa3(n) !! work array of length n.
         real(wp), intent(inout) :: Wa4(m) !! work array of length m.
+        class(*), intent(inout), optional :: user_data
 
         integer :: i, iflag, iter, j, l
         real(wp) :: actred, delta, dirder, fnorm, fnorm1, gnorm, par, &
@@ -1606,7 +1620,7 @@ contains
             ! and calculate its norm.
 
             iflag = 1
-            call fcn(m, n, x, Fvec, Fjac, Ldfjac, iflag)
+            call fcn(m, n, x, Fvec, Fjac, Ldfjac, iflag, user_data)
             Nfev = 1
             if (iflag >= 0) then
                 fnorm = enorm(m, Fvec)
@@ -1621,7 +1635,7 @@ contains
                 ! calculate the jacobian matrix.
 
 20              iflag = 2
-                call fcn(m, n, x, Fvec, Fjac, Ldfjac, iflag)
+                call fcn(m, n, x, Fvec, Fjac, Ldfjac, iflag, user_data)
                 Njev = Njev + 1
                 if (iflag >= 0) then
 
@@ -1630,7 +1644,7 @@ contains
                     if (Nprint > 0) then
                         iflag = 0
                         if (mod(iter - 1, Nprint) == 0) &
-                            call fcn(m, n, x, Fvec, Fjac, Ldfjac, iflag)
+                            call fcn(m, n, x, Fvec, Fjac, Ldfjac, iflag, user_data)
                         if (iflag < 0) goto 100
                     end if
 
@@ -1732,7 +1746,7 @@ contains
                         ! evaluate the function at x + p and calculate its norm.
 
                         iflag = 1
-                        call fcn(m, n, Wa2, Wa4, Fjac, Ldfjac, iflag)
+                        call fcn(m, n, Wa2, Wa4, Fjac, Ldfjac, iflag, user_data)
                         Nfev = Nfev + 1
                         if (iflag >= 0) then
                             fnorm1 = enorm(m, Wa4)
@@ -1824,7 +1838,7 @@ contains
 
 100     if (iflag < 0) Info = iflag
         iflag = 0
-        if (Nprint > 0) call fcn(m, n, x, Fvec, Fjac, Ldfjac, iflag)
+        if (Nprint > 0) call fcn(m, n, x, Fvec, Fjac, Ldfjac, iflag, user_data)
 
     end subroutine lmder
 !*****************************************************************************************
@@ -1837,7 +1851,7 @@ contains
 !  general least-squares solver lmder. the user must provide a
 !  subroutine which calculates the functions and the jacobian.
 
-    subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, Lwa)
+    subroutine lmder1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, Lwa, user_data)
         implicit none
 
         procedure(fcn_lmder) :: fcn !! user-supplied subroutine which
@@ -1897,6 +1911,7 @@ contains
                                                 !! part of fjac contains information generated during
                                                 !! the computation of r.
         real(wp), intent(inout) :: Wa(Lwa) !! a work array of length lwa.
+        class(*), intent(inout), optional :: user_data
 
         integer :: maxfev, mode, nfev, njev, nprint
         real(wp) :: ftol, gtol, xtol
@@ -1918,7 +1933,7 @@ contains
             nprint = 0
             call lmder(fcn, m, n, x, Fvec, Fjac, Ldfjac, ftol, xtol, gtol, maxfev,   &
                      & Wa(1), mode, factor, nprint, Info, nfev, njev, Ipvt, Wa(n + 1)&
-                     & , Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
+                     & , Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1), user_data)
             if (Info == 8) Info = 4
         end if
 
@@ -1935,7 +1950,7 @@ contains
 
     subroutine lmdif(fcn, m, n, x, Fvec, Ftol, Xtol, Gtol, Maxfev, Epsfcn, Diag, &
                      Mode, Factor, Nprint, Info, Nfev, Fjac, Ldfjac, Ipvt, &
-                     Qtf, Wa1, Wa2, Wa3, Wa4)
+                     Qtf, Wa1, Wa2, Wa3, Wa4, user_data)
         implicit none
 
         procedure(func2) :: fcn !! the user-supplied subroutine which
@@ -2044,6 +2059,7 @@ contains
         real(wp), intent(inout) :: Wa2(n) !! work array of length n.
         real(wp), intent(inout) :: Wa3(n) !! work array of length n.
         real(wp), intent(inout) :: Wa4(m) !! work array of length n.
+        class(*), intent(inout), optional :: user_data
 
         integer :: i, iflag, iter, j, l
         real(wp) :: actred, delta, dirder, fnorm, &
@@ -2075,7 +2091,7 @@ contains
             ! and calculate its norm.
 
             iflag = 1
-            call fcn(m, n, x, Fvec, iflag)
+            call fcn(m, n, x, Fvec, iflag, user_data)
             Nfev = 1
             if (iflag >= 0) then
                 fnorm = enorm(m, Fvec)
@@ -2090,7 +2106,7 @@ contains
                 ! calculate the jacobian matrix.
 
 20              iflag = 2
-                call fdjac2(fcn, m, n, x, Fvec, Fjac, Ldfjac, iflag, Epsfcn, Wa4)
+                call fdjac2(fcn, m, n, x, Fvec, Fjac, Ldfjac, iflag, Epsfcn, Wa4, user_data)
                 Nfev = Nfev + n
                 if (iflag >= 0) then
 
@@ -2099,7 +2115,7 @@ contains
                     if (Nprint > 0) then
                         iflag = 0
                         if (mod(iter - 1, Nprint) == 0) &
-                            call fcn(m, n, x, Fvec, iflag)
+                            call fcn(m, n, x, Fvec, iflag, user_data)
                         if (iflag < 0) goto 100
                     end if
 
@@ -2202,7 +2218,7 @@ contains
                         ! evaluate the function at x + p and calculate its norm.
 
                         iflag = 1
-                        call fcn(m, n, Wa2, Wa4, iflag)
+                        call fcn(m, n, Wa2, Wa4, iflag, user_data)
                         Nfev = Nfev + 1
                         if (iflag >= 0) then
                             fnorm1 = enorm(m, Wa4)
@@ -2300,7 +2316,7 @@ contains
 
 100     if (iflag < 0) Info = iflag
         iflag = 0
-        if (Nprint > 0) call fcn(m, n, x, Fvec, iflag)
+        if (Nprint > 0) call fcn(m, n, x, Fvec, iflag, user_data)
 
     end subroutine lmdif
 !*****************************************************************************************
@@ -2314,7 +2330,7 @@ contains
 !  subroutine which calculates the functions. the jacobian is
 !  then calculated by a forward-difference approximation.
 
-    subroutine lmdif1(fcn, m, n, x, Fvec, Tol, Info, Iwa, Wa, Lwa)
+    subroutine lmdif1(fcn, m, n, x, Fvec, Tol, Info, Iwa, Wa, Lwa, user_data)
         implicit none
 
         procedure(func2) :: fcn !! the user-supplied subroutine which
@@ -2356,6 +2372,7 @@ contains
         real(wp), intent(out) :: Fvec(m) !! an output array of length m which contains
                                         !! the functions evaluated at the output x.
         real(wp), intent(inout) :: Wa(Lwa) !! a work array of length lwa.
+        class(*), intent(inout), optional :: user_data
 
         integer :: maxfev, mode, mp5n, nfev, nprint
         real(wp) :: epsfcn, ftol, gtol, xtol
@@ -2380,7 +2397,8 @@ contains
             mp5n = m + 5*n
             call lmdif(fcn, m, n, x, Fvec, ftol, xtol, gtol, maxfev, epsfcn, Wa(1), &
                        mode, factor, nprint, Info, nfev, Wa(mp5n + 1), m, Iwa, &
-                       Wa(n + 1), Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
+                       Wa(n + 1), Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1), &
+                       user_data)
             if (Info == 8) Info = 4
         end if
 
@@ -2625,7 +2643,7 @@ contains
 
     subroutine lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, Ftol, Xtol, Gtol, Maxfev, &
                      Diag, Mode, Factor, Nprint, Info, Nfev, Njev, Ipvt, Qtf, &
-                     Wa1, Wa2, Wa3, Wa4)
+                     Wa1, Wa2, Wa3, Wa4, user_data)
         implicit none
 
         procedure(fcn_lmstr) :: fcn !! user-supplied subroutine which
@@ -2727,6 +2745,7 @@ contains
         real(wp), intent(inout) :: Wa2(n) !! work array of length n.
         real(wp), intent(inout) :: Wa3(n) !! work array of length n.
         real(wp), intent(inout) :: Wa4(m) !! work array of length m.
+        class(*), intent(inout), optional :: user_data
 
         integer :: i, iflag, iter, j, l
         real(wp) :: actred, delta, dirder, fnorm, &
@@ -2760,7 +2779,7 @@ contains
         ! and calculate its norm.
 
         iflag = 1
-        call fcn(m, n, x, Fvec, Wa3, iflag)
+        call fcn(m, n, x, Fvec, Wa3, iflag, user_data)
         Nfev = 1
         if (iflag < 0) goto 200
         fnorm = enorm(m, Fvec)
@@ -2776,7 +2795,7 @@ contains
 
 100     if (Nprint > 0) then
             iflag = 0
-            if (mod(iter - 1, Nprint) == 0) call fcn(m, n, x, Fvec, Wa3, iflag)
+            if (mod(iter - 1, Nprint) == 0) call fcn(m, n, x, Fvec, Wa3, iflag, user_data)
             if (iflag < 0) goto 200
         end if
 
@@ -2793,7 +2812,7 @@ contains
         end do
         iflag = 2
         do i = 1, m
-            call fcn(m, n, x, Fvec, Wa3, iflag)
+            call fcn(m, n, x, Fvec, Wa3, iflag, user_data)
             if (iflag < 0) goto 200
             temp = Fvec(i)
             call rwupdt(n, Fjac, Ldfjac, Wa3, Qtf, temp, Wa1, Wa2)
@@ -2900,7 +2919,7 @@ contains
             ! evaluate the function at x + p and calculate its norm.
 
             iflag = 1
-            call fcn(m, n, Wa2, Wa4, Wa3, iflag)
+            call fcn(m, n, Wa2, Wa4, Wa3, iflag, user_data)
             Nfev = Nfev + 1
             if (iflag >= 0) then
                 fnorm1 = enorm(m, Wa4)
@@ -2996,7 +3015,7 @@ contains
 
 200     if (iflag < 0) Info = iflag
         iflag = 0
-        if (Nprint > 0) call fcn(m, n, x, Fvec, Wa3, iflag)
+        if (Nprint > 0) call fcn(m, n, x, Fvec, Wa3, iflag, user_data)
 
     end subroutine lmstr
 !*****************************************************************************************
@@ -3010,7 +3029,7 @@ contains
 !  lmstr. the user must provide a subroutine which calculates
 !  the functions and the rows of the jacobian.
 
-    subroutine lmstr1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, Lwa)
+    subroutine lmstr1(fcn, m, n, x, Fvec, Fjac, Ldfjac, Tol, Info, Ipvt, Wa, Lwa, user_data)
         implicit none
 
         procedure(fcn_lmstr) :: fcn !! user-supplied subroutine which
@@ -3068,6 +3087,7 @@ contains
                                                 !! part of fjac contains information generated during
                                                 !! the computation of r.
         real(wp), intent(inout) :: Wa(Lwa) !! a work array of length lwa.
+        class(*), intent(inout), optional :: user_data
 
         integer :: maxfev, mode, nfev, njev, nprint
         real(wp) :: ftol, gtol, xtol
@@ -3091,7 +3111,7 @@ contains
             nprint = 0
             call lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, ftol, xtol, gtol, maxfev, &
                        Wa(1), mode, factor, nprint, Info, nfev, njev, Ipvt, Wa(n + 1), &
-                       Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
+                       Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1), user_data)
             if (Info == 8) Info = 4
         end if
 
