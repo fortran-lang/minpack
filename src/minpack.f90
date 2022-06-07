@@ -1816,16 +1816,13 @@ contains
                     if (abs(actred) <= epsmch .and. prered <= epsmch .and. p5*ratio <= one) Info = 6
                     if (delta <= epsmch*xnorm) Info = 7
                     if (gnorm <= epsmch) Info = 8
-                    if (Info == 0) then
-                        if (ratio >= p0001) cycle outer
-                        ! end of the inner loop. repeat if iteration unsuccessful.
-                    else
-                        exit outer ! end of the outer loop.
-                    end if
+                    if (Info /= 0) exit main
 
-                end do inner
+                    if (ratio >= p0001) exit inner
 
-            end do outer
+                end do inner ! end of the inner loop. repeat if iteration unsuccessful.
+
+            end do outer ! end of the outer loop
 
         end block main
 
@@ -2069,15 +2066,20 @@ contains
         iflag = 0
         Nfev = 0
 
-        ! check the input parameters for errors.
+        main : block
 
-        if (n > 0 .and. m >= n .and. Ldfjac >= m .and. Ftol >= zero .and. &
-            Xtol >= zero .and. Gtol >= zero .and. Maxfev > 0 .and. &
-            Factor > zero) then
-            if (Mode == 2) then
-                do j = 1, n
-                    if (Diag(j) <= zero) goto 100
-                end do
+            ! check the input parameters for errors.
+
+            if (n > 0 .and. m >= n .and. Ldfjac >= m .and. Ftol >= zero .and. &
+                Xtol >= zero .and. Gtol >= zero .and. Maxfev > 0 .and. &
+                Factor > zero) then
+                if (Mode == 2) then
+                    do j = 1, n
+                        if (Diag(j) <= zero) exit main
+                    end do
+                end if
+            else
+                exit main
             end if
 
             ! evaluate the function at the starting point
@@ -2086,228 +2088,231 @@ contains
             iflag = 1
             call fcn(m, n, x, Fvec, iflag)
             Nfev = 1
-            if (iflag >= 0) then
-                fnorm = enorm(m, Fvec)
+            if (iflag < 0) exit main
 
-                ! initialize levenberg-marquardt parameter and iteration counter.
+            fnorm = enorm(m, Fvec)
 
-                par = zero
-                iter = 1
+            ! initialize levenberg-marquardt parameter and iteration counter.
 
-                ! beginning of the outer loop.
+            par = zero
+            iter = 1
+
+            ! beginning of the outer loop.
+
+            outer : do
 
                 ! calculate the jacobian matrix.
 
-20              iflag = 2
+                iflag = 2
                 call fdjac2(fcn, m, n, x, Fvec, Fjac, Ldfjac, iflag, Epsfcn, Wa4)
                 Nfev = Nfev + n
-                if (iflag >= 0) then
+                if (iflag < 0) exit main
 
-                    ! if requested, call fcn to enable printing of iterates.
+                ! if requested, call fcn to enable printing of iterates.
 
-                    if (Nprint > 0) then
-                        iflag = 0
-                        if (mod(iter - 1, Nprint) == 0) &
-                            call fcn(m, n, x, Fvec, iflag)
-                        if (iflag < 0) goto 100
-                    end if
-
-                    ! compute the qr factorization of the jacobian.
-
-                    call qrfac(m, n, Fjac, Ldfjac, .true., Ipvt, n, Wa1, Wa2, Wa3)
-
-                    ! on the first iteration and if mode is 1, scale according
-                    ! to the norms of the columns of the initial jacobian.
-
-                    if (iter == 1) then
-                        if (Mode /= 2) then
-                            do j = 1, n
-                                Diag(j) = Wa2(j)
-                                if (Wa2(j) == zero) Diag(j) = one
-                            end do
-                        end if
-
-                        ! on the first iteration, calculate the norm of the scaled x
-                        ! and initialize the step bound delta.
-
-                        do j = 1, n
-                            Wa3(j) = Diag(j)*x(j)
-                        end do
-                        xnorm = enorm(n, Wa3)
-                        delta = Factor*xnorm
-                        if (delta == zero) delta = Factor
-                    end if
-
-                    ! form (q transpose)*fvec and store the first n components in
-                    ! qtf.
-
-                    do i = 1, m
-                        Wa4(i) = Fvec(i)
-                    end do
-                    do j = 1, n
-                        if (Fjac(j, j) /= zero) then
-                            sum = zero
-                            do i = j, m
-                                sum = sum + Fjac(i, j)*Wa4(i)
-                            end do
-                            temp = -sum/Fjac(j, j)
-                            do i = j, m
-                                Wa4(i) = Wa4(i) + Fjac(i, j)*temp
-                            end do
-                        end if
-                        Fjac(j, j) = Wa1(j)
-                        Qtf(j) = Wa4(j)
-                    end do
-
-                    ! compute the norm of the scaled gradient.
-
-                    gnorm = zero
-                    if (fnorm /= zero) then
-                        do j = 1, n
-                            l = Ipvt(j)
-                            if (Wa2(l) /= zero) then
-                                sum = zero
-                                do i = 1, j
-                                    sum = sum + Fjac(i, j)*(Qtf(i)/fnorm)
-                                end do
-                                gnorm = max(gnorm, abs(sum/Wa2(l)))
-                            end if
-                        end do
-                    end if
-
-                    ! test for convergence of the gradient norm.
-
-                    if (gnorm <= Gtol) Info = 4
-                    if (Info == 0) then
-
-                        ! rescale if necessary.
-
-                        if (Mode /= 2) then
-                            do j = 1, n
-                                Diag(j) = max(Diag(j), Wa2(j))
-                            end do
-                        end if
-
-                        ! beginning of the inner loop.
-
-                        ! determine the levenberg-marquardt parameter.
-
-25                      call lmpar(n, Fjac, Ldfjac, Ipvt, Diag, Qtf, delta, par, Wa1, &
-                                   Wa2, Wa3, Wa4)
-
-                        ! store the direction p and x + p. calculate the norm of p.
-
-                        do j = 1, n
-                            Wa1(j) = -Wa1(j)
-                            Wa2(j) = x(j) + Wa1(j)
-                            Wa3(j) = Diag(j)*Wa1(j)
-                        end do
-                        pnorm = enorm(n, Wa3)
-
-                        ! on the first iteration, adjust the initial step bound.
-
-                        if (iter == 1) delta = min(delta, pnorm)
-
-                        ! evaluate the function at x + p and calculate its norm.
-
-                        iflag = 1
-                        call fcn(m, n, Wa2, Wa4, iflag)
-                        Nfev = Nfev + 1
-                        if (iflag >= 0) then
-                            fnorm1 = enorm(m, Wa4)
-
-                            ! compute the scaled actual reduction.
-
-                            actred = -one
-                            if (p1*fnorm1 < fnorm) actred = one - (fnorm1/fnorm)**2
-
-                            ! compute the scaled predicted reduction and
-                            ! the scaled directional derivative.
-
-                            do j = 1, n
-                                Wa3(j) = zero
-                                l = Ipvt(j)
-                                temp = Wa1(l)
-                                do i = 1, j
-                                    Wa3(i) = Wa3(i) + Fjac(i, j)*temp
-                                end do
-                            end do
-                            temp1 = enorm(n, Wa3)/fnorm
-                            temp2 = (sqrt(par)*pnorm)/fnorm
-                            prered = temp1**2 + temp2**2/p5
-                            dirder = -(temp1**2 + temp2**2)
-
-                            ! compute the ratio of the actual to the predicted
-                            ! reduction.
-
-                            ratio = zero
-                            if (prered /= zero) ratio = actred/prered
-
-                            ! update the step bound.
-
-                            if (ratio <= p25) then
-                                if (actred >= zero) temp = p5
-                                if (actred < zero) &
-                                    temp = p5*dirder/(dirder + p5*actred)
-                                if (p1*fnorm1 >= fnorm .or. temp < p1) temp = p1
-                                delta = temp*min(delta, pnorm/p1)
-                                par = par/temp
-                            elseif (par == zero .or. ratio >= p75) then
-                                delta = pnorm/p5
-                                par = p5*par
-                            end if
-
-                            ! test for successful iteration.
-
-                            if (ratio >= p0001) then
-
-                                ! successful iteration. update x, fvec, and their norms.
-
-                                do j = 1, n
-                                    x(j) = Wa2(j)
-                                    Wa2(j) = Diag(j)*x(j)
-                                end do
-                                do i = 1, m
-                                    Fvec(i) = Wa4(i)
-                                end do
-                                xnorm = enorm(n, Wa2)
-                                fnorm = fnorm1
-                                iter = iter + 1
-                            end if
-
-                            ! tests for convergence.
-
-                            if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
-                                p5*ratio <= one) Info = 1
-                            if (delta <= Xtol*xnorm) Info = 2
-                            if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
-                                p5*ratio <= one .and. Info == 2) Info = 3
-                            if (Info == 0) then
-
-                                ! tests for termination and stringent tolerances.
-
-                                if (Nfev >= Maxfev) Info = 5
-                                if (abs(actred) <= epsmch .and. &
-                                    prered <= epsmch .and. p5*ratio <= one) &
-                                    Info = 6
-                                if (delta <= epsmch*xnorm) Info = 7
-                                if (gnorm <= epsmch) Info = 8
-                                if (Info == 0) then
-                                    ! end of the inner loop. repeat if iteration unsuccessful.
-                                    ! end of the outer loop.
-                                    if (ratio >= p0001) goto 20
-                                    goto 25
-                                end if
-                            end if
-                        end if
-                    end if
+                if (Nprint > 0) then
+                    iflag = 0
+                    if (mod(iter - 1, Nprint) == 0) &
+                        call fcn(m, n, x, Fvec, iflag)
+                    if (iflag < 0) exit main
                 end if
-            end if
-        end if
+
+                ! compute the qr factorization of the jacobian.
+
+                call qrfac(m, n, Fjac, Ldfjac, .true., Ipvt, n, Wa1, Wa2, Wa3)
+
+                ! on the first iteration and if mode is 1, scale according
+                ! to the norms of the columns of the initial jacobian.
+
+                if (iter == 1) then
+                    if (Mode /= 2) then
+                        do j = 1, n
+                            Diag(j) = Wa2(j)
+                            if (Wa2(j) == zero) Diag(j) = one
+                        end do
+                    end if
+
+                    ! on the first iteration, calculate the norm of the scaled x
+                    ! and initialize the step bound delta.
+
+                    do j = 1, n
+                        Wa3(j) = Diag(j)*x(j)
+                    end do
+                    xnorm = enorm(n, Wa3)
+                    delta = Factor*xnorm
+                    if (delta == zero) delta = Factor
+                end if
+
+                ! form (q transpose)*fvec and store the first n components in
+                ! qtf.
+
+                do i = 1, m
+                    Wa4(i) = Fvec(i)
+                end do
+                do j = 1, n
+                    if (Fjac(j, j) /= zero) then
+                        sum = zero
+                        do i = j, m
+                            sum = sum + Fjac(i, j)*Wa4(i)
+                        end do
+                        temp = -sum/Fjac(j, j)
+                        do i = j, m
+                            Wa4(i) = Wa4(i) + Fjac(i, j)*temp
+                        end do
+                    end if
+                    Fjac(j, j) = Wa1(j)
+                    Qtf(j) = Wa4(j)
+                end do
+
+                ! compute the norm of the scaled gradient.
+
+                gnorm = zero
+                if (fnorm /= zero) then
+                    do j = 1, n
+                        l = Ipvt(j)
+                        if (Wa2(l) /= zero) then
+                            sum = zero
+                            do i = 1, j
+                                sum = sum + Fjac(i, j)*(Qtf(i)/fnorm)
+                            end do
+                            gnorm = max(gnorm, abs(sum/Wa2(l)))
+                        end if
+                    end do
+                end if
+
+                ! test for convergence of the gradient norm.
+
+                if (gnorm <= Gtol) Info = 4
+                if (Info /= 0) exit main
+
+                ! rescale if necessary.
+
+                if (Mode /= 2) then
+                    do j = 1, n
+                        Diag(j) = max(Diag(j), Wa2(j))
+                    end do
+                end if
+
+                ! beginning of the inner loop.
+
+                inner : do
+
+                    ! determine the levenberg-marquardt parameter.
+
+                    call lmpar(n, Fjac, Ldfjac, Ipvt, Diag, Qtf, delta, par, Wa1, &
+                               Wa2, Wa3, Wa4)
+
+                    ! store the direction p and x + p. calculate the norm of p.
+
+                    do j = 1, n
+                        Wa1(j) = -Wa1(j)
+                        Wa2(j) = x(j) + Wa1(j)
+                        Wa3(j) = Diag(j)*Wa1(j)
+                    end do
+                    pnorm = enorm(n, Wa3)
+
+                    ! on the first iteration, adjust the initial step bound.
+
+                    if (iter == 1) delta = min(delta, pnorm)
+
+                    ! evaluate the function at x + p and calculate its norm.
+
+                    iflag = 1
+                    call fcn(m, n, Wa2, Wa4, iflag)
+                    Nfev = Nfev + 1
+                    if (iflag < 0) exit main
+
+                    fnorm1 = enorm(m, Wa4)
+
+                    ! compute the scaled actual reduction.
+
+                    actred = -one
+                    if (p1*fnorm1 < fnorm) actred = one - (fnorm1/fnorm)**2
+
+                    ! compute the scaled predicted reduction and
+                    ! the scaled directional derivative.
+
+                    do j = 1, n
+                        Wa3(j) = zero
+                        l = Ipvt(j)
+                        temp = Wa1(l)
+                        do i = 1, j
+                            Wa3(i) = Wa3(i) + Fjac(i, j)*temp
+                        end do
+                    end do
+                    temp1 = enorm(n, Wa3)/fnorm
+                    temp2 = (sqrt(par)*pnorm)/fnorm
+                    prered = temp1**2 + temp2**2/p5
+                    dirder = -(temp1**2 + temp2**2)
+
+                    ! compute the ratio of the actual to the predicted
+                    ! reduction.
+
+                    ratio = zero
+                    if (prered /= zero) ratio = actred/prered
+
+                    ! update the step bound.
+
+                    if (ratio <= p25) then
+                        if (actred >= zero) temp = p5
+                        if (actred < zero) &
+                            temp = p5*dirder/(dirder + p5*actred)
+                        if (p1*fnorm1 >= fnorm .or. temp < p1) temp = p1
+                        delta = temp*min(delta, pnorm/p1)
+                        par = par/temp
+                    elseif (par == zero .or. ratio >= p75) then
+                        delta = pnorm/p5
+                        par = p5*par
+                    end if
+
+                    ! test for successful iteration.
+
+                    if (ratio >= p0001) then
+
+                        ! successful iteration. update x, fvec, and their norms.
+
+                        do j = 1, n
+                            x(j) = Wa2(j)
+                            Wa2(j) = Diag(j)*x(j)
+                        end do
+                        do i = 1, m
+                            Fvec(i) = Wa4(i)
+                        end do
+                        xnorm = enorm(n, Wa2)
+                        fnorm = fnorm1
+                        iter = iter + 1
+                    end if
+
+                    ! tests for convergence.
+
+                    if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
+                        p5*ratio <= one) Info = 1
+                    if (delta <= Xtol*xnorm) Info = 2
+                    if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
+                        p5*ratio <= one .and. Info == 2) Info = 3
+                    if (Info /= 0) exit main
+
+                    ! tests for termination and stringent tolerances.
+
+                    if (Nfev >= Maxfev) Info = 5
+                    if (abs(actred) <= epsmch .and. &
+                        prered <= epsmch .and. p5*ratio <= one) &
+                        Info = 6
+                    if (delta <= epsmch*xnorm) Info = 7
+                    if (gnorm <= epsmch) Info = 8
+                    if (Info /= 0) exit main
+
+                    if (ratio >= p0001) exit inner
+
+                end do inner ! end of the inner loop. repeat if iteration unsuccessful.
+
+            end do outer ! end of the outer loop.
+
+        end block main
 
         ! termination, either normal or user imposed.
 
-100     if (iflag < 0) Info = iflag
+        if (iflag < 0) Info = iflag
         iflag = 0
         if (Nprint > 0) call fcn(m, n, x, Fvec, iflag)
 
@@ -2560,65 +2565,67 @@ contains
             if (Par == zero) Par = gnorm/dxnorm
 
             ! beginning of an iteration.
+            do
 
-50          iter = iter + 1
+                iter = iter + 1
 
-            ! evaluate the function at the current value of par.
+                ! evaluate the function at the current value of par.
 
-            if (Par == zero) Par = max(dwarf, p001*paru)
-            temp = sqrt(Par)
-            do j = 1, n
-                Wa1(j) = temp*Diag(j)
-            end do
-            call qrsolv(n, r, Ldr, Ipvt, Wa1, Qtb, x, Sdiag, Wa2)
-            do j = 1, n
-                Wa2(j) = Diag(j)*x(j)
-            end do
-            dxnorm = enorm(n, Wa2)
-            temp = fp
-            fp = dxnorm - Delta
-
-            ! if the function is small enough, accept the current value
-            ! of par. also test for the exceptional cases where parl
-            ! is zero or the number of iterations has reached 10.
-
-            if (abs(fp) <= p1*Delta .or. parl == zero .and. fp <= temp .and. &
-                temp < zero .or. iter == 10) then
-                if (iter == 0) Par = zero
-            else
-
-                ! compute the newton correction.
-
+                if (Par == zero) Par = max(dwarf, p001*paru)
+                temp = sqrt(Par)
                 do j = 1, n
-                    l = Ipvt(j)
-                    Wa1(j) = Diag(l)*(Wa2(l)/dxnorm)
+                    Wa1(j) = temp*Diag(j)
                 end do
+                call qrsolv(n, r, Ldr, Ipvt, Wa1, Qtb, x, Sdiag, Wa2)
                 do j = 1, n
-                    Wa1(j) = Wa1(j)/Sdiag(j)
-                    temp = Wa1(j)
-                    jp1 = j + 1
-                    if (n >= jp1) then
-                        do i = jp1, n
-                            Wa1(i) = Wa1(i) - r(i, j)*temp
-                        end do
-                    end if
+                    Wa2(j) = Diag(j)*x(j)
                 end do
-                temp = enorm(n, Wa1)
-                parc = ((fp/Delta)/temp)/temp
+                dxnorm = enorm(n, Wa2)
+                temp = fp
+                fp = dxnorm - Delta
 
-                ! depending on the sign of the function, update parl or paru.
+                ! if the function is small enough, accept the current value
+                ! of par. also test for the exceptional cases where parl
+                ! is zero or the number of iterations has reached 10.
 
-                if (fp > zero) parl = max(parl, Par)
-                if (fp < zero) paru = min(paru, Par)
+                if (abs(fp) <= p1*Delta .or. parl == zero .and. fp <= temp .and. &
+                    temp < zero .or. iter == 10) then
+                    if (iter == 0) Par = zero
+                    exit
+                else
 
-                ! compute an improved estimate for par.
+                    ! compute the newton correction.
 
-                Par = max(parl, Par + parc)
+                    do j = 1, n
+                        l = Ipvt(j)
+                        Wa1(j) = Diag(l)*(Wa2(l)/dxnorm)
+                    end do
+                    do j = 1, n
+                        Wa1(j) = Wa1(j)/Sdiag(j)
+                        temp = Wa1(j)
+                        jp1 = j + 1
+                        if (n >= jp1) then
+                            do i = jp1, n
+                                Wa1(i) = Wa1(i) - r(i, j)*temp
+                            end do
+                        end if
+                    end do
+                    temp = enorm(n, Wa1)
+                    parc = ((fp/Delta)/temp)/temp
 
-                ! end of an iteration.
+                    ! depending on the sign of the function, update parl or paru.
 
-                goto 50
-            end if
+                    if (fp > zero) parl = max(parl, Par)
+                    if (fp < zero) paru = min(paru, Par)
+
+                    ! compute an improved estimate for par.
+
+                    Par = max(parl, Par + parc)
+
+                end if
+
+            end do ! end of an iteration.
+
         end if
 
     end subroutine lmpar
@@ -2754,232 +2761,239 @@ contains
         Nfev = 0
         Njev = 0
 
-        ! check the input parameters for errors.
+        main : block
 
-        if (n <= 0 .or. m < n .or. Ldfjac < n .or. Ftol < zero .or. &
-            Xtol < zero .or. Gtol < zero .or. Maxfev <= 0 .or. Factor <= zero) &
-            goto 200
-        if (Mode == 2) then
-            do j = 1, n
-                if (Diag(j) <= zero) goto 200
-            end do
-        end if
+            ! check the input parameters for errors.
 
-        ! evaluate the function at the starting point
-        ! and calculate its norm.
-
-        iflag = 1
-        call fcn(m, n, x, Fvec, Wa3, iflag)
-        Nfev = 1
-        if (iflag < 0) goto 200
-        fnorm = enorm(m, Fvec)
-
-        ! initialize levenberg-marquardt parameter and iteration counter.
-
-        par = zero
-        iter = 1
-
-        ! beginning of the outer loop.
-
-        ! if requested, call fcn to enable printing of iterates.
-
-100     if (Nprint > 0) then
-            iflag = 0
-            if (mod(iter - 1, Nprint) == 0) call fcn(m, n, x, Fvec, Wa3, iflag)
-            if (iflag < 0) goto 200
-        end if
-
-        ! compute the qr factorization of the jacobian matrix
-        ! calculated one row at a time, while simultaneously
-        ! forming (q transpose)*fvec and storing the first
-        ! n components in qtf.
-
-        do j = 1, n
-            Qtf(j) = zero
-            do i = 1, n
-                Fjac(i, j) = zero
-            end do
-        end do
-        iflag = 2
-        do i = 1, m
-            call fcn(m, n, x, Fvec, Wa3, iflag)
-            if (iflag < 0) goto 200
-            temp = Fvec(i)
-            call rwupdt(n, Fjac, Ldfjac, Wa3, Qtf, temp, Wa1, Wa2)
-            iflag = iflag + 1
-        end do
-        Njev = Njev + 1
-
-        ! if the jacobian is rank deficient, call qrfac to
-        ! reorder its columns and update the components of qtf.
-
-        sing = .false.
-        do j = 1, n
-            if (Fjac(j, j) == zero) sing = .true.
-            Ipvt(j) = j
-            Wa2(j) = enorm(j, Fjac(1, j))
-        end do
-        if (sing) then
-            call qrfac(n, n, Fjac, Ldfjac, .true., Ipvt, n, Wa1, Wa2, Wa3)
-            do j = 1, n
-                if (Fjac(j, j) /= zero) then
-                    sum = zero
-                    do i = j, n
-                        sum = sum + Fjac(i, j)*Qtf(i)
-                    end do
-                    temp = -sum/Fjac(j, j)
-                    do i = j, n
-                        Qtf(i) = Qtf(i) + Fjac(i, j)*temp
-                    end do
-                end if
-                Fjac(j, j) = Wa1(j)
-            end do
-        end if
-
-        ! on the first iteration and if mode is 1, scale according
-        ! to the norms of the columns of the initial jacobian.
-
-        if (iter == 1) then
-            if (Mode /= 2) then
+            if (n <= 0 .or. m < n .or. Ldfjac < n .or. Ftol < zero .or. &
+                Xtol < zero .or. Gtol < zero .or. Maxfev <= 0 .or. Factor <= zero) &
+                exit main
+            if (Mode == 2) then
                 do j = 1, n
-                    Diag(j) = Wa2(j)
-                    if (Wa2(j) == zero) Diag(j) = one
+                    if (Diag(j) <= zero) exit main
                 end do
             end if
 
-            ! on the first iteration, calculate the norm of the scaled x
-            ! and initialize the step bound delta.
-
-            do j = 1, n
-                Wa3(j) = Diag(j)*x(j)
-            end do
-            xnorm = enorm(n, Wa3)
-            delta = Factor*xnorm
-            if (delta == zero) delta = Factor
-        end if
-
-        ! compute the norm of the scaled gradient.
-
-        gnorm = zero
-        if (fnorm /= zero) then
-            do j = 1, n
-                l = Ipvt(j)
-                if (Wa2(l) /= zero) then
-                    sum = zero
-                    do i = 1, j
-                        sum = sum + Fjac(i, j)*(Qtf(i)/fnorm)
-                    end do
-                    gnorm = max(gnorm, abs(sum/Wa2(l)))
-                end if
-            end do
-        end if
-
-        ! test for convergence of the gradient norm.
-
-        if (gnorm <= Gtol) Info = 4
-        if (Info == 0) then
-
-            ! rescale if necessary.
-
-            if (Mode /= 2) then
-                do j = 1, n
-                    Diag(j) = max(Diag(j), Wa2(j))
-                end do
-            end if
-
-            ! beginning of the inner loop.
-
-            ! determine the levenberg-marquardt parameter.
-
-150         call lmpar(n, Fjac, Ldfjac, Ipvt, Diag, Qtf, delta, par, Wa1, Wa2, Wa3, Wa4)
-
-            ! store the direction p and x + p. calculate the norm of p.
-
-            do j = 1, n
-                Wa1(j) = -Wa1(j)
-                Wa2(j) = x(j) + Wa1(j)
-                Wa3(j) = Diag(j)*Wa1(j)
-            end do
-            pnorm = enorm(n, Wa3)
-
-            ! on the first iteration, adjust the initial step bound.
-
-            if (iter == 1) delta = min(delta, pnorm)
-
-            ! evaluate the function at x + p and calculate its norm.
+            ! evaluate the function at the starting point
+            ! and calculate its norm.
 
             iflag = 1
-            call fcn(m, n, Wa2, Wa4, Wa3, iflag)
-            Nfev = Nfev + 1
-            if (iflag >= 0) then
-                fnorm1 = enorm(m, Wa4)
+            call fcn(m, n, x, Fvec, Wa3, iflag)
+            Nfev = 1
+            if (iflag < 0) exit main
+            fnorm = enorm(m, Fvec)
 
-                ! compute the scaled actual reduction.
+            ! initialize levenberg-marquardt parameter and iteration counter.
 
-                actred = -one
-                if (p1*fnorm1 < fnorm) actred = one - (fnorm1/fnorm)**2
+            par = zero
+            iter = 1
 
-                ! compute the scaled predicted reduction and
-                ! the scaled directional derivative.
+            ! beginning of the outer loop.
+
+            outer : do
+
+                ! if requested, call fcn to enable printing of iterates.
+
+                if (Nprint > 0) then
+                    iflag = 0
+                    if (mod(iter - 1, Nprint) == 0) call fcn(m, n, x, Fvec, Wa3, iflag)
+                    if (iflag < 0) exit main
+                end if
+
+                ! compute the qr factorization of the jacobian matrix
+                ! calculated one row at a time, while simultaneously
+                ! forming (q transpose)*fvec and storing the first
+                ! n components in qtf.
 
                 do j = 1, n
-                    Wa3(j) = zero
-                    l = Ipvt(j)
-                    temp = Wa1(l)
-                    do i = 1, j
-                        Wa3(i) = Wa3(i) + Fjac(i, j)*temp
+                    Qtf(j) = zero
+                    do i = 1, n
+                        Fjac(i, j) = zero
                     end do
                 end do
-                temp1 = enorm(n, Wa3)/fnorm
-                temp2 = (sqrt(par)*pnorm)/fnorm
-                prered = temp1**2 + temp2**2/p5
-                dirder = -(temp1**2 + temp2**2)
+                iflag = 2
+                do i = 1, m
+                    call fcn(m, n, x, Fvec, Wa3, iflag)
+                    if (iflag < 0) exit main
+                    temp = Fvec(i)
+                    call rwupdt(n, Fjac, Ldfjac, Wa3, Qtf, temp, Wa1, Wa2)
+                    iflag = iflag + 1
+                end do
+                Njev = Njev + 1
 
-                ! compute the ratio of the actual to the predicted
-                ! reduction.
+                ! if the jacobian is rank deficient, call qrfac to
+                ! reorder its columns and update the components of qtf.
 
-                ratio = zero
-                if (prered /= zero) ratio = actred/prered
-
-                ! update the step bound.
-
-                if (ratio <= p25) then
-                    if (actred >= zero) temp = p5
-                    if (actred < zero) temp = p5*dirder/(dirder + p5*actred)
-                    if (p1*fnorm1 >= fnorm .or. temp < p1) temp = p1
-                    delta = temp*min(delta, pnorm/p1)
-                    par = par/temp
-                elseif (par == zero .or. ratio >= p75) then
-                    delta = pnorm/p5
-                    par = p5*par
+                sing = .false.
+                do j = 1, n
+                    if (Fjac(j, j) == zero) sing = .true.
+                    Ipvt(j) = j
+                    Wa2(j) = enorm(j, Fjac(1, j))
+                end do
+                if (sing) then
+                    call qrfac(n, n, Fjac, Ldfjac, .true., Ipvt, n, Wa1, Wa2, Wa3)
+                    do j = 1, n
+                        if (Fjac(j, j) /= zero) then
+                            sum = zero
+                            do i = j, n
+                                sum = sum + Fjac(i, j)*Qtf(i)
+                            end do
+                            temp = -sum/Fjac(j, j)
+                            do i = j, n
+                                Qtf(i) = Qtf(i) + Fjac(i, j)*temp
+                            end do
+                        end if
+                        Fjac(j, j) = Wa1(j)
+                    end do
                 end if
 
-                ! test for successful iteration.
+                ! on the first iteration and if mode is 1, scale according
+                ! to the norms of the columns of the initial jacobian.
 
-                if (ratio >= p0001) then
+                if (iter == 1) then
+                    if (Mode /= 2) then
+                        do j = 1, n
+                            Diag(j) = Wa2(j)
+                            if (Wa2(j) == zero) Diag(j) = one
+                        end do
+                    end if
 
-                    ! successful iteration. update x, fvec, and their norms.
+                    ! on the first iteration, calculate the norm of the scaled x
+                    ! and initialize the step bound delta.
 
                     do j = 1, n
-                        x(j) = Wa2(j)
-                        Wa2(j) = Diag(j)*x(j)
+                        Wa3(j) = Diag(j)*x(j)
                     end do
-                    do i = 1, m
-                        Fvec(i) = Wa4(i)
-                    end do
-                    xnorm = enorm(n, Wa2)
-                    fnorm = fnorm1
-                    iter = iter + 1
+                    xnorm = enorm(n, Wa3)
+                    delta = Factor*xnorm
+                    if (delta == zero) delta = Factor
                 end if
 
-                ! tests for convergence.
+                ! compute the norm of the scaled gradient.
 
-                if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
-                    p5*ratio <= one) Info = 1
-                if (delta <= Xtol*xnorm) Info = 2
-                if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
-                    p5*ratio <= one .and. Info == 2) Info = 3
-                if (Info == 0) then
+                gnorm = zero
+                if (fnorm /= zero) then
+                    do j = 1, n
+                        l = Ipvt(j)
+                        if (Wa2(l) /= zero) then
+                            sum = zero
+                            do i = 1, j
+                                sum = sum + Fjac(i, j)*(Qtf(i)/fnorm)
+                            end do
+                            gnorm = max(gnorm, abs(sum/Wa2(l)))
+                        end if
+                    end do
+                end if
+
+                ! test for convergence of the gradient norm.
+
+                if (gnorm <= Gtol) Info = 4
+                if (Info /= 0) exit main
+
+                ! rescale if necessary.
+
+                if (Mode /= 2) then
+                    do j = 1, n
+                        Diag(j) = max(Diag(j), Wa2(j))
+                    end do
+                end if
+
+                ! beginning of the inner loop.
+
+                inner : do
+
+                    ! determine the levenberg-marquardt parameter.
+
+                    call lmpar(n, Fjac, Ldfjac, Ipvt, Diag, Qtf, delta, par, Wa1, Wa2, Wa3, Wa4)
+
+                    ! store the direction p and x + p. calculate the norm of p.
+
+                    do j = 1, n
+                        Wa1(j) = -Wa1(j)
+                        Wa2(j) = x(j) + Wa1(j)
+                        Wa3(j) = Diag(j)*Wa1(j)
+                    end do
+                    pnorm = enorm(n, Wa3)
+
+                    ! on the first iteration, adjust the initial step bound.
+
+                    if (iter == 1) delta = min(delta, pnorm)
+
+                    ! evaluate the function at x + p and calculate its norm.
+
+                    iflag = 1
+                    call fcn(m, n, Wa2, Wa4, Wa3, iflag)
+                    Nfev = Nfev + 1
+                    if (iflag < 0) exit main
+
+                    fnorm1 = enorm(m, Wa4)
+
+                    ! compute the scaled actual reduction.
+
+                    actred = -one
+                    if (p1*fnorm1 < fnorm) actred = one - (fnorm1/fnorm)**2
+
+                    ! compute the scaled predicted reduction and
+                    ! the scaled directional derivative.
+
+                    do j = 1, n
+                        Wa3(j) = zero
+                        l = Ipvt(j)
+                        temp = Wa1(l)
+                        do i = 1, j
+                            Wa3(i) = Wa3(i) + Fjac(i, j)*temp
+                        end do
+                    end do
+                    temp1 = enorm(n, Wa3)/fnorm
+                    temp2 = (sqrt(par)*pnorm)/fnorm
+                    prered = temp1**2 + temp2**2/p5
+                    dirder = -(temp1**2 + temp2**2)
+
+                    ! compute the ratio of the actual to the predicted
+                    ! reduction.
+
+                    ratio = zero
+                    if (prered /= zero) ratio = actred/prered
+
+                    ! update the step bound.
+
+                    if (ratio <= p25) then
+                        if (actred >= zero) temp = p5
+                        if (actred < zero) temp = p5*dirder/(dirder + p5*actred)
+                        if (p1*fnorm1 >= fnorm .or. temp < p1) temp = p1
+                        delta = temp*min(delta, pnorm/p1)
+                        par = par/temp
+                    elseif (par == zero .or. ratio >= p75) then
+                        delta = pnorm/p5
+                        par = p5*par
+                    end if
+
+                    ! test for successful iteration.
+
+                    if (ratio >= p0001) then
+
+                        ! successful iteration. update x, fvec, and their norms.
+
+                        do j = 1, n
+                            x(j) = Wa2(j)
+                            Wa2(j) = Diag(j)*x(j)
+                        end do
+                        do i = 1, m
+                            Fvec(i) = Wa4(i)
+                        end do
+                        xnorm = enorm(n, Wa2)
+                        fnorm = fnorm1
+                        iter = iter + 1
+                    end if
+
+                    ! tests for convergence.
+
+                    if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
+                        p5*ratio <= one) Info = 1
+                    if (delta <= Xtol*xnorm) Info = 2
+                    if (abs(actred) <= Ftol .and. prered <= Ftol .and. &
+                        p5*ratio <= one .and. Info == 2) Info = 3
+                    if (Info /= 0) exit main
 
                     ! tests for termination and stringent tolerances.
 
@@ -2988,22 +3002,19 @@ contains
                         p5*ratio <= one) Info = 6
                     if (delta <= epsmch*xnorm) Info = 7
                     if (gnorm <= epsmch) Info = 8
-                    if (Info == 0) then
+                    if (Info /= 0) exit main
 
-                        ! end of the inner loop. repeat if iteration unsuccessful.
+                    if (ratio >= p0001) exit inner
 
-                        ! end of the outer loop.
+                end do inner ! end of the inner loop. repeat if iteration unsuccessful.
 
-                        if (ratio >= p0001) goto 100
-                        goto 150
-                    end if
-                end if
-            end if
-        end if
+            end do outer ! end of the outer loop.
+
+        end block main
 
         ! termination, either normal or user imposed.
 
-200     if (iflag < 0) Info = iflag
+        if (iflag < 0) Info = iflag
         iflag = 0
         if (Nprint > 0) call fcn(m, n, x, Fvec, Wa3, iflag)
 
