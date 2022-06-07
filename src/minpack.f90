@@ -1128,264 +1128,272 @@ contains
         Nfev = 0
         Njev = 0
 
-        ! check the input parameters for errors.
+        main : block
 
-        if (n <= 0 .or. Ldfjac < n .or. Xtol < zero .or. Maxfev <= 0 .or. &
-            Factor <= zero .or. Lr < (n*(n + 1))/2) goto 300
-        if (Mode == 2) then
-            do j = 1, n
-                if (Diag(j) <= zero) goto 300
-            end do
-        end if
+            ! check the input parameters for errors.
 
-        ! evaluate the function at the starting point
-        ! and calculate its norm.
-
-        iflag = 1
-        call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
-        Nfev = 1
-        if (iflag < 0) goto 300
-        fnorm = enorm(n, Fvec)
-
-        ! initialize iteration counter and monitors.
-
-        iter = 1
-        ncsuc = 0
-        ncfail = 0
-        nslow1 = 0
-        nslow2 = 0
-
-        ! beginning of the outer loop.
-
-100     jeval = .true.
-
-        ! calculate the jacobian matrix.
-
-        iflag = 2
-        call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
-        Njev = Njev + 1
-        if (iflag < 0) goto 300
-
-        ! compute the qr factorization of the jacobian.
-
-        call qrfac(n, n, Fjac, Ldfjac, .false., iwa, 1, Wa1, Wa2, Wa3)
-
-        ! on the first iteration and if mode is 1, scale according
-        ! to the norms of the columns of the initial jacobian.
-
-        if (iter == 1) then
-            if (Mode /= 2) then
+            if (n <= 0 .or. Ldfjac < n .or. Xtol < zero .or. Maxfev <= 0 .or. &
+                Factor <= zero .or. Lr < (n*(n + 1))/2) exit main
+            if (Mode == 2) then
                 do j = 1, n
-                    Diag(j) = Wa2(j)
-                    if (Wa2(j) == zero) Diag(j) = one
+                    if (Diag(j) <= zero) exit main
                 end do
             end if
 
-            ! on the first iteration, calculate the norm of the scaled x
-            ! and initialize the step bound delta.
+            ! evaluate the function at the starting point
+            ! and calculate its norm.
 
-            do j = 1, n
-                Wa3(j) = Diag(j)*x(j)
-            end do
-            xnorm = enorm(n, Wa3)
-            delta = Factor*xnorm
-            if (delta == zero) delta = Factor
-        end if
+            iflag = 1
+            call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
+            Nfev = 1
+            if (iflag < 0) exit main
+            fnorm = enorm(n, Fvec)
 
-        ! form (q transpose)*fvec and store in qtf.
+            ! initialize iteration counter and monitors.
 
-        do i = 1, n
-            Qtf(i) = Fvec(i)
-        end do
-        do j = 1, n
-            if (Fjac(j, j) /= zero) then
-                sum = zero
-                do i = j, n
-                    sum = sum + Fjac(i, j)*Qtf(i)
-                end do
-                temp = -sum/Fjac(j, j)
-                do i = j, n
-                    Qtf(i) = Qtf(i) + Fjac(i, j)*temp
-                end do
-            end if
-        end do
+            iter = 1
+            ncsuc = 0
+            ncfail = 0
+            nslow1 = 0
+            nslow2 = 0
 
-        ! copy the triangular factor of the qr factorization into r.
+            ! beginning of the outer loop.
+            outer : do
 
-        sing = .false.
-        do j = 1, n
-            l = j
-            jm1 = j - 1
-            if (jm1 >= 1) then
-                do i = 1, jm1
-                    r(l) = Fjac(i, j)
-                    l = l + n - i
-                end do
-            end if
-            r(l) = Wa1(j)
-            if (Wa1(j) == zero) sing = .true.
-        end do
+                jeval = .true.
 
-        ! accumulate the orthogonal factor in fjac.
+                ! calculate the jacobian matrix.
 
-        call qform(n, n, Fjac, Ldfjac, Wa1)
-
-        ! rescale if necessary.
-
-        if (Mode /= 2) then
-            do j = 1, n
-                Diag(j) = max(Diag(j), Wa2(j))
-            end do
-        end if
-
-        ! beginning of the inner loop.
-
-        ! if requested, call fcn to enable printing of iterates.
-
-200     if (Nprint > 0) then
-            iflag = 0
-            if (mod(iter - 1, Nprint) == 0) &
+                iflag = 2
                 call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
-            if (iflag < 0) goto 300
-        end if
+                Njev = Njev + 1
+                if (iflag < 0) exit main
 
-        ! determine the direction p.
+                ! compute the qr factorization of the jacobian.
 
-        call dogleg(n, r, Lr, Diag, Qtf, delta, Wa1, Wa2, Wa3)
+                call qrfac(n, n, Fjac, Ldfjac, .false., iwa, 1, Wa1, Wa2, Wa3)
 
-        ! store the direction p and x + p. calculate the norm of p.
+                ! on the first iteration and if mode is 1, scale according
+                ! to the norms of the columns of the initial jacobian.
 
-        do j = 1, n
-            Wa1(j) = -Wa1(j)
-            Wa2(j) = x(j) + Wa1(j)
-            Wa3(j) = Diag(j)*Wa1(j)
-        end do
-        pnorm = enorm(n, Wa3)
+                if (iter == 1) then
+                    if (Mode /= 2) then
+                        do j = 1, n
+                            Diag(j) = Wa2(j)
+                            if (Wa2(j) == zero) Diag(j) = one
+                        end do
+                    end if
 
-        ! on the first iteration, adjust the initial step bound.
-
-        if (iter == 1) delta = min(delta, pnorm)
-
-        ! evaluate the function at x + p and calculate its norm.
-
-        iflag = 1
-        call fcn(n, Wa2, Wa4, Fjac, Ldfjac, iflag)
-        Nfev = Nfev + 1
-        if (iflag >= 0) then
-            fnorm1 = enorm(n, Wa4)
-
-            ! compute the scaled actual reduction.
-
-            actred = -one
-            if (fnorm1 < fnorm) actred = one - (fnorm1/fnorm)**2
-
-            ! compute the scaled predicted reduction.
-
-            l = 1
-            do i = 1, n
-                sum = zero
-                do j = i, n
-                    sum = sum + r(l)*Wa1(j)
-                    l = l + 1
-                end do
-                Wa3(i) = Qtf(i) + sum
-            end do
-            temp = enorm(n, Wa3)
-            prered = zero
-            if (temp < fnorm) prered = one - (temp/fnorm)**2
-
-            ! compute the ratio of the actual to the predicted
-            ! reduction.
-
-            ratio = zero
-            if (prered > zero) ratio = actred/prered
-
-            ! update the step bound.
-
-            if (ratio >= p1) then
-                ncfail = 0
-                ncsuc = ncsuc + 1
-                if (ratio >= p5 .or. ncsuc > 1) delta = max(delta, pnorm/p5)
-                if (abs(ratio - one) <= p1) delta = pnorm/p5
-            else
-                ncsuc = 0
-                ncfail = ncfail + 1
-                delta = p5*delta
-            end if
-
-            ! test for successful iteration.
-
-            if (ratio >= p0001) then
-
-                ! successful iteration. update x, fvec, and their norms.
-
-                do j = 1, n
-                    x(j) = Wa2(j)
-                    Wa2(j) = Diag(j)*x(j)
-                    Fvec(j) = Wa4(j)
-                end do
-                xnorm = enorm(n, Wa2)
-                fnorm = fnorm1
-                iter = iter + 1
-            end if
-
-            ! determine the progress of the iteration.
-
-            nslow1 = nslow1 + 1
-            if (actred >= p001) nslow1 = 0
-            if (jeval) nslow2 = nslow2 + 1
-            if (actred >= p1) nslow2 = 0
-
-            ! test for convergence.
-
-            if (delta <= Xtol*xnorm .or. fnorm == zero) Info = 1
-            if (Info == 0) then
-
-                ! tests for termination and stringent tolerances.
-
-                if (Nfev >= Maxfev) Info = 2
-                if (p1*max(p1*delta, pnorm) <= epsmch*xnorm) Info = 3
-                if (nslow2 == 5) Info = 4
-                if (nslow1 == 10) Info = 5
-                if (Info == 0) then
-
-                    ! criterion for recalculating jacobian.
-
-                    if (ncfail == 2) goto 100
-
-                    ! calculate the rank one modification to the jacobian
-                    ! and update qtf if necessary.
+                    ! on the first iteration, calculate the norm of the scaled x
+                    ! and initialize the step bound delta.
 
                     do j = 1, n
-                        sum = zero
-                        do i = 1, n
-                            sum = sum + Fjac(i, j)*Wa4(i)
-                        end do
-                        Wa2(j) = (sum - Wa3(j))/pnorm
-                        Wa1(j) = Diag(j)*((Diag(j)*Wa1(j))/pnorm)
-                        if (ratio >= p0001) Qtf(j) = sum
+                        Wa3(j) = Diag(j)*x(j)
                     end do
-
-                    ! compute the qr factorization of the updated jacobian.
-
-                    call r1updt(n, n, r, Lr, Wa1, Wa2, Wa3, sing)
-                    call r1mpyq(n, n, Fjac, Ldfjac, Wa2, Wa3)
-                    call r1mpyq(1, n, Qtf, 1, Wa2, Wa3)
-
-                    ! end of the inner loop.
-
-                    jeval = .false.
-
-                    ! end of the outer loop.
-
-                    goto 200
+                    xnorm = enorm(n, Wa3)
+                    delta = Factor*xnorm
+                    if (delta == zero) delta = Factor
                 end if
-            end if
-        end if
 
-! termination, either normal or user imposed.
+                ! form (q transpose)*fvec and store in qtf.
 
-300     if (iflag < 0) Info = iflag
+                do i = 1, n
+                    Qtf(i) = Fvec(i)
+                end do
+                do j = 1, n
+                    if (Fjac(j, j) /= zero) then
+                        sum = zero
+                        do i = j, n
+                            sum = sum + Fjac(i, j)*Qtf(i)
+                        end do
+                        temp = -sum/Fjac(j, j)
+                        do i = j, n
+                            Qtf(i) = Qtf(i) + Fjac(i, j)*temp
+                        end do
+                    end if
+                end do
+
+                ! copy the triangular factor of the qr factorization into r.
+
+                sing = .false.
+                do j = 1, n
+                    l = j
+                    jm1 = j - 1
+                    if (jm1 >= 1) then
+                        do i = 1, jm1
+                            r(l) = Fjac(i, j)
+                            l = l + n - i
+                        end do
+                    end if
+                    r(l) = Wa1(j)
+                    if (Wa1(j) == zero) sing = .true.
+                end do
+
+                ! accumulate the orthogonal factor in fjac.
+
+                call qform(n, n, Fjac, Ldfjac, Wa1)
+
+                ! rescale if necessary.
+
+                if (Mode /= 2) then
+                    do j = 1, n
+                        Diag(j) = max(Diag(j), Wa2(j))
+                    end do
+                end if
+
+                ! beginning of the inner loop.
+                inner : do
+
+                    ! if requested, call fcn to enable printing of iterates.
+
+                    if (Nprint > 0) then
+                        iflag = 0
+                        if (mod(iter - 1, Nprint) == 0) &
+                            call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
+                        if (iflag < 0) exit main
+                    end if
+
+                    ! determine the direction p.
+
+                    call dogleg(n, r, Lr, Diag, Qtf, delta, Wa1, Wa2, Wa3)
+
+                    ! store the direction p and x + p. calculate the norm of p.
+
+                    do j = 1, n
+                        Wa1(j) = -Wa1(j)
+                        Wa2(j) = x(j) + Wa1(j)
+                        Wa3(j) = Diag(j)*Wa1(j)
+                    end do
+                    pnorm = enorm(n, Wa3)
+
+                    ! on the first iteration, adjust the initial step bound.
+
+                    if (iter == 1) delta = min(delta, pnorm)
+
+                    ! evaluate the function at x + p and calculate its norm.
+
+                    iflag = 1
+                    call fcn(n, Wa2, Wa4, Fjac, Ldfjac, iflag)
+                    Nfev = Nfev + 1
+                    if (iflag >= 0) then
+                        fnorm1 = enorm(n, Wa4)
+
+                        ! compute the scaled actual reduction.
+
+                        actred = -one
+                        if (fnorm1 < fnorm) actred = one - (fnorm1/fnorm)**2
+
+                        ! compute the scaled predicted reduction.
+
+                        l = 1
+                        do i = 1, n
+                            sum = zero
+                            do j = i, n
+                                sum = sum + r(l)*Wa1(j)
+                                l = l + 1
+                            end do
+                            Wa3(i) = Qtf(i) + sum
+                        end do
+                        temp = enorm(n, Wa3)
+                        prered = zero
+                        if (temp < fnorm) prered = one - (temp/fnorm)**2
+
+                        ! compute the ratio of the actual to the predicted
+                        ! reduction.
+
+                        ratio = zero
+                        if (prered > zero) ratio = actred/prered
+
+                        ! update the step bound.
+
+                        if (ratio >= p1) then
+                            ncfail = 0
+                            ncsuc = ncsuc + 1
+                            if (ratio >= p5 .or. ncsuc > 1) delta = max(delta, pnorm/p5)
+                            if (abs(ratio - one) <= p1) delta = pnorm/p5
+                        else
+                            ncsuc = 0
+                            ncfail = ncfail + 1
+                            delta = p5*delta
+                        end if
+
+                        ! test for successful iteration.
+
+                        if (ratio >= p0001) then
+
+                            ! successful iteration. update x, fvec, and their norms.
+
+                            do j = 1, n
+                                x(j) = Wa2(j)
+                                Wa2(j) = Diag(j)*x(j)
+                                Fvec(j) = Wa4(j)
+                            end do
+                            xnorm = enorm(n, Wa2)
+                            fnorm = fnorm1
+                            iter = iter + 1
+                        end if
+
+                        ! determine the progress of the iteration.
+
+                        nslow1 = nslow1 + 1
+                        if (actred >= p001) nslow1 = 0
+                        if (jeval) nslow2 = nslow2 + 1
+                        if (actred >= p1) nslow2 = 0
+
+                        ! test for convergence.
+
+                        if (delta <= Xtol*xnorm .or. fnorm == zero) Info = 1
+                        if (Info == 0) then
+
+                            ! tests for termination and stringent tolerances.
+
+                            if (Nfev >= Maxfev) Info = 2
+                            if (p1*max(p1*delta, pnorm) <= epsmch*xnorm) Info = 3
+                            if (nslow2 == 5) Info = 4
+                            if (nslow1 == 10) Info = 5
+                            if (Info == 0) then
+
+                                ! criterion for recalculating jacobian.
+
+                                if (ncfail == 2) cycle outer
+
+                                ! calculate the rank one modification to the jacobian
+                                ! and update qtf if necessary.
+
+                                do j = 1, n
+                                    sum = zero
+                                    do i = 1, n
+                                        sum = sum + Fjac(i, j)*Wa4(i)
+                                    end do
+                                    Wa2(j) = (sum - Wa3(j))/pnorm
+                                    Wa1(j) = Diag(j)*((Diag(j)*Wa1(j))/pnorm)
+                                    if (ratio >= p0001) Qtf(j) = sum
+                                end do
+
+                                ! compute the qr factorization of the updated jacobian.
+
+                                call r1updt(n, n, r, Lr, Wa1, Wa2, Wa3, sing)
+                                call r1mpyq(n, n, Fjac, Ldfjac, Wa2, Wa3)
+                                call r1mpyq(1, n, Qtf, 1, Wa2, Wa3)
+
+                                jeval = .false.
+                                cycle inner
+
+                            end if
+                        end if
+                    end if
+
+                    exit inner ! end of the inner loop.
+                end do inner
+
+                exit outer ! end of the outer loop.
+            end do outer
+
+        end block main
+
+        ! termination, either normal or user imposed.
+
+        if (iflag < 0) Info = iflag
         iflag = 0
         if (Nprint > 0) call fcn(n, x, Fvec, Fjac, Ldfjac, iflag)
 
