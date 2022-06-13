@@ -86,7 +86,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 9.0% of total for procedures.">195 statements</a>
+    title=" 9.0% of total for procedures.">197 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/minpack.f90"> Source File</a></li>
   </ul>
@@ -137,20 +137,20 @@ then calculated by a forward-difference approximation.</p>
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-fcn~3"></span>procedure(<a href='../interface/func.html'>func</a>)</td>
+  <td><span class="anchor" id="variable-fcn~13"></span>procedure(<a href='../interface/func.html'>func</a>)</td>
 <td></td>
   <td></td>  <td></td><td>::</td>
   <td><strong>fcn</strong></td><td><p>user-supplied subroutine which calculates the functions</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-n~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-n~27"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td><p>a positive integer input variable set to the number
 of functions and variables.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-x~16"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-x~27"></span>real(kind=wp),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>x</strong>(n)</td><td><p>array of length n. on input <code>x</code> must contain
@@ -158,14 +158,14 @@ an initial estimate of the solution vector. on output <code>x</code>
 contains the final estimate of the solution vector.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-fvec~11"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-fvec~22"></span>real(kind=wp),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>fvec</strong>(n)</td><td><p>an output array of length <code>n</code> which contains
 the functions evaluated at the output <code>x</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-xtol"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-xtol~6"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>xtol</strong></td><td><p>a nonnegative input variable. termination
@@ -173,7 +173,7 @@ occurs when the relative error between two consecutive
 iterates is at most <code>xtol</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-maxfev"></span>integer,</td>
+  <td><span class="anchor" id="variable-maxfev~6"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>maxfev</strong></td><td><p>a positive integer input variable. termination
@@ -181,7 +181,7 @@ occurs when the number of calls to <code>fcn</code> is at least <code>maxfev</co
 by the end of an iteration.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ml"></span>integer,</td>
+  <td><span class="anchor" id="variable-ml~2"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ml</strong></td><td><p>a nonnegative integer input variable which specifies
@@ -190,7 +190,7 @@ jacobian matrix. if the jacobian is not banded, set
 <code>ml</code> to at least <code>n - 1</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mu"></span>integer,</td>
+  <td><span class="anchor" id="variable-mu~2"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mu</strong></td><td><p>a nonnegative integer input variable which specifies
@@ -199,7 +199,7 @@ jacobian matrix. if the jacobian is not banded, set
 <code>mu</code> to at least<code>n - 1</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-epsfcn"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-epsfcn~3"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>epsfcn</strong></td><td><p>an input variable used in determining a suitable
@@ -211,7 +211,7 @@ errors in the functions are of the order of the machine
 precision.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-diag"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-diag~6"></span>real(kind=wp),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>diag</strong>(n)</td><td><p>an array of length <code>n</code>. if <code>mode = 1</code> (see
@@ -220,7 +220,7 @@ must contain positive entries that serve as
 multiplicative scale factors for the variables.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mode"></span>integer,</td>
+  <td><span class="anchor" id="variable-mode~7"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mode</strong></td><td><p>if <code>mode = 1</code>, the
@@ -229,7 +229,7 @@ the scaling is specified by the input <code>diag</code>. other
 values of <code>mode</code> are equivalent to <code>mode = 1</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-factor"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-factor~6"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>factor</strong></td><td><p>a positive input variable used in determining the
@@ -239,7 +239,7 @@ to <code>factor</code> itself. in most cases factor should lie in the
 interval (.1,100.). 100. is a generally recommended value.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nprint"></span>integer,</td>
+  <td><span class="anchor" id="variable-nprint~6"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nprint</strong></td><td><p>an integer input variable that enables controlled
@@ -251,7 +251,7 @@ for printing. if <code>nprint</code> is not positive, no special calls
 of <code>fcn</code> with <code>iflag = 0</code> are made.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-info"></span>integer,</td>
+  <td><span class="anchor" id="variable-info~11"></span>integer,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>info</strong></td><td><p>an integer output variable. if the user has
@@ -275,13 +275,13 @@ value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
 </ul></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-nfev"></span>integer,</td>
+  <td><span class="anchor" id="variable-nfev~6"></span>integer,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>nfev</strong></td><td><p>output variable set to the number of calls to <code>fcn</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-fjac~5"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-fjac~14"></span>real(kind=wp),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>fjac</strong>(ldfjac,n)</td><td><p>array which contains the
@@ -289,14 +289,14 @@ orthogonal matrix <code>q</code> produced by the QR factorization
 of the final approximate jacobian.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ldfjac~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-ldfjac~14"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ldfjac</strong></td><td><p>a positive integer input variable not less than <code>n</code>
 which specifies the leading dimension of the array <code>fjac</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-r~2"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-r~4"></span>real(kind=wp),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>r</strong>(lr)</td><td><p>an output array which contains the
@@ -304,38 +304,38 @@ upper triangular matrix produced by the QR factorization
 of the final approximate jacobian, stored rowwise.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-lr"></span>integer,</td>
+  <td><span class="anchor" id="variable-lr~3"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>lr</strong></td><td><p>a positive integer input variable not less than <code>(n*(n+1))/2</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-qtf"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-qtf~6"></span>real(kind=wp),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>qtf</strong>(n)</td><td><p>an output array of length <code>n</code> which contains
 the vector <code>(q transpose)*fvec</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-wa1"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-wa1~6"></span>real(kind=wp),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>wa1</strong>(n)</td><td><p>work array</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-wa2"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-wa2~6"></span>real(kind=wp),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>wa2</strong>(n)</td><td><p>work array</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-wa3"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-wa3~6"></span>real(kind=wp),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>wa3</strong>(n)</td><td><p>work array</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-wa4"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-wa4~6"></span>real(kind=wp),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>wa4</strong>(n)</td><td><p>work array</p></td>
@@ -352,7 +352,7 @@ the vector <code>(q transpose)*fvec</code>.</p></td>
   <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 3.0.0 (20220315.2325)
+<!-- Generated by graphviz version 4.0.0 (20220529.1859)
  -->
 <!-- Title: proc~~hybrd~~CallsGraph Pages: 1 -->
 <svg id="prochybrdCallsGraph" width="242pt" height="280pt"
@@ -363,83 +363,83 @@ the vector <code>(q transpose)*fvec</code>.</p></td>
 <!-- proc~hybrd -->
 <g id="proc~~hybrd~~CallsGraph_node1" class="node">
 <title>proc~hybrd</title>
-<polygon fill="none" stroke="black" points="54,-150 0,-150 0,-126 54,-126 54,-150"/>
-<text text-anchor="middle" x="27" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50">hybrd</text>
-</g>
-<!-- proc~qform -->
-<g id="proc~~hybrd~~CallsGraph_node2" class="node">
-<title>proc~qform</title>
-<g id="a_proc~~hybrd~~CallsGraph_node2"><a xlink:href=".././proc/qform.html" xlink:title="qform">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-272 90,-272 90,-248 144,-248 144,-272"/>
-<text text-anchor="middle" x="117" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qform</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~qform -->
-<g id="proc~~hybrd~~CallsGraph_edge1" class="edge">
-<title>proc~hybrd&#45;&gt;proc~qform</title>
-<path fill="none" stroke="#000000" d="M34.68,-150.08C45.31,-168.84 67.19,-205.75 90,-234 91.68,-236.09 93.52,-238.19 95.4,-240.24"/>
-<polygon fill="#000000" stroke="#000000" points="93.27,-243.07 102.74,-247.81 98.29,-238.2 93.27,-243.07"/>
-</g>
-<!-- proc~enorm -->
-<g id="proc~~hybrd~~CallsGraph_node3" class="node">
-<title>proc~enorm</title>
-<g id="a_proc~~hybrd~~CallsGraph_node3"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-150 180,-150 180,-126 234,-126 234,-150"/>
-<text text-anchor="middle" x="207" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~enorm -->
-<g id="proc~~hybrd~~CallsGraph_edge2" class="edge">
-<title>proc~hybrd&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M35.43,-150.08C45.58,-165.29 65.37,-190.68 90,-201 112.14,-210.27 121.86,-210.27 144,-201 164.59,-192.38 181.8,-173.21 192.82,-158.27"/>
-<polygon fill="#000000" stroke="#000000" points="195.69,-160.27 198.57,-150.08 189.96,-156.25 195.69,-160.27"/>
-</g>
-<!-- proc~fdjac1 -->
-<g id="proc~~hybrd~~CallsGraph_node4" class="node">
-<title>proc~fdjac1</title>
-<g id="a_proc~~hybrd~~CallsGraph_node4"><a xlink:href=".././proc/fdjac1.html" xlink:title="fdjac1">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-192 90,-192 90,-168 144,-168 144,-192"/>
-<text text-anchor="middle" x="117" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fdjac1</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~fdjac1 -->
-<g id="proc~~hybrd~~CallsGraph_edge3" class="edge">
-<title>proc~hybrd&#45;&gt;proc~fdjac1</title>
-<path fill="none" stroke="#000000" d="M53.45,-150.15C62.21,-154.33 72.17,-159.08 81.52,-163.54"/>
-<polygon fill="#000000" stroke="#000000" points="80.07,-166.73 90.6,-167.88 83.09,-160.41 80.07,-166.73"/>
-</g>
-<!-- proc~qrfac -->
-<g id="proc~~hybrd~~CallsGraph_node5" class="node">
-<title>proc~qrfac</title>
-<g id="a_proc~~hybrd~~CallsGraph_node5"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-150 90,-150 90,-126 144,-126 144,-150"/>
-<text text-anchor="middle" x="117" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
-</a>
-</g>
-</g>
-<!-- proc~hybrd&#45;&gt;proc~qrfac -->
-<g id="proc~~hybrd~~CallsGraph_edge4" class="edge">
-<title>proc~hybrd&#45;&gt;proc~qrfac</title>
-<path fill="none" stroke="#000000" d="M54.4,-138C62.39,-138 71.31,-138 79.82,-138"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-141.5 89.92,-138 79.92,-134.5 79.92,-141.5"/>
+<polygon fill="none" stroke="black" points="54,-146 0,-146 0,-122 54,-122 54,-146"/>
+<text text-anchor="middle" x="27" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50">hybrd</text>
 </g>
 <!-- proc~dogleg -->
-<g id="proc~~hybrd~~CallsGraph_node6" class="node">
+<g id="proc~~hybrd~~CallsGraph_node2" class="node">
 <title>proc~dogleg</title>
-<g id="a_proc~~hybrd~~CallsGraph_node6"><a xlink:href=".././proc/dogleg.html" xlink:title="dogleg">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-108 90,-108 90,-84 144,-84 144,-108"/>
-<text text-anchor="middle" x="117" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
+<g id="a_proc~~hybrd~~CallsGraph_node2"><a xlink:href=".././proc/dogleg.html" xlink:title="dogleg">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-272 90,-272 90,-248 144,-248 144,-272"/>
+<text text-anchor="middle" x="117" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
 </a>
 </g>
 </g>
 <!-- proc~hybrd&#45;&gt;proc~dogleg -->
-<g id="proc~~hybrd~~CallsGraph_edge5" class="edge">
+<g id="proc~~hybrd~~CallsGraph_edge1" class="edge">
 <title>proc~hybrd&#45;&gt;proc~dogleg</title>
-<path fill="none" stroke="#000000" d="M53.45,-125.85C62.21,-121.67 72.17,-116.92 81.52,-112.46"/>
-<polygon fill="#000000" stroke="#000000" points="83.09,-115.59 90.6,-108.12 80.07,-109.27 83.09,-115.59"/>
+<path fill="none" stroke="#000000" d="M33.44,-146.24C42.97,-166.82 64.12,-209.04 90,-239 90.6,-239.69 91.22,-240.38 91.86,-241.06"/>
+<polygon fill="#000000" stroke="#000000" points="89.55,-243.68 99.25,-247.95 94.32,-238.57 89.55,-243.68"/>
+</g>
+<!-- proc~r1updt -->
+<g id="proc~~hybrd~~CallsGraph_node3" class="node">
+<title>proc~r1updt</title>
+<g id="a_proc~~hybrd~~CallsGraph_node3"><a xlink:href=".././proc/r1updt.html" xlink:title="r1updt">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-230 90,-230 90,-206 144,-206 144,-230"/>
+<text text-anchor="middle" x="117" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1updt</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~r1updt -->
+<g id="proc~~hybrd~~CallsGraph_edge2" class="edge">
+<title>proc~hybrd&#45;&gt;proc~r1updt</title>
+<path fill="none" stroke="#000000" d="M39.04,-146.01C51.15,-159 71.35,-180.1 90,-197 90.82,-197.74 91.66,-198.49 92.51,-199.23"/>
+<polygon fill="#000000" stroke="#000000" points="90.46,-202.08 100.36,-205.85 94.97,-196.73 90.46,-202.08"/>
+</g>
+<!-- proc~qrfac -->
+<g id="proc~~hybrd~~CallsGraph_node4" class="node">
+<title>proc~qrfac</title>
+<g id="a_proc~~hybrd~~CallsGraph_node4"><a xlink:href=".././proc/qrfac.html" xlink:title="qrfac">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-188 90,-188 90,-164 144,-164 144,-188"/>
+<text text-anchor="middle" x="117" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~qrfac -->
+<g id="proc~~hybrd~~CallsGraph_edge3" class="edge">
+<title>proc~hybrd&#45;&gt;proc~qrfac</title>
+<path fill="none" stroke="#000000" d="M53.45,-146.15C62.21,-150.33 72.17,-155.08 81.52,-159.54"/>
+<polygon fill="#000000" stroke="#000000" points="80.07,-162.73 90.6,-163.88 83.09,-156.41 80.07,-162.73"/>
+</g>
+<!-- proc~qform -->
+<g id="proc~~hybrd~~CallsGraph_node5" class="node">
+<title>proc~qform</title>
+<g id="a_proc~~hybrd~~CallsGraph_node5"><a xlink:href=".././proc/qform.html" xlink:title="qform">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-146 90,-146 90,-122 144,-122 144,-146"/>
+<text text-anchor="middle" x="117" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qform</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~qform -->
+<g id="proc~~hybrd~~CallsGraph_edge4" class="edge">
+<title>proc~hybrd&#45;&gt;proc~qform</title>
+<path fill="none" stroke="#000000" d="M54.4,-134C62.39,-134 71.31,-134 79.82,-134"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-137.5 89.92,-134 79.92,-130.5 79.92,-137.5"/>
+</g>
+<!-- proc~enorm -->
+<g id="proc~~hybrd~~CallsGraph_node6" class="node">
+<title>proc~enorm</title>
+<g id="a_proc~~hybrd~~CallsGraph_node6"><a xlink:href=".././proc/enorm.html" xlink:title="enorm">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-188 180,-188 180,-164 234,-164 234,-188"/>
+<text text-anchor="middle" x="207" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~enorm -->
+<g id="proc~~hybrd~~CallsGraph_edge5" class="edge">
+<title>proc~hybrd&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M52.41,-121.82C76.51,-111.57 113.99,-100.43 144,-113 164.59,-121.62 181.8,-140.79 192.82,-155.73"/>
+<polygon fill="#000000" stroke="#000000" points="189.96,-157.75 198.57,-163.92 195.69,-153.73 189.96,-157.75"/>
 </g>
 <!-- proc~r1mpyq -->
 <g id="proc~~hybrd~~CallsGraph_node7" class="node">
@@ -453,35 +453,35 @@ the vector <code>(q transpose)*fvec</code>.</p></td>
 <!-- proc~hybrd&#45;&gt;proc~r1mpyq -->
 <g id="proc~~hybrd~~CallsGraph_edge6" class="edge">
 <title>proc~hybrd&#45;&gt;proc~r1mpyq</title>
-<path fill="none" stroke="#000000" d="M39.04,-125.99C51.15,-113 71.35,-91.9 90,-75 90.82,-74.26 91.66,-73.51 92.51,-72.77"/>
-<polygon fill="#000000" stroke="#000000" points="94.97,-75.27 100.36,-66.15 90.46,-69.92 94.97,-75.27"/>
+<path fill="none" stroke="#000000" d="M41.37,-121.85C55.66,-108.85 78.53,-88.07 95.18,-72.92"/>
+<polygon fill="#000000" stroke="#000000" points="97.75,-75.32 102.8,-66 93.04,-70.14 97.75,-75.32"/>
 </g>
-<!-- proc~r1updt -->
+<!-- proc~fdjac1 -->
 <g id="proc~~hybrd~~CallsGraph_node8" class="node">
-<title>proc~r1updt</title>
-<g id="a_proc~~hybrd~~CallsGraph_node8"><a xlink:href=".././proc/r1updt.html" xlink:title="r1updt">
+<title>proc~fdjac1</title>
+<g id="a_proc~~hybrd~~CallsGraph_node8"><a xlink:href=".././proc/fdjac1.html" xlink:title="fdjac1">
 <polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1updt</text>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fdjac1</text>
 </a>
 </g>
 </g>
-<!-- proc~hybrd&#45;&gt;proc~r1updt -->
+<!-- proc~hybrd&#45;&gt;proc~fdjac1 -->
 <g id="proc~~hybrd~~CallsGraph_edge7" class="edge">
-<title>proc~hybrd&#45;&gt;proc~r1updt</title>
-<path fill="none" stroke="#000000" d="M33.44,-125.76C42.97,-105.18 64.12,-62.96 90,-33 90.6,-32.31 91.22,-31.62 91.86,-30.94"/>
-<polygon fill="#000000" stroke="#000000" points="94.32,-33.43 99.25,-24.05 89.55,-28.32 94.32,-33.43"/>
-</g>
-<!-- proc~qrfac&#45;&gt;proc~enorm -->
-<g id="proc~~hybrd~~CallsGraph_edge8" class="edge">
-<title>proc~qrfac&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M144.4,-138C152.39,-138 161.31,-138 169.82,-138"/>
-<polygon fill="#000000" stroke="#000000" points="169.92,-141.5 179.92,-138 169.92,-134.5 169.92,-141.5"/>
+<title>proc~hybrd&#45;&gt;proc~fdjac1</title>
+<path fill="none" stroke="#000000" d="M33.71,-121.92C43.46,-102.04 64.74,-61.75 90,-33 90.6,-32.31 91.23,-31.63 91.88,-30.96"/>
+<polygon fill="#000000" stroke="#000000" points="94.33,-33.45 99.29,-24.09 89.57,-28.32 94.33,-33.45"/>
 </g>
 <!-- proc~dogleg&#45;&gt;proc~enorm -->
-<g id="proc~~hybrd~~CallsGraph_edge9" class="edge">
+<g id="proc~~hybrd~~CallsGraph_edge8" class="edge">
 <title>proc~dogleg&#45;&gt;proc~enorm</title>
-<path fill="none" stroke="#000000" d="M143.45,-108.15C152.21,-112.33 162.17,-117.08 171.52,-121.54"/>
-<polygon fill="#000000" stroke="#000000" points="170.07,-124.73 180.6,-125.88 173.09,-118.41 170.07,-124.73"/>
+<path fill="none" stroke="#000000" d="M133.64,-247.85C137.11,-245.02 140.73,-241.96 144,-239 159.44,-225 175.95,-208.13 188.04,-195.36"/>
+<polygon fill="#000000" stroke="#000000" points="190.66,-197.7 194.96,-188.01 185.56,-192.9 190.66,-197.7"/>
+</g>
+<!-- proc~qrfac&#45;&gt;proc~enorm -->
+<g id="proc~~hybrd~~CallsGraph_edge9" class="edge">
+<title>proc~qrfac&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M144.4,-176C152.39,-176 161.31,-176 169.82,-176"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-179.5 179.92,-176 169.92,-172.5 169.92,-179.5"/>
 </g>
 </g>
 </svg>
@@ -490,7 +490,7 @@ the vector <code>(q transpose)*fvec</code>.</p></td>
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 3.0.0 (20220315.2325)
+<!-- Generated by graphviz version 4.0.0 (20220529.1859)
  -->
 <!-- Title: Graph Key Pages: 1 -->
 <svg width="597pt" height="32pt"
@@ -554,7 +554,7 @@ the vector <code>(q transpose)*fvec</code>.</p></td>
   <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 3.0.0 (20220315.2325)
+<!-- Generated by graphviz version 4.0.0 (20220529.1859)
  -->
 <!-- Title: proc~~hybrd~~CalledByGraph Pages: 1 -->
 <svg id="prochybrdCalledByGraph" width="329pt" height="74pt"
@@ -620,7 +620,7 @@ the vector <code>(q transpose)*fvec</code>.</p></td>
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 3.0.0 (20220315.2325)
+<!-- Generated by graphviz version 4.0.0 (20220529.1859)
  -->
 <!-- Title: Graph Key Pages: 1 -->
 <svg width="597pt" height="32pt"
@@ -806,231 +806,236 @@ the vector <code>(q transpose)*fvec</code>.</p></td>
 <span class="w">        </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="w">        </span><span class="n">Nfev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 
-<span class="w">        </span><span class="c">! check the input parameters for errors.</span>
+<span class="w">        </span><span class="n">main</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">block</span><span class="w"></span>
 
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Xtol</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Maxfev</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Ml</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Mu</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">            </span><span class="n">Factor</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Ldfjac</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Lr</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span>
-<span class="k">        end if</span><span class="w"></span>
+<span class="w">            </span><span class="c">! check the input parameters for errors.</span>
 
-<span class="w">        </span><span class="c">! evaluate the function at the starting point</span>
-<span class="w">        </span><span class="c">! and calculate its norm.</span>
-
-<span class="w">        </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">iflag</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">Nfev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iflag</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
-<span class="w">        </span><span class="n">fnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! determine the number of calls to fcn needed to compute</span>
-<span class="w">        </span><span class="c">! the jacobian matrix.</span>
-
-<span class="w">        </span><span class="n">msum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">Ml</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Mu</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! initialize iteration counter and monitors.</span>
-
-<span class="w">        </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="n">ncsuc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">ncfail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">nslow1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">nslow2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! beginning of the outer loop.</span>
-
-<span class="mi">100</span><span class="w">     </span><span class="n">jeval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! calculate the jacobian matrix.</span>
-
-<span class="w">        </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-<span class="w">        </span><span class="k">call </span><span class="n">fdjac1</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">Fjac</span><span class="p">,</span><span class="w"> </span><span class="n">Ldfjac</span><span class="p">,</span><span class="w"> </span><span class="n">iflag</span><span class="p">,</span><span class="w"> </span><span class="n">Ml</span><span class="p">,</span><span class="w"> </span><span class="n">Mu</span><span class="p">,</span><span class="w"> </span><span class="n">Epsfcn</span><span class="p">,</span><span class="w"> </span><span class="n">Wa1</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">Nfev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nfev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">msum</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iflag</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! compute the qr factorization of the jacobian.</span>
-
-<span class="w">        </span><span class="k">call </span><span class="n">qrfac</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Fjac</span><span class="p">,</span><span class="w"> </span><span class="n">Ldfjac</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="w"> </span><span class="n">iwa</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Wa1</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! on the first iteration and if mode is 1, scale according</span>
-<span class="w">        </span><span class="c">! to the norms of the columns of the initial jacobian.</span>
-
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iter</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">Mode</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Xtol</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Maxfev</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Ml</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Mu</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                </span><span class="n">Factor</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Ldfjac</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Lr</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">exit </span><span class="n">main</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">                do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                    </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">exit </span><span class="n">main</span><span class="w"></span>
 <span class="w">                </span><span class="k">end do</span>
 <span class="k">            end if</span><span class="w"></span>
-<span class="w">            </span><span class="c">! on the first iteration, calculate the norm of the scaled x</span>
-<span class="w">            </span><span class="c">! and initialize the step bound delta.</span>
-<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                </span><span class="n">Wa3</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span>
-<span class="k">            </span><span class="n">xnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Factor</span><span class="o">*</span><span class="n">xnorm</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">delta</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Factor</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span><span class="w"></span>
 
-<span class="w">        </span><span class="c">! form (q transpose)*fvec and store in qtf.</span>
+<span class="w">            </span><span class="c">! evaluate the function at the starting point</span>
+<span class="w">            </span><span class="c">! and calculate its norm.</span>
 
-<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">            </span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fvec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">end do</span>
-<span class="k">        do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Fjac</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                    </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">iflag</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">Nfev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iflag</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">exit </span><span class="n">main</span><span class="w"></span>
+<span class="w">            </span><span class="n">fnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">            </span><span class="c">! determine the number of calls to fcn needed to compute</span>
+<span class="w">            </span><span class="c">! the jacobian matrix.</span>
+
+<span class="w">            </span><span class="n">msum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">Ml</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Mu</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">            </span><span class="c">! initialize iteration counter and monitors.</span>
+
+<span class="w">            </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">ncsuc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="n">ncfail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="n">nslow1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="n">nslow2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+
+<span class="w">            </span><span class="c">! beginning of the outer loop.</span>
+<span class="w">            </span><span class="n">outer</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">do</span>
+
+<span class="k">                </span><span class="n">jeval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
+
+<span class="w">                </span><span class="c">! calculate the jacobian matrix.</span>
+
+<span class="w">                </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">                </span><span class="k">call </span><span class="n">fdjac1</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">Fjac</span><span class="p">,</span><span class="w"> </span><span class="n">Ldfjac</span><span class="p">,</span><span class="w"> </span><span class="n">iflag</span><span class="p">,</span><span class="w"> </span><span class="n">Ml</span><span class="p">,</span><span class="w"> </span><span class="n">Mu</span><span class="p">,</span><span class="w"> </span><span class="n">Epsfcn</span><span class="p">,</span><span class="w"> </span><span class="n">Wa1</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">Nfev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nfev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">msum</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iflag</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">exit </span><span class="n">main</span><span class="w"></span>
+
+<span class="w">                </span><span class="c">! compute the qr factorization of the jacobian.</span>
+
+<span class="w">                </span><span class="k">call </span><span class="n">qrfac</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Fjac</span><span class="p">,</span><span class="w"> </span><span class="n">Ldfjac</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="w"> </span><span class="n">iwa</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Wa1</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">                </span><span class="c">! on the first iteration and if mode is 1, scale according</span>
+<span class="w">                </span><span class="c">! to the norms of the columns of the initial jacobian.</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iter</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="n">Mode</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                            </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"></span>
+<span class="w">                        </span><span class="k">end do</span>
+<span class="k">                    end if</span><span class="w"></span>
+<span class="w">                    </span><span class="c">! on the first iteration, calculate the norm of the scaled x</span>
+<span class="w">                    </span><span class="c">! and initialize the step bound delta.</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                        </span><span class="n">Wa3</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                    </span><span class="n">xnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Factor</span><span class="o">*</span><span class="n">xnorm</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">delta</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Factor</span><span class="w"></span>
+<span class="w">                </span><span class="k">end if</span><span class="w"></span>
+
+<span class="w">                </span><span class="c">! form (q transpose)*fvec and store in qtf.</span>
+
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fvec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
 <span class="w">                </span><span class="k">end do</span>
-<span class="k">                </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nb">sum</span><span class="o">/</span><span class="n">Fjac</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                    </span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span><span class="w"></span>
-<span class="w">                </span><span class="k">end do</span>
-<span class="k">            end if</span>
-<span class="k">        end do</span><span class="w"></span>
+<span class="k">                do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Fjac</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">                        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                            </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="k">end do</span>
+<span class="k">                        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nb">sum</span><span class="o">/</span><span class="n">Fjac</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                            </span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span><span class="w"></span>
+<span class="w">                        </span><span class="k">end do</span>
+<span class="k">                    end if</span>
+<span class="k">                end do</span><span class="w"></span>
 
-<span class="w">        </span><span class="c">! copy the triangular factor of the qr factorization into r.</span>
+<span class="w">                </span><span class="c">! copy the triangular factor of the qr factorization into r.</span>
 
-<span class="w">        </span><span class="n">sing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
-<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">            </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
-<span class="w">            </span><span class="n">jm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jm1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">jm1</span><span class="w"></span>
-<span class="w">                    </span><span class="n">r</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="w">                </span><span class="k">end do</span>
-<span class="k">            end if</span>
-<span class="k">            </span><span class="n">r</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">sing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
-<span class="w">        </span><span class="k">end do</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! accumulate the orthogonal factor in fjac.</span>
-
-<span class="w">        </span><span class="k">call </span><span class="n">qform</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Fjac</span><span class="p">,</span><span class="w"> </span><span class="n">Ldfjac</span><span class="p">,</span><span class="w"> </span><span class="n">Wa1</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! rescale if necessary.</span>
-
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Mode</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">),</span><span class="w"> </span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span>
-<span class="k">        end if</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! beginning of the inner loop.</span>
-
-<span class="w">        </span><span class="c">! if requested, call fcn to enable printing of iterates.</span>
-
-<span class="mi">200</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Nprint</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nprint</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">iflag</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iflag</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! determine the direction p.</span>
-
-<span class="w">        </span><span class="k">call </span><span class="n">dogleg</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">Lr</span><span class="p">,</span><span class="w"> </span><span class="n">Diag</span><span class="p">,</span><span class="w"> </span><span class="n">Qtf</span><span class="p">,</span><span class="w"> </span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">Wa1</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! store the direction p and x + p. calculate the norm of p.</span>
-
-<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">            </span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">Wa3</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">end do</span>
-<span class="k">        </span><span class="n">pnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! on the first iteration, adjust the initial step bound.</span>
-
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iter</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">pnorm</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! evaluate the function at x + p and calculate its norm.</span>
-
-<span class="w">        </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">,</span><span class="w"> </span><span class="n">Wa4</span><span class="p">,</span><span class="w"> </span><span class="n">iflag</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">Nfev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nfev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iflag</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">fnorm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa4</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! compute the scaled actual reduction.</span>
-
-<span class="w">            </span><span class="n">actred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">one</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fnorm1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">fnorm</span><span class="p">)</span><span class="w"> </span><span class="n">actred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">fnorm1</span><span class="o">/</span><span class="n">fnorm</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! compute the scaled predicted reduction.</span>
-
-<span class="w">            </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">                </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                    </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="k">end do</span>
-<span class="k">                </span><span class="n">Wa3</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">sum</span>
-<span class="nb">            </span><span class="k">end do</span>
-<span class="k">            </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">prered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">fnorm</span><span class="p">)</span><span class="w"> </span><span class="n">prered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="o">/</span><span class="n">fnorm</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! compute the ratio of the actual to the predicted</span>
-<span class="w">            </span><span class="c">! reduction.</span>
-
-<span class="w">            </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">prered</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">actred</span><span class="o">/</span><span class="n">prered</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! update the step bound.</span>
-
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ratio</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                </span><span class="n">ncfail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">                </span><span class="n">ncsuc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncsuc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ratio</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p5</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">ncsuc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">pnorm</span><span class="o">/</span><span class="n">p5</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ratio</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">p1</span><span class="p">)</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnorm</span><span class="o">/</span><span class="n">p5</span><span class="w"></span>
-<span class="w">            </span><span class="k">else</span>
-<span class="k">                </span><span class="n">ncsuc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">                </span><span class="n">ncfail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncfail</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p5</span><span class="o">*</span><span class="n">delta</span><span class="w"></span>
-<span class="w">            </span><span class="k">end if</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! test for successful iteration.</span>
-
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ratio</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p0001</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-<span class="w">                </span><span class="c">! successful iteration. update x, fvec, and their norms.</span>
+<span class="w">                </span><span class="n">sing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
 <span class="w">                </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
-<span class="w">                    </span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="n">Fvec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wa4</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">end do</span>
-<span class="k">                </span><span class="n">xnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">fnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fnorm1</span><span class="w"></span>
-<span class="w">                </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">end if</span><span class="w"></span>
+<span class="w">                    </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
+<span class="w">                    </span><span class="n">jm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jm1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">jm1</span><span class="w"></span>
+<span class="w">                            </span><span class="n">r</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fjac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                            </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">                        </span><span class="k">end do</span>
+<span class="k">                    end if</span>
+<span class="k">                    </span><span class="n">r</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">sing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span><span class="w"></span>
 
-<span class="w">            </span><span class="c">! determine the progress of the iteration.</span>
+<span class="w">                </span><span class="c">! accumulate the orthogonal factor in fjac.</span>
 
-<span class="w">            </span><span class="n">nslow1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nslow1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">actred</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p001</span><span class="p">)</span><span class="w"> </span><span class="n">nslow1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jeval</span><span class="p">)</span><span class="w"> </span><span class="n">nslow2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nslow2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">actred</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p1</span><span class="p">)</span><span class="w"> </span><span class="n">nslow2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                </span><span class="k">call </span><span class="n">qform</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Fjac</span><span class="p">,</span><span class="w"> </span><span class="n">Ldfjac</span><span class="p">,</span><span class="w"> </span><span class="n">Wa1</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">            </span><span class="c">! test for convergence.</span>
+<span class="w">                </span><span class="c">! rescale if necessary.</span>
 
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">delta</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Xtol</span><span class="o">*</span><span class="n">xnorm</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">fnorm</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Info</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Mode</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                        </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">),</span><span class="w"> </span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                end if</span><span class="w"></span>
 
-<span class="w">                </span><span class="c">! tests for termination and stringent tolerances.</span>
+<span class="w">                </span><span class="c">! beginning of the inner loop.</span>
+<span class="w">                </span><span class="n">inner</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w"></span>
 
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Nfev</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">Maxfev</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="n">p1</span><span class="o">*</span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">pnorm</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">epsmch</span><span class="o">*</span><span class="n">xnorm</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nslow2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nslow1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Info</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                    </span><span class="c">! if requested, call fcn to enable printing of iterates.</span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Nprint</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nprint</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">iflag</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iflag</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">exit </span><span class="n">main</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end if</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! determine the direction p.</span>
+
+<span class="w">                    </span><span class="k">call </span><span class="n">dogleg</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">Lr</span><span class="p">,</span><span class="w"> </span><span class="n">Diag</span><span class="p">,</span><span class="w"> </span><span class="n">Qtf</span><span class="p">,</span><span class="w"> </span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">Wa1</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! store the direction p and x + p. calculate the norm of p.</span>
+
+<span class="w">                    </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                        </span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="n">Wa3</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                    </span><span class="n">pnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! on the first iteration, adjust the initial step bound.</span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iter</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">pnorm</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! evaluate the function at x + p and calculate its norm.</span>
+
+<span class="w">                    </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">,</span><span class="w"> </span><span class="n">Wa4</span><span class="p">,</span><span class="w"> </span><span class="n">iflag</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Nfev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nfev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iflag</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">exit </span><span class="n">main</span><span class="w"></span>
+
+<span class="w">                    </span><span class="n">fnorm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa4</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! compute the scaled actual reduction.</span>
+
+<span class="w">                    </span><span class="n">actred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">one</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fnorm1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">fnorm</span><span class="p">)</span><span class="w"> </span><span class="n">actred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">fnorm1</span><span class="o">/</span><span class="n">fnorm</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! compute the scaled predicted reduction.</span>
+
+<span class="w">                    </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                        </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">                        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                            </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">Wa1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                            </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                        </span><span class="k">end do</span>
+<span class="k">                        </span><span class="n">Wa3</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Qtf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">sum</span>
+<span class="nb">                    </span><span class="k">end do</span>
+<span class="k">                    </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">prered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">fnorm</span><span class="p">)</span><span class="w"> </span><span class="n">prered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="o">/</span><span class="n">fnorm</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! compute the ratio of the actual to the predicted</span>
+<span class="w">                    </span><span class="c">! reduction.</span>
+
+<span class="w">                    </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">prered</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">actred</span><span class="o">/</span><span class="n">prered</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! update the step bound.</span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ratio</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        </span><span class="n">ncfail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                        </span><span class="n">ncsuc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncsuc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ratio</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p5</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">ncsuc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">pnorm</span><span class="o">/</span><span class="n">p5</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ratio</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">p1</span><span class="p">)</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnorm</span><span class="o">/</span><span class="n">p5</span><span class="w"></span>
+<span class="w">                    </span><span class="k">else</span>
+<span class="k">                        </span><span class="n">ncsuc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                        </span><span class="n">ncfail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncfail</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                        </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p5</span><span class="o">*</span><span class="n">delta</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end if</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! test for successful iteration.</span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ratio</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p0001</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">                        </span><span class="c">! successful iteration. update x, fvec, and their norms.</span>
+<span class="w">                        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                            </span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                            </span><span class="n">Wa2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Diag</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                            </span><span class="n">Fvec</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wa4</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="k">end do</span>
+<span class="k">                        </span><span class="n">xnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="n">fnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fnorm1</span><span class="w"></span>
+<span class="w">                        </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end if</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! determine the progress of the iteration.</span>
+
+<span class="w">                    </span><span class="n">nslow1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nslow1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">actred</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p001</span><span class="p">)</span><span class="w"> </span><span class="n">nslow1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jeval</span><span class="p">)</span><span class="w"> </span><span class="n">nslow2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nslow2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">actred</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">p1</span><span class="p">)</span><span class="w"> </span><span class="n">nslow2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! test for convergence.</span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">delta</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Xtol</span><span class="o">*</span><span class="n">xnorm</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">fnorm</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Info</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">exit </span><span class="n">main</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! tests for termination and stringent tolerances.</span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Nfev</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">Maxfev</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="n">p1</span><span class="o">*</span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="n">pnorm</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">epsmch</span><span class="o">*</span><span class="n">xnorm</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nslow2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nslow1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Info</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">exit </span><span class="n">main</span><span class="w"></span>
 
 <span class="w">                    </span><span class="c">! criterion for recalculating jacobian approximation</span>
 <span class="w">                    </span><span class="c">! by forward differences.</span>
 
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ncfail</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ncfail</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">cycle </span><span class="n">outer</span><span class="w"></span>
 
 <span class="w">                    </span><span class="c">! calculate the rank one modification to the jacobian</span>
 <span class="w">                    </span><span class="c">! and update qtf if necessary.</span>
@@ -1051,20 +1056,17 @@ the vector <code>(q transpose)*fvec</code>.</p></td>
 <span class="w">                    </span><span class="k">call </span><span class="n">r1mpyq</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Fjac</span><span class="p">,</span><span class="w"> </span><span class="n">Ldfjac</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
 <span class="w">                    </span><span class="k">call </span><span class="n">r1mpyq</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Qtf</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Wa2</span><span class="p">,</span><span class="w"> </span><span class="n">Wa3</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">                    </span><span class="c">! end of the inner loop.</span>
-
 <span class="w">                    </span><span class="n">jeval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
 
-<span class="w">                    </span><span class="c">! end of the outer loop.</span>
+<span class="w">                </span><span class="k">end do </span><span class="n">inner</span><span class="w"> </span><span class="c">! end of the inner loop.</span>
 
-<span class="w">                    </span><span class="k">goto</span><span class="w"> </span><span class="mi">200</span><span class="w"></span>
-<span class="w">                </span><span class="k">end if</span>
-<span class="k">            end if</span>
-<span class="k">        end if</span><span class="w"></span>
+<span class="w">            </span><span class="k">end do </span><span class="n">outer</span><span class="w"> </span><span class="c">! end of the outer loop.</span>
 
-<span class="c">! termination, either normal or user imposed.</span>
+<span class="w">        </span><span class="k">end block </span><span class="n">main</span><span class="w"></span>
 
-<span class="mi">300</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iflag</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iflag</span><span class="w"></span>
+<span class="w">        </span><span class="c">! termination, either normal or user imposed.</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iflag</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iflag</span><span class="w"></span>
 <span class="w">        </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Nprint</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">call </span><span class="n">fcn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">Fvec</span><span class="p">,</span><span class="w"> </span><span class="n">iflag</span><span class="p">)</span><span class="w"></span>
 
