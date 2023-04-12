@@ -6,6 +6,7 @@ project(
   default_options: [
     'default_library=both',
     'buildtype=debugoptimized',
+    'fortran_std=f2008',
   ],
 )
 if get_option('api')

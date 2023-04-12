@@ -155,7 +155,7 @@ program test_chkder
 !>
 !  Get expected `diff` vectors for each case.
 
-    pure function solution(nprob) result(x)
+    function solution(nprob) result(x)
 
         implicit none
 

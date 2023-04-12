@@ -166,7 +166,7 @@ program test_hybrd
 !>
 !  Get expected `x` vectors for each case.
 
-    pure function solution(nprob) result(x)
+    function solution(nprob) result(x)
 
         implicit none
 
@@ -385,7 +385,7 @@ program test_hybrd
         real(wp), parameter :: c8 = 5.0e-1_wp
         real(wp), parameter :: c9 = 2.9e1_wp
 
-        integer :: i, iev, ivar, j, k, k1, k2, kp1, ml, mu
+        integer :: i, iev, j, k, k1, k2, kp1, ml, mu
         real(wp) :: h, prod, sum, sum1, sum2, temp, temp1, &
                     temp2, ti, tj, tk, tpi
 
@@ -598,7 +598,7 @@ program test_hybrd
                                        !! the standard starting point. if factor is unity, no
                                        !! multiplication is performed.
 
-        integer :: ivar, j
+        integer :: j
         real(wp) :: h, tj
 
         real(wp), parameter :: zero = 0.0_wp

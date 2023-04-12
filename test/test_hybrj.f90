@@ -182,7 +182,7 @@ program test_hybrj
 !>
 !  Get expected `x` vectors for each case.
 
-    pure function solution(nprob) result(x)
+    function solution(nprob) result(x)
 
         implicit none
 

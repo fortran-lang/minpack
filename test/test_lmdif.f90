@@ -179,7 +179,7 @@ program test_lmdif
 !>
 !  Get expected `x` vectors for each case.
 
-    pure function solution(nprob) result(x)
+    function solution(nprob) result(x)
 
         implicit none
 
@@ -394,7 +394,7 @@ program test_lmdif
                 7.1e-1_wp, 7.29e-1_wp, 7.2e-1_wp, 6.36e-1_wp, 5.81e-1_wp, 4.28e-1_wp,    &
                 2.92e-1_wp, 1.62e-1_wp, 9.8e-2_wp, 5.4e-2_wp]
 
-        integer :: i, iev, ivar, j, nm1
+        integer :: i, iev, j, nm1
         real(wp) :: div, dx, prod, sum, s1, s2, temp, ti, tmp1, tmp2, tmp3, tmp4, tpi
 
         Fvec(1:m) = zero
@@ -634,7 +634,7 @@ program test_lmdif
         real(wp),parameter :: c16 = 4.5_wp
         real(wp),parameter :: c17 = 5.5_wp
 
-        integer :: ivar, j
+        integer :: j
         real(wp) :: h
 
         x(1:n) = zero

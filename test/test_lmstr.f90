@@ -207,7 +207,7 @@ end subroutine fcn
 !>
 !  Get expected `x` vectors for each case.
 
-    pure function solution(nprob) result(x)
+    function solution(nprob) result(x)
 
         implicit none
 
@@ -386,7 +386,7 @@ subroutine ssqjac(m, n, x, Fjac, Ldfjac, Nprob)
     real(wp),parameter :: v(11) = [4.0_wp, 2.0_wp, 1.0_wp, 5.0e-1_wp, 2.5e-1_wp, 1.67e-1_wp, &
                                    1.25e-1_wp, 1.0e-1_wp, 8.33e-2_wp, 7.14e-2_wp, 6.25e-2_wp]
 
-    integer :: i, ivar, j, k, mm1, nm1
+    integer :: i, j, k, mm1, nm1
     real(wp) :: div, dx, prod, s2, temp, ti, tmp1, tmp2, tmp3, tmp4, tpi
 
     Fjac(1:m, 1:n) = zero
@@ -680,7 +680,7 @@ subroutine initpt(n, x, Nprob, Factor)
     real(wp),parameter :: c16 = 4.5_wp
     real(wp),parameter :: c17 = 5.5_wp
 
-    integer :: ivar, j
+    integer :: j
     real(wp) :: h
 
     x(1:n) = zero
@@ -870,7 +870,7 @@ subroutine ssqfcn(m, n, x, Fvec, Nprob)
                                     7.1e-1_wp, 7.29e-1_wp, 7.2e-1_wp, 6.36e-1_wp, 5.81e-1_wp, 4.28e-1_wp, &
                                     2.92e-1_wp, 1.62e-1_wp, 9.8e-2_wp, 5.4e-2_wp]
 
-    integer :: i, iev, ivar, j, nm1
+    integer :: i, iev, j, nm1
     real(wp) :: div, dx, prod, sum, s1, s2, temp, &
                 ti, tmp1, tmp2, tmp3, tmp4, tpi
 
