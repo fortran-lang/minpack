@@ -28,7 +28,7 @@ program test_lmder
                                                         1,1,5,2,5,1,1,1,3,1,3,3,3,2,2,1,1,1,1,4,1,&
                                                         1,1,2,1,2,2,2,2,2,1,1] !! original `info` from the original minpack
 
-    integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv, NPRob, ntries, icase, iunit
+    integer :: i, ic, info, k, ldfjac, lwa, m, n, NFEv, NJEv, NPRob, ntries, icase
     real(wp) :: factor, fnorm1, fnorm2
     integer :: ma(53), na(53), nf(53), nj(53), np(53), nx(53)
     real(wp) :: fnm(53)
@@ -196,7 +196,7 @@ contains
 !>
 !  Get expected `x` vectors for each case.
 
-    pure function solution(nprob) result(x)
+    function solution(nprob) result(x)
 
         implicit none
 
@@ -376,7 +376,7 @@ contains
         real(wp), parameter :: c45 = 45.0_wp
         real(wp), parameter :: c100 = 100.0_wp
 
-        integer :: i, ivar, j, k, mm1, nm1
+        integer :: i, j, k, mm1, nm1
         real(wp) :: div, dx, prod, s2, temp, ti, tmp1, tmp2, tmp3, tmp4, tpi
 
         Fjac(1:m, 1:n) = zero
@@ -724,7 +724,7 @@ contains
         real(wp), parameter :: c16 = 4.5_wp
         real(wp), parameter :: c17 = 5.5_wp
 
-        integer :: ivar, j
+        integer :: j
         real(wp) :: h
 
         x(1:n) = zero
@@ -931,7 +931,7 @@ contains
         real(wp),parameter :: c29   = 29.0_wp
         real(wp),parameter :: c45   = 45.0_wp
 
-        integer :: i, iev, ivar, j, nm1
+        integer :: i, iev, j, nm1
         real(wp) :: div, dx, prod, sum, s1, s2, temp, ti, &
                     tmp1, tmp2, tmp3, tmp4, tpi
 

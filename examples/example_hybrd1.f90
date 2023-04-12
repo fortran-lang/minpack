@@ -14,7 +14,7 @@ program example_hybrd1
     integer,parameter :: n = 9
     integer,parameter :: lwa = (n*(3*n+13))/2
 
-    integer :: j, info
+    integer :: info
     real(wp) :: tol, fnorm
     real(wp) :: x(n), fvec(n), wa(lwa)
 
