@@ -54,9 +54,24 @@ if get_option('api')
 endif
 
 module_id = meson.project_name()
-meson.add_install_script(
-  find_program(files('config'/'install-mod.py')),
-  get_option('includedir') / module_id,
+if host_machine.system() == 'windows'
+  symbols_file = 'lib'+module_id+'.dll.symbols'
+  obj_suffix = '.obj'
+else
+  symbols_file = 'lib'+module_id+'.so.symbols'
+  obj_suffix = '.o'
+endif
+install_subdir(minpack_lib.full_path()+'.p',
+  install_dir: 'include'/module_id,
+  strip_directory: true,
+  exclude_files: [
+    'depscan.dd',
+    module_id+'-deps.json',
+    symbols_file,
+    module_id+'.dat',
+    'src_minpack.f90'+obj_suffix,
+    'src_minpack_capi.f90'+obj_suffix,
+  ],
 )
 
 pkg = import('pkgconfig')
