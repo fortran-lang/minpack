@@ -32,6 +32,7 @@ Further updates are planned...
 To build this project from the source code in this repository you need to have
 a Fortran compiler supporting Fortran 2008 and one of the supported build systems:
 
+- [cmake](https://cmake.org) version 3.14.0 or newer
 - [fpm](https://fpm.fortran-lang.org) version 0.3.0 or newer
 - [meson](https://mesonbuild.com) version 0.55 or newer, with
   a build-system backend, *i.e.* [ninja](https://ninja-build.org) version 1.7 or newer
@@ -43,6 +44,21 @@ git clone https://github.com/fortran-lang/minpack
 cd minpack
 ```
 
+
+#### Building with cmake
+
+Invoke cmake in the project root with
+
+```
+cmake -B build
+cmake --build build
+```
+
+To run the testsuite use
+
+```
+cmake --build build --target test
+```
 
 #### Building with fpm
 

@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build: [fpm, meson]
+        build: [cmake, fpm, meson]
         os: [ubuntu-latest, macos-latest, windows-latest]
         gcc: [10] # Version of GFortran we want to use.
         build-type: [debug]
@@ -25,6 +25,7 @@ jobs:
       CC: gcc
       FPM_FC: gfortran
       FPM_CC: gcc
+      BUILD_DIR: ${{ matrix.build == 'cmake' && 'build' || '.' }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -66,10 +67,26 @@ jobs:
 
     - name: Install dependencies
       uses: mamba-org/provision-with-micromamba@main
+      if: ${{ matrix.build == 'fpm' || 'meson' }}
       with:
         environment-file: config/ci/${{ matrix.build }}-env.yaml
         extra-specs: |
           ${{ matrix.build-type == 'coverage' && 'gcovr' || '' }}
+
+    - name: Configure (cmake)
+      if: ${{ matrix.build == 'cmake' }}
+      run: >-
+        cmake -Wdev
+        -DCMAKE_INSTALL_PREFIX=$PWD/_dist
+        -S . -B ${{ env.BUILD_DIR }}
+
+    - name: Compile (cmake)
+      if: ${{ matrix.build == 'cmake' }}
+      run: cmake --build ${{ env.BUILD_DIR }} --parallel
+
+    - name: Run test (cmake)
+      if: ${{ matrix.build == 'cmake' }}
+      run: cmake --build ${{ env.BUILD_DIR }} --target test
 
     - name: Compile (fpm)
       if: ${{ matrix.build == 'fpm' }}
