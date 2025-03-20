@@ -6,7 +6,7 @@ jobs:
   sdist:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4.2.2
     - name: Reorganize repository
       run: |
         git config user.email ""
@@ -17,7 +17,7 @@ jobs:
     - run: |
         pipx run build . --sdist
       working-directory: python
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4.6.1
       with:
         name: minpack-python-sdist
         path: python/dist/*.tar.gz
@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ['3.7', '3.8', '3.9', '3.10']
+        python: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
 
     defaults:
       run:
@@ -58,7 +58,7 @@ jobs:
         unzip
         wheel
     - name: Download sdist
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.2.0
       with:
         name: minpack-python-sdist
     - name: Build wheel
@@ -72,7 +72,7 @@ jobs:
         rm minpack-*/dist/*-linux_x86_64.whl
       env:
         plat: manylinux${{ matrix.python == '3.6' && '2010' || '_2_12' }}_x86_64
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4.6.1
       with:
         name: minpack-python-${{ matrix.python }}
         path: minpack-*/dist/*.whl
