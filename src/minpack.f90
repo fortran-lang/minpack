@@ -997,25 +997,27 @@ contains
 
         ! check the input parameters for errors.
 
-        if (n > 0 .and. Tol >= zero .and. Lwa >= (n*(3*n + 13))/2) then
-            ! call hybrd.
-            maxfev = 200*(n + 1)
-            xtol = Tol
-            ml = n - 1
-            mu = n - 1
-            epsfcn = zero
-            mode = 2
-            do j = 1, n
-                Wa(j) = one
-            end do
-            nprint = 0
-            lr = (n*(n + 1))/2
-            index = 6*n + lr
-            call hybrd(fcn, n, x, Fvec, xtol, maxfev, ml, mu, epsfcn, Wa(1), mode, &
-                       factor, nprint, Info, nfev, Wa(index + 1), n, Wa(6*n + 1), lr, &
-                       Wa(n + 1), Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
-            if (Info == 5) Info = 4
-        end if
+        if (n <= 0) return
+        if (Tol < zero) return
+        if (Lwa < (n*(3*n + 13))/2) return
+
+        ! call hybrd.
+        maxfev = 200*(n + 1)
+        xtol = Tol
+        ml = n - 1
+        mu = n - 1
+        epsfcn = zero
+        mode = 2
+        do j = 1, n
+            Wa(j) = one
+        end do
+        nprint = 0
+        lr = (n*(n + 1))/2
+        index = 6*n + lr
+        call hybrd(fcn, n, x, Fvec, xtol, maxfev, ml, mu, epsfcn, Wa(1), mode, &
+                   factor, nprint, Info, nfev, Wa(index + 1), n, Wa(6*n + 1), lr, &
+                   Wa(n + 1), Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
+        if (Info == 5) Info = 4
 
     end subroutine hybrd1
 !*****************************************************************************************
@@ -1445,21 +1447,24 @@ contains
 
         ! check the input parameters for errors.
 
-        if (n > 0 .and. Ldfjac >= n .and. Tol >= zero .and. Lwa >= (n*(n + 13))/2) then
-            ! call hybrj.
-            maxfev = 100*(n + 1)
-            xtol = Tol
-            mode = 2
-            do j = 1, n
-                Wa(j) = one
-            end do
-            nprint = 0
-            lr = (n*(n + 1))/2
-            call hybrj(fcn, n, x, Fvec, Fjac, Ldfjac, xtol, maxfev, Wa(1), mode, &
-                       factor, nprint, Info, nfev, njev, Wa(6*n + 1), lr, Wa(n + 1), &
-                       Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
-            if (Info == 5) Info = 4
-        end if
+        if (n <= 0) return
+        if (Ldfjac < n) return
+        if (Tol < zero) return
+        if (Lwa < (n*(n + 13))/2) return
+
+        ! call hybrj.
+        maxfev = 100*(n + 1)
+        xtol = Tol
+        mode = 2
+        do j = 1, n
+            Wa(j) = one
+        end do
+        nprint = 0
+        lr = (n*(n + 1))/2
+        call hybrj(fcn, n, x, Fvec, Fjac, Ldfjac, xtol, maxfev, Wa(1), mode, &
+                   factor, nprint, Info, nfev, njev, Wa(6*n + 1), lr, Wa(n + 1), &
+                   Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
+        if (Info == 5) Info = 4
 
     end subroutine hybrj1
 !*****************************************************************************************
@@ -1913,20 +1918,23 @@ contains
 
         ! check the input parameters for errors.
 
-        if (n > 0 .and. m >= n .and. Ldfjac >= m .and. Tol >= zero .and. &
-            Lwa >= 5*n + m) then
-            ! call lmder.
-            maxfev = 100*(n + 1)
-            ftol = Tol
-            xtol = Tol
-            gtol = zero
-            mode = 1
-            nprint = 0
-            call lmder(fcn, m, n, x, Fvec, Fjac, Ldfjac, ftol, xtol, gtol, maxfev,   &
-                     & Wa(1), mode, factor, nprint, Info, nfev, njev, Ipvt, Wa(n + 1)&
-                     & , Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
-            if (Info == 8) Info = 4
-        end if
+        if (n <= 0) return
+        if (m < n) return
+        if (Ldfjac < m) return
+        if (Tol < zero) return
+        if (Lwa < 5*n + m) return
+
+        ! call lmder.
+        maxfev = 100*(n + 1)
+        ftol = Tol
+        xtol = Tol
+        gtol = zero
+        mode = 1
+        nprint = 0
+        call lmder(fcn, m, n, x, Fvec, Fjac, Ldfjac, ftol, xtol, gtol, maxfev,   &
+                 & Wa(1), mode, factor, nprint, Info, nfev, njev, Ipvt, Wa(n + 1)&
+                 & , Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
+        if (Info == 8) Info = 4
 
     end subroutine lmder1
 !*****************************************************************************************
@@ -2380,23 +2388,25 @@ contains
 
         ! check the input parameters for errors.
 
-        if (n > 0 .and. m >= n .and. Tol >= zero .and. Lwa >= m*n + 5*n + m) then
+        if (n <= 0) return
+        if (m < n) return
+        if (Tol < zero) return
+        if (Lwa < m*n + 5*n + m) return
 
-            ! call lmdif.
+        ! call lmdif.
 
-            maxfev = 200*(n + 1)
-            ftol = Tol
-            xtol = Tol
-            gtol = zero
-            epsfcn = zero
-            mode = 1
-            nprint = 0
-            mp5n = m + 5*n
-            call lmdif(fcn, m, n, x, Fvec, ftol, xtol, gtol, maxfev, epsfcn, Wa(1), &
-                       mode, factor, nprint, Info, nfev, Wa(mp5n + 1), m, Iwa, &
-                       Wa(n + 1), Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
-            if (Info == 8) Info = 4
-        end if
+        maxfev = 200*(n + 1)
+        ftol = Tol
+        xtol = Tol
+        gtol = zero
+        epsfcn = zero
+        mode = 1
+        nprint = 0
+        mp5n = m + 5*n
+        call lmdif(fcn, m, n, x, Fvec, ftol, xtol, gtol, maxfev, epsfcn, Wa(1), &
+                   mode, factor, nprint, Info, nfev, Wa(mp5n + 1), m, Iwa, &
+                   Wa(n + 1), Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
+        if (Info == 8) Info = 4
 
     end subroutine lmdif1
 !*****************************************************************************************
@@ -3098,22 +3108,24 @@ contains
 
         ! check the input parameters for errors.
 
-        if (n > 0 .and. m >= n .and. Ldfjac >= n .and. Tol >= zero .and. &
-            Lwa >= 5*n + m) then
+        if (n <= 0) return
+        if (m < n) return
+        if (Ldfjac < n) return
+        if (Tol < zero) return
+        if (Lwa < 5*n + m) return
 
-            ! call lmstr.
+        ! call lmstr.
 
-            maxfev = 100*(n + 1)
-            ftol = Tol
-            xtol = Tol
-            gtol = zero
-            mode = 1
-            nprint = 0
-            call lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, ftol, xtol, gtol, maxfev, &
-                       Wa(1), mode, factor, nprint, Info, nfev, njev, Ipvt, Wa(n + 1), &
-                       Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
-            if (Info == 8) Info = 4
-        end if
+        maxfev = 100*(n + 1)
+        ftol = Tol
+        xtol = Tol
+        gtol = zero
+        mode = 1
+        nprint = 0
+        call lmstr(fcn, m, n, x, Fvec, Fjac, Ldfjac, ftol, xtol, gtol, maxfev, &
+                   Wa(1), mode, factor, nprint, Info, nfev, njev, Ipvt, Wa(n + 1), &
+                   Wa(2*n + 1), Wa(3*n + 1), Wa(4*n + 1), Wa(5*n + 1))
+        if (Info == 8) Info = 4
 
     end subroutine lmstr1
 !*****************************************************************************************
