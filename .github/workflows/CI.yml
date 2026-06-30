@@ -27,14 +27,14 @@ jobs:
       FPM_CC: gcc
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
     - name: Cache GFortran install
       if: ${{ contains(matrix.os, 'windows') }}
       id: cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./mingw-w64
         key: gcc-${{ matrix.gcc }}-${{ matrix.os }}
@@ -65,7 +65,7 @@ jobs:
         DOWNLOAD: "https://github.com/brechtsanders/winlibs_mingw/releases/download/10.3.0-12.0.0-9.0.0-r2/winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.zip"
 
     - name: Install dependencies
-      uses: mamba-org/provision-with-micromamba@main
+      uses: mamba-org/setup-micromamba@v2
       with:
         environment-file: config/ci/${{ matrix.build }}-env.yaml
         extra-specs: |
@@ -125,7 +125,7 @@ jobs:
 
     - name: Upload package
       if: ${{ matrix.build == 'meson' && matrix.build-type != 'coverage' }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.MINPACK_OUTPUT }}
         path: ${{ env.MINPACK_OUTPUT }}
@@ -164,18 +164,18 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Cache GFortran install
       if: ${{ contains(matrix.os, 'windows') }}
       id: cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./mingw-w64
         key: gcc-${{ matrix.gcc }}-${{ matrix.os }}
 
     - name: Install dependencies
-      uses: mamba-org/provision-with-micromamba@main
+      uses: mamba-org/setup-micromamba@v2
       with:
         environment-file: config/ci/python-env.yaml
         extra-specs: |
@@ -207,7 +207,7 @@ jobs:
         DOWNLOAD: "https://github.com/brechtsanders/winlibs_mingw/releases/download/10.3.0-12.0.0-9.0.0-r2/winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.zip"
 
     - name: Download package
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: ${{ env.MINPACK_OUTPUT }}
 
@@ -259,18 +259,17 @@ jobs:
         shell: bash -l {0}
     steps:
     - id: deploy-on-push
-      run:
-        echo "::set-output name=result::${{ env.DEPLOY_BRANCH }}"
+      run: echo "result=${{ env.DEPLOY_BRANCH }}" >> "$GITHUB_OUTPUT"
       env:
         DEPLOY_BRANCH: ${{ secrets.DEPLOY_BRANCH && contains(github.ref, secrets.DEPLOY_BRANCH) && 1 || 0 }}
 
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
     - name: Install dependencies
-      uses: mamba-org/provision-with-micromamba@main
+      uses: mamba-org/setup-micromamba@v2
       with:
         environment-file: config/ci/docs-env.yaml
 
